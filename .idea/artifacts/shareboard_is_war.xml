@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="shareboard_is:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>shareboard_is</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="shareboard.war">
+      <element id="artifact" artifact-name="shareboard_is:war exploded" />
+    </root>
+  </artifact>
+</component>
