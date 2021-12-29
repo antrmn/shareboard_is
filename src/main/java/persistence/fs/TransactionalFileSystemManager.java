@@ -6,6 +6,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Named;
 import javax.transaction.Status;
 import javax.transaction.TransactionScoped;
@@ -20,10 +21,10 @@ import java.util.Deque;
 import java.util.Iterator;
 
 
-@Named("haha")
-@TransactionScoped
 @Stateful
-public class TransactionalFileSystemManager implements FileSystemManager,SessionSynchronization {
+@Transactional(value = Transactional.TxType.REQUIRED)
+@TransactionScoped
+public class TransactionalFileSystemManager implements SessionSynchronization {
     private final Deque<Command> commands = new ArrayDeque<>();
 
     public void createFile(InputStream content, Path path, String name) throws IOException {
