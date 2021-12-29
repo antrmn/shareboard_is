@@ -85,6 +85,11 @@ public class PostRepository extends GenericRepository<Post, Integer> {
             return this;
         }
 
+        public PostFinder includeBody(){
+            includeBody = true;
+            return this;
+        }
+
         public List<Post> getResults(){
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Post> cq = cb.createQuery(Post.class);

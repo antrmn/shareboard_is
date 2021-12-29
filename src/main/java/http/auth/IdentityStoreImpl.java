@@ -44,4 +44,9 @@ public class IdentityStoreImpl implements IdentityStore {
                         String.valueOf(identity.getId()), identity.isAdmin() ? Set.of("user", "admin") : Set.of("user"));
         return CredentialValidationResult.INVALID_RESULT;
     }
+
+    @Override
+    public int priority() {
+        return 9999999;
+    }
 }
