@@ -1,24 +1,22 @@
-package service;
+package service.exception;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ServiceException extends RuntimeException{
-
+public class BadRequestException extends ServiceException {
     private List<String> messages = Collections.emptyList();
 
-    public ServiceException() {
+    public BadRequestException() {
         super();
     }
 
-    public ServiceException(String message) {
+    public BadRequestException(String message) {
         super(message);
         messages = List.of(message);
     }
 
-    public ServiceException(List<String> messages){
-        super(messages.isEmpty() ? "" : String.join("\n", messages));
+    public BadRequestException(List<String> messages){
+        super(messages.isEmpty() ? "" : String.join("; ", messages));
         this.messages = Collections.unmodifiableList(messages);
     }
 

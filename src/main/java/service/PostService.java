@@ -1,35 +1,72 @@
 package service;
 
-import persistence.repo.BanRepository;
-import persistence.repo.PostRepository;
-import persistence.repo.SectionRepository;
-import persistence.repo.UserRepository;
+import persistence.model.Post;
+import persistence.model.Section;
+import persistence.model.User;
+import persistence.repo.*;
+import service.validation.Image;
+import service.validation.SectionExists;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
+import javax.validation.constraints.NotBlank;
+
+import java.io.*;
+
+import static persistence.model.Post.Type.*;
 
 
 @Stateless
+@Service
 public class PostService {
     @Inject private PostRepository postRepo;
     @Inject private UserRepository userRepo;
     @Inject private SectionRepository sectionRepo;
-    @Inject private BanRepository banRepo;
+    @Inject private BinaryContentRepository bcRepo;
     @Resource private EJBContext ctx;
 
-    @RolesAllowed({"user", "admin"})
-    @Transactional
-    public int newPost(String content, String sectionName, String title, String SectionName){
-        return 1;
+    @RolesAllowed({"user","admin"})
+    public int newPost(@NotBlank(message="{post.title.blank}") String title,
+                       String body,
+                       @SectionExists String sectionName){
+        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        Section section = sectionRepo.getByName(sectionName);
+
+        Post post = new Post();
+        post.setTitle(title);
+        post.setContent(body == null || body.isBlank() ? "" : body);
+        post.setAuthor(user);
+        post.setSection(section);
+        post.setType(TEXT);
+
+        return postRepo.insert(post).getId();
     }
 
+    @RolesAllowed({"user","admin"})
+    public int newPost(@NotBlank(message = "{post.title.blank}") String title,
+                       @Image BufferedInputStream content,
+                       long size, //todo range
+                       @SectionExists String sectionName){
+        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        Section section = sectionRepo.getByName(sectionName);
 
+        String fileName;
+        try {
+            fileName = bcRepo.insert(content);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        Post post = new Post();
+        post.setTitle(title);
+        post.setAuthor(user);
+        post.setContent(fileName);
+        post.setSection(section);
+        post.setType(IMG);
 
-
-
+        return postRepo.insert(post).getId(); //in caso di errore il file resta
+    }
 }
