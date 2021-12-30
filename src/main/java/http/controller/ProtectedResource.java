@@ -2,6 +2,7 @@ package http.controller;
 
 import service.dto.LoggedInUser;
 
+import javax.annotation.security.DeclareRoles;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 import javax.servlet.ServletException;

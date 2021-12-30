@@ -18,20 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/login")
-@FormAuthenticationMechanismDefinition(loginToContinue = @LoginToContinue(loginPage = "/loginshow"))
+@CustomFormAuthenticationMechanismDefinition(loginToContinue = @LoginToContinue(loginPage = "/loginshow"))
 public class LoginSubmit extends HttpServlet {
     @Inject
     SecurityContext securityContext;
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession(true).invalidate();
-        req.logout();
 
         System.out.println(securityContext.getClass().getName());
         Credential credential = new UsernamePasswordCredential(req.getParameter("username"), new Password(req.getParameter("password")));
-        AuthenticationParameters auth = AuthenticationParameters.withParams().credential(credential).newAuthentication(true);
+        AuthenticationParameters auth = AuthenticationParameters.withParams().credential(credential);
         AuthenticationStatus i = securityContext.authenticate(req, resp, auth);
-
-        resp.sendRedirect("protected");
     }
 }

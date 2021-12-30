@@ -11,18 +11,18 @@
     <title>Title</title>
 </head>
 <body>
-<form method="POST" action="j_security_check">
+<form method="POST" action="/shareboard/login">
     <table>
         <tr>
             <td colspan="2">Login to the Tomcat-Demo application:</td>
         </tr>
         <tr>
             <td>Name:</td>
-            <td><input type="text" name="j_username" /></td>
+            <td><input type="text" name="username" /></td>
         </tr>
         <tr>
             <td>Password:</td>
-            <td><input type="password" name="j_password"/></td>
+            <td><input type="password" name="password"/></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Go" /></td>
