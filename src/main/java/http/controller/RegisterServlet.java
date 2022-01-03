@@ -21,22 +21,20 @@ public class RegisterServlet extends HttpServlet {
     @Inject private UserService userService;
     @Inject private LoggedInUser loggedInUser;
 
-    private void view(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
-    }
-
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(loggedInUser.isLoggedIn()){
             resp.sendRedirect(req.getContextPath());
+            return;
         }
-        view(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(loggedInUser.isLoggedIn()){
             resp.sendRedirect(req.getContextPath());
+            return;
         }
         String email = req.getParameter("mail");
         String username = req.getParameter("username");
@@ -44,14 +42,14 @@ public class RegisterServlet extends HttpServlet {
         String confirmPassword = req.getParameter("pass2");
 
         if(!Objects.equals(password, confirmPassword)){
-            //
+
         }
 
         try{
             userService.newUser(email, username, password);
         } catch (BadRequestException e) {
             req.setAttribute("errors", e.getMessages());
-            view(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
             return;
         }
         resp.sendRedirect(req.getContextPath());

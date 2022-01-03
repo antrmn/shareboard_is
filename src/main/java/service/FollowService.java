@@ -5,8 +5,10 @@ import persistence.model.User;
 import persistence.repo.FollowRepository;
 import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
+import service.dto.LoggedInUser;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,15 +19,13 @@ public class FollowService {
     @Inject private SectionRepository sectionRepo;
     @Inject private FollowRepository followRepo;
     @Inject private UserRepository userRepo;
-    @Resource private EJBContext ctx;
-    private User user;
+    @Inject private LoggedInUser loggedInUser;
 
-    public FollowService(){
-        user = userRepo.getByName(ctx.getCallerPrincipal().getName());
-    }
 
     @Transactional
+    @RolesAllowed({"user","admin"})
     public void follow(int sectionId){
+        User user = userRepo.getByName(loggedInUser.getUsername());
         Follow.Id id = new Follow.Id();
         id.setUser(user);
         id.setSection(sectionRepo.findById(sectionId));

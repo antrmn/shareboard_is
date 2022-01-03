@@ -3,6 +3,7 @@ package service;
 import http.util.InputValidator;
 import persistence.model.*;
 import persistence.repo.*;
+import service.exception.BadRequestException;
 
 import javax.annotation.Resource;
 import javax.ejb.EJBContext;
@@ -23,12 +24,12 @@ public class VoteService {
     public void VoteComment(String _id, String vote){
         if (_id == null || !InputValidator.assertInt(_id) || vote == null
                 || (!vote.equalsIgnoreCase("upvote") && !vote.equalsIgnoreCase("downvote"))) {
-            throw new ServiceException("BAD REQUEST");
+            throw new BadRequestException("BAD REQUEST");
         }
         int id = Integer.parseInt(_id);
         Comment comment = commentRepo.findById(id);
         if(comment == null){
-            throw new ServiceException("Il commento non esiste");
+            throw new BadRequestException("Il commento non esiste");
         }
         User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
         int _vote = (vote.equalsIgnoreCase("upvote") ? 1 : -1);
@@ -48,13 +49,13 @@ public class VoteService {
     public void VotePost(String _id, String vote){
         if (_id == null || !InputValidator.assertInt(_id) || vote == null
                 || (!vote.equalsIgnoreCase("upvote") && !vote.equalsIgnoreCase("downvote"))) {
-            throw new ServiceException("BAD REQUEST");
+            throw new BadRequestException("BAD REQUEST");
         }
         int id = Integer.parseInt(_id);
 
         Post post = postRepo.findById(id);
         if(post == null){
-            throw new ServiceException("Il post non esiste");
+            throw new BadRequestException("Il post non esiste");
         }
         User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
         int _vote = (vote.equalsIgnoreCase("upvote") ? 1 : -1);
@@ -73,13 +74,13 @@ public class VoteService {
     @Transactional
     public void UnvoteComment(String _id){
         if (_id == null || !InputValidator.assertInt(_id)) {
-            throw new ServiceException("BAD REQUEST");
+            throw new BadRequestException("BAD REQUEST");
         }
         int id = Integer.parseInt(_id);
 
         Comment comment = commentRepo.findById(id);
         if(comment == null){
-            throw new ServiceException("Il commento non esiste");
+            throw new BadRequestException("Il commento non esiste");
         }
         User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
 
@@ -93,13 +94,13 @@ public class VoteService {
     @Transactional
     public void UnvotePost(String _id){
         if (_id == null || !InputValidator.assertInt(_id)) {
-            throw new ServiceException("BAD REQUEST");
+            throw new BadRequestException("BAD REQUEST");
         }
         int id = Integer.parseInt(_id);
 
         Post post = postRepo.findById(id);
         if(post == null){
-            throw new ServiceException("Il post non esiste");
+            throw new BadRequestException("Il post non esiste");
         }
         User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
 

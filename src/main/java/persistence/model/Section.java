@@ -1,5 +1,6 @@
 package persistence.model;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -23,6 +24,9 @@ public class Section implements Serializable {
 
     @Column(length = 4096)
     protected String banner;
+
+    @Formula(value = "")
+    protected Integer nFollowers;
 
     /* -- */
 
