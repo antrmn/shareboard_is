@@ -84,6 +84,7 @@
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.jvnet.staxex:stax-ex:1.8" level="project" />
     <orderEntry type="library" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.krazo:krazo-cxf:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomee:tomee-security:8.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomee:openejb-core:8.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomee:mbean-annotation-api:8.0.8" level="project" />
