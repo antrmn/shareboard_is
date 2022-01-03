@@ -1,9 +1,11 @@
 package service;
 
+import persistence.model.Post;
 import persistence.repo.BanRepository;
 import persistence.repo.PostRepository;
 import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
+import service.dto.PostPage;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -23,8 +25,15 @@ public class PostService {
 
     @RolesAllowed({"user", "admin"})
     @Transactional
-    public int newPost(String content, String sectionName, String title, String SectionName){
-        return 1;
+    public int newPost(NewPostDTO postData){
+        Post newPost = new Post();
+        return postRepo.insert(newPost).getId();
+
+    }
+
+    public PostPage GetPost(int id){
+        Post p = postRepo.findById(id);
+        PostPage post = new PostPage();
     }
 
 
