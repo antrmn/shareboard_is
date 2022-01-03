@@ -15,7 +15,6 @@ class CreateFile implements Command {
 
     private CreateFile() {
     }
-// pincopallino
 
     public static CreateFile execute(InputStream content, Path path, String name) throws IOException {
         CreateFile cf = new CreateFile();
