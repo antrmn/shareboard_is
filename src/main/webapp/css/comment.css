@@ -1,0 +1,21 @@
+#reply-button:hover{
+    background-color: #676869;
+    border-radius: 4px;
+}
+
+#edit-button:hover{
+    background-color: #676869;
+    border-radius: 4px;
+}
+
+#delete-button:hover{
+    background-color: #676869;
+    border-radius: 4px;
+}
+
+#parent-button:hover{
+    background-color: #676869;
+    border-radius: 4px;
+}
+
+.has-form{}

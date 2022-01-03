@@ -16,4 +16,5 @@ public class LoggedInUser {
     private String username;
     private boolean isAdmin;
     private Instant banDuration;
+    private boolean isLoggedIn = false;
 }

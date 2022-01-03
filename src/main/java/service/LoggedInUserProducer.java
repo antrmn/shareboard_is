@@ -39,6 +39,7 @@ public class LoggedInUserProducer {
                 .id(user.getId())
                 .isAdmin(user.getAdmin())
                 .banDuration(longestCurrentBan)
+                .isLoggedIn(true)
                 .build();
 
         System.out.println(loggedInUser);
