@@ -1,23 +1,27 @@
 package service;
 
-import http.util.InputValidator;
-import persistence.model.*;
-import persistence.repo.*;
-import service.dto.UserIdentityDTO;
-import service.dto.UserEditPage;
-
-import javax.annotation.Resource;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService {
+import persistence.model.User;
+import persistence.repo.UserRepository;
+import security.Pbkdf2PasswordHashImpl;
+import security.Pbkdf2PasswordHashImpl.HashedPassword;
+import service.dto.UserEditPage;
+import service.dto.UserIdentityDTO;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.annotation.security.RolesAllowed;
+
+@Stateless
+@Service
+public class UserService {
     @Inject private UserRepository userRepo;
+    @Inject private Pbkdf2PasswordHashImpl passwordHash;
 
     @RolesAllowed({"admin"})
     public void ToggleAdmin(int id){
@@ -52,7 +56,19 @@ public class UserService {
 
     }
 
-    public int Create(UserRegisterDTO register){
+    // unique email unique username length email username password
+    public int newUser(@NotBlank @Email String email,
+                       @NotBlank String username,
+                       @NotEmpty String password){
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        HashedPassword hashedPassword = passwordHash.generate(password);
+        user.setPassword(hashedPassword.getPassword());
+        user.setSalt(hashedPassword.getSalt());
+        user.setAdmin(false);
 
+        user = userRepo.insert(user);
+        return user.getId();
     }
 }

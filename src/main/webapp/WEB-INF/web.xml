@@ -21,7 +21,7 @@
             <scripting-invalid>true</scripting-invalid> <!-- Disabilita scriptlet !-->
         </jsp-property-group>
     </jsp-config>
-    
+
     <security-role>
         <role-name>admin</role-name>
     </security-role>

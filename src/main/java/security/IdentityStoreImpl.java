@@ -1,7 +1,7 @@
-package http.auth;
+package security;
 
-import service.dto.UserIdentityDTO;
-import service.IdentityProviderService;
+import persistence.model.User;
+import persistence.repo.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,7 +16,10 @@ import java.util.Set;
 public class IdentityStoreImpl implements IdentityStore {
 
     @Inject
-    private IdentityProviderService idpService;
+    private UserRepository userRepository;
+
+    @Inject
+    private Pbkdf2PasswordHashImpl passwordHash;
 
     @Override
     public CredentialValidationResult validate(Credential credential) {
@@ -30,18 +33,27 @@ public class IdentityStoreImpl implements IdentityStore {
     }
 
     public CredentialValidationResult validate(UsernamePasswordCredential credential) {
-        UserIdentityDTO identity = idpService.getUserIdentity(credential.getCaller());
-        if(identity != null && idpService.checkCredentials(credential.getCaller(), credential.getPasswordAsString()))
-            return new CredentialValidationResult(null, identity.getUsername(), null,
-                    String.valueOf(identity.getId()), identity.isAdmin() ? Set.of("user", "admin") : Set.of("user"));
+        User user = userRepository.getByName(credential.getCaller());
+
+        if(user != null && passwordHash.verify(credential.getPasswordAsString(), user.getPassword(), user.getSalt()))
+            return new CredentialValidationResult(
+                    credential.getCaller(),
+                    user.getAdmin() ? Set.of("user", "admin") : Set.of("user"));
         return CredentialValidationResult.INVALID_RESULT;
     }
 
     public CredentialValidationResult validate(CallerOnlyCredential credential) {
-        UserIdentityDTO identity = idpService.getUserIdentity(credential.getCaller());
-        if(identity != null)
-            return new CredentialValidationResult(null, identity.getUsername(), null,
-                        String.valueOf(identity.getId()), identity.isAdmin() ? Set.of("user", "admin") : Set.of("user"));
+        User user = userRepository.getByName(credential.getCaller());
+
+        if(user != null)
+            return new CredentialValidationResult(
+                    credential.getCaller(),
+                    user.getAdmin() ? Set.of("user", "admin") : Set.of("user"));
         return CredentialValidationResult.INVALID_RESULT;
+    }
+
+    @Override
+    public int priority() {
+        return 1;
     }
 }

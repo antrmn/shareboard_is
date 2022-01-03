@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <!-- .xsd è un formato simile a .dtd, fornisce semantica e controlla che il formato sia corretto !-->
+
+    <!--
+    Vedi specifiche JSP 2.2 paragrafo 7.3.1 per informazioni sui TLD
+    https://jcp.org/aboutJava/communityprocess/mrel/jsr245/index.html
+
+    Promemoria: vedi qui le versioni utilizzate di EL, JSP, Servlet, Tomcat, ecc...
+    https://tomcat.apache.org/whichversion.html
+    !-->
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>sbfn</short-name>
+    <uri>/WEB-INF/tlds/getDate.tld</uri>
+    <function>
+        <name>getDate</name>
+        <function-class>java.util.Date</function-class>
+        <function-signature>java.util.Date from(java.time.Instant)</function-signature>
+    </function>
+    <function>
+        <name>printTimeSince</name>
+        <function-class>util.DateUtils</function-class>
+        <function-signature>java.lang.String printTimeSince(java.time.Instant)</function-signature>
+    </function>
+</taglib>

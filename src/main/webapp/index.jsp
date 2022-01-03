@@ -8,6 +8,6 @@
 <h1>Hello world
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="${pageContext.request.contextPath}/hello-servlet">Hello Servlet</a>
 </body>
 </html>

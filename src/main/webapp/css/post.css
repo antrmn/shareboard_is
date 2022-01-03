@@ -1,0 +1,10 @@
+.post-image {
+    max-width:100%;
+    height:auto;
+    max-height:100%;
+}
+
+#comments-flex *{
+    align-items: center;
+    word-break: break-word;
+}
