@@ -27,11 +27,6 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.krazo</groupId>
-            <artifactId>krazo-cxf</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
