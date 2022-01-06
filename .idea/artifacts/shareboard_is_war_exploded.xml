@@ -45,6 +45,7 @@
           <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" />
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
+          <element id="library" level="project" name="Maven: org.eclipse.krazo:krazo-cxf:1.0.0" />
           <element id="library" level="project" name="Maven: org.apache.tomee:tomee-security:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-core:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:mbean-annotation-api:8.0.8" />

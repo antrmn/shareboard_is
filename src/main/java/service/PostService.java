@@ -8,6 +8,7 @@ import service.dto.PostPage;
 import persistence.model.Section;
 import persistence.model.User;
 import persistence.repo.*;
+import service.dto.LoggedInUser;
 import service.validation.Image;
 import service.validation.SectionExists;
 
@@ -17,6 +18,7 @@ import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import java.io.*;
 
@@ -30,7 +32,7 @@ public class PostService {
     @Inject private UserRepository userRepo;
     @Inject private SectionRepository sectionRepo;
     @Inject private BinaryContentRepository bcRepo;
-    @Resource private EJBContext ctx;
+    @Inject private LoggedInUser loggedInUser;
 
 
     public PostPage GetPost(int id){
@@ -39,10 +41,10 @@ public class PostService {
     }
 
     @RolesAllowed({"user","admin"})
-    public int newPost(@NotBlank(message="{post.title.blank}") String title,
-                       String body,
-                       @SectionExists String sectionName){
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+    public int newPost(@NotBlank(message="{post.title.blank}") @Size() String title,
+    @Size() String body,
+    @SectionExists String sectionName){
+        User user = userRepo.getByName(loggedInUser.getUsername());
         Section section = sectionRepo.getByName(sectionName);
 
 
@@ -61,7 +63,7 @@ public class PostService {
                        @Image BufferedInputStream content,
                        long size, //todo range
                        @SectionExists String sectionName){
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(loggedInUser.getUsername());
         Section section = sectionRepo.getByName(sectionName);
 
         String fileName;
