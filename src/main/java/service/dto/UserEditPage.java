@@ -11,4 +11,6 @@ public class UserEditPage {
     private Integer id;
     private String description;
     private String email;
+    private String picture;
+    private byte[] password;
 }

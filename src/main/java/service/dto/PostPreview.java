@@ -1,6 +1,7 @@
 package service.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import persistence.model.Post;
 
 import java.time.Instant;
 
+@AllArgsConstructor
 @Builder
 @Getter
 @Setter

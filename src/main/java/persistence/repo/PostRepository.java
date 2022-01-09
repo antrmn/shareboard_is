@@ -40,6 +40,11 @@ public class PostRepository extends GenericRepository<Post, Integer> {
             return this;
         }
 
+        public PostFinder byContent(String text){
+            this.content = text;
+            return this;
+        }
+
         public PostFinder bySections(List<Section> sections){
             this.sections = sections;
             return this;

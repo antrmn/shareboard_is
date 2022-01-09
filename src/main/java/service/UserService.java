@@ -9,9 +9,11 @@ import security.Pbkdf2PasswordHashImpl;
 import security.Pbkdf2PasswordHashImpl.HashedPassword;
 import service.dto.UserEditPage;
 import service.dto.UserIdentityDTO;
+import service.validation.UserExists;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -24,10 +26,10 @@ public class UserService {
     @Inject private Pbkdf2PasswordHashImpl passwordHash;
 
     @RolesAllowed({"admin"})
-    public void ToggleAdmin(int id){
+    @Transactional
+    public void ToggleAdmin(@UserExists int id){
         User u = userRepo.findById(id);
         u.setAdmin(!u.getAdmin());
-
     }
 
     public List<UserIdentityDTO> ShowUsers(){
@@ -42,7 +44,8 @@ public class UserService {
     }
 
     @RolesAllowed({"admin"})
-    public void Delete(int id){
+    @Transactional
+    public void Delete(@UserExists int id){
         userRepo.remove(userRepo.findById(id));
     }
 
@@ -52,8 +55,13 @@ public class UserService {
     }
 
     @RolesAllowed({"admin", "user"})
-    public void Edit(UserEditPage edit){
-
+    @Transactional
+    public void Edit(UserEditPage edit,
+                     @UserExists int id){
+        User u = userRepo.findById(id);
+        u.setPassword(edit.getPassword()); // CHECK: corretto?
+        u.setDescription(edit.getDescription());
+        u.setPicture(edit.getPicture());
     }
 
     // unique email unique username length email username password
