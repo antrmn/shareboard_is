@@ -26,8 +26,10 @@
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util:9.0.52" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util-scan:9.0.52" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jaspic-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.eclipse.krazo:krazo-core:1.0.0" />
-          <element id="library" level="project" name="Maven: javax.mvc:javax.mvc-api:1.0.0" />
+          <element id="library" level="project" name="Maven: org.reflections:reflections:0.10.2" />
+          <element id="library" level="project" name="Maven: org.javassist:javassist:3.28.0-GA" />
+          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:3.0.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.32" />
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.22" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.6.2.Final" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.2.Final" />
@@ -45,7 +47,6 @@
           <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" />
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
-          <element id="library" level="project" name="Maven: org.eclipse.krazo:krazo-cxf:1.0.0" />
           <element id="library" level="project" name="Maven: org.apache.tomee:tomee-security:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-core:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:mbean-annotation-api:8.0.8" />
@@ -83,7 +84,6 @@
           <element id="library" level="project" name="Maven: org.apache.openejb.shade:quartz-openejb-shade:2.2.4" />
           <element id="library" level="project" name="Maven: org.tomitribe.quartz:quartz:2.2.4" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-jdk14:1.7.21" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-impl:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-spi:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-ejb:2.0.22" />

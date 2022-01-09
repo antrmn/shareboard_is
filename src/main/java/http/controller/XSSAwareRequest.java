@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class XSSAwareRequest extends HttpServletRequestWrapper {
-    protected XSSAwareRequest(HttpServletRequest req){
+    public XSSAwareRequest(HttpServletRequest req){
         super(req);
     }
 

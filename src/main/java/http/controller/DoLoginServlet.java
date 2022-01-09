@@ -4,8 +4,7 @@ import lombok.extern.java.Log;
 import service.dto.LoggedInUser;
 
 import javax.inject.Inject;
-import javax.mvc.Controller;
-import javax.mvc.View;
+
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;

@@ -5,6 +5,7 @@ import persistence.model.Ban;
 import persistence.model.User;
 import persistence.repo.BanRepository;
 import persistence.repo.UserRepository;
+import service.exception.BadRequestException;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -27,9 +28,9 @@ public class BanService {
 
     @RolesAllowed({"admin"})
     @Transactional
-    public void addBan(String date, int userId) throws ServiceException, PersistenceException {
+    public void addBan(String date, int userId) throws BadRequestException, PersistenceException {
         if(!ctx.isCallerInRole("admin")){ //controllo necessario? visto che abbiamo @RolesAllowed
-            throw new ServiceException("Non sei autorizzato ad eseguire questa operazione");
+            throw new BadRequestException("Non sei autorizzato ad eseguire questa operazione");
         }
         Instant currentDate = Instant.now();
         Instant endDate;
@@ -37,10 +38,10 @@ public class BanService {
             endDate = LocalDate.parse(date).atStartOfDay().toInstant(ZoneOffset.UTC);
 
             if(currentDate.isAfter(endDate)){
-                throw new ServiceException("La data non può essere antecedente a quella attuale");
+                throw new BadRequestException("La data non può essere antecedente a quella attuale");
             }
         } else{
-            throw new ServiceException("Data non valida");
+            throw new BadRequestException("Data non valida");
         }
         Ban ban = new Ban();
         ban.setEndTime(endDate);
@@ -54,13 +55,13 @@ public class BanService {
     @Transactional
     public void removeBan(int banId){
         if(!ctx.isCallerInRole("admin")){ //controllo necessario? visto che abbiamo @RolesAllowed
-            throw new ServiceException("Non sei autorizzato ad eseguire questa operazione");
+            throw new BadRequestException("Non sei autorizzato ad eseguire questa operazione");
         }
         Ban ban = banRepo.findById(banId);
         if(ban != null){
             banRepo.remove(ban);
         }else{
-            throw new ServiceException("Ban non trovato");
+            throw new BadRequestException("Ban non trovato");
         }
     }
 }

@@ -1,15 +1,13 @@
 package http.controller;
 
+import org.apache.openejb.util.reflection.Reflections;
 import service.UserService;
 import service.dto.LoggedInUser;
 import service.exception.BadRequestException;
-import service.exception.ServiceException;
 
 import javax.inject.Inject;
-import javax.mvc.binding.BindingResult;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,12 +15,12 @@ import java.util.Objects;
 
 
 @WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends FormPageServlet {
     @Inject private UserService userService;
     @Inject private LoggedInUser loggedInUser;
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void viewPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(loggedInUser.isLoggedIn()){
             resp.sendRedirect(req.getContextPath());
             return;
@@ -31,7 +29,12 @@ public class RegisterServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void viewErrorpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        viewPage(req, resp);
+    }
+
+    @Override
+    protected void submitForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         if(loggedInUser.isLoggedIn()){
             resp.sendRedirect(req.getContextPath());
             return;
@@ -42,16 +45,9 @@ public class RegisterServlet extends HttpServlet {
         String confirmPassword = req.getParameter("pass2");
 
         if(!Objects.equals(password, confirmPassword)){
-
+            throw new BadRequestException("Le password devono coincidere");
         }
-
-        try{
-            userService.newUser(email, username, password);
-        } catch (BadRequestException e) {
-            req.setAttribute("errors", e.getMessages());
-            req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
-            return;
-        }
+        userService.newUser(email, username, password);
         resp.sendRedirect(req.getContextPath());
     }
 }

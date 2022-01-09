@@ -6,7 +6,9 @@ import service.exception.ForbiddenException;
 import service.exception.ServiceException;
 
 import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 
 import static javax.servlet.http.HttpServletResponse.*;
 
+@WebFilter
 public class ExceptionFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -29,6 +32,5 @@ public class ExceptionFilter extends HttpFilter {
         } catch (ServiceException e) {
             resp.sendError(SC_BAD_REQUEST, e.getMessage());
         }
-
     }
 }

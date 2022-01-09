@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public interface ServletInterceptorChain {
-    void handle(HttpServletRequest req, HttpServletResponse resp)
+@FunctionalInterface
+public interface HttpServletBiConsumer {
+    void handle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException;
 }
