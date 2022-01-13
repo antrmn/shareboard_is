@@ -1,13 +1,11 @@
-package http.controller.interceptor;
+package http.controller.interceptors;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@ServletInterceptorBinding
 public @interface JSONError {
-    String lol();
 }

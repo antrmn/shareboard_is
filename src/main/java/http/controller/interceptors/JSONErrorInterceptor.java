@@ -1,33 +1,28 @@
-package http.controller.interceptor;
+package http.controller.interceptors;
 
+import http.controller.interceptor.HttpServletBiConsumer;
+import http.controller.interceptor.ServletInterceptor;
+import service.exception.BadRequestException;
 import service.exception.ServiceException;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Default;
-import javax.interceptor.Interceptor;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
-@Dependent
-@Default
-public class JSONErrorInterceptor extends ServletInterceptor<JSONError>{
-    private String lol;
+public class JSONErrorInterceptor extends ServletInterceptor<JSONError> {
 
     @Override
     protected void init(JSONError annotation) {
-        this.lol = annotation.lol();
+
     }
 
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
-        System.out.println("sono io!!!!!" + lol);
         try{
             next.handle(req,resp);
-        } catch(ServiceException e){
-            //produce
+        }catch(BadRequestException e){
+            //error as json
         }
     }
 }

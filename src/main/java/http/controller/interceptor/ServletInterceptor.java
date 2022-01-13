@@ -3,6 +3,7 @@ package http.controller.interceptor;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.TypeLiteral;
@@ -13,13 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Set;
 
 
 public abstract class ServletInterceptor<A extends Annotation>{
-
-    protected abstract void init(A annotation);
+    protected abstract void init (A annotation);
 
     public abstract void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next)
             throws ServletException, IOException;
-
 }
