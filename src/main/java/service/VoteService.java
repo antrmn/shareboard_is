@@ -6,6 +6,7 @@ import persistence.repo.*;
 import service.exception.BadRequestException;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ public class VoteService {
     @Resource private EJBContext ctx;
 
     @Transactional
+    @RolesAllowed({"user","admin"})
     public void VoteComment(String _id, String vote){
         if (_id == null || !InputValidator.assertInt(_id) || vote == null
                 || (!vote.equalsIgnoreCase("upvote") && !vote.equalsIgnoreCase("downvote"))) {
@@ -46,6 +48,7 @@ public class VoteService {
     }
 
     @Transactional
+    @RolesAllowed({"user","admin"})
     public void VotePost(String _id, String vote){
         if (_id == null || !InputValidator.assertInt(_id) || vote == null
                 || (!vote.equalsIgnoreCase("upvote") && !vote.equalsIgnoreCase("downvote"))) {
@@ -72,6 +75,7 @@ public class VoteService {
     }
 
     @Transactional
+    @RolesAllowed({"user","admin"})
     public void UnvoteComment(String _id){
         if (_id == null || !InputValidator.assertInt(_id)) {
             throw new BadRequestException("BAD REQUEST");
@@ -92,6 +96,7 @@ public class VoteService {
     }
 
     @Transactional
+    @RolesAllowed({"user","admin"})
     public void UnvotePost(String _id){
         if (_id == null || !InputValidator.assertInt(_id)) {
             throw new BadRequestException("BAD REQUEST");

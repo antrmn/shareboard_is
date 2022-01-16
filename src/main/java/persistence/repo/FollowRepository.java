@@ -17,9 +17,9 @@ public class FollowRepository extends GenericRepository<Follow, Follow.Id>{
                 .getResultList();
     }
 
-    public Follow getBySection(Section section){
+    public List<Follow> getBySection(Section section){
         return em.createQuery("from Follow f where f.id.section=:section", Follow.class)
                 .setParameter("section", section)
-                .getSingleResult();
+                .getResultList();
     }
 }
