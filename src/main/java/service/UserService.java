@@ -1,9 +1,11 @@
 package service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import persistence.model.User;
+import persistence.repo.BinaryContentRepository;
 import persistence.repo.UserRepository;
 import security.Pbkdf2PasswordHashImpl;
 import security.Pbkdf2PasswordHashImpl.HashedPassword;
@@ -23,16 +25,17 @@ import javax.annotation.security.RolesAllowed;
 @Service
 public class UserService {
     @Inject private UserRepository userRepo;
+    @Inject private BinaryContentRepository bcRepo;
     @Inject private Pbkdf2PasswordHashImpl passwordHash;
 
     @RolesAllowed({"admin"})
     @Transactional
-    public void ToggleAdmin(@UserExists int id){
+    public void toggleAdmin(@UserExists int id){
         User u = userRepo.findById(id);
         u.setAdmin(!u.getAdmin());
     }
 
-    public List<UserIdentityDTO> ShowUsers(){
+    public List<UserIdentityDTO> showUsers(){
         List<User> users = userRepo.findAll();
         List<UserIdentityDTO> usersDTO = new ArrayList<>();
 
@@ -45,7 +48,7 @@ public class UserService {
 
     @RolesAllowed({"admin"})
     @Transactional
-    public void Delete(@UserExists int id){
+    public void delete(@UserExists int id){
         userRepo.remove(userRepo.findById(id));
     }
 
@@ -56,12 +59,21 @@ public class UserService {
 
     @RolesAllowed({"admin", "user"})
     @Transactional
-    public void Edit(UserEditPage edit,
+    public void edit(UserEditPage edit,
                      @UserExists int id){
         User u = userRepo.findById(id);
-        u.setPassword(edit.getPassword()); // CHECK: corretto?
+        HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());
+        u.setPassword(hashedPassword.getPassword());
+        u.setSalt(hashedPassword.getSalt());
         u.setDescription(edit.getDescription());
-        u.setPicture(edit.getPicture());
+
+        if(edit.getPicture() != null){
+            try {
+                u.setPicture(bcRepo.insert(edit.getPicture()));
+            } catch (IOException e) {
+                throw new RuntimeException(e); //todo: delet this
+            }
+        }
     }
 
     // unique email unique username length email username password
