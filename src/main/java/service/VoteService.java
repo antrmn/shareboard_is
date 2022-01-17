@@ -3,11 +3,10 @@ package service;
 import http.util.InputValidator;
 import persistence.model.*;
 import persistence.repo.*;
+import service.dto.LoggedInUser;
 import service.exception.BadRequestException;
-
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -19,7 +18,7 @@ public class VoteService {
     @Inject private CommentVoteRepository commentVoteRepo;
     @Inject private PostVoteRepository postVoteRepo;
     @Inject private PostRepository postRepo;
-    @Resource private EJBContext ctx;
+    @Resource private LoggedInUser loggedInUser;
 
     @Transactional
     @RolesAllowed({"user","admin"})
@@ -33,7 +32,7 @@ public class VoteService {
         if(comment == null){
             throw new BadRequestException("Il commento non esiste");
         }
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(loggedInUser.getUsername());
         int _vote = (vote.equalsIgnoreCase("upvote") ? 1 : -1);
 
         CommentVote.Id commentVoteId = new CommentVote.Id();
@@ -60,7 +59,7 @@ public class VoteService {
         if(post == null){
             throw new BadRequestException("Il post non esiste");
         }
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(loggedInUser.getUsername());
         int _vote = (vote.equalsIgnoreCase("upvote") ? 1 : -1);
 
         PostVote.Id postVoteId = new PostVote.Id();
@@ -86,7 +85,7 @@ public class VoteService {
         if(comment == null){
             throw new BadRequestException("Il commento non esiste");
         }
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(loggedInUser.getUsername());
 
         CommentVote.Id commentVoteId = new CommentVote.Id();
         commentVoteId.setComment(comment);
@@ -107,7 +106,7 @@ public class VoteService {
         if(post == null){
             throw new BadRequestException("Il post non esiste");
         }
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(loggedInUser.getUsername());
 
         PostVote.Id postVoteId = new PostVote.Id();
         postVoteId.setPost(post);
