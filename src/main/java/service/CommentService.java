@@ -24,6 +24,10 @@ public class CommentService {
     @Inject private UserRepository userRepo;
     @Inject private LoggedInUser loggedInUser;
 
+    public Comment getComment(@CommentExists int id){
+        return commentRepo.findById(id);
+    }
+
     @RolesAllowed({"user","admin"})
     @Transactional
     public void Delete(@CommentExists int id){

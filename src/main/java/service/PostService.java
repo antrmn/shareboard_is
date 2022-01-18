@@ -76,6 +76,23 @@ public class PostService {
     }
 
     @RolesAllowed({"user","admin"})
+    @Transactional
+    public void EditPost(PostEditDTO edit,
+                            @PostExists int id,
+                            @Image BufferedInputStream content){
+        Post post = postRepo.findById(id);
+        post.setTitle(edit.getTitle());
+        String fileName;
+        try {
+            fileName = bcRepo.insert(content);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        post.setContent(fileName);
+        post.setType(edit.getType());
+    }
+
+    @RolesAllowed({"user","admin"})
     public int newPost(@NotBlank(message="{post.title.blank}") String title,
                        String body,
                        @SectionExists String sectionName){

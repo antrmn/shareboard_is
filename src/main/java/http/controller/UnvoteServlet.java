@@ -1,22 +1,24 @@
 package http.controller;
 
-import service.BanService;
+import service.VoteService;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet("/admin/deleteban")
-public class DeleteBanServlet extends HttpServlet {
+@WebServlet("/unvote")
+public class UnvoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _bandId = request.getParameter("banId");
-        int banId = 0;
-        if(_bandId != null && _bandId.matches("\\d*")){
-            banId = Integer.parseInt(_bandId);
+        String _id = request.getParameter("id");
+        String type = request.getParameter("type");
+
+        if(type!=null && type.equalsIgnoreCase("post")){
+            new VoteService().UnvotePost(_id);
+        }else if(type!=null && type.equalsIgnoreCase("comment")){
+            new VoteService().UnvoteComment(_id);
         }
-        new BanService().removeBan(banId);
-        response.sendRedirect(getServletContext().getContextPath() + "/admin/showbans?userId=" + request.getParameter("userId"));
     }
 
     @Override
