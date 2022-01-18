@@ -12,13 +12,14 @@ public class DeleteCommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _commentId = request.getParameter("id");
+        CommentService service = new CommentService();
         int commentId = 0;
         if(_commentId != null && _commentId.matches("\\d*")){
             commentId = Integer.parseInt(_commentId);
         }
-        new CommentService().Delete(commentId);
-
-        //response.sendRedirect(getServletContext().getContextPath() + "/post/" + comment.getPost().getId()); serve l'id del post relativo al commento
+        int postId = service.getComment(commentId).getPost().getId();
+        service.Delete(commentId);
+        response.sendRedirect(getServletContext().getContextPath() + "/post/" + postId);
     }
 
     @Override
