@@ -34,6 +34,10 @@ public class CommentService {
         commentRepo.remove(commentRepo.findById(id));
     }
 
+    public void EditComment(@CommentExists int id, String text){
+        commentRepo.findById(id).setContent(text);
+    }
+
     @RolesAllowed({"user","admin"})
     @Transactional
     public int newComment(@NotBlank() @Size() String text,
