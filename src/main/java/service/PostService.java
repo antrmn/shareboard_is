@@ -93,6 +93,7 @@ public class PostService {
     }
 
     @RolesAllowed({"user","admin"})
+    @Transactional
     public int newPost(@NotBlank(message="{post.title.blank}") String title,
                        String body,
                        @SectionExists String sectionName){
