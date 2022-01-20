@@ -11,10 +11,8 @@ import lombok.Setter;
 @Setter
 public class SectionPage {
 
-    private Integer id;
     private String name;
     private String description;
     private String picture;
     private String banner;
-    private Integer nFollowersTotal;
 }

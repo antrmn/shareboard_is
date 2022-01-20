@@ -33,7 +33,7 @@ public class SectionService {
 
     public SectionPage ShowSection(@SectionExists int id){
        Section s =  sectionRepo.findById(id);
-       SectionPage sectionData = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), 0); //come ottengo i followers?
+       SectionPage sectionData = new SectionPage(s.getName(), s.getDescription(), s.getPicture(), s.getBanner());
        return sectionData;
     }
 
