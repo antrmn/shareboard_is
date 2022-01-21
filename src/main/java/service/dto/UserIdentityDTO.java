@@ -1,12 +1,12 @@
 package service.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class UserIdentityDTO {
     private int id;
     private String username;
