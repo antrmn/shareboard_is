@@ -40,6 +40,10 @@ import static org.mockito.quality.Strictness.LENIENT;
 @RunWithApplicationComposer(mode = ExtensionMode.PER_EACH)
 @ExtendWith({MockitoExtension.class, CdiMocking.class})
 @MockitoSettings(strictness = LENIENT)
+@Classes(cdi = true,
+        value={Pbkdf2PasswordHashImpl.class, UserService.class},
+        cdiInterceptors = BValInterceptor.class,
+        cdiStereotypes = CdiMock.class)
 public class UserServiceTest {
 
     @Mock SectionRepository sectionRepository;
@@ -48,16 +52,6 @@ public class UserServiceTest {
     @Mock UserRepository userRepository;
     @Inject Pbkdf2PasswordHashImpl passwordHash;
     @Inject UserService service;
-
-    @Module
-    @Classes(cdi = true,
-            value={Pbkdf2PasswordHashImpl.class, UserService.class},
-            cdiInterceptors = BValInterceptor.class,
-            cdiStereotypes = CdiMock.class)
-    public WebApp webApp() {
-        return new WebApp();
-    }
-
 
     @BeforeEach
     void setUp() {
