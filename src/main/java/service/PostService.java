@@ -1,7 +1,6 @@
 package service;
 
 import persistence.model.Post;
-import persistence.repo.PostRepository;
 import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
 import service.dto.*;
@@ -12,7 +11,6 @@ import service.validation.Image;
 import service.validation.PostExists;
 import service.validation.SectionExists;
 
-import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
@@ -38,7 +36,7 @@ public class PostService {
     @Resource private EJBContext ctx;
 
 
-    public PostPage GetPost(@PostExists int id){
+    public PostPage getPost(@PostExists int id){
         Post p = postRepo.findById(id);
         UserLite user = new UserLite(p.getAuthor().getId(), p.getAuthor().getUsername());
         SectionLite section = new SectionLite(p.getSection().getId(), p.getSection().getName());
@@ -92,7 +90,7 @@ public class PostService {
         post.setType(edit.getType());
     }
 
-    @RolesAllowed({"user","admin"})
+
     @Transactional
     public int newPost(@NotBlank(message="{post.title.blank}") String title,
                        String body,

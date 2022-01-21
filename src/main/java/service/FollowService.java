@@ -7,18 +7,18 @@ import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
 import service.dto.LoggedInUser;
 import service.validation.SectionExists;
-import javax.annotation.Resource;
+
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-@Stateless
+@ApplicationScoped
 public class FollowService {
     @Inject private SectionRepository sectionRepo;
     @Inject private FollowRepository followRepo;
     @Inject private UserRepository userRepo;
-    @Resource private LoggedInUser loggedInUser;
+    @Inject private LoggedInUser loggedInUser;
 
     @Transactional
     @RolesAllowed({"user","admin"})

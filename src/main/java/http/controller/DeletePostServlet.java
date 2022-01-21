@@ -18,7 +18,7 @@ public class DeletePostServlet extends HttpServlet {
         if(_postId != null && _postId.matches("\\d*")){
             postId = Integer.parseInt(_postId);
         }
-        String sectionName = service.GetPost(postId).getSection().getName();
+        String sectionName = service.getPost(postId).getSection().getName();
         service.Delete(postId);
         response.sendRedirect(getServletContext().getContextPath() + "/s/" + sectionName);
     }
