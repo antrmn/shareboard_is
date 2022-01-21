@@ -14,22 +14,6 @@
           <element id="module-output" name="shareboard_is" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-catalina:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-servlet-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jsp-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-el-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-juli:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jni:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-coyote:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util-scan:9.0.52" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jaspic-api:9.0.52" />
-          <element id="library" level="project" name="Maven: org.reflections:reflections:0.10.2" />
-          <element id="library" level="project" name="Maven: org.javassist:javassist:3.28.0-GA" />
-          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:3.0.2" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.32" />
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.22" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.6.2.Final" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.2.Final" />
@@ -47,10 +31,15 @@
           <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" />
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
-          <element id="library" level="project" name="Maven: org.apache.tomee:tomee-security:8.0.8" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.27" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
+          <element id="library" level="project" name="Maven: org.apache.bval:bval-jsr:2.0.5" />
+          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-impl:2.0.22" />
+          <element id="library" level="project" name="Maven: org.apache.tomee:openejb-junit5:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-core:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:mbean-annotation-api:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-jpa-integration:8.0.8" />
+          <element id="library" level="project" name="Maven: org.apache.tomee:javaee-api:8.0-5" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.11" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-api:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-loader:8.0.8" />
@@ -64,6 +53,16 @@
           <element id="library" level="project" name="Maven: commons-cli:commons-cli:1.4" />
           <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
           <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:1.2.1" />
+          <element id="library" level="project" name="Maven: org.apache.activemq:activemq-ra:5.16.1" />
+          <element id="library" level="project" name="Maven: org.apache.activemq:activemq-kahadb-store:5.16.1" />
+          <element id="library" level="project" name="Maven: org.apache.activemq.protobuf:activemq-protobuf:1.1" />
+          <element id="library" level="project" name="Maven: org.apache.activemq:activemq-broker:5.16.1" />
+          <element id="library" level="project" name="Maven: org.apache.activemq:activemq-client:5.16.1" />
+          <element id="library" level="project" name="Maven: org.fusesource.hawtbuf:hawtbuf:1.11" />
+          <element id="library" level="project" name="Maven: org.apache.activemq:activemq-openwire-legacy:5.16.1" />
+          <element id="library" level="project" name="Maven: org.apache.activemq:activemq-jdbc-store:5.16.1" />
+          <element id="library" level="project" name="Maven: org.apache.geronimo.components:geronimo-connector:3.1.4" />
+          <element id="library" level="project" name="Maven: org.apache.geronimo.specs:geronimo-j2ee-connector_1.6_spec:1.0" />
           <element id="library" level="project" name="Maven: org.apache.geronimo.components:geronimo-transaction:3.1.4" />
           <element id="library" level="project" name="Maven: org.objectweb.howl:howl:1.0.1-1" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.1" />
@@ -84,7 +83,7 @@
           <element id="library" level="project" name="Maven: org.apache.openejb.shade:quartz-openejb-shade:2.2.4" />
           <element id="library" level="project" name="Maven: org.tomitribe.quartz:quartz:2.2.4" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-jdk14:1.7.21" />
-          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-impl:2.0.22" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-spi:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-ejb:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-ee:2.0.22" />
@@ -93,9 +92,6 @@
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-el22:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openjpa:openjpa:3.2.0" />
           <element id="library" level="project" name="Maven: net.sourceforge.serp:serp:1.15.1" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.27" />
-          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
-          <element id="library" level="project" name="Maven: org.apache.bval:bval-jsr:2.0.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">
