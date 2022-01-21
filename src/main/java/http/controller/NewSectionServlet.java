@@ -6,6 +6,7 @@ import service.dto.SectionPage;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 
 @WebServlet("/admin/newsection")
@@ -23,8 +24,12 @@ public class NewSectionServlet extends HttpServlet {
         Part picture = request.getPart("picture");
         Part banner = request.getPart("banner");
 
-        SectionPage sectionPage = new SectionPage(name,description,picture.getName(),banner.getName());
-        new SectionService().NewSection(sectionPage);
+        //gestire errore immagine
+
+        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0);
+        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
+        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
+        new SectionService().NewSection(sectionPage,buffPicture,buffBanner);
         response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");
     }
 }

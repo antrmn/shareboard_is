@@ -35,6 +35,14 @@ public class UserService {
         u.setAdmin(!u.getAdmin());
     }
 
+    public User getUser(String name){return userRepo.getByName(name);} //todo: validation user exists by name
+
+    public User getUser(@UserExists int id){return userRepo.findById(id);}
+
+    public String getUsernameById(@UserExists int id){
+        return userRepo.findById(id).getUsername();
+    }
+
     public List<UserIdentityDTO> showUsers(){
         List<User> users = userRepo.findAll();
         List<UserIdentityDTO> usersDTO = new ArrayList<>();
