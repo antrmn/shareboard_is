@@ -9,6 +9,7 @@ import org.apache.openejb.testing.Module;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -34,12 +35,14 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.quality.Strictness.LENIENT;
 
-@RunWithApplicationComposer(mode = ExtensionMode.PER_EACH)
 @ExtendWith({MockitoExtension.class, CdiMocking.class})
 @MockitoSettings(strictness = LENIENT)
+@RunWithApplicationComposer(mode = ExtensionMode.PER_ALL)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Classes(cdi = true,
         value={Pbkdf2PasswordHashImpl.class, UserService.class},
         cdiInterceptors = BValInterceptor.class,
