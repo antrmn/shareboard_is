@@ -1,4 +1,4 @@
-package http.controller.interceptors;
+package http.controller.interceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

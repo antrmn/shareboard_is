@@ -1,8 +1,7 @@
-package http.controller;
+package http.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.util.HashMap;
 import java.util.Map;
 
 public class XSSAwareRequest extends HttpServletRequestWrapper {
@@ -17,17 +16,16 @@ public class XSSAwareRequest extends HttpServletRequestWrapper {
                     '\\',"&#039;",
                     '"', "&#034");
 
+    private String escape(String txt){
+        for(Character c : ESCAPES.keySet()){
+            txt = txt.replaceAll(c.toString(), ESCAPES.get(c)); //TODO: optimization
+        }
+        return txt;
+    }
+
     @Override
     public String getParameter(String name) {
         String value = super.getParameter(name);
-        if(value == null)
-            return null;
-
-        for(Character c : ESCAPES.keySet()){
-            value = value.replaceAll(c.toString(), ESCAPES.get(c));
-        }
-        return value;
+        return value == null ? null : escape(value);
     }
-
-    //todo: getparametermap, separate escape method
 }

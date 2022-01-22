@@ -1,4 +1,4 @@
-package http.controller;
+package http.controller.filter;
 
 import service.auth.AuthenticationRequiredException;
 import service.auth.AuthorizationException;

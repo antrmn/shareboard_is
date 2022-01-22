@@ -1,9 +1,7 @@
-package http.controller.interceptors;
+package http.controller.interceptor;
 
-import http.controller.interceptor.HttpServletBiConsumer;
-import http.controller.interceptor.ServletInterceptor;
-import service.exception.BadRequestException;
-import service.exception.ServiceException;
+import http.util.interceptor.HttpServletBiConsumer;
+import http.util.interceptor.ServletInterceptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +19,7 @@ public class JSONErrorInterceptor extends ServletInterceptor<JSONError> {
     public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
         try{
             next.handle(req,resp);
-        }catch(BadRequestException e){
+        }catch(Exception e){
             //error as json
         }
     }

@@ -1,15 +1,17 @@
-package http.controller.interceptor;
+package http.util.interceptor;
 
-import javax.servlet.*;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public abstract class InterceptableServlet extends HttpServlet {
@@ -24,25 +26,19 @@ public abstract class InterceptableServlet extends HttpServlet {
                     "HEAD",    "doHead"
             );
 
-    private final Map<String, HttpServletBiConsumer> chains = new HashMap<>();
-    private boolean chainInitialized = false;
+    private final Map<String, HttpServletBiConsumer> chains = new ConcurrentHashMap<>();
 
-    private void initChain(){
-        methods.forEach((httpMethod,servletMethod)
-                -> chains.put( httpMethod, buildChain(getInterceptors(servletMethod), this::superService)) );
-        chainInitialized = true;
-    }
-
-    private ServletInterceptor<?>[] getInterceptors(String methodName) {
-        //Not a "doX" method
-        if(!methods.containsValue(methodName)){
+    private ServletInterceptor<?>[] getInterceptors(String httpMethodName) {
+        String javaMethodName = methods.get(httpMethodName);
+        if(javaMethodName == null){
+            //Not a "doX" method
             throw new IllegalArgumentException();
         }
 
         Method method;
         try {
             method = this.getClass()
-                    .getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+                    .getDeclaredMethod(javaMethodName, HttpServletRequest.class, HttpServletResponse.class);
         } catch (NoSuchMethodException e) {
             //method has not been overriden by this class.
             //return empty array
@@ -76,9 +72,8 @@ public abstract class InterceptableServlet extends HttpServlet {
 
     @Override
     protected final void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(!chainInitialized)
-            initChain();
-        chains.get(req.getMethod()).handle(req,resp);
+        String httpMethod = req.getMethod();
+        chains.computeIfAbsent(httpMethod, key -> buildChain(getInterceptors(key), this::superService));
     }
 
     @Override

@@ -1,1 +1,1 @@
-http.controller.interceptor.ServletContainerInitializer
+http.util.interceptor.ServletContainerInitializer

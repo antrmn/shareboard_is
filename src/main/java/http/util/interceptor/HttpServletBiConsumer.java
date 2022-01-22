@@ -1,4 +1,4 @@
-package http.controller.interceptor;
+package http.util.interceptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

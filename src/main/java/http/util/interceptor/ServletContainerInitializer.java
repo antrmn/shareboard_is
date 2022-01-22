@@ -1,10 +1,6 @@
-package http.controller.interceptor;
-
-import http.controller.interceptor.ServletInterceptor;
-import http.controller.interceptor.ServletInterceptorFactory;
+package http.util.interceptor;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.HandlesTypes;
 import java.util.Set;
 
