@@ -5,25 +5,25 @@ import persistence.model.User;
 import persistence.repo.FollowRepository;
 import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
-import service.dto.LoggedInUser;
+import service.auth.AuthenticationRequired;
+import service.dto.CurrentUser;
 import service.validation.SectionExists;
 
-import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-@ApplicationScoped
+@Stateless
+@Transactional
 public class FollowService {
     @Inject private SectionRepository sectionRepo;
     @Inject private FollowRepository followRepo;
     @Inject private UserRepository userRepo;
-    @Inject private LoggedInUser loggedInUser;
+    @Inject private CurrentUser currentUser;
 
-    @Transactional
-    @RolesAllowed({"user","admin"})
+    @AuthenticationRequired
     public void follow(@SectionExists int sectionId){
-        User user = userRepo.getByName(loggedInUser.getUsername());
+        User user = userRepo.getByName(currentUser.getUsername());
         Follow.Id id = new Follow.Id();
         id.setUser(user);
         id.setSection(sectionRepo.findById(sectionId));
@@ -32,11 +32,10 @@ public class FollowService {
         followRepo.insert(follow);
     }
 
-    @Transactional
-    @RolesAllowed({"user","admin"})
+    @AuthenticationRequired
     public void unFollow(@SectionExists int sectionId){
         Follow.Id id = new Follow.Id();
-        id.setUser(userRepo.getByName(loggedInUser.getUsername()));
+        id.setUser(userRepo.getByName(currentUser.getUsername()));
         id.setSection(sectionRepo.findById(sectionId));
         Follow follow = followRepo.findById(id);
         followRepo.remove(follow);

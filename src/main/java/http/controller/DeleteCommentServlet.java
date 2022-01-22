@@ -2,9 +2,11 @@ package http.controller;
 
 import service.CommentService;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/deletecomment")
@@ -18,7 +20,7 @@ public class DeleteCommentServlet extends HttpServlet {
             commentId = Integer.parseInt(_commentId);
         }
         int postId = service.getComment(commentId).getPost().getId();
-        service.Delete(commentId);
+        service.delete(commentId);
         response.sendRedirect(getServletContext().getContextPath() + "/post/" + postId);
     }
 

@@ -1,15 +1,18 @@
 package service;
 
 import persistence.model.Comment;
-import persistence.repo.CommentRepository;
-import persistence.repo.UserRepository;
 import persistence.model.User;
-import persistence.repo.*;
+import persistence.repo.CommentRepository;
+import persistence.repo.PostRepository;
+import persistence.repo.UserRepository;
+import service.auth.AuthenticationRequired;
+import service.auth.DenyBannedUsers;
 import service.dto.CommentDTO;
 import service.dto.CommentTreeDTO;
-import service.dto.LoggedInUser;
+import service.dto.CurrentUser;
 import service.validation.CommentExists;
 import service.validation.PostExists;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,12 +26,12 @@ import java.util.stream.Stream;
 
 
 @Stateless
-@Service
+@Transactional
 public class CommentService {
     @Inject private CommentRepository commentRepo;
     @Inject private PostRepository postRepo;
     @Inject private UserRepository userRepo;
-    @Inject private LoggedInUser loggedInUser;
+    @Inject private CurrentUser currentUser;
 
     private static final int MAX_COMMENT_DEPTH = 4;
 
@@ -58,22 +61,21 @@ public class CommentService {
         return commentRepo.findById(id);
     }
 
-    @RolesAllowed({"user","admin"})
-    @Transactional
-    public void Delete(@CommentExists int id){
+    @AuthenticationRequired
+    public void delete(@CommentExists int id){
         commentRepo.remove(commentRepo.findById(id));
     }
 
-    @RolesAllowed({"user","admin"})
-    public void EditComment(@CommentExists int id, String text){
+    @AuthenticationRequired
+    public void editComment(@CommentExists int id, String text){
         commentRepo.findById(id).setContent(text);
     }
 
-    @RolesAllowed({"user","admin"})
-    @Transactional
-    public int newComment(@NotBlank() @Size() String text,
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public int newComment(@NotBlank @Size String text,
                        @PostExists int postId){
-        User user = userRepo.getByName(loggedInUser.getUsername());
+        User user = userRepo.getByName(currentUser.getUsername());
 
         Comment comment = new Comment();
         comment.setAuthor(user);
@@ -84,10 +86,10 @@ public class CommentService {
 
     @RolesAllowed({"user","admin"})
     @Transactional
-    public int newCommentReply(@NotBlank() @Size() String text,
+    public int newCommentReply(@NotBlank @Size String text,
                                @CommentExists int parentId,
                                @PostExists int postId){
-        User user = userRepo.getByName(loggedInUser.getUsername());
+        User user = userRepo.getByName(currentUser.getUsername());
         Comment parent = commentRepo.findById(parentId);
 
         Comment comment = new Comment();

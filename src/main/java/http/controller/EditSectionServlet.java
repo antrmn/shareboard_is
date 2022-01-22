@@ -4,9 +4,13 @@ import persistence.model.Section;
 import service.SectionService;
 import service.dto.SectionPage;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
@@ -41,7 +45,7 @@ public class EditSectionServlet extends HttpServlet {
         SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0);
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
-        new SectionService().EditSection(sectionPage,sectionId,buffPicture,buffBanner);
+        new SectionService().editSection(sectionPage,sectionId,buffPicture,buffBanner);
         response.sendRedirect(request.getContextPath()+"/admin/showsections");
     }
 }

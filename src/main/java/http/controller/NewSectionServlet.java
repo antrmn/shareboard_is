@@ -3,9 +3,13 @@ package http.controller;
 import service.SectionService;
 import service.dto.SectionPage;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
@@ -29,7 +33,7 @@ public class NewSectionServlet extends HttpServlet {
         SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0);
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
-        new SectionService().NewSection(sectionPage,buffPicture,buffBanner);
+        new SectionService().newSection(sectionPage,buffPicture,buffBanner);
         response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");
     }
 }

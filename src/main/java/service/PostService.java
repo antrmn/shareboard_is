@@ -1,39 +1,40 @@
 package service;
 
 import persistence.model.Post;
-import persistence.repo.SectionRepository;
-import persistence.repo.UserRepository;
-import service.dto.*;
 import persistence.model.Section;
 import persistence.model.User;
-import persistence.repo.*;
+import persistence.repo.BinaryContentRepository;
+import persistence.repo.PostRepository;
+import persistence.repo.SectionRepository;
+import persistence.repo.UserRepository;
+import service.auth.AuthenticationRequired;
+import service.auth.DenyBannedUsers;
+import service.dto.*;
 import service.validation.Image;
 import service.validation.PostExists;
 import service.validation.SectionExists;
 
-import javax.annotation.Resource;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static persistence.model.Post.Type.*;
+import static persistence.model.Post.Type.IMG;
+import static persistence.model.Post.Type.TEXT;
 
 
 @Stateless
-@Service
+@Transactional
 public class PostService {
     @Inject private PostRepository postRepo;
     @Inject private UserRepository userRepo;
     @Inject private SectionRepository sectionRepo;
     @Inject private BinaryContentRepository bcRepo;
-    @Resource private EJBContext ctx;
+    @Inject private CurrentUser currentUser;
 
 
     public PostPage getPost(@PostExists int id){
@@ -45,12 +46,13 @@ public class PostService {
         return post;
     }
 
-    @Transactional
-    public void Delete(@PostExists int id){
+    @AuthenticationRequired //TODO: check autore post?
+    @DenyBannedUsers
+    public void delete(@PostExists int id){
         postRepo.remove(postRepo.findById(id));
     }
 
-    public List<PostPreview> FetchPosts(String text){
+    public List<PostPreview> fetchPosts(String text){
         List<Post> posts = postRepo.getFinder().byContent(text).getResults();
         List<PostPreview> previews = new ArrayList<>();
         for(Post p : posts){
@@ -64,20 +66,19 @@ public class PostService {
         return previews;
     }
 
-    @RolesAllowed({"user","admin"})
-    @Transactional
-    public void EditPost(PostEditDTO edit,@PostExists int id){
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public void editPost(PostEditDTO edit, @PostExists int id){
         Post post = postRepo.findById(id);
         post.setTitle(edit.getTitle());
         post.setContent(edit.getContent());
         post.setType(edit.getType());
     }
 
-    @RolesAllowed({"user","admin"})
-    @Transactional
-    public void EditPost(PostEditDTO edit,
-                            @PostExists int id,
-                            @Image BufferedInputStream content){
+    @AuthenticationRequired
+    public void editPost(PostEditDTO edit,
+                         @PostExists int id,
+                         @Image BufferedInputStream content){
         Post post = postRepo.findById(id);
         post.setTitle(edit.getTitle());
         String fileName;
@@ -91,11 +92,12 @@ public class PostService {
     }
 
 
-    @Transactional
+    @AuthenticationRequired
+    @DenyBannedUsers
     public int newPost(@NotBlank(message="{post.title.blank}") String title,
                        String body,
                        @SectionExists String sectionName){
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(currentUser.getUsername());
         Section section = sectionRepo.getByName(sectionName);
 
 
@@ -109,12 +111,13 @@ public class PostService {
         return postRepo.insert(post).getId();
     }
 
-    @RolesAllowed({"user","admin"})
+    @AuthenticationRequired
+    @DenyBannedUsers
     public int newPost(@NotBlank(message = "{post.title.blank}") String title,
                        @Image BufferedInputStream content,
                        long size, //todo range
                        @SectionExists String sectionName){
-        User user = userRepo.getByName(ctx.getCallerPrincipal().getName());
+        User user = userRepo.getByName(currentUser.getUsername());
         Section section = sectionRepo.getByName(sectionName);
 
         String fileName;

@@ -1,15 +1,8 @@
 package http.controller;
 
-import lombok.extern.java.Log;
-import service.dto.LoggedInUser;
-
 import javax.inject.Inject;
-
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.SecurityContext;
-import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
-import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
-import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
@@ -20,20 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
 import java.io.IOException;
-import java.security.Principal;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
 
-import static javax.security.enterprise.AuthenticationStatus.NOT_DONE;
-import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.*;
+import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
 
 @WebServlet("/doLogin")

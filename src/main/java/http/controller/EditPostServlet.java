@@ -3,9 +3,14 @@ package http.controller;
 import persistence.model.Post;
 import service.PostService;
 import service.dto.PostEditDTO;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
@@ -38,10 +43,10 @@ public class EditPostServlet extends HttpServlet {
         }
 
         if(type.equalsIgnoreCase("text")){
-            service.EditPost(postToEdit,postId);
+            service.editPost(postToEdit,postId);
         }else{
             BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());
-            service.EditPost(postToEdit,postId,buff);
+            service.editPost(postToEdit,postId,buff);
         }
         response.sendRedirect(getServletContext().getContextPath() + "/post/" + postId);
     }

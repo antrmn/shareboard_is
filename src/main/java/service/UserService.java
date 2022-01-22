@@ -1,14 +1,12 @@
 package service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.UserRepository;
 import security.Pbkdf2PasswordHashImpl;
 import security.Pbkdf2PasswordHashImpl.HashedPassword;
+import service.auth.AdminsOnly;
+import service.auth.AuthenticationRequired;
 import service.dto.UserEditPage;
 import service.dto.UserIdentityDTO;
 import service.validation.UserExists;
@@ -19,17 +17,18 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.annotation.security.RolesAllowed;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
-@Service
+@Transactional
 public class UserService {
     @Inject private UserRepository userRepo;
     @Inject private BinaryContentRepository bcRepo;
     @Inject private Pbkdf2PasswordHashImpl passwordHash;
 
-    @RolesAllowed({"admin"})
-    @Transactional
+    @AdminsOnly
     public void toggleAdmin(@UserExists int id){
         User u = userRepo.findById(id);
         u.setAdmin(!u.getAdmin());
@@ -54,19 +53,17 @@ public class UserService {
         return usersDTO;
     }
 
-    @RolesAllowed({"admin"})
-    @Transactional
+    @AdminsOnly
     public void delete(@UserExists int id){
         userRepo.remove(userRepo.findById(id));
     }
 
-    public UserIdentityDTO Get(int id){
+    public UserIdentityDTO get(int id){
         User u = userRepo.findById(id);
         return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
     }
 
-    @RolesAllowed({"admin", "user"})
-    @Transactional
+    @AuthenticationRequired
     public void edit(UserEditPage edit,
                      @UserExists int id){
         User u = userRepo.findById(id);

@@ -2,9 +2,11 @@ package http.controller;
 
 import service.SectionService;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "DeleteSectionServlet", value = "/DeleteSectionServlet")
@@ -17,7 +19,7 @@ public class DeleteSectionServlet extends HttpServlet {
             sectionId = Integer.parseInt(_sectionId);
         }
 
-        new SectionService().Delete(sectionId);
+        new SectionService().delete(sectionId);
 
         response.sendRedirect(getServletContext().getContextPath() + "/admin/showsections");
     }

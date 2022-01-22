@@ -11,7 +11,7 @@ import java.time.Instant;
 @Getter
 @Alternative
 @ToString
-public class LoggedInUser {
+public class CurrentUser {
     private int id;
     private String username;
     private boolean isAdmin;
