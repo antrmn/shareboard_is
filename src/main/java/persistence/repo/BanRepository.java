@@ -6,7 +6,7 @@ import persistence.model.User;
 import java.time.Instant;
 import java.util.List;
 
-public class BanRepository extends GenericRepository<Ban, Integer>{
+public class BanRepository extends AbstractRepository<Ban, Integer> {
     public BanRepository() {
         super(Ban.class);
     }

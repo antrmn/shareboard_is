@@ -15,14 +15,14 @@ import java.util.List;
  *            interfaccia
  * @see javax.persistence.EntityManager
  */
-public abstract class GenericRepository<T, ID> {
+public abstract class AbstractRepository<T, ID> {
 
     @PersistenceContext
     protected EntityManager em;
 
     protected final Class<T> entityClass;
 
-    protected GenericRepository(Class<T> entityClass) {
+    protected AbstractRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 

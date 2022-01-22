@@ -3,7 +3,7 @@ package persistence.repo;
 import persistence.model.Section;
 import org.hibernate.Session;
 
-public class SectionRepository extends GenericRepository<Section, Integer>{
+public class SectionRepository extends AbstractRepository<Section, Integer> {
 
     public SectionRepository() {
         super(Section.class);

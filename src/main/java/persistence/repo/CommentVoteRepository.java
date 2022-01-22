@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CommentVoteRepository extends GenericRepository<CommentVote, CommentVote.Id>{
+public class CommentVoteRepository extends AbstractRepository<CommentVote, CommentVote.Id> {
     public CommentVoteRepository() {
         super(CommentVote.class);
     }

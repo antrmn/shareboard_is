@@ -5,7 +5,7 @@ import persistence.model.Post;
 
 import java.util.List;
 
-public class CommentRepository extends GenericRepository<Comment, Integer>{
+public class CommentRepository extends AbstractRepository<Comment, Integer> {
     public CommentRepository() {
         super(Comment.class);
     }

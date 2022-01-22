@@ -6,7 +6,7 @@ import persistence.model.User;
 
 import java.util.List;
 
-public class FollowRepository extends GenericRepository<Follow, Follow.Id>{
+public class FollowRepository extends AbstractRepository<Follow, Follow.Id> {
     public FollowRepository() {
         super(Follow.class);
     }

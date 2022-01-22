@@ -3,7 +3,7 @@ package persistence.repo;
 import persistence.model.User;
 import org.hibernate.Session;
 
-public class UserRepository extends GenericRepository<User, Integer>{
+public class UserRepository extends AbstractRepository<User, Integer> {
     public UserRepository() {
         super(User.class);
     }

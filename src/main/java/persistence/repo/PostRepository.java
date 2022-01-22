@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PostRepository extends GenericRepository<Post, Integer> {
+public class PostRepository extends AbstractRepository<Post, Integer> {
     protected PostRepository() {
         super(Post.class);
     }
