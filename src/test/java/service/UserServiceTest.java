@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -29,6 +31,8 @@ import service.dto.UserIdentityDTO;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -39,15 +43,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.quality.Strictness.LENIENT;
 
-@ExtendWith({MockitoExtension.class, CdiMocking.class})
-@MockitoSettings(strictness = LENIENT)
-@RunWithApplicationComposer(mode = ExtensionMode.PER_ALL)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 @Classes(cdi = true,
         value={Pbkdf2PasswordHashImpl.class, UserService.class},
         cdiInterceptors = BValInterceptor.class,
         cdiStereotypes = CdiMock.class)
-public class UserServiceTest {
+public class UserServiceTest extends ServiceTest {
 
     @Mock SectionRepository sectionRepository;
     @Mock PostRepository postRepository;
