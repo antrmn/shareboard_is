@@ -10,10 +10,11 @@ import service.dto.CurrentUser;
 import service.validation.SectionExists;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-@Stateless
+@ApplicationScoped
 @Transactional
 public class FollowService {
     @Inject private SectionRepository sectionRepo;

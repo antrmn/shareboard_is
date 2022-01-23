@@ -9,12 +9,13 @@ import service.dto.SectionPage;
 import service.validation.SectionExists;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
-@Stateless
+@ApplicationScoped
 @Transactional
 public class SectionService {
 

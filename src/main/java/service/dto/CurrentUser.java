@@ -16,5 +16,6 @@ public class CurrentUser {
     private String username;
     private boolean isAdmin;
     private Instant banDuration;
+    @Builder.Default
     private boolean isLoggedIn = false;
 }

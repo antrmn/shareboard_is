@@ -7,10 +7,11 @@ import service.auth.AuthenticationRequired;
 import service.dto.CurrentUser;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-@Stateless
+@ApplicationScoped
 @Transactional
 public class VoteService {
     @Inject private CommentRepository commentRepo;

@@ -15,6 +15,7 @@ import service.validation.PostExists;
 import service.validation.SectionExists;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
@@ -27,7 +28,7 @@ import static persistence.model.Post.Type.IMG;
 import static persistence.model.Post.Type.TEXT;
 
 
-@Stateless
+@ApplicationScoped
 @Transactional
 public class PostService {
     @Inject private PostRepository postRepo;

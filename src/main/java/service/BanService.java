@@ -9,13 +9,14 @@ import service.validation.BanExists;
 import service.validation.UserExists;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.Future;
 import java.time.Instant;
 import java.util.List;
 
-@Stateless
+@ApplicationScoped
 @Transactional
 public class BanService {
     @Inject private BanRepository banRepo;

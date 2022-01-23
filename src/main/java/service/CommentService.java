@@ -15,6 +15,7 @@ import service.validation.PostExists;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +26,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 
-@Stateless
+@ApplicationScoped
 @Transactional
 public class CommentService {
     @Inject private CommentRepository commentRepo;
