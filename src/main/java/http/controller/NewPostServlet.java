@@ -19,7 +19,7 @@ public class NewPostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _sectionId = request.getParameter("section");
         int sectionId = _sectionId != null && _sectionId.matches("\\d*") ? Integer.parseInt(_sectionId) : 0;
-        String sectionName = new SectionService().ShowSection(sectionId).getName();
+        String sectionName = new SectionService().showSection(sectionId).getName();
 
         String title = request.getParameter("title");
         String type = request.getParameter("type");

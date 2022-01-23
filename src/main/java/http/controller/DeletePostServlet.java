@@ -19,7 +19,7 @@ public class DeletePostServlet extends HttpServlet {
             postId = Integer.parseInt(_postId);
         }
         String sectionName = service.getPost(postId).getSection().getName();
-        service.Delete(postId);
+        service.delete(postId);
         response.sendRedirect(getServletContext().getContextPath() + "/s/" + sectionName);
     }
 
