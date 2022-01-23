@@ -2,6 +2,7 @@ package http.controller;
 
 import service.SectionService;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,9 @@ import java.io.IOException;
 
 @WebServlet(name = "DeleteSectionServlet", value = "/DeleteSectionServlet")
 public class DeleteSectionServlet extends HttpServlet {
+
+    @Inject private SectionService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _sectionId = request.getParameter("sectionId");
@@ -19,7 +23,7 @@ public class DeleteSectionServlet extends HttpServlet {
             sectionId = Integer.parseInt(_sectionId);
         }
 
-        new SectionService().delete(sectionId);
+        service.delete(sectionId);
 
         response.sendRedirect(getServletContext().getContextPath() + "/admin/showsections");
     }

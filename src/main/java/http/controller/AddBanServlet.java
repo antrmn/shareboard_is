@@ -1,6 +1,8 @@
 package http.controller;
 
 import service.BanService;
+
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -12,6 +14,9 @@ import java.time.ZoneOffset;
 @WebServlet("/admin/addban")
 @MultipartConfig
 public class AddBanServlet extends HttpServlet {
+
+    @Inject private BanService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
@@ -26,6 +31,6 @@ public class AddBanServlet extends HttpServlet {
             userId = Integer.parseInt(_userId);
         }
         Instant endDate = date != null && !date.isEmpty() ? LocalDate.parse(date).atStartOfDay().toInstant(ZoneOffset.UTC) : null;
-        new BanService().addBan(endDate,userId);
+        service.addBan(endDate,userId);
     }
 }

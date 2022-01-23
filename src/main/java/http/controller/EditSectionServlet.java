@@ -4,6 +4,7 @@ import persistence.model.Section;
 import service.SectionService;
 import service.dto.SectionPage;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,10 @@ import java.io.IOException;
 @WebServlet("/admin/editsection")
 @MultipartConfig
 public class EditSectionServlet extends HttpServlet {
+
+    @Inject
+    private SectionService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _sectionId = request.getParameter("sectionId");
@@ -25,10 +30,9 @@ public class EditSectionServlet extends HttpServlet {
             sectionId = Integer.parseInt(_sectionId);
         }
 
-        Section section = new SectionService().getSection(sectionId);
+        Section section = service.getSection(sectionId);
         request.setAttribute("section", section);
         request.getRequestDispatcher("/WEB-INF/views/crm/edit-section.jsp").forward(request, response);
-
     }
 
     @Override
@@ -45,7 +49,7 @@ public class EditSectionServlet extends HttpServlet {
         SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0);
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
-        new SectionService().editSection(sectionPage,sectionId,buffPicture,buffBanner);
+        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);
         response.sendRedirect(request.getContextPath()+"/admin/showsections");
     }
 }

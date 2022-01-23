@@ -4,6 +4,7 @@ import persistence.model.User;
 import service.UserService;
 import service.dto.UserEditPage;
 
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -13,6 +14,9 @@ import java.io.IOException;
 @WebServlet("/edituser")
 @MultipartConfig
 public class EditUserServlet extends HttpServlet {
+
+    @Inject private UserService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _userId = request.getParameter("id");
@@ -20,7 +24,7 @@ public class EditUserServlet extends HttpServlet {
         if(_userId != null && _userId.matches("\\d*")){
             userId = Integer.parseInt(_userId);
         }
-        User user = new UserService().getUser(userId);
+        User user = service.getUser(userId);
         request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/views/edit-user.jsp").forward(request, response);
     }
@@ -41,7 +45,6 @@ public class EditUserServlet extends HttpServlet {
 
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);
-        UserService service = new UserService();
         service.edit(userEditPage,userId);
 
         response.sendRedirect(request.getContextPath() + "/u/" + service.getUsernameById(userId));

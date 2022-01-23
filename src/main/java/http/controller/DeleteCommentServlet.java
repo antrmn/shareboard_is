@@ -2,6 +2,7 @@ package http.controller;
 
 import service.CommentService;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +12,12 @@ import java.io.IOException;
 
 @WebServlet("/deletecomment")
 public class DeleteCommentServlet extends HttpServlet {
+
+    @Inject private CommentService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _commentId = request.getParameter("id");
-        CommentService service = new CommentService();
         int commentId = 0;
         if(_commentId != null && _commentId.matches("\\d*")){
             commentId = Integer.parseInt(_commentId);

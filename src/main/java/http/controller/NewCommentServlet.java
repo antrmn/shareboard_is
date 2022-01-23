@@ -2,6 +2,7 @@ package http.controller;
 
 import service.CommentService;
 
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -9,6 +10,9 @@ import java.io.IOException;
 
 @WebServlet("/newcomment")
 public class NewCommentServlet extends HttpServlet {
+
+    @Inject private CommentService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
@@ -30,9 +34,9 @@ public class NewCommentServlet extends HttpServlet {
         }
 
         if(postId > 0){
-            new CommentService().newComment(text,postId);
+            service.newComment(text,postId);
         }else{
-            new CommentService().newCommentReply(text,parentId,postId);
+            service.newCommentReply(text,parentId,postId);
         }
         response.sendRedirect(request.getContextPath() + "/post/" + postId +"#comment-container");
     }

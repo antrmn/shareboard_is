@@ -3,6 +3,7 @@ package http.controller;
 import service.SectionService;
 import service.dto.SectionPage;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,9 @@ import java.io.IOException;
 @WebServlet("/admin/newsection")
 @MultipartConfig
 public class NewSectionServlet extends HttpServlet {
+
+    @Inject private SectionService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/crm/create-section.jsp").forward(request, response);
@@ -33,7 +37,7 @@ public class NewSectionServlet extends HttpServlet {
         SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0);
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
-        new SectionService().newSection(sectionPage,buffPicture,buffBanner);
+        service.newSection(sectionPage,buffPicture,buffBanner);
         response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");
     }
 }

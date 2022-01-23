@@ -4,6 +4,7 @@ import persistence.model.Post;
 import service.PostService;
 import service.dto.PostEditDTO;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,9 @@ import java.io.IOException;
 @WebServlet("/editpost")
 @MultipartConfig
 public class EditPostServlet extends HttpServlet {
+
+    @Inject private PostService service;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //check necessario?
@@ -25,7 +29,7 @@ public class EditPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PostService service = new PostService();
+
         String title = request.getParameter("title");
 
         String type = request.getParameter("type"); //errore? se type non è text, sarà IMG di default
