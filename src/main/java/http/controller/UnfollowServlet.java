@@ -16,7 +16,6 @@ public class UnfollowServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _sectionId = request.getParameter("section");
         int sectionId = converter.getIntParameter("section").orElse(0);
         service.unFollow(sectionId);
     }

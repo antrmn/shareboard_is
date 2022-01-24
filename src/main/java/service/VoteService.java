@@ -1,10 +1,11 @@
 package service;
 
-import http.util.InputValidator;
 import persistence.model.*;
 import persistence.repo.*;
 import service.auth.AuthenticationRequired;
 import service.dto.CurrentUser;
+import service.validation.CommentExists;
+import service.validation.PostExists;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
@@ -22,18 +23,18 @@ public class VoteService {
     @Inject private CurrentUser currentUser;
 
     @AuthenticationRequired
-    public void VoteComment(String _id, String vote){
-        if (_id == null || !InputValidator.assertInt(_id) || vote == null
-                || (!vote.equalsIgnoreCase("upvote") && !vote.equalsIgnoreCase("downvote"))) {
-            throw new IllegalArgumentException("BAD REQUEST");
-        }
-        int id = Integer.parseInt(_id);
+    public void upvoteComment(@CommentExists int id){
+        voteComment(id, (short) +1);
+    }
+
+    @AuthenticationRequired
+    public void downvoteComment(@CommentExists int id){
+        voteComment(id, (short) -1);
+    }
+
+    private void voteComment(int id, short vote) {
         Comment comment = commentRepo.findById(id);
-        if(comment == null){
-            throw new IllegalArgumentException("Il commento non esiste");
-        }
         User user = userRepo.getByName(currentUser.getUsername());
-        int _vote = (vote.equalsIgnoreCase("upvote") ? 1 : -1);
 
         CommentVote.Id commentVoteId = new CommentVote.Id();
         commentVoteId.setComment(comment);
@@ -41,25 +42,23 @@ public class VoteService {
 
         CommentVote commentVote = new CommentVote();
         commentVote.setId(commentVoteId);
-        commentVote.setVote((short)_vote);
-
-        commentVoteRepo.insert(commentVote);
+        commentVote.setVote(vote);
+        commentVoteRepo.merge(commentVote);
     }
 
     @AuthenticationRequired
-    public void VotePost(String _id, String vote){
-        if (_id == null || !InputValidator.assertInt(_id) || vote == null
-                || (!vote.equalsIgnoreCase("upvote") && !vote.equalsIgnoreCase("downvote"))) {
-            throw new IllegalArgumentException("BAD REQUEST");
-        }
-        int id = Integer.parseInt(_id);
+    public void upvotePost(@PostExists int id){
+        votePost(id, (short) +1);
+    }
 
+    @AuthenticationRequired
+    public void downvotePost(@PostExists int id){
+        votePost(id, (short) -1);
+    }
+
+    private void votePost(int id, short vote){
         Post post = postRepo.findById(id);
-        if(post == null){
-            throw new IllegalArgumentException("Il post non esiste");
-        }
         User user = userRepo.getByName(currentUser.getUsername());
-        int _vote = (vote.equalsIgnoreCase("upvote") ? 1 : -1);
 
         PostVote.Id postVoteId = new PostVote.Id();
         postVoteId.setPost(post);
@@ -67,22 +66,13 @@ public class VoteService {
 
         PostVote postVote = new PostVote();
         postVote.setId(postVoteId);
-        postVote.setVote((short)_vote);
-
-        postVoteRepo.insert(postVote);
+        postVote.setVote(vote);
+        postVoteRepo.merge(postVote);
     }
 
     @AuthenticationRequired
-    public void UnvoteComment(String _id){
-        if (_id == null || !InputValidator.assertInt(_id)) {
-            throw new IllegalArgumentException("BAD REQUEST");
-        }
-        int id = Integer.parseInt(_id);
-
+    public void unvoteComment(@CommentExists int id){
         Comment comment = commentRepo.findById(id);
-        if(comment == null){
-            throw new IllegalArgumentException("Il commento non esiste");
-        }
         User user = userRepo.getByName(currentUser.getUsername());
 
         CommentVote.Id commentVoteId = new CommentVote.Id();
@@ -93,16 +83,8 @@ public class VoteService {
     }
 
     @AuthenticationRequired
-    public void UnvotePost(String _id){
-        if (_id == null || !InputValidator.assertInt(_id)) {
-            throw new IllegalArgumentException("BAD REQUEST");
-        }
-        int id = Integer.parseInt(_id);
-
+    public void unvotePost(@PostExists int id){
         Post post = postRepo.findById(id);
-        if(post == null){
-            throw new IllegalArgumentException("Il post non esiste");
-        }
         User user = userRepo.getByName(currentUser.getUsername());
 
         PostVote.Id postVoteId = new PostVote.Id();
