@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import persistence.model.Section;
 import service.SectionService;
 import service.dto.SectionPage;
@@ -18,18 +19,12 @@ import java.io.IOException;
 @WebServlet("/admin/editsection")
 @MultipartConfig
 public class EditSectionServlet extends HttpServlet {
-
-    @Inject
-    private SectionService service;
+    @Inject private ParameterConverter converter;
+    @Inject private SectionService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _sectionId = request.getParameter("sectionId");
-        int sectionId = 0;
-        if(_sectionId != null && _sectionId.matches("\\d*")){
-            sectionId = Integer.parseInt(_sectionId);
-        }
-
+        int sectionId = converter.getIntParameter("sectionId").orElse(0);
         Section section = service.getSection(sectionId);
         request.setAttribute("section", section);
         request.getRequestDispatcher("/WEB-INF/views/crm/edit-section.jsp").forward(request, response);
@@ -37,11 +32,7 @@ public class EditSectionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _sectionId = request.getParameter("sectionId");
-        int sectionId = 0;
-        if(_sectionId != null && _sectionId.matches("\\d*")){
-            sectionId = Integer.parseInt(_sectionId);
-        }
+        int sectionId = converter.getIntParameter("sectionId").orElse(0);
         String description = request.getParameter("description");
         Part picture = request.getPart("picture");
         Part banner = request.getPart("banner");

@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.PostService;
 import service.dto.PostPage;
 
@@ -11,17 +12,12 @@ import java.io.IOException;
 
 @WebServlet(name = "DeletePostServlet", value = "/DeletePostServlet")
 public class DeletePostServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private PostService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _postId = request.getParameter("id");
-
-        int postId = 0;
-        if(_postId != null && _postId.matches("\\d*")){
-            postId = Integer.parseInt(_postId);
-        }
+        int postId = converter.getIntParameter("id").orElse(0);
         String sectionName = service.getPost(postId).getSection().getName();
         service.delete(postId);
         response.sendRedirect(getServletContext().getContextPath() + "/s/" + sectionName);

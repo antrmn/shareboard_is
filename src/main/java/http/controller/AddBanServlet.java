@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.BanService;
 
 import javax.inject.Inject;
@@ -14,8 +15,8 @@ import java.time.ZoneOffset;
 @WebServlet("/admin/addban")
 @MultipartConfig
 public class AddBanServlet extends HttpServlet {
-
     @Inject private BanService service;
+    @Inject private ParameterConverter converter;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,13 +25,10 @@ public class AddBanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String date = request.getParameter("endDate");
-        String _userId = request.getParameter("userId");
-        int userId = 0;
-        if(_userId != null && _userId.matches("\\d*")){
-            userId = Integer.parseInt(_userId);
-        }
-        Instant endDate = date != null && !date.isEmpty() ? LocalDate.parse(date).atStartOfDay().toInstant(ZoneOffset.UTC) : null;
+        Instant endDate = converter.getDateParameter("endDate")
+                .map(date -> date.atStartOfDay().toInstant(ZoneOffset.UTC)) //trasforma solo se l'optional non è vuoto
+                .orElse(null);
+        int userId = converter.getIntParameter("userId").orElse(0);
         service.addBan(endDate,userId);
     }
 }

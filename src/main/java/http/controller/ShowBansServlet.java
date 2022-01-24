@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import persistence.model.Ban;
 import service.BanService;
 
@@ -12,16 +13,12 @@ import java.util.List;
 
 @WebServlet("/admin/showbans")
 public class ShowBansServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private BanService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _userId = request.getParameter("userId");
-        int userId = 0;
-        if(_userId != null && _userId.matches("\\d*")){
-            userId = Integer.parseInt(_userId);
-        }
+        int userId = converter.getIntParameter("userId").orElse(0);
         List<Ban> bans = service.retrieveUserBan(userId);
         request.setAttribute("bans", bans);
         request.setAttribute("userId", userId);

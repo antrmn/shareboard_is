@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.SectionService;
 import service.dto.SectionPage;
 
@@ -17,7 +18,7 @@ import java.io.IOException;
 @WebServlet("/admin/newsection")
 @MultipartConfig
 public class NewSectionServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private SectionService service;
 
     @Override

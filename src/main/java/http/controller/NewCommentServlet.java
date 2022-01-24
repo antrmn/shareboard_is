@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.CommentService;
 
 import javax.inject.Inject;
@@ -10,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet("/newcomment")
 public class NewCommentServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private CommentService service;
 
     @Override
@@ -20,18 +21,9 @@ public class NewCommentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _postId = request.getParameter("id");
-        String _parentId = request.getParameter("parent");
+        int postId = converter.getIntParameter("id").orElse(0);
+        int parentId = converter.getIntParameter("parent").orElse(0);
         String text = request.getParameter("text");
-
-        int postId = 0;
-        if(_postId != null && _postId.matches("\\d*")){
-            postId = Integer.parseInt(_postId);
-        }
-        int parentId = 0;
-        if(_parentId != null && _parentId.matches("\\d*")){
-            parentId = Integer.parseInt(_parentId);
-        }
 
         if(postId > 0){
             service.newComment(text,postId);

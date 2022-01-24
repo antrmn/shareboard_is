@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.PostService;
 import service.SectionService;
 
@@ -13,8 +14,9 @@ import java.io.IOException;
 @WebServlet("/newpost")
 @MultipartConfig
 public class NewPostServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private PostService service;
+    @Inject private SectionService sectionService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,16 +25,15 @@ public class NewPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _sectionId = request.getParameter("section");
-        int sectionId = _sectionId != null && _sectionId.matches("\\d*") ? Integer.parseInt(_sectionId) : 0;
-        String sectionName = new SectionService().showSection(sectionId).getName();
+        int sectionId = converter.getIntParameter("section").orElse(0);
+        String sectionName = sectionService.showSection(sectionId).getName();
 
         String title = request.getParameter("title");
         String type = request.getParameter("type");
         String content = request.getParameter("content");
         Part picture = request.getPart("picture");
 
-        int newPostId = 0;
+        int newPostId;
         if(type.equalsIgnoreCase("text")){
             newPostId = service.newPost(title,content,sectionName);
         }else{
@@ -40,7 +41,7 @@ public class NewPostServlet extends HttpServlet {
                 BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());
                 newPostId = service.newPost(title,buff, picture.getSize(), sectionName);
             }else{
-                //gestire errore file > 5MB?
+                throw new IllegalArgumentException("Il file non deve superare i 5MB");
             }
         }
         response.sendRedirect(getServletContext().getContextPath() + "/post/" + newPostId); //potrebbe mostrare postId = 0?

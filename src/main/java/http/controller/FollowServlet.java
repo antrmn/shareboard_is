@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.FollowService;
 
 import javax.inject.Inject;
@@ -10,16 +11,12 @@ import java.io.IOException;
 
 @WebServlet("/follow")
 public class FollowServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private FollowService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _sectionId = request.getParameter("section");
-        int sectionId = 0;
-        if(_sectionId != null && _sectionId.matches("\\d*")){
-            sectionId = Integer.parseInt(_sectionId);
-        }
+        int sectionId = converter.getIntParameter("section").orElse(0);
         service.follow(sectionId);
     }
 

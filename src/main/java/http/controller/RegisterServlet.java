@@ -25,12 +25,6 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            service.newPost("", "", "");
-        } catch (ConstraintViolationException e){
-            e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).forEach(System.out::println);
-        }
-        System.out.println(CDI.current().getClass().getName());
         if(currentUser.isLoggedIn()){
             resp.sendRedirect(req.getContextPath());
             return;

@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.BanService;
 
 import javax.inject.Inject;
@@ -10,16 +11,12 @@ import java.io.IOException;
 
 @WebServlet("/admin/deleteban")
 public class DeleteBanServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private BanService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _bandId = request.getParameter("banId");
-        int banId = 0;
-        if(_bandId != null && _bandId.matches("\\d*")){
-            banId = Integer.parseInt(_bandId);
-        }
+        int banId = converter.getIntParameter("banId").orElse(0);
         service.removeBan(banId);
         response.sendRedirect(getServletContext().getContextPath() + "/admin/showbans?userId=" + request.getParameter("userId"));
     }

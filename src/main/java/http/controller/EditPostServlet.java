@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import persistence.model.Post;
 import service.PostService;
 import service.dto.PostEditDTO;
@@ -18,7 +19,7 @@ import java.io.IOException;
 @WebServlet("/editpost")
 @MultipartConfig
 public class EditPostServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private PostService service;
 
     @Override
@@ -29,10 +30,8 @@ public class EditPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String title = request.getParameter("title");
-
-        String type = request.getParameter("type"); //errore? se type non è text, sarà IMG di default
+        String type = request.getParameter("type");
         Post.Type postType = type != null && type.equalsIgnoreCase("text") ? Post.Type.TEXT : Post.Type.IMG;
         Part picture = request.getPart("picture");
         String content = request.getParameter("content");
@@ -40,13 +39,8 @@ public class EditPostServlet extends HttpServlet {
         PostEditDTO postToEdit = new PostEditDTO(title,content,postType);
         //in caso di immagine il content sarà null infatti non sarà utilizzato nel servizio EditPostIMG
 
-        String _postId = request.getParameter("id");
-        int postId = 0;
-        if(_postId != null && _postId.matches("\\d*")){
-            postId = Integer.parseInt(_postId);
-        }
-
-        if(type.equalsIgnoreCase("text")){
+        int postId = converter.getIntParameter("id").orElse(0);
+        if(postType == Post.Type.TEXT){
             service.editPost(postToEdit,postId);
         }else{
             BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());

@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.CommentService;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/editcomment")
 public class EditCommentServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private CommentService service;
 
     @Override
@@ -22,13 +23,8 @@ public class EditCommentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _commentId = request.getParameter("id");
-        int commentId = 0;
-        if(_commentId != null && _commentId.matches("\\d*")){
-            commentId = Integer.parseInt(_commentId);
-        }
+        int commentId = converter.getIntParameter("id").orElse(0);
         String text = request.getParameter("text");
-
         service.editComment(commentId,text);
 
         int parentPostId = service.getComment(commentId).getPost().getId();

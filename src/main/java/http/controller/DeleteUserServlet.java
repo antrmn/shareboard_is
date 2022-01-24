@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.util.ParameterConverter;
 import service.UserService;
 
 import javax.inject.Inject;
@@ -10,16 +11,12 @@ import java.io.IOException;
 
 @WebServlet("/admin/deleteuser")
 public class DeleteUserServlet extends HttpServlet {
-
+    @Inject private ParameterConverter converter;
     @Inject private UserService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String _userId = request.getParameter("userId");
-        int userId = 0;
-        if(_userId != null && _userId.matches("\\d*")){
-            userId = Integer.parseInt(_userId);
-        }
+        int userId = converter.getIntParameter("userId").orElse(0);
         service.delete(userId);
         response.sendRedirect(getServletContext().getContextPath() + "/admin/showusers");
     }
