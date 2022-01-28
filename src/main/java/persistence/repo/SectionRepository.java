@@ -1,7 +1,11 @@
 package persistence.repo;
 
+import persistence.model.Follow;
 import persistence.model.Section;
 import org.hibernate.Session;
+import persistence.model.User;
+
+import java.util.List;
 
 public class SectionRepository extends AbstractRepository<Section, Integer> {
 

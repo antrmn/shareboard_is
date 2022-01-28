@@ -1,5 +1,7 @@
 package http.controller;
 
+import http.controller.interceptor.ForwardOnError;
+import http.util.interceptor.InterceptableServlet;
 import service.PostService;
 import service.UserService;
 import service.dto.CurrentUser;
@@ -18,10 +20,12 @@ import java.util.Objects;
 
 
 @WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends InterceptableServlet {
     @Inject private UserService userService;
     @Inject private CurrentUser currentUser;
     @Inject private PostService service;
+
+    private static final String REGISTER_PAGE = "/WEB-INF/views/register.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,11 +33,12 @@ public class RegisterServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath());
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+        req.getRequestDispatcher(REGISTER_PAGE).forward(req, resp);
     }
 
 
     @Override
+    @ForwardOnError(REGISTER_PAGE)
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(currentUser.isLoggedIn()){
             resp.sendRedirect(req.getContextPath());

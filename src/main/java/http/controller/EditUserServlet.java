@@ -1,6 +1,8 @@
 package http.controller;
 
+import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import persistence.model.User;
 import service.UserService;
 import service.dto.UserEditPage;
@@ -14,9 +16,11 @@ import java.io.IOException;
 
 @WebServlet("/edituser")
 @MultipartConfig
-public class EditUserServlet extends HttpServlet {
+public class EditUserServlet extends InterceptableServlet {
     @Inject private ParameterConverter converter;
     @Inject private UserService service;
+
+    private static final String EDIT_USER_PAGE = "/WEB-INF/views/edit-user.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,6 +31,7 @@ public class EditUserServlet extends HttpServlet {
     }
 
     @Override
+    @ForwardOnError(EDIT_USER_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userId = converter.getIntParameter("id").orElse(0);
         String email = request.getParameter("email");

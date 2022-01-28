@@ -3,10 +3,7 @@ package service;
 import persistence.model.Post;
 import persistence.model.Section;
 import persistence.model.User;
-import persistence.repo.BinaryContentRepository;
-import persistence.repo.PostRepository;
-import persistence.repo.SectionRepository;
-import persistence.repo.UserRepository;
+import persistence.repo.*;
 import service.auth.AuthenticationRequired;
 import service.auth.DenyBannedUsers;
 import service.dto.*;
@@ -23,6 +20,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static persistence.model.Post.Type.IMG;
 import static persistence.model.Post.Type.TEXT;
@@ -35,16 +33,76 @@ public class PostService {
     @Inject private UserRepository userRepo;
     @Inject private SectionRepository sectionRepo;
     @Inject private BinaryContentRepository bcRepo;
+    @Inject private FollowRepository followRepo;
     @Inject private CurrentUser currentUser;
+
 
 
     public PostPage getPost(@PostExists int id){
         Post p = postRepo.findById(id);
-        UserLite user = new UserLite(p.getAuthor().getId(), p.getAuthor().getUsername());
-        SectionLite section = new SectionLite(p.getSection().getId(), p.getSection().getName());
         // TODO: voto personale e n commenti
-        PostPage post = new PostPage(p.getId(), p.getTitle(), p.getVotes(), 0, section, user, p.getContent(), 0);
+        PostPage post = new PostPage(p.getId(), p.getTitle(), p.getVotes(), 0, p.getSection().getName(), p.getAuthor().getUsername(), p.getContent(), 0);
         return post;
+    }
+
+    //TODO: INCOMPLETO
+    public void loadPosts(PostSearchForm form){
+        final int elementsPerPage = 10;
+        PostRepository.PostFinder finder = postRepo.getFinder();
+
+        finder.limit(elementsPerPage);
+
+        int page = form.getPage() > 0 ? form.getPage() : 1;
+        finder.offset((page == 1) ? 0 : (page-1) * elementsPerPage+1);
+
+        if(form.getContent() != null) {
+            finder.byContent(form.getContent());
+        }
+        if(form.isIncludeBody()){
+            finder.includeBody();
+        }
+        if(form.getSectionName() != null){
+            Section section = sectionRepo.getByName(form.getSectionName());
+            if(section != null){
+                finder.bySection(section);
+            }
+        }
+        if(form.getAuthorName() != null){
+            User user = userRepo.getByName(form.getAuthorName());
+            if(user != null){
+                finder.byAuthor(user);
+            }
+        }
+        if(form.isOnlyFollow() && currentUser.isLoggedIn()){
+            User user = userRepo.getByName(currentUser.getUsername());
+            if(user != null) {
+                List<Section> collect = followRepo.getByUser(user).stream()
+                        .map(x -> x.getId().getSection())
+                        .collect(Collectors.toList());
+                finder.bySections(collect);
+            }
+        }
+        if(form.getPostedAfter() != null){
+            finder.postedAfter(form.getPostedAfter());
+        }
+        if(form.getPostedBefore() != null){
+            finder.postedBefore(form.getPostedBefore());
+        }
+        switch(form.getOrderBy()){
+            case NEWEST: default: {
+                finder.getNewest();
+                break;
+            }
+            case OLDEST:{
+                finder.getOldest();
+                break;
+            }
+            case MOSTVOTED:{
+                finder.getMostVoted();
+                break;
+            }
+        }
+        //return finder.getResults();
     }
 
     @AuthenticationRequired //TODO: check autore post?

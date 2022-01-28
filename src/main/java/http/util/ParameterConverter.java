@@ -16,7 +16,9 @@ import java.util.*;
  */
 @ApplicationScoped
 public class ParameterConverter {
-    private final HttpServletRequest request;
+    private HttpServletRequest request;
+
+    protected ParameterConverter(){}
 
     /**
      * Costruttore unico dell'oggetto. Se l'oggetto istanziato in un contesto CDI, la dipendenza sarà

@@ -14,7 +14,6 @@ import java.time.Instant;
 @Getter
 @Setter
 public class PostPreview {
-
     private Integer id;
     private String title;
     private Integer vote;

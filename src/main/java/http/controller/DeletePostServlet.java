@@ -18,7 +18,7 @@ public class DeletePostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int postId = converter.getIntParameter("id").orElse(0);
-        String sectionName = service.getPost(postId).getSection().getName();
+        String sectionName = service.getPost(postId).getSection();
         service.delete(postId);
         response.sendRedirect(getServletContext().getContextPath() + "/s/" + sectionName);
     }

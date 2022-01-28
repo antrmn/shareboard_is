@@ -1,6 +1,8 @@
 package http.controller;
 
+import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import persistence.model.Section;
 import service.SectionService;
 import service.dto.SectionPage;
@@ -18,19 +20,22 @@ import java.io.IOException;
 
 @WebServlet("/admin/editsection")
 @MultipartConfig
-public class EditSectionServlet extends HttpServlet {
+public class EditSectionServlet extends InterceptableServlet {
     @Inject private ParameterConverter converter;
     @Inject private SectionService service;
+
+    private static final String EDIT_SECTION_PAGE = "/WEB-INF/views/crm/edit-section.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int sectionId = converter.getIntParameter("sectionId").orElse(0);
         Section section = service.getSection(sectionId);
         request.setAttribute("section", section);
-        request.getRequestDispatcher("/WEB-INF/views/crm/edit-section.jsp").forward(request, response);
+        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);
     }
 
     @Override
+    @ForwardOnError(EDIT_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int sectionId = converter.getIntParameter("sectionId").orElse(0);
         String description = request.getParameter("description");

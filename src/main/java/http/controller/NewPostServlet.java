@@ -1,6 +1,8 @@
 package http.controller;
 
+import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.PostService;
 import service.SectionService;
 
@@ -13,17 +15,20 @@ import java.io.IOException;
 
 @WebServlet("/newpost")
 @MultipartConfig
-public class NewPostServlet extends HttpServlet {
+public class NewPostServlet extends InterceptableServlet {
     @Inject private ParameterConverter converter;
     @Inject private PostService service;
     @Inject private SectionService sectionService;
 
+    private static final String NEW_POST_PAGE = "/WEB-INF/views/section/create-post.jsp";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/section/create-post.jsp").forward(request, response);
+        request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);
     }
 
     @Override
+    @ForwardOnError("/WEB-INF/views/section/create-post.jsp")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int sectionId = converter.getIntParameter("section").orElse(0);
         String sectionName = sectionService.showSection(sectionId).getName();

@@ -1,6 +1,8 @@
 package http.controller;
 
+import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.SectionService;
 import service.dto.SectionPage;
 
@@ -17,9 +19,11 @@ import java.io.IOException;
 
 @WebServlet("/admin/newsection")
 @MultipartConfig
-public class NewSectionServlet extends HttpServlet {
+public class NewSectionServlet extends InterceptableServlet {
     @Inject private ParameterConverter converter;
     @Inject private SectionService service;
+
+    private static final String NEW_SECTION_PAGE = "/WEB-INF/views/crm/create-section.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,6 +31,7 @@ public class NewSectionServlet extends HttpServlet {
     }
 
     @Override
+    @ForwardOnError(NEW_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String description = request.getParameter("description");

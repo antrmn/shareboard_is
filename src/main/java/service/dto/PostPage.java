@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 public class PostPage {
 
-    private Integer id;
+    private int id;
     private String title;
-    private Integer vote;
-    private Integer votes;
-    private SectionLite section;
-    private UserLite author;
+    private int vote;
+    private int votes;
+    private String section;
+    private String author;
     private String content;
-    private Integer nComments;
+    private int nComments;
 }

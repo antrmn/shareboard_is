@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.controller.interceptor.JSONError;
 import http.util.ParameterConverter;
 import service.BanService;
 
@@ -13,7 +14,6 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 
 @WebServlet("/admin/addban")
-@MultipartConfig
 public class AddBanServlet extends HttpServlet {
     @Inject private BanService service;
     @Inject private ParameterConverter converter;
