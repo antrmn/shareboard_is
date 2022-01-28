@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 import static javax.servlet.http.HttpServletResponse.*;
 
-@WebFilter
-public class ExceptionFilter extends HttpFilter {
+@WebFilter("/*")
+public class FallbackExceptionHandlerFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
         try{
