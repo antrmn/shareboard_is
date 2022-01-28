@@ -10,6 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.security.Principal;
 import java.time.Instant;
 
@@ -19,6 +20,7 @@ public class CurrentUserProducer {
     @Inject UserRepository userRepo;
     @Inject BanRepository banRepo;
 
+    @Named("currentUser")
     @RequestScoped
     @Produces
     public CurrentUser produceCurrentUser(){
