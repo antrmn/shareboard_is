@@ -2,6 +2,7 @@ package http.controller;
 
 import persistence.model.Section;
 import service.SectionService;
+import service.dto.SectionPage;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -17,7 +18,7 @@ public class SectionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sectionName = request.getParameter("section");
-        Section section = service.getSection(sectionName);
+        SectionPage section = service.getSection(sectionName);
         request.setAttribute("section", section);
         request.getRequestDispatcher("/WEB-INF/views/section/section.jsp").forward(request, response);
     }

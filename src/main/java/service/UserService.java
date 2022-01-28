@@ -9,6 +9,7 @@ import service.auth.AdminsOnly;
 import service.auth.AuthenticationRequired;
 import service.dto.UserEditPage;
 import service.dto.UserIdentityDTO;
+import service.dto.UserProfile;
 import service.validation.UserExists;
 
 import javax.ejb.Stateless;
@@ -35,9 +36,23 @@ public class UserService {
         u.setAdmin(!u.getAdmin());
     }
 
-    public User getUser(String name){return userRepo.getByName(name);} //todo: validation user exists by name
+    public UserProfile getUser(String name){
+        User u = userRepo.getByName(name);
+        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());
+        return user;
+    } //todo: validation user exists by name
 
-    public User getUser(@UserExists int id){return userRepo.findById(id);}
+    public UserProfile getUser(@UserExists int id){
+        User u = userRepo.findById(id);
+        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());
+        return user;
+    }
+
+
+    public UserIdentityDTO get(int id){
+        User u = userRepo.findById(id);
+        return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
+    }
 
     public String getUsernameById(@UserExists int id){
         return userRepo.findById(id).getUsername();
@@ -57,11 +72,6 @@ public class UserService {
     @AdminsOnly
     public void delete(@UserExists int id){
         userRepo.remove(userRepo.findById(id));
-    }
-
-    public UserIdentityDTO get(int id){
-        User u = userRepo.findById(id);
-        return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
     }
 
     @AuthenticationRequired

@@ -115,11 +115,11 @@ public class PostService {
         List<Post> posts = postRepo.getFinder().byContent(text).getResults();
         List<PostPreview> previews = new ArrayList<>();
         for(Post p : posts){
-            SectionPostPreview section = new SectionPostPreview(p.getSection().getName());
-            UserPostPreview author = new UserPostPreview(p.getAuthor().getUsername());
+//            SectionPostPreview section = new SectionPostPreview(p.getSection().getId(), p.getSection().getName());
+//            UserPostPreview author = new UserPostPreview(p.getAuthor().getUsername());
             // TODO: voto personale e n commenti
             PostPreview preview = new PostPreview(p.getId(), p.getTitle(), 0, p.getVotes(), p.getType(), p.getContent(),
-                                                    p.getCreationDate(), 0, section, author);
+                                                    p.getCreationDate(), 0, p.getSection().getName(), p.getAuthor().getUsername());
             previews.add(preview);
         }
         return previews;

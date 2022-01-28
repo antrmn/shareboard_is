@@ -51,11 +51,19 @@ public class SectionService {
        return sectionData;
     }
 
-    public Section getSection(@SectionExists int id){
-        return sectionRepo.findById(id);
+    public SectionPage getSection(@SectionExists int id){
+        Section s = sectionRepo.findById(id);
+        int nFollowers = followRepo.getBySection(s).size();
+        SectionPage section = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
+        return section;
     }
 
-    public Section getSection(String sectionName){ return sectionRepo.getByName(sectionName); } //todo: notazione sectionExists per il nome
+    public SectionPage getSection(String sectionName){
+        Section s = sectionRepo.getByName(sectionName);
+        int nFollowers = followRepo.getBySection(s).size();
+        SectionPage section = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
+        return section;
+    } //todo: notazione sectionExists per il nome
 
     @AdminsOnly
     public void editSection(SectionPage edit,

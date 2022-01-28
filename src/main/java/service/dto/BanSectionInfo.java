@@ -10,7 +10,7 @@ import java.time.Instant;
 @Getter
 @Setter
 public class BanSectionInfo {
-    private SectionID section;
+    private Integer section;
     private Boolean global;
     private Instant endTime;
 }

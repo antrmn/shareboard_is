@@ -2,6 +2,7 @@ package http.controller;
 
 import persistence.model.User;
 import service.UserService;
+import service.dto.UserProfile;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -18,7 +19,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("name");
-        User user = service.getUser(username);
+        UserProfile user = service.getUser(username);
         request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/views/user-profile.jsp").forward(request, response);
     }

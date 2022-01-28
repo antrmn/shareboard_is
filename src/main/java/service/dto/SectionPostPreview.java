@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SectionPostPreview {
-
+    private Integer id;
     private String name;
-
 }
