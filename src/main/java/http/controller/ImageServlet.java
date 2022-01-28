@@ -24,7 +24,7 @@ public class ImageServlet extends HttpServlet {
             String filename = httpServletMapping.getMatchValue();
             try(InputStream stream = new BufferedInputStream(binaryContentRepository.get(filename))){
                 String mimetype = URLConnection.guessContentTypeFromStream(stream);
-                if(mimetype.startsWith("image/")){
+                if(mimetype == null || !mimetype.startsWith("image/")){
                     resp.sendError(404);
                 }
                 resp.setContentType(mimetype);
