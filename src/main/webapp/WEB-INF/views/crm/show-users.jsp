@@ -26,13 +26,13 @@
             <th>Admin</th>
             <th>Azioni</th>
         </tr>
-        <c:forEach items="${requestScope.users}" var="user">
+        <c:forEach items="${users}" var="user">
             <tr>
                 <td>${user.id}</td>
                 <td><a href="${pageContext.servletContext.contextPath}/u/${user.username}">${user.username}</a></td>
                 <td>
                     <c:choose>
-                        <c:when test="${user.admin}">
+                        <c:when test="${user.isAdmin}">
                             <input type="checkbox" name="isAdmin" onchange="toggleAdminStatus(this, ${user.id});" checked autocomplete="off">
                         </c:when>
                         <c:otherwise>

@@ -30,8 +30,8 @@
         <a href = "${pageContext.request.contextPath}/post/${post.id}">
             <h3 style = "display: block; margin-top: 5px; margin-bottom: 1px; margin-right:2px;">${fn:escapeXml(post.title)}</h3>
             <div id="post-meta-container">
-                <a href="${pageContext.request.contextPath}/s/${post.section.name}" style="font-size:12px;font-weight:400;line-height:16px">s/${post.section.name}</a>
-                <a href="${pageContext.request.contextPath}/u/${post.author.username}" style = "font-size: 12px;font-weight: 400;line-height: 16px">Posted by: ${post.author.username}</a>
+                <a href="${pageContext.request.contextPath}/s/${post.sectionName}" style="font-size:12px;font-weight:400;line-height:16px">s/${post.sectionName}</a>
+                <a href="${pageContext.request.contextPath}/u/${post.authorName}" style = "font-size: 12px;font-weight: 400;line-height: 16px">Posted by: ${post.authorName}</a>
                 <a href="" title="${sbfn:getDate(post.creationDate)}"  style = "font-size: 12px;font-weight: 400;line-height: 16px">${sbfn:printTimeSince(post.creationDate)} fa</a>
                 <a href="${pageContext.request.contextPath}/post/${post.id}#comment-container" id="post-comment-container" style = "display: block; font-size: 12px;font-weight: 400;line-height: 16px; width: 120px; margin-bottom: 5px;">
                     <i class="fas fa-comment-dots"></i>

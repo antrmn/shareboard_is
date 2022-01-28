@@ -41,7 +41,7 @@ public class PostService {
     public PostPage getPost(@PostExists int id){
         Post p = postRepo.findById(id);
         // TODO: voto personale e n commenti
-        PostPage post = new PostPage(p.getId(), p.getTitle(), p.getVotes(), 0, p.getSection().getName(), p.getAuthor().getUsername(), p.getContent(), 0);
+        PostPage post = new PostPage(p.getId(), p.getTitle(), 0, p.getVotes(), p.getSection().getName(), p.getAuthor().getUsername(),p.getSection().getId(), p.getAuthor().getId(), p.getContent(), 0);
         return post;
     }
 

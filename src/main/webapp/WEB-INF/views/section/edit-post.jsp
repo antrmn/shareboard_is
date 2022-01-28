@@ -22,13 +22,13 @@
             <div id="post-data" class="greyContainer">
                 <div class="grid-x-nw" style="flex-grow: 1">
                     <button id="text-button"
-                            class="post-type-button post-type-button-left ${requestScope.post.type == 'TEXT' ? "post-type-button-selected" : ""}"
+                            class="post-type-button post-type-button-left ${post.type == 'TEXT' ? "post-type-button-selected" : ""}"
                             onclick="togglePostType(this, false)">
                         <i class="fas fa-comment-alt" style="display: inline"></i>
                         <p style="display: inline">Post</p>
                     </button>
                     <button id="image-button"
-                            class="post-type-button post-type-button-right ${requestScope.post.type == 'IMG' ? "post-type-button-selected" : ""}"
+                            class="post-type-button post-type-button-right ${post.type == 'IMG' ? "post-type-button-selected" : ""}"
                             onclick="togglePostType(this, false)">
                         <i class="fas fa-image" style="display: inline"></i>
                         <p style="display: inline">Image</p>
@@ -40,9 +40,9 @@
                           enctype="multipart/form-data">
 
                         <input type="text" id="title-field" class="input-field" name="title" placeholder="Title"
-                               value="${requestScope.post.title}" pattern="^.{1,255}$" required>
+                               value="${post.title}" pattern="^.{1,255}$" required>
                         <textarea id="text-field" class="input-field" name="content" rows="5"
-                                  placeholder="Text" pattern="^.{0,1000}$">${requestScope.post.type == 'TEXT' ? requestScope.post.content : ""}</textarea>
+                                  placeholder="Text" pattern="^.{0,1000}$">${post.type == 'TEXT' ? post.content : ""}</textarea>
 
                         <label for="img" hidden>Select image:</label>
                         <input type="file" id="img" name="picture" accept="image/*" hidden>

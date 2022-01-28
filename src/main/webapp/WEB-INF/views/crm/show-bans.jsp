@@ -25,37 +25,40 @@
   <table>
     <tr>
       <th>Id</th>
-      <th>Sezione</th>
-      <th>Data Inizio</th>
+<%--      <th>Sezione</th>--%>
+<%--      <th>Data Inizio</th>--%>
       <th>Data Fine</th>
-      <th>Bannato da</th>
+<%--      <th>Bannato da</th>--%>
       <th>Azioni</th>
     </tr>
-    <c:forEach items="${requestScope.bans}" var="ban">
+    <c:forEach items="${bans}" var="ban">
       <jsp:useBean id="endDate" class="java.util.Date" />
       <jsp:setProperty name="endDate" property="time" value="${ban.endTime.toEpochMilli()}" />
-      <jsp:useBean id="startDate" class="java.util.Date" />
-      <jsp:setProperty name="startDate" property="time" value="${ban.startTime.toEpochMilli()}" />
+<%--      <jsp:useBean id="startDate" class="java.util.Date" />--%>
+<%--      <jsp:setProperty name="startDate" property="time" value="${ban.startTime.toEpochMilli()}" />--%>
       <tr>
         <td>${ban.id}</td>
-        <c:choose>
-          <c:when test="${ban.section.id eq 0}">
-            <td>Tutte</td>
-          </c:when>
-          <c:otherwise>
-            <td>${applicationScope.sections[ban.section.id].name}</td>
-          </c:otherwise>
-        </c:choose>
-        <td><fmt:formatDate value="${startDate}" pattern="dd/MM/yyyy"/></td>
-        <c:choose>
-          <c:when test="${not empty ban.endTime}">
-            <td><fmt:formatDate value="${endDate}" pattern="dd/MM/yyyy"/></td>
-          </c:when>
-          <c:otherwise>
-            <td>MAI</td>
-          </c:otherwise>
-        </c:choose>
-        <td>${ban.admin.username} (${ban.admin.id})</td>
+        <td>Tutte</td>
+<%--        <c:choose>--%>
+<%--          <c:when test="${ban.sectionId eq 0}">--%>
+<%--            <td>Tutte</td>--%>
+<%--          </c:when>--%>
+<%--          <c:otherwise>--%>
+<%--&lt;%&ndash;            <td>${applicationScope.sections[ban.section.id].name}</td>&ndash;%&gt;--%>
+<%--            <td>Error</td>--%>
+<%--          </c:otherwise>--%>
+<%--        </c:choose>--%>
+<%--        <td><fmt:formatDate value="${startDate}" pattern="dd/MM/yyyy"/></td>--%>
+<%--        <c:choose>--%>
+<%--          <c:when test="${not empty ban.endTime}">--%>
+<%--            <td><fmt:formatDate value="${endDate}" pattern="dd/MM/yyyy"/></td>--%>
+<%--          </c:when>--%>
+<%--          <c:otherwise>--%>
+<%--            <td>MAI</td>--%>
+<%--          </c:otherwise>--%>
+<%--        </c:choose>--%>
+        <td>MAI</td>
+<%--        <td>${ban.admin.username} (${ban.admin.id})</td>--%>
         <td>
           <a href = "${context}/admin/deleteban?banId=${ban.id}&userId=${requestScope.userId}" onclick="return confirm('Cancellare il ban?')">
             <i class="fas fa-minus-circle"></i>

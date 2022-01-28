@@ -74,7 +74,7 @@
 
 
                     <div id="nav-profile-data" >
-                        <p style="display: block; margin-bottom:0px; ">${loggedUser.username}</p>
+                        <p style="display: block; margin-bottom:0px; ">${currentUser.username}</p>
 <%--                        <div style="display: block; font-size: 12px; margin-top:0px;">--%>
 <%--                            <i class="far fa-arrow-alt-circle-up" style="color: orangered; display: inline; margin-top:0px;"></i>--%>
 <%--                        </div>--%>
@@ -85,12 +85,12 @@
                             <i class="fas fa-address-card"></i>
                             Profile
                         </a>
-                        <a class="dropdown-link" href="${context}/edituser?id=${loggedUser.id}">
+                        <a class="dropdown-link" href="${context}/edituser?id=${currentUser.id}">
                             <i class="fas fa-sliders-h"></i>
                             Edit profile
                         </a>
 
-                    <c:if test="${loggedUser.admin.booleanValue() == true}">
+                    <c:if test="${currentUser.isAdmin == true}">
                         <a class="dropdown-link" href="${context}/admin">
                             <i class="fas fa-user-shield"></i>
                             Pannello Admin

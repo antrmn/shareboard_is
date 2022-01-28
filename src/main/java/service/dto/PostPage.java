@@ -15,8 +15,10 @@ public class PostPage {
     private String title;
     private int vote;
     private int votes;
-    private String section;
-    private String author;
+    private String sectionName;
+    private String authorName;
+    private Integer sectionId;
+    private Integer authorId;
     private String content;
     private int nComments;
 }

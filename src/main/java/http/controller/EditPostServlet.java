@@ -6,6 +6,7 @@ import http.util.interceptor.InterceptableServlet;
 import persistence.model.Post;
 import service.PostService;
 import service.dto.PostEditDTO;
+import service.dto.PostPage;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -29,6 +30,9 @@ public class EditPostServlet extends InterceptableServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //check necessario?
+        int postId = converter.getIntParameter("id").orElse(0);
+        PostPage post =  service.getPost(postId);
+        request.setAttribute("post", post);
         request.getRequestDispatcher(EDIT_POST_PAGE).forward(request, response);
     }
 

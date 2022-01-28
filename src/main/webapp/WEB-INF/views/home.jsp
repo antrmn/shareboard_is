@@ -12,7 +12,7 @@
 <body>
         <jsp:include page="/WEB-INF/views/partials/navbar.jsp">
             <jsp:param name="currentSection" value="Home" />
-            <jsp:param name="userName" value="${empty requestScope.loggedUser ? 'unlogged' : requestScope.loggedUser.username}" />
+            <jsp:param name="userName" value="${empty requestScope.loggedUser ? 'unlogged' : currentUser.username}" />
             <jsp:param name="userKarma" value="4316" />
         </jsp:include>
 
@@ -36,7 +36,7 @@
                             <h4 style = "margin-left: 10px;">Welcome on Shareboard!</h4>
                         </c:when>
                         <c:otherwise>
-                            <h4 style = "margin-left: 10px;">Welcome back ${requestScope.loggedUser.username}</h4>
+                            <h4 style = "margin-left: 10px;">Welcome back ${currentUser.username}</h4>
                         </c:otherwise>
                     </c:choose>
                 </div>

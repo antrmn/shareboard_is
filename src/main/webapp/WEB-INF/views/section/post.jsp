@@ -4,9 +4,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%-- Sta roba (l'anyMatch) è un optional diverso da java.util.stream. Vedi org.apache.el.stream.Optional  --%>
 <c:set var="isUserBanned"
-       value="${not empty requestScope.loggedUserBans.stream().filter(ban -> ban.global.booleanValue() == true
-                                                                            || ban.section.id == post.section.id)
-                                                              .findFirst().orElse(null)}"/>
+       value="${not empty currentUser.banDuration}"/>
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +15,7 @@
 </jsp:include>
 <body>
 <jsp:include page="/WEB-INF/views/partials/navbar.jsp">
-  <jsp:param name="currentSection" value="${post.section.name}" />
+  <jsp:param name="currentSection" value="${post.sectionName}" />
 </jsp:include>
 
 <div id="body-container" class = "justify-center align-center">
@@ -56,8 +54,8 @@
                     </div>
                     <div class = "grid-y-nw" style="flex-grow:1; align-items: start; margin-right: 40px;">
                         <div style = "flex-basis: 100%">
-                            <a href="/shareboard/s/${post.section.name}" class = white-text>s/${fn:toLowerCase(requestScope.post.section.name)}</a>
-                            <a href="/shareboard/u/${post.author.username}" class = grey-text>posted by ${post.author.username}</a>
+                            <a href="/shareboard/s/${post.sectionName}" class = white-text>s/${fn:toLowerCase(requestScope.post.sectionName)}</a>
+                            <a href="/shareboard/u/${post.authorName}" class = grey-text>posted by ${post.authorName}</a>
                         </div>
                         <div class = "white-text ${empty post.content ? 'post-big-title' : ''}">
                             <h3>${fn:escapeXml(post.title)}</h3>
@@ -78,7 +76,7 @@
                         <div class = "grey-text" >
                             <i class="fas fa-comment-dots"></i>
                             ${post.nComments}
-                            <c:if test="${requestScope.loggedUser.id == post.author.id || requestScope.loggedUser.admin.booleanValue() == true}">
+                            <c:if test="${currentUser.id == post.authorId || currentUser.isAdmin == true}">
                                 <c:if test="${!isUserBanned}">
                                     <a href="${pageContext.request.contextPath}/editpost?id=${post.id}">Edit</a>
                                 </c:if>
@@ -123,9 +121,9 @@
     </div>
     <div id="right-container">
         <jsp:include page="../partials/section-info.jsp">
-            <jsp:param name="description" value="${applicationScope.sections[post.section.id].description}" />
-            <jsp:param name="nFollowers" value="${applicationScope.sections[post.section.id].nFollowersTotal}" />
-            <jsp:param name="sectionId" value="${post.section.id}" />
+            <jsp:param name="description" value="${applicationScope.sections[post.sectionId].description}" />
+            <jsp:param name="nFollowers" value="${applicationScope.sections[post.sectionId].nFollowersTotal}" />
+            <jsp:param name="sectionId" value="${post.sectionId}" />
         </jsp:include>
         <jsp:include page="../partials/rules.jsp"/>
         <jsp:include page="../partials/footer.jsp"/>
