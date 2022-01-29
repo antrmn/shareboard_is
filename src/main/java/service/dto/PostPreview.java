@@ -22,6 +22,8 @@ public class PostPreview {
     private String content;
     private Instant creationDate;
     private Integer nComments;
-    private SectionPostPreview section;
-    private UserPostPreview author;
+//    private SectionPostPreview section;
+//    private UserPostPreview author;
+    private String sectionName;
+    private String authorName;
 }

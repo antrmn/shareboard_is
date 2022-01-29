@@ -6,6 +6,7 @@ import http.util.interceptor.InterceptableServlet;
 import persistence.model.User;
 import service.UserService;
 import service.dto.UserEditPage;
+import service.dto.UserProfile;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -25,7 +26,7 @@ public class EditUserServlet extends InterceptableServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userId = converter.getIntParameter("id").orElse(0);
-        User user = service.getUser(userId);
+        UserProfile user = service.getUser(userId);
         request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/views/edit-user.jsp").forward(request, response);
     }

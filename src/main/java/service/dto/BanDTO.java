@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+import java.time.Instant;
+
 @Builder
+@AllArgsConstructor
 @Getter
 @Setter
-public class SectionLite {
-
-    private Integer id;
-    private String name;
+public class BanDTO {
+    private Integer banId;
+    private Instant endTime;
 }

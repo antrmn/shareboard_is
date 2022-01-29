@@ -20,17 +20,17 @@
 </jsp:include>
 <div class = "grid-y-nw align-center justify-center" style = "margin-top: 100px;">
     <div id = "size-container">
-        <h2 style = "border-bottom-style: solid; border-bottom-width: 1px; padding-bottom: 10px;">Modifica Sezione "${requestScope.section.name}"</h2>
+        <h2 style = "border-bottom-style: solid; border-bottom-width: 1px; padding-bottom: 10px;">Modifica Sezione "${section.name}"</h2>
         <div id = "section-data" class = "greyContainer">
             <div id="action-container" style = "margin:8px;">
                 <form id = "create-post-form" class = "grid-y-nw align-center justify-center" action="${pageContext.request.contextPath}/admin/editsection" method="post" enctype="multipart/form-data">
 
-                    <textarea id="text-field" class = "input-field" name = "description" rows="5" placeholder="Descrizione" pattern="^.{0,255}$">${requestScope.section.description}</textarea>
+                    <textarea id="text-field" class = "input-field" name = "description" rows="5" placeholder="Descrizione" pattern="^.{0,255}$">${section.description}</textarea>
                     <label for="img" hidden>Select image:</label>
                     <input type="file" id="img" name="picture" accept="image/*">
                     <label for="img">Banner:</label>
                     <input type="file" id="banner" name="banner" accept="image/*">
-                    <input type="hidden" id="sectionId" name="sectionId" value="${requestScope.section.id}">
+                    <input type="hidden" id="sectionId" name="sectionId" value="${section.id}">
 
                     <ul>
                         <c:if test = "${not empty requestScope.errors}">

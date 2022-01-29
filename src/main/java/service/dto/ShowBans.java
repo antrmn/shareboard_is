@@ -12,8 +12,7 @@ import java.time.Instant;
 public class ShowBans {
 
     private Integer id;
-    private User admin;
-    private SectionID section;
+    private Integer userId;
     private Instant startTime;
     private Instant endTime;
 
