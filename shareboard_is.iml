@@ -21,7 +21,9 @@
         <datasource-mapping>
           <factory-entry name="default" value="b5dec08d-ea36-4129-83fc-de789e075014" />
         </datasource-mapping>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="default" />
+        </naming-strategy-map>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
