@@ -112,4 +112,26 @@ public class BanServiceTest extends ServiceTest{
         when(banRepo.getByUser(any())).thenReturn(bans);
         assertThrows(ConstraintViolationException.class,() -> service.retrieveUserBan(id));
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {2, 7, 35})
+    void successfulRemoveBan(int id){
+        int year = LocalDate.now().getYear()+1;
+        Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
+        User user = new User();
+        user.setId(id);
+        when(userRepo.findById(id)).thenReturn(user);
+        Ban ban = new Ban();
+        ban.setEndTime(data);
+        ban.setUser(user);
+        when(banRepo.findById(id)).thenReturn(ban);
+        assertDoesNotThrow(() -> service.removeBan(id));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-2, -7, -35})
+    void failRemoveBanWithWrongId(int id){
+        when(banRepo.findById(id)).thenReturn(null);
+        assertThrows(ConstraintViolationException.class,() -> service.removeBan(id));
+    }
 }
