@@ -79,7 +79,7 @@ public class VoteService {
         commentVoteId.setComment(comment);
         commentVoteId.setUser(user);
 
-        commentVoteRepo.remove(commentVoteRepo.findById(commentVoteId)); //funziona?
+        commentVoteRepo.remove(commentVoteRepo.findById(commentVoteId));
     }
 
     @AuthenticationRequired
@@ -91,7 +91,7 @@ public class VoteService {
         postVoteId.setPost(post);
         postVoteId.setUser(user);
 
-        postVoteRepo.remove(postVoteRepo.findById(postVoteId)); //funziona?
+        postVoteRepo.remove(postVoteRepo.findById(postVoteId));
     }
 
 }
