@@ -7,9 +7,7 @@ import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
 import service.auth.AuthenticationRequired;
 import service.dto.CurrentUser;
-import service.validation.SectionExists;
-
-import javax.ejb.Stateless;
+import service.validation.SectionExistsById;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -23,18 +21,18 @@ public class FollowService {
     @Inject private CurrentUser currentUser;
 
     @AuthenticationRequired
-    public void follow(@SectionExists int sectionId){
+    public Follow follow(@SectionExistsById int sectionId){
         User user = userRepo.getByName(currentUser.getUsername());
         Follow.Id id = new Follow.Id();
         id.setUser(user);
         id.setSection(sectionRepo.findById(sectionId));
         Follow follow = new Follow();
         follow.setId(id);
-        followRepo.insert(follow);
+        return followRepo.insert(follow);
     }
 
     @AuthenticationRequired
-    public void unFollow(@SectionExists int sectionId){
+    public void unFollow(@SectionExistsById int sectionId){
         Follow.Id id = new Follow.Id();
         id.setUser(userRepo.getByName(currentUser.getUsername()));
         id.setSection(sectionRepo.findById(sectionId));
