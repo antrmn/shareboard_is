@@ -11,36 +11,49 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.Map;
+import java.util.function.Function;
+
+import static service.dto.PostSearchForm.SortCriteria.*;
 
 @WebServlet("/loadposts")
 public class LoadPostsServlet extends HttpServlet {
     @Inject ParameterConverter converter;
 
+    private static final Function<LocalDate, Instant> LOCALDATE_TO_INSTANT =
+            x -> x.atStartOfDay().toInstant(ZoneOffset.UTC);
+
+    private static final Map<String, PostSearchForm.SortCriteria> SORT_CRITERIA = Map.of(
+            "oldest", OLDEST,
+            "newest", NEWEST,
+            "mostvoted", MOSTVOTED);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String content = req.getParameter("content");
-        String onlyFollow = req.getParameter("onlyfollow");
         String section = req.getParameter("section");
         String author = req.getParameter("author");
-        String orderBy = req.getParameter("orderby");
         Instant postedAfter = converter.getDateParameter("postedAfter")
-                .map(x -> x.atStartOfDay().toInstant(ZoneOffset.UTC)).orElse(null);
+                .map(LOCALDATE_TO_INSTANT).orElse(null);
         Instant postedBefore = converter.getDateParameter("postedBefore")
-                .map(x -> x.atStartOfDay().toInstant(ZoneOffset.UTC)).orElse(null);
+                .map(LOCALDATE_TO_INSTANT).orElse(null);
+        PostSearchForm.SortCriteria orderBy = SORT_CRITERIA.get(req.getParameter("orderby"));
         int page = converter.getIntParameter("page").orElse(1);
+        boolean onlyFollow = req.getParameter("onlyfollow") != null;
+        boolean includeBody = req.getParameter("includeBody") != null;
 
-        //TODO: INCOMPLETO
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content(content)
-                .onlyFollow(onlyFollow != null)
+                .onlyFollow(onlyFollow)
+                .includeBody(includeBody)
                 .sectionName(section)
                 .authorName(author)
-                //.orderBy()
+                .orderBy(orderBy)
                 .postedAfter(postedAfter)
                 .postedBefore(postedBefore)
                 .page(page)
-                //.
                 .build();
 
         //TODO: prendi sezioni, ottieni top all time e top weekly

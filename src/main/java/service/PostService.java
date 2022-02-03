@@ -11,9 +11,9 @@ import service.validation.Image;
 import service.validation.PostExists;
 import service.validation.SectionExists;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.io.BufferedInputStream;
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static persistence.model.Post.Type.IMG;
 import static persistence.model.Post.Type.TEXT;
+import static service.dto.PostSearchForm.SortCriteria.NEWEST;
 
 
 @ApplicationScoped
@@ -36,17 +37,61 @@ public class PostService {
     @Inject private FollowRepository followRepo;
     @Inject private CurrentUser currentUser;
 
+    @Inject private EntityManager em;
 
+    private List<Post> getPosts(){
+        return em.createQuery("from Post p", Post.class).getResultList();
+    }
+
+    private List<Post> getPosts(User user){
+        return em.createQuery("from Post p left join fetch PostVote pv on pv.post = p and pv.user = :user",
+                Post.class).setParameter("user", user).getResultList();
+    }
+
+    public void myTest(){
+        em.clear();
+        User byId = userRepo.findById(19);
+        List<Post> posts = getPosts();
+
+
+        for(Post post : posts){
+            post.getVote(byId);
+        }
+
+        em.clear();
+        User byId2 = userRepo.findById(19);
+        List<Post> posts2 = getPosts(byId2);
+
+        for(Post post : posts2){
+            post.getVote(byId);
+        }
+    }
+
+
+
+    private PostPage mapPost(Post post){
+        return PostPage.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .vote(1) //todo
+                .votes(post.getVotes())
+                .sectionName(post.getSection().getName())
+                .authorName(post.getAuthor().getUsername())
+                .sectionId(post.getSection().getId())
+                .authorId(post.getAuthor().getId())
+                .content(post.getContent())
+                .nComments(100) //todo
+                .build();
+    }
 
     public PostPage getPost(@PostExists int id){
         Post p = postRepo.findById(id);
         // TODO: voto personale e n commenti
-        PostPage post = new PostPage(p.getId(), p.getTitle(), 0, p.getVotes(), p.getSection().getName(), p.getAuthor().getUsername(),p.getSection().getId(), p.getAuthor().getId(), p.getContent(), 0);
+        PostPage post = mapPost(p);
         return post;
     }
 
-    //TODO: INCOMPLETO
-    public void loadPosts(PostSearchForm form){
+    public List<PostPage> loadPosts(PostSearchForm form){
         final int elementsPerPage = 10;
         PostRepository.PostFinder finder = postRepo.getFinder();
 
@@ -88,7 +133,9 @@ public class PostService {
         if(form.getPostedBefore() != null){
             finder.postedBefore(form.getPostedBefore());
         }
-        switch(form.getOrderBy()){
+
+        //null-safe switch
+        switch(form.getOrderBy() != null ? form.getOrderBy() : NEWEST){
             case NEWEST: default: {
                 finder.getNewest();
                 break;
@@ -102,27 +149,13 @@ public class PostService {
                 break;
             }
         }
-        //return finder.getResults();
+        return finder.getResults().stream().map(this::mapPost).collect(Collectors.toList());
     }
 
     @AuthenticationRequired //TODO: check autore post?
     @DenyBannedUsers
     public void delete(@PostExists int id){
         postRepo.remove(postRepo.findById(id));
-    }
-
-    public List<PostPreview> fetchPosts(String text){
-        List<Post> posts = postRepo.getFinder().byContent(text).getResults();
-        List<PostPreview> previews = new ArrayList<>();
-        for(Post p : posts){
-//            SectionPostPreview section = new SectionPostPreview(p.getSection().getId(), p.getSection().getName());
-//            UserPostPreview author = new UserPostPreview(p.getAuthor().getUsername());
-            // TODO: voto personale e n commenti
-            PostPreview preview = new PostPreview(p.getId(), p.getTitle(), 0, p.getVotes(), p.getType(), p.getContent(),
-                                                    p.getCreationDate(), 0, p.getSection().getName(), p.getAuthor().getUsername());
-            previews.add(preview);
-        }
-        return previews;
     }
 
     @AuthenticationRequired
