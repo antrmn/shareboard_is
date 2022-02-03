@@ -1,101 +1,76 @@
 package persistence.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.*;
+import org.omg.CosTransactions.Vote;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.*;
 
 @Entity
 @DynamicUpdate
 public class Post implements Serializable {
     public enum Type {TEXT, IMG}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@JoinColumn(name = "section_id")
-    protected Section section;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@JoinColumn(name = "author_id")
-    protected User author;
-
+    @Setter @Getter
     @Column(length = 255, nullable = false)
     protected String title;
 
+    @Getter @Setter
     @Column(columnDefinition = "TEXT", nullable = false)
     protected String content;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Setter @Getter
+    @Column(nullable = false) @Enumerated(EnumType.STRING)
     protected Type type;
 
-    @CreationTimestamp
+    @Getter
     @Column(nullable = false, updatable = false, insertable = false)
-    protected Instant creationDate;
+    protected Instant creationDate; //generato da sql
 
-    @Column(insertable = false, updatable = false)
-    protected Integer votes;
+    @Getter
+    @Column(name = "votes", nullable = false, insertable = false, updatable = false)
+    protected Integer votesCount;
 
-    /* -- */
+    @Getter
+    @Formula("(select count(c) from Comment c where c.post.id = id group by post.id)")
+    protected Integer commentCount;
 
-    public Integer getId() {
-        return id;
+    @Getter @Setter
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    protected Section section;
+
+    @Getter @Setter
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    protected User author;
+
+    @OneToMany(mappedBy="post")
+    @MapKeyJoinColumn(name="user_id", updatable = false, insertable = false)
+    protected Map<User, PostVote> votes = new HashMap<>();
+    public PostVote getVote(User user){
+        return votes.get(user);
     }
 
-    public Section getSection() {
-        return section;
+    public Post(){}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Post)) return false;
+        Post post = (Post) o;
+        return id != null && id.equals(post.id);
     }
 
-    public User getAuthor() {
-        return author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Instant getCreationDate() {
-        return creationDate;
-    }
-
-    public Integer getVotes() {
-        return votes;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setSection(Section section) {
-        this.section = section;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

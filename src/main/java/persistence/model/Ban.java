@@ -1,54 +1,45 @@
 package persistence.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 public class Ban implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
+    @Getter @Setter
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    //@JoinColumn(name = "user_id")
     protected User user;
 
-    @CreationTimestamp
+    @Getter
     @Column(nullable = false, insertable = false, updatable = false)
-    protected Instant startTime;
+    protected Instant startTime; //db generated column
 
+    @Getter @Setter
     @Column(nullable = true)
     protected Instant endTime;
 
-    public Integer getId() {
-        return id;
+    public Ban(){}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ban)) return false;
+        Ban ban = (Ban) o;
+        return id.equals(ban.id);
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Instant getStartTime() {
-        return startTime;
-    }
-
-    public Instant getEndTime() {
-        return endTime;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setEndTime(Instant endTime) {
-        this.endTime = endTime;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

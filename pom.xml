@@ -47,6 +47,18 @@
         </dependency>
         <!-- Test dependencies -->
         <dependency>
+            <groupId>ch.vorburger.mariaDB4j</groupId>
+            <artifactId>mariaDB4j</artifactId>
+            <version>2.5.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-testing</artifactId>
+            <version>5.6.2.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>rocks.limburg.cdimock</groupId>
             <artifactId>cdimock</artifactId>
             <version>1.0.3</version>

@@ -1,5 +1,8 @@
 package persistence.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,69 +10,83 @@ import java.util.Objects;
 @Entity
 public class PostVote implements Serializable {
 
+    @SuppressWarnings("JpaDataSourceORMInspection") //bug IDEA-223439
     @Embeddable
     public static class Id implements Serializable{
-        @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        //@JoinColumn(name = "user_id")
-        protected User user;
 
-        @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        //@JoinColumn(name = "post_id")
-        protected Post post;
+        @Getter
+        @Column(name = "user_id", nullable = false)
+        protected int userId;
 
-        /* -- */
+        @Getter
+        @Column(name = "post_id", nullable = false)
+        protected int postId;
 
-        public User getUser() {
-            return user;
-        }
+        protected Id(){}
 
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public Post getPost() {
-            return post;
-        }
-
-        public void setPost(Post post) {
-            this.post = post;
+        public Id(int userId, int postId) {
+            this.userId = userId;
+            this.postId = postId;
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Id id = (Id) o;
-            return user.equals(id.user) && post.equals(id.post);
+            if (!(o instanceof PostVote.Id)) return false;
+            PostVote.Id id = (PostVote.Id) o;
+            return userId == id.userId && postId == id.postId;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(user, post);
+            return Objects.hash(userId, postId);
         }
     }
 
+    @Getter
     @EmbeddedId
-    protected Id id;
+    protected PostVote.Id id = new PostVote.Id();
 
+    @Getter
+    @ManyToOne(optional = false) @MapsId("postId")
+    protected Post post;
+    public void setPost(Post post){
+        this.post = post;
+        this.id.postId = post.getId();
+    }
+
+    @Getter
+    @ManyToOne(optional = false) @MapsId("userId")
+    protected User user;
+    public void setUser(User user){
+        this.user = user;
+        this.id.userId = user.getId();
+    }
+
+    @Setter
+    @Getter
     @Column(nullable = false)
     protected Short vote;
 
-    /* -- */
+    protected PostVote(){}
 
-    public Id getId() {
-        return id;
-    }
-
-    public void setId(Id id) {
-        this.id = id;
-    }
-
-    public Short getVote() {
-        return vote;
-    }
-
-    public void setVote(Short vote) {
+    public PostVote(User user, Post post, Short vote) {
+        this.user = user;
+        this.post = post;
         this.vote = vote;
+        this.id = new PostVote.Id(user.getId(), post.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PostVote)) return false;
+        PostVote that = (PostVote) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

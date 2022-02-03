@@ -1,5 +1,7 @@
 package persistence.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,66 +11,83 @@ import java.util.Objects;
 
 @Entity
 public class Follow implements Serializable {
+
+    @SuppressWarnings("JpaDataSourceORMInspection") //bug IDEA-223439
     @Embeddable
     public static class Id implements Serializable{
-        @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        //@JoinColumn(name = "user_id")
-        protected User user;
 
-        @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        //@JoinColumn(name = "section_id")
-        protected Section section;
+        @Getter
+        @Column(name = "user_id", nullable = false)
+        protected int userId;
 
-        /* -- */
+        @Getter
+        @Column(name = "section_id", nullable = false)
+        protected int sectionId;
 
-        public User getUser() {
-            return user;
-        }
+        protected Id(){}
 
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public Section getSection() {
-            return section;
-        }
-
-        public void setSection(Section section) {
-            this.section = section;
+        public Id(int userId, int sectionId){
+            this.userId = userId;
+            this.sectionId = sectionId;
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof Id)) return false;
             Id id = (Id) o;
-            return user.equals(id.user) && section.equals(id.section);
+            return userId == id.userId && sectionId == id.sectionId;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(user, section);
+            return Objects.hash(userId, sectionId);
         }
     }
 
+    @Getter
     @EmbeddedId
-    protected Id id;
+    protected Id id = new Id();
 
-    @CreationTimestamp
+    @Getter
+    @ManyToOne(optional = false) @MapsId("userId")
+    protected User user;
+    public void setUser(User user){
+        this.user = user;
+        this.id.userId = user.getId();
+    }
+
+    @Getter
+    @ManyToOne(optional = false) @MapsId("sectionId")
+    protected Section section;
+    public void setSection(Section section){
+        this.section = section;
+        this.id.sectionId = section.getId();
+    }
+
+    @Getter
     @Column(nullable = false, updatable = false, insertable = false)
     protected Instant followDate;
 
-    /* -- */
+    protected Follow(){}
 
-    public Id getId() {
-        return id;
+    public Follow(User user, Section section){
+        this.user = user;
+        this.section = section;
+        this.id = new Id(user.getId(), section.getId());
     }
 
-    public Instant getFollowDate() {
-        return followDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Follow)) return false;
+        Follow follow = (Follow) o;
+        return id.equals(follow.id);
     }
 
-    public void setId(Id id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

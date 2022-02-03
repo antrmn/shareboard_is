@@ -1,23 +1,26 @@
 package persistence.repo;
 
+import org.hibernate.SimpleNaturalIdLoadAccess;
 import persistence.model.Follow;
 import persistence.model.Section;
 import org.hibernate.Session;
 import persistence.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public class SectionRepository extends AbstractRepository<Section, Integer> {
+public class SectionRepository {
 
-    public SectionRepository() {
-        super(Section.class);
-    }
+    @PersistenceContext
+    protected EntityManager em;
 
     public Section getByName(String name){
-        return em.unwrap(Session.class).bySimpleNaturalId(Section.class).load(name);
+        return getByName(name, false);
     }
 
-    public Section getReferenceByName(String name){
-        return em.unwrap(Session.class).bySimpleNaturalId(Section.class).getReference(Section.class);
+    public Section getByName(String name, boolean getReference){
+        SimpleNaturalIdLoadAccess<Section> user = em.unwrap(Session.class).bySimpleNaturalId(Section.class);
+        return getReference ? user.getReference(name) : user.load(name);
     }
 }

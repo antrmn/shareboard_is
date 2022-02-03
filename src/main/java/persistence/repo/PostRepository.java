@@ -1,10 +1,13 @@
 package persistence.repo;
 
+import persistence.model.Follow;
 import persistence.model.Post;
 import persistence.model.Section;
 import persistence.model.User;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.Instant;
@@ -12,10 +15,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PostRepository extends AbstractRepository<Post, Integer> {
-    protected PostRepository() {
-        super(Post.class);
-    }
+public class PostRepository {
+
+    @PersistenceContext
+    protected EntityManager em;
 
     public PostFinder getFinder(){
         return new PostFinder();
@@ -31,6 +34,7 @@ public class PostRepository extends AbstractRepository<Post, Integer> {
         private int pageSize = 30;
         private String content;
         private boolean includeBody = false;
+        private User joinUserFollows;
         private SortCriteria sortCriteria = PostRepository.SortCriteria.NEWEST;
 
         protected PostFinder(){ }
@@ -95,6 +99,11 @@ public class PostRepository extends AbstractRepository<Post, Integer> {
             return this;
         }
 
+        public PostFinder joinUserFollows(User user){
+            joinUserFollows = user;
+            return this;
+        }
+
         public List<Post> getResults(){
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Post> cq = cb.createQuery(Post.class);
@@ -132,6 +141,11 @@ public class PostRepository extends AbstractRepository<Post, Integer> {
                 }
             }
 
+            if(joinUserFollows != null){
+                Join<Object, Object> joinFollow = root.join("section").join("follows");
+                predicates.add(cb.equal(joinFollow.get("user"), joinUserFollows));
+            }
+
             cq.where(cb.and(predicates.toArray(Predicate[]::new)));
 
             switch (sortCriteria) {
@@ -153,8 +167,6 @@ public class PostRepository extends AbstractRepository<Post, Integer> {
                 tq.setFirstResult(offset);
             if(pageSize>=0)
                 tq.setMaxResults(pageSize);
-
-            tq.setHint("org.hibernate.readOnly", true); //ottimizzazione per sola lettura in hibernate
 
             return tq.getResultList();
         }

@@ -1,93 +1,72 @@
 package persistence.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Entity
 public class Comment implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Setter @Getter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
+    @Setter @Getter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@JoinColumn(name = "post_id")
     protected Post post;
 
+    @Setter @Getter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@JoinColumn(name = "author_id")
     protected User author;
 
+    @Setter @Getter
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    //@JoinColumn(name = "parent_comment_id")
     protected Comment parentComment;
 
+    @Setter @Getter
     @Column(columnDefinition = "TEXT", nullable = false)
     protected String content;
 
-    @CreationTimestamp
+    @Getter
     @Column(nullable = false, updatable = false, insertable = false)
     protected Instant creationDate;
 
-    @Column(insertable = false, updatable = false)
-    protected Integer votes;
+    @Getter
+    @Column(name="votes", insertable = false, updatable = false)
+    protected Integer votesCount;
 
+    @Getter
     @Column(insertable = false, updatable = false)
     protected String path;
 
-    /* -- */
-
-    public Integer getId() {
-        return id;
+    @OneToMany(mappedBy="comment")
+    @MapKeyJoinColumn(name="user_id", updatable = false, insertable = false)
+    protected Map<User, CommentVote> votes;
+    public CommentVote getVote(User user){
+        return votes.get(user);
     }
 
-    public Post getPost() {
-        return post;
+    public Comment(){}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Comment)) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id);
     }
 
-    public User getAuthor() {
-        return author;
-    }
-
-    public Comment getParentComment() {
-        return parentComment;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Instant getCreationDate() {
-        return creationDate;
-    }
-
-    public Integer getVotes() {
-        return votes;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public void setParentComment(Comment parentComment) {
-        this.parentComment = parentComment;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getPath() {
-        return path;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -1,111 +1,74 @@
 package persistence.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.*;
 
 @Entity
 public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    @NaturalId(mutable = false)
-    @Column(length = 30, unique = true, nullable = false)
+    @Getter @Setter
+    @NaturalId(mutable = false) @Column(length = 30, unique = true, nullable = false)
     protected String username;
 
+    @Getter @Setter
     @Column(length = 16, nullable = false)
     protected byte[] password;
 
+    @Getter @Setter
     @Column(length = 16, nullable = false)
     protected byte[] salt;
 
+    @Getter @Setter
     @Column(length = 255, unique = true, nullable = false)
     protected String email;
 
+    @Getter @Setter
     @Column(length = 255)
     protected String description;
 
+    @Getter @Setter
     @Column(length = 4096)
     protected String picture;
 
-    @CreationTimestamp
-    @Column(insertable = false, updatable = false, nullable = false)
+    @Getter
+    @CreationTimestamp @Column(insertable = false, updatable = false, nullable = false)
     protected Instant creationDate;
 
+    @Getter @Setter
     @Column(nullable = false)
     protected Boolean admin;
 
-    /* -- */
-
-    public Integer getId() {
-        return id;
+    @OneToMany(mappedBy = "user")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @OrderBy("endTime desc")
+    protected List<Ban> bans = new ArrayList<>();
+    public List<Ban> getBans(){
+        return Collections.unmodifiableList(bans);
     }
 
-    public String getUsername() {
-        return username;
+    public User(){}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return id.equals(user.id);
     }
 
-    public byte[] getSalt() {
-        return salt;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public Instant getCreationDate() {
-        return creationDate;
-    }
-
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public byte[] getPassword() {
-        return password;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
-
-    public void setSalt(byte[] salt) {
-        this.salt = salt;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

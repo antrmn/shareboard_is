@@ -15,16 +15,10 @@ import java.util.List;
  *            interfaccia
  * @see javax.persistence.EntityManager
  */
-public abstract class AbstractRepository<T, ID> {
+public class GenericRepository {
 
     @PersistenceContext
     protected EntityManager em;
-
-    protected final Class<T> entityClass;
-
-    protected AbstractRepository(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
 
     /**
      *  Trova per chiave primaria
@@ -33,8 +27,9 @@ public abstract class AbstractRepository<T, ID> {
      * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare
      * @see javax.persistence.EntityManager#find(Class, Object)
      */
-    public T findById(ID id) {
-        return em.find(entityClass, id, LockModeType.NONE);
+    public <T> T findById(Class<T> entityClass, Object primaryKey, boolean loadLazily) {
+        return loadLazily ? em.getReference(entityClass, primaryKey) :
+                            em.find(entityClass, primaryKey, LockModeType.NONE);
     }
 
     /**
@@ -47,8 +42,8 @@ public abstract class AbstractRepository<T, ID> {
      * @throws javax.persistence.EntityNotFoundException se l'entità non può essere acceduta
      * @see javax.persistence.EntityManager#getReference(Class, Object)
      */
-    public T findReferenceById(ID id) {
-        return em.getReference(entityClass, id);
+    public <T> T findById(Class<T> entityClass, Object primaryKey){
+        return findById(entityClass,primaryKey,false);
     }
 
     /**
@@ -57,7 +52,7 @@ public abstract class AbstractRepository<T, ID> {
      * @throws javax.persistence.QueryTimeoutException In caso di timeout raggiunto
      * @throws javax.persistence.PersistenceException
      */
-    public List<T> findAll() {
+    public <T> List<T> findAll(Class<T> entityClass) {
         CriteriaQuery<T> c =
                 em.getCriteriaBuilder().createQuery(entityClass);
         c.select(c.from(entityClass));
@@ -70,7 +65,7 @@ public abstract class AbstractRepository<T, ID> {
      * @throws javax.persistence.QueryTimeoutException In caso di timeout raggiunto
      * @throws javax.persistence.PersistenceException
      */
-    public Long getCount() {
+    public <T> Long getCount(Class<T> entityClass) {
         CriteriaQuery<Long> c =
                 em.getCriteriaBuilder().createQuery(Long.class);
         c.select(em.getCriteriaBuilder().count(c.from(entityClass)));
@@ -84,7 +79,7 @@ public abstract class AbstractRepository<T, ID> {
      * @throws javax.persistence.EntityExistsException se l'entità esiste già
      * @see javax.persistence.EntityManager#persist(Object)
      */
-    public T insert(T entity) {
+    public <T> T insert(T entity) {
         em.persist(entity);
         em.flush();
         return entity;
@@ -96,7 +91,7 @@ public abstract class AbstractRepository<T, ID> {
      * @return Una copia <i>managed</i> dell'entità passata come parametro
      * @see javax.persistence.EntityManager#merge(Object)
      */
-    public T merge(T entity) {
+    public <T> T merge(T entity) {
         return em.merge(entity);
     }
 
@@ -105,7 +100,7 @@ public abstract class AbstractRepository<T, ID> {
      * @param entity L'entità managed da rimuovere
      * @throws IllegalArgumentException se l'entità passata non è managed
      */
-    public void remove(T entity) {
+    public <T> void remove(T entity) {
         em.remove(entity);
     }
 }

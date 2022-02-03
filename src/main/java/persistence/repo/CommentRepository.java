@@ -3,12 +3,14 @@ package persistence.repo;
 import persistence.model.Comment;
 import persistence.model.Post;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public class CommentRepository extends AbstractRepository<Comment, Integer> {
-    public CommentRepository() {
-        super(Comment.class);
-    }
+public class CommentRepository {
+
+    @PersistenceContext
+    protected EntityManager em;
 
     public List<Comment> getByPost(Post post, int depth){
         return em.createQuery(
@@ -16,7 +18,6 @@ public class CommentRepository extends AbstractRepository<Comment, Integer> {
                         Comment.class)
                 .setParameter("depth", depth)
                 .setParameter("post", post)
-                .setHint("org.hibernate.readOnly", true)
                 .getResultList();
     }
 
@@ -27,7 +28,6 @@ public class CommentRepository extends AbstractRepository<Comment, Integer> {
                     Comment.class)
                 .setParameter("depth", depth)
                 .setParameter("parent", comment)
-                .setHint("org.hibernate.readOnly", true)
                 .getResultList();
     }
 }

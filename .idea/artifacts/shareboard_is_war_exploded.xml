@@ -34,13 +34,14 @@
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.27" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
           <element id="library" level="project" name="Maven: org.apache.bval:bval-jsr:2.0.5" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.32" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.12.0" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-impl:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-junit5:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-core:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:mbean-annotation-api:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-jpa-integration:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:javaee-api:8.0-5" />
-          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.11" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-api:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-loader:8.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tomee:openejb-javaagent:8.0.8" />
@@ -83,7 +84,6 @@
           <element id="library" level="project" name="Maven: org.apache.openejb.shade:quartz-openejb-shade:2.2.4" />
           <element id="library" level="project" name="Maven: org.tomitribe.quartz:quartz:2.2.4" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-jdk14:1.7.21" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-spi:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-ejb:2.0.22" />
           <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-ee:2.0.22" />

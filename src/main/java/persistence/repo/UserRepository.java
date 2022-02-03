@@ -1,16 +1,24 @@
 package persistence.repo;
 
+import org.hibernate.SimpleNaturalIdLoadAccess;
 import persistence.model.User;
 import org.hibernate.Session;
 
-public class UserRepository extends AbstractRepository<User, Integer> {
-    public UserRepository() {
-        super(User.class);
-    }
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+public class UserRepository {
+
+    @PersistenceContext
+    protected EntityManager em;
 
     public User getByName(String name){
-        //unwrap serve ad ottenere hibernate.session a partire da javax.persistence.EntityManager
-        return em.unwrap(Session.class).bySimpleNaturalId(User.class).load(name);
+        return getByName(name,false);
+    }
+
+    public User getByName(String name, boolean getReference){
+        SimpleNaturalIdLoadAccess<User> user = em.unwrap(Session.class).bySimpleNaturalId(User.class);
+        return getReference ? user.getReference(name) : user.load(name);
     }
 
     public User getByEmail(String email){
