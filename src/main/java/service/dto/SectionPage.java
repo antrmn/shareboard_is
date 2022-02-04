@@ -17,4 +17,5 @@ public class SectionPage {
     private String picture;
     private String banner;
     private Integer nFollowers;
+    private boolean isFollowed;
 }
