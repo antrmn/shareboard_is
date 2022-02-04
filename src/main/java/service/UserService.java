@@ -11,6 +11,7 @@ import service.dto.UserEditPage;
 import service.dto.UserIdentityDTO;
 import service.dto.UserProfile;
 import service.validation.UserExists;
+import service.validation.UserExistsByName;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
@@ -36,11 +37,11 @@ public class UserService {
         u.setAdmin(!u.getAdmin());
     }
 
-    public UserProfile getUser(String name){
+    public UserProfile getUser(@UserExistsByName String name){
         User u = userRepo.getByName(name);
         UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());
         return user;
-    } //todo: validation user exists by name
+    }
 
     public UserProfile getUser(@UserExists int id){
         User u = userRepo.findById(id);
@@ -49,7 +50,7 @@ public class UserService {
     }
 
 
-    public UserIdentityDTO get(int id){
+    public UserIdentityDTO get(@UserExists int id){
         User u = userRepo.findById(id);
         return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
     }
