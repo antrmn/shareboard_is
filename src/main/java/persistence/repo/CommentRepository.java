@@ -23,11 +23,10 @@ public class CommentRepository {
 
     public List<Comment> getReplies(Comment comment, int depth){
         return em.createQuery(
-                    "from Comment c where c.parentComment = :parent and length(c.path) <= (7 * :depth) + 1 " +
-                            "order by c.path",
+                    "from Comment c where c.path like :path and length(c.path) <= (7 * :depth) + 1 order by c.path",
                     Comment.class)
                 .setParameter("depth", depth)
-                .setParameter("parent", comment)
+                .setParameter("path", comment.getPath() + '%')
                 .getResultList();
     }
 }

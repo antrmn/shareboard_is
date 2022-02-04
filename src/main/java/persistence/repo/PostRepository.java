@@ -1,10 +1,8 @@
 package persistence.repo;
 
-import persistence.model.Follow;
 import persistence.model.Post;
 import persistence.model.Section;
 import persistence.model.User;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -133,7 +131,7 @@ public class PostRepository {
                             cb.or(
                                     cb.like(root.get("title"), '%' + content + '%'),
                                     cb.and(
-                                            cb.notEqual(root.get("type"), "IMG"),
+                                            cb.notEqual(root.get("type"), Post.Type.IMG),
                                             cb.like(root.get("content"), '%' + content + '%')
                                     )));
                 } else {
@@ -150,7 +148,7 @@ public class PostRepository {
 
             switch (sortCriteria) {
                 case MOSTVOTED:
-                    cq.orderBy(cb.desc(root.get("votes")));
+                    cq.orderBy(cb.desc(root.get("votesCount")));
                     break;
                 case OLDEST:
                     cq.orderBy(cb.asc(root.get("creationDate")));

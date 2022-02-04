@@ -53,8 +53,7 @@ public class GenericRepository {
      * @throws javax.persistence.PersistenceException
      */
     public <T> List<T> findAll(Class<T> entityClass) {
-        CriteriaQuery<T> c =
-                em.getCriteriaBuilder().createQuery(entityClass);
+        CriteriaQuery<T> c = em.getCriteriaBuilder().createQuery(entityClass);
         c.select(c.from(entityClass));
         return em.createQuery(c).getResultList();
     }

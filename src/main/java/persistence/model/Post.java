@@ -2,17 +2,19 @@ package persistence.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.*;
-import org.omg.CosTransactions.Vote;
+import lombok.ToString;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @DynamicUpdate
+@ToString
 public class Post implements Serializable {
     public enum Type {TEXT, IMG}
 
@@ -41,7 +43,7 @@ public class Post implements Serializable {
     protected Integer votesCount;
 
     @Getter
-    @Formula("(select count(c) from Comment c where c.post.id = id group by post.id)")
+    @Formula("(select count(c.id) from Comment c where c.post_id = id group by c.post_id)") //native sql ew
     protected Integer commentCount;
 
     @Getter @Setter

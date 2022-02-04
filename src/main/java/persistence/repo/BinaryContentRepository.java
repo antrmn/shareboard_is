@@ -1,15 +1,20 @@
 package persistence.repo;
 
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
 public class BinaryContentRepository {
-    Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");
+
+    private Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");
+
+    public BinaryContentRepository(){}
+
+    public BinaryContentRepository(Path uploadRoot){
+        this.uploadRoot = uploadRoot;
+    }
 
     public String insert(InputStream stream, String filename) throws IOException {
         File file = new File(uploadRoot.toFile(), filename);
@@ -28,7 +33,7 @@ public class BinaryContentRepository {
 
     public InputStream get(String filename){
         File file = new File(uploadRoot.toFile(), filename);
-        if (!file.exists() && !file.isFile())
+        if (!file.exists() || !file.isFile())
             return null;
         try {
             return new FileInputStream(file);

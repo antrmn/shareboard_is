@@ -1,14 +1,11 @@
 package persistence.repo;
 
-import org.hibernate.SimpleNaturalIdLoadAccess;
-import persistence.model.Follow;
-import persistence.model.Section;
 import org.hibernate.Session;
-import persistence.model.User;
+import org.hibernate.SimpleNaturalIdLoadAccess;
+import persistence.model.Section;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 public class SectionRepository {
 

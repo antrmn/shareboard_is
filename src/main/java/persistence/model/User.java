@@ -2,13 +2,14 @@ package persistence.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class User implements Serializable {
@@ -42,7 +43,7 @@ public class User implements Serializable {
     protected String picture;
 
     @Getter
-    @CreationTimestamp @Column(insertable = false, updatable = false, nullable = false)
+    @Column(insertable = false, updatable = false, nullable = false)
     protected Instant creationDate;
 
     @Getter @Setter
@@ -50,7 +51,6 @@ public class User implements Serializable {
     protected Boolean admin;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @OrderBy("endTime desc")
     protected List<Ban> bans = new ArrayList<>();
     public List<Ban> getBans(){
