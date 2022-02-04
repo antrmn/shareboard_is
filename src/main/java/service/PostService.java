@@ -16,7 +16,6 @@ import service.validation.SectionExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.io.BufferedInputStream;
@@ -40,7 +39,6 @@ public class PostService {
     @Inject private BinaryContentRepository bcRepo;
     @Inject private CurrentUser currentUser;
 
-    @Inject private EntityManager em;
 
     private PostPage mapPost(Post post){
         User user = null;
