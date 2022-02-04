@@ -1,8 +1,6 @@
 package service;
 
-import persistence.model.Ban;
 import persistence.model.User;
-import persistence.repo.BanRepository;
 import persistence.repo.UserRepository;
 import service.dto.CurrentUser;
 
@@ -18,7 +16,6 @@ import java.time.Instant;
 public class CurrentUserProducer {
     @Inject private Principal principal;
     @Inject UserRepository userRepo;
-    @Inject BanRepository banRepo;
 
     @Named("currentUser")
     @RequestScoped
@@ -31,11 +28,7 @@ public class CurrentUserProducer {
         if(user == null)
             return new CurrentUser();
 
-        Instant longestCurrentBan = banRepo.getByUserCurrent(user).stream()
-                .map(Ban::getEndTime)
-                .filter(endTime -> Instant.now().isBefore(endTime))
-                .max(Instant::compareTo)
-                .orElse(null);
+        Instant longestCurrentBan = user.getBans().isEmpty() ? null : user.getBans().get(0).getEndTime();
 
         CurrentUser currentUser = CurrentUser.builder()
                 .username(user.getUsername())

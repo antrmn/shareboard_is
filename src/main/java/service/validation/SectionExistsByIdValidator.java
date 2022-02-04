@@ -1,13 +1,14 @@
 package service.validation;
 
-import persistence.repo.SectionRepository;
+import persistence.model.Section;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class SectionExistsByIdValidator implements ConstraintValidator<SectionExistsById, Integer> {
-    @Inject SectionRepository sectionRepo;
+    @Inject GenericRepository genericRepository;
 
     @Override
     public void initialize(SectionExistsById constraintAnnotation) {
@@ -16,6 +17,6 @@ public class SectionExistsByIdValidator implements ConstraintValidator<SectionEx
 
     @Override
     public boolean isValid(Integer id, ConstraintValidatorContext context) {
-        return (sectionRepo.findById(id) != null);
+        return (genericRepository.findById(Section.class, id) != null);
     }
 }

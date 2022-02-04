@@ -2,12 +2,13 @@ package service;
 
 import persistence.model.Section;
 import persistence.repo.BinaryContentRepository;
-import persistence.repo.FollowRepository;
+import persistence.repo.GenericRepository;
 import persistence.repo.SectionRepository;
 import service.auth.AdminsOnly;
 import service.dto.SectionPage;
 import service.validation.SectionExists;
 import service.validation.SectionExistsById;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -19,12 +20,12 @@ import java.io.IOException;
 public class SectionService {
 
     @Inject private SectionRepository sectionRepo;
-    @Inject private FollowRepository followRepo;
+    @Inject private GenericRepository genericRepository;
     @Inject private BinaryContentRepository bcRepo;
 
     @AdminsOnly
     public void delete(@SectionExistsById int id){
-        sectionRepo.remove(sectionRepo.findById(id));
+        genericRepository.remove(genericRepository.findById(Section.class, id));
     }
 
     @AdminsOnly
@@ -39,20 +40,20 @@ public class SectionService {
         bcRepo.insert(picture);
         bcRepo.insert(banner);
 
-        return sectionRepo.insert(s).getId();
+        return genericRepository.insert(s).getId();
     }
 
 
     public SectionPage showSection(@SectionExistsById int id){
-       Section s =  sectionRepo.findById(id);
-       int nFollowers = followRepo.getBySection(s).size();
+       Section s =  genericRepository.findById(Section.class, id);
+       int nFollowers = s.getFollowCount();
        SectionPage sectionData = new SectionPage(id,s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
        return sectionData;
     }
 
     public SectionPage getSection(@SectionExists String sectionName){
         Section s = sectionRepo.getByName(sectionName);
-        int nFollowers = followRepo.getBySection(s).size();
+        int nFollowers = s.getFollowCount();
         SectionPage section = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
         return section;
     }
@@ -62,7 +63,7 @@ public class SectionService {
                             @SectionExistsById int id,
                             BufferedInputStream picture,
                             BufferedInputStream banner) throws IOException {
-        Section s = sectionRepo.findById(id);
+        Section s = genericRepository.findById(Section.class,id);
         s.setBanner(edit.getBanner());
         s.setPicture(edit.getPicture());
         s.setDescription(edit.getDescription());

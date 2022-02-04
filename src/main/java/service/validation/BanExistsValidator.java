@@ -1,13 +1,15 @@
 package service.validation;
 
-import persistence.repo.BanRepository;
+
+import persistence.model.Ban;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class BanExistsValidator implements ConstraintValidator<BanExists, Integer> {
-    @Inject BanRepository banRepo;
+    @Inject GenericRepository genericRepository;
 
     @Override
     public void initialize(BanExists constraintAnnotation) {
@@ -16,6 +18,6 @@ public class BanExistsValidator implements ConstraintValidator<BanExists, Intege
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return (banRepo.findById(value) != null);
+        return (genericRepository.findById(Ban.class, value) != null);
     }
 }

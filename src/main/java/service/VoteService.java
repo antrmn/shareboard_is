@@ -1,13 +1,12 @@
 package service;
 
 import persistence.model.*;
-import persistence.repo.*;
+import persistence.repo.GenericRepository;
 import service.auth.AuthenticationRequired;
 import service.dto.CurrentUser;
 import service.validation.CommentExists;
 import service.validation.PostExists;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -15,11 +14,7 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 @Transactional
 public class VoteService {
-    @Inject private CommentRepository commentRepo;
-    @Inject private UserRepository userRepo;
-    @Inject private CommentVoteRepository commentVoteRepo;
-    @Inject private PostVoteRepository postVoteRepo;
-    @Inject private PostRepository postRepo;
+    @Inject private GenericRepository genericRepository;
     @Inject private CurrentUser currentUser;
 
     @AuthenticationRequired
@@ -33,17 +28,11 @@ public class VoteService {
     }
 
     private void voteComment(int id, short vote) {
-        Comment comment = commentRepo.findById(id);
-        User user = userRepo.getByName(currentUser.getUsername());
+        Comment comment = genericRepository.findById(Comment.class,id);
+        User user = genericRepository.findById(User.class, currentUser.getId());
 
-        CommentVote.Id commentVoteId = new CommentVote.Id();
-        commentVoteId.setComment(comment);
-        commentVoteId.setUser(user);
-
-        CommentVote commentVote = new CommentVote();
-        commentVote.setId(commentVoteId);
-        commentVote.setVote(vote);
-        commentVoteRepo.merge(commentVote);
+        CommentVote commentVote = new CommentVote(user,comment, vote);
+        genericRepository.merge(commentVote);
     }
 
     @AuthenticationRequired
@@ -57,41 +46,30 @@ public class VoteService {
     }
 
     private void votePost(int id, short vote){
-        Post post = postRepo.findById(id);
-        User user = userRepo.getByName(currentUser.getUsername());
+        Post post = genericRepository.findById(Post.class,id);
+        User user = genericRepository.findById(User.class, currentUser.getId());
 
-        PostVote.Id postVoteId = new PostVote.Id();
-        postVoteId.setPost(post);
-        postVoteId.setUser(user);
-
-        PostVote postVote = new PostVote();
-        postVote.setId(postVoteId);
-        postVote.setVote(vote);
-        postVoteRepo.merge(postVote);
+        PostVote postVote = new PostVote(user,post,vote);
+        genericRepository.merge(postVote);
     }
 
     @AuthenticationRequired
     public void unvoteComment(@CommentExists int id){
-        Comment comment = commentRepo.findById(id);
-        User user = userRepo.getByName(currentUser.getUsername());
-
-        CommentVote.Id commentVoteId = new CommentVote.Id();
-        commentVoteId.setComment(comment);
-        commentVoteId.setUser(user);
-
-        commentVoteRepo.remove(commentVoteRepo.findById(commentVoteId));
+        Comment comment = genericRepository.findById(Comment.class, id);
+        User user = genericRepository.findById(User.class, currentUser.getId());
+        CommentVote commentVote = comment.getVote(user);
+        if(commentVote != null)
+            genericRepository.remove(commentVote);
     }
 
     @AuthenticationRequired
     public void unvotePost(@PostExists int id){
-        Post post = postRepo.findById(id);
-        User user = userRepo.getByName(currentUser.getUsername());
+        Post post = genericRepository.findById(Post.class,id);
+        User user = genericRepository.findById(User.class, currentUser.getId());
 
-        PostVote.Id postVoteId = new PostVote.Id();
-        postVoteId.setPost(post);
-        postVoteId.setUser(user);
-
-        postVoteRepo.remove(postVoteRepo.findById(postVoteId));
+        PostVote vote = post.getVote(user);
+        if(vote != null)
+            genericRepository.remove(vote);
     }
 
 }

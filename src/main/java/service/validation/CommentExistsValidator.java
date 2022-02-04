@@ -1,13 +1,14 @@
 package service.validation;
 
-import persistence.repo.CommentRepository;
+import persistence.model.Comment;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class CommentExistsValidator implements ConstraintValidator<CommentExists, Integer> {
-    @Inject CommentRepository commentRepo;
+    @Inject GenericRepository genericRepository;
 
     @Override
     public void initialize(CommentExists constraintAnnotation) {
@@ -16,6 +17,6 @@ public class CommentExistsValidator implements ConstraintValidator<CommentExists
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return (commentRepo.findById(value) != null);
+        return (genericRepository.findById(Comment.class, value) != null);
     }
 }

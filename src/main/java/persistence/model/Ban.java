@@ -12,7 +12,7 @@ public class Ban implements Serializable {
 
     @Getter @Setter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    protected Integer id;
 
     @Getter @Setter
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

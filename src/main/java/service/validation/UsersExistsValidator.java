@@ -1,16 +1,14 @@
 package service.validation;
 
-import persistence.repo.UserRepository;
-import service.UserService;
+import persistence.model.User;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.lang.annotation.Annotation;
 
 public class UsersExistsValidator implements ConstraintValidator<UserExists, Integer> {
-    @Inject
-    UserRepository userRepository;
+    @Inject GenericRepository genericRepository;
 
 
     @Override
@@ -20,6 +18,6 @@ public class UsersExistsValidator implements ConstraintValidator<UserExists, Int
 
     @Override
     public boolean isValid(Integer id, ConstraintValidatorContext constraintValidatorContext) {
-        return userRepository.findById(id) != null;
+        return genericRepository.findById(User.class, id) != null;
     }
 }

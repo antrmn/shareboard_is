@@ -6,7 +6,10 @@ import persistence.model.User;
 import persistence.repo.*;
 import service.auth.AuthenticationRequired;
 import service.auth.DenyBannedUsers;
-import service.dto.*;
+import service.dto.CurrentUser;
+import service.dto.PostEditDTO;
+import service.dto.PostPage;
+import service.dto.PostSearchForm;
 import service.validation.Image;
 import service.validation.PostExists;
 import service.validation.SectionExists;
@@ -18,7 +21,6 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,63 +32,37 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
 @ApplicationScoped
 @Transactional
 public class PostService {
+
+    @Inject private GenericRepository genericRepository;
     @Inject private PostRepository postRepo;
     @Inject private UserRepository userRepo;
     @Inject private SectionRepository sectionRepo;
     @Inject private BinaryContentRepository bcRepo;
-    @Inject private FollowRepository followRepo;
     @Inject private CurrentUser currentUser;
 
     @Inject private EntityManager em;
 
-    private List<Post> getPosts(){
-        return em.createQuery("from Post p", Post.class).getResultList();
-    }
-
-    private List<Post> getPosts(User user){
-        return em.createQuery("from Post p left join fetch PostVote pv on pv.post = p and pv.user = :user",
-                Post.class).setParameter("user", user).getResultList();
-    }
-
-    public void myTest(){
-        em.clear();
-        User byId = userRepo.findById(19);
-        List<Post> posts = getPosts();
-
-
-        for(Post post : posts){
-            post.getVote(byId);
-        }
-
-        em.clear();
-        User byId2 = userRepo.findById(19);
-        List<Post> posts2 = getPosts(byId2);
-
-        for(Post post : posts2){
-            post.getVote(byId);
-        }
-    }
-
-
-
     private PostPage mapPost(Post post){
+        User user = null;
+        if(currentUser.isLoggedIn())
+            user = genericRepository.findById(User.class,currentUser.getId());
+
         return PostPage.builder()
                 .id(post.getId())
                 .title(post.getTitle())
-                .vote(1) //todo
-                .votes(post.getVotes())
+                .vote(post.getVote(user) == null ? 0 : post.getVote(user).getVote())
+                .votes(post.getVotesCount())
                 .sectionName(post.getSection().getName())
                 .authorName(post.getAuthor().getUsername())
                 .sectionId(post.getSection().getId())
                 .authorId(post.getAuthor().getId())
                 .content(post.getContent())
-                .nComments(100) //todo
+                .nComments(post.getCommentCount())
                 .build();
     }
 
     public PostPage getPost(@PostExists int id){
-        Post p = postRepo.findById(id);
-        // TODO: voto personale e n commenti
+        Post p = genericRepository.findById(Post.class,id);
         PostPage post = mapPost(p);
         return post;
     }
@@ -119,13 +95,7 @@ public class PostService {
             }
         }
         if(form.isOnlyFollow() && currentUser.isLoggedIn()){
-            User user = userRepo.getByName(currentUser.getUsername());
-            if(user != null) {
-                List<Section> collect = followRepo.getByUser(user).stream()
-                        .map(x -> x.getId().getSection())
-                        .collect(Collectors.toList());
-                finder.bySections(collect);
-            }
+            finder.joinUserFollows(genericRepository.findById(User.class,currentUser.getId()));
         }
         if(form.getPostedAfter() != null){
             finder.postedAfter(form.getPostedAfter());
@@ -155,13 +125,13 @@ public class PostService {
     @AuthenticationRequired //TODO: check autore post?
     @DenyBannedUsers
     public void delete(@PostExists int id){
-        postRepo.remove(postRepo.findById(id));
+        genericRepository.remove(genericRepository.findById(User.class,id));
     }
 
     @AuthenticationRequired
     @DenyBannedUsers
     public void editPost(PostEditDTO edit, @PostExists int id){
-        Post post = postRepo.findById(id);
+        Post post = genericRepository.findById(Post.class, id);
         post.setTitle(edit.getTitle());
         post.setContent(edit.getContent());
         post.setType(edit.getType());
@@ -171,7 +141,7 @@ public class PostService {
     public void editPost(PostEditDTO edit,
                          @PostExists int id,
                          @Image BufferedInputStream content){
-        Post post = postRepo.findById(id);
+        Post post = genericRepository.findById(Post.class, id);
         post.setTitle(edit.getTitle());
         String fileName;
         try {
@@ -200,7 +170,7 @@ public class PostService {
         post.setSection(section);
         post.setType(TEXT);
 
-        return postRepo.insert(post).getId();
+        return genericRepository.insert(post).getId();
     }
 
     @AuthenticationRequired
@@ -226,6 +196,6 @@ public class PostService {
         post.setSection(section);
         post.setType(IMG);
 
-        return postRepo.insert(post).getId(); //in caso di errore il file resta
+        return genericRepository.insert(post).getId(); //in caso di errore il file resta
     }
 }

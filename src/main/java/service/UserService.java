@@ -2,6 +2,7 @@ package service;
 
 import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
+import persistence.repo.GenericRepository;
 import persistence.repo.UserRepository;
 import security.Pbkdf2PasswordHashImpl;
 import security.Pbkdf2PasswordHashImpl.HashedPassword;
@@ -13,7 +14,6 @@ import service.dto.UserProfile;
 import service.validation.UserExists;
 import service.validation.UserExistsByName;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -28,12 +28,13 @@ import java.util.List;
 @Transactional
 public class UserService {
     @Inject private UserRepository userRepo;
+    @Inject private GenericRepository genericRepository;
     @Inject private BinaryContentRepository bcRepo;
     @Inject private Pbkdf2PasswordHashImpl passwordHash;
 
     @AdminsOnly
     public void toggleAdmin(@UserExists int id){
-        User u = userRepo.findById(id);
+        User u = genericRepository.findById(User.class,id);
         u.setAdmin(!u.getAdmin());
     }
 
@@ -44,23 +45,23 @@ public class UserService {
     }
 
     public UserProfile getUser(@UserExists int id){
-        User u = userRepo.findById(id);
+        User u = genericRepository.findById(User.class,id);
         UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());
         return user;
     }
 
 
     public UserIdentityDTO get(@UserExists int id){
-        User u = userRepo.findById(id);
+        User u = genericRepository.findById(User.class,id);
         return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
     }
 
     public String getUsernameById(@UserExists int id){
-        return userRepo.findById(id).getUsername();
+        return genericRepository.findById(User.class,id).getUsername();
     }
 
     public List<UserIdentityDTO> showUsers(){
-        List<User> users = userRepo.findAll();
+        List<User> users = genericRepository.findAll(User.class);
         List<UserIdentityDTO> usersDTO = new ArrayList<>();
 
         for(User u : users){
@@ -72,13 +73,13 @@ public class UserService {
 
     @AdminsOnly
     public void delete(@UserExists int id){
-        userRepo.remove(userRepo.findById(id));
+        genericRepository.remove(genericRepository.findById(User.class, id));
     }
 
     @AuthenticationRequired
     public void edit(UserEditPage edit,
                      @UserExists int id){
-        User u = userRepo.findById(id);
+        User u = genericRepository.findById(User.class,id);
         HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());
         u.setPassword(hashedPassword.getPassword());
         u.setSalt(hashedPassword.getSalt());
@@ -105,7 +106,7 @@ public class UserService {
         user.setSalt(hashedPassword.getSalt());
         user.setAdmin(false);
 
-        user = userRepo.insert(user);
+        user = genericRepository.insert(user);
         return user.getId();
     }
 }

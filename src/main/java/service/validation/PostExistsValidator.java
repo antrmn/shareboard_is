@@ -1,13 +1,15 @@
 package service.validation;
 
-import persistence.repo.PostRepository;
+import persistence.model.Post;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class PostExistsValidator implements ConstraintValidator<PostExists, Integer> {
-    @Inject PostRepository postRepo;
+    @Inject
+    GenericRepository genericRepository;
 
     @Override
     public void initialize(PostExists constraintAnnotation) {
@@ -16,6 +18,6 @@ public class PostExistsValidator implements ConstraintValidator<PostExists, Inte
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return (postRepo.findById(value) != null);
+        return (genericRepository.findById(Post.class, value) != null);
     }
 }
