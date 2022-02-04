@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import persistence.model.Follow;
 import persistence.model.Section;
 import persistence.model.User;
-import persistence.repo.FollowRepository;
+import persistence.repo.GenericRepository;
 import persistence.repo.SectionRepository;
 import persistence.repo.UserRepository;
 import rocks.limburg.cdimock.CdiMock;
@@ -25,9 +25,9 @@ import static org.mockito.Mockito.when;
         cdiInterceptors = BValInterceptor.class,
         cdiStereotypes = CdiMock.class)
 public class FollowServiceTest extends ServiceTest{
-    @Mock private SectionRepository sectionRepo;
-    @Mock private FollowRepository followRepo;
+
     @Mock private UserRepository userRepo;
+    @Mock GenericRepository genericRepository;
     @Mock private CurrentUser currentUser;
     @Inject private FollowService service;
 
@@ -35,12 +35,14 @@ public class FollowServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 8})
     void successfulFollow(int sectionId){
         User user = new User();
+        user.setId(1);
         when(currentUser.getUsername()).thenReturn("username");
         when(userRepo.getByName(any())).thenReturn(user);
         Section section = new Section();
-        when(sectionRepo.findById(sectionId)).thenReturn(section);
-        Follow follow = new Follow();
-        when(followRepo.insert(any())).thenReturn(follow);
+        section.setId(sectionId);
+        when(genericRepository.findById(Section.class,sectionId)).thenReturn(section);
+        Follow follow = new Follow(user,section);
+        when(genericRepository.insert(any())).thenReturn(follow);
         assertDoesNotThrow(() -> service.follow(sectionId));
         Follow follow1 = service.follow(sectionId);
         assertEquals(follow,follow1);
@@ -49,12 +51,7 @@ public class FollowServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {-1, -5, -8})
     void failFollowWithWrongId(int sectionId){
-        User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
-        when(sectionRepo.findById(sectionId)).thenReturn(null);
-        Follow follow = new Follow();
-        when(followRepo.insert(any())).thenReturn(follow);
+        when(genericRepository.findById(Section.class,sectionId)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.follow(sectionId));
     }
 
@@ -62,24 +59,21 @@ public class FollowServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 8})
     void successfulUnFollow(int sectionId){
         User user = new User();
+        user.setId(1);
         when(currentUser.getUsername()).thenReturn("username");
         when(userRepo.getByName(any())).thenReturn(user);
         Section section = new Section();
-        when(sectionRepo.findById(sectionId)).thenReturn(section);
-        Follow follow = new Follow();
-        when(followRepo.findById(any())).thenReturn(follow);
+        section.setId(sectionId);
+        when(genericRepository.findById(Section.class,sectionId)).thenReturn(section);
+        Follow follow = new Follow(user,section);
+        when(genericRepository.findById(Follow.class,any())).thenReturn(follow);
         assertDoesNotThrow(() -> service.unFollow(sectionId));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, -5, -8})
     void failUnFollowWithWrongId(int sectionId){
-        User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
-        when(sectionRepo.findById(sectionId)).thenReturn(null);
-        Follow follow = new Follow();
-        when(followRepo.findById(any())).thenReturn(follow);
+        when(genericRepository.findById(Section.class,sectionId)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.unFollow(sectionId));
     }
 

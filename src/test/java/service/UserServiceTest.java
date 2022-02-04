@@ -10,10 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import persistence.model.User;
-import persistence.repo.BinaryContentRepository;
-import persistence.repo.PostRepository;
-import persistence.repo.SectionRepository;
-import persistence.repo.UserRepository;
+import persistence.repo.*;
 import rocks.limburg.cdimock.CdiMock;
 import security.Pbkdf2PasswordHashImpl;
 import service.dto.UserEditPage;
@@ -41,6 +38,7 @@ public class UserServiceTest extends ServiceTest {
 
     @Mock BinaryContentRepository binaryContentRepository;
     @Mock UserRepository userRepository;
+    @Mock GenericRepository genericRepository;
     @Inject UserService service;
 
     @BeforeEach
@@ -55,8 +53,9 @@ public class UserServiceTest extends ServiceTest {
     @CsvSource({"1,true", "5,false", "100,true"})
     void successfulToggleAdmin(int id, boolean currentlyAdmin) {
         User user = new User();
+        user.setId(1);
         user.setAdmin(currentlyAdmin);
-        when(userRepository.findById(id)).thenReturn(user);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
         service.toggleAdmin(id);
         assertEquals(!currentlyAdmin, user.getAdmin());
     }
@@ -66,14 +65,14 @@ public class UserServiceTest extends ServiceTest {
         User user = new User();
         user.setId(1);
         user.setAdmin(null);
-        when(userRepository.findById(1)).thenReturn(user);
+        when(genericRepository.findById(User.class,1)).thenReturn(user);
         assertThrows(NullPointerException.class , () -> service.toggleAdmin(1));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 50})
     void userNotExistsToggleAdmin(int id){
-        when(userRepository.findById(id)).thenReturn(null);
+        when(genericRepository.findById(User.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.toggleAdmin(id));
     }
 
@@ -81,14 +80,15 @@ public class UserServiceTest extends ServiceTest {
     @ValueSource(ints = {1, 3, 40})
     void successfulGetUserById(int id){
         User user = new User();
-        when(userRepository.findById(id)).thenReturn(user);
+        user.setId(1);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
         assertDoesNotThrow(() -> service.getUser(id));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, -3, -40})
     void failGetUserWithWrongId(int id){
-        when(userRepository.findById(id)).thenReturn(null);
+        when(genericRepository.findById(User.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.getUser(id));
     }
 
@@ -96,6 +96,7 @@ public class UserServiceTest extends ServiceTest {
     @ValueSource(strings = {"name1", "name2", "name3"})
     void successfulGetUserByName(String name){
         User user = new User();
+        user.setId(1);
         when(userRepository.getByName(name)).thenReturn(user);
         assertDoesNotThrow(() -> service.getUser(name));
     }
@@ -114,14 +115,14 @@ public class UserServiceTest extends ServiceTest {
         user.setId(1);
         user.setUsername("username");
         user.setAdmin(false);
-        when(userRepository.findById(id)).thenReturn(user);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
         assertDoesNotThrow(() -> service.get(id));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, -3, -40})
     void failGetDTOWithWrongId(int id){
-        when(userRepository.findById(id)).thenReturn(null);
+        when(genericRepository.findById(User.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.get(id));
     }
 
@@ -129,15 +130,16 @@ public class UserServiceTest extends ServiceTest {
     @ValueSource(ints = {1, 3, 40})
     void successfulGetUsernameById(int id){
         User user = new User();
+        user.setId(1);
         user.setUsername("username");
-        when(userRepository.findById(id)).thenReturn(user);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
         assertDoesNotThrow(() -> service.getUsernameById(id));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 40})
     void failGetUsernameWithWrongId(int id){
-        when(userRepository.findById(id)).thenReturn(null);
+        when(genericRepository.findById(User.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.getUsernameById(id));
     }
 
@@ -156,7 +158,7 @@ public class UserServiceTest extends ServiceTest {
                 users.stream().map(u -> new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin()))
                 .collect(Collectors.toList());
 
-        when(userRepository.findAll()).thenReturn(users);
+        when(genericRepository.findAll(User.class)).thenReturn(users);
         assertEquals(service.showUsers(), usersDto);
     }
 
@@ -164,14 +166,15 @@ public class UserServiceTest extends ServiceTest {
     @ValueSource(ints = {1, 3, 40})
     void successfulDeleteById(int id){
         User user = new User();
-        when(userRepository.findById(id)).thenReturn(user);
+        user.setId(1);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
         assertDoesNotThrow(() -> service.delete(id));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 40})
     void failDeleteWithWrongId(int id){
-        when(userRepository.findById(id)).thenReturn(null);
+        when(genericRepository.findById(User.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.delete(id));
     }
 
@@ -181,7 +184,8 @@ public class UserServiceTest extends ServiceTest {
         BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
         UserEditPage userEditPage = new UserEditPage(1,"description","email",stream,"password");
         User user = new User();
-        when(userRepository.findById(id)).thenReturn(user);
+        user.setId(1);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
         when(binaryContentRepository.insert(any())).thenReturn("pictureName");
         assertDoesNotThrow(() -> service.edit(userEditPage,id));
     }
@@ -191,7 +195,7 @@ public class UserServiceTest extends ServiceTest {
     void failEditWithWrongID(int id) throws IOException {
         BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
         UserEditPage userEditPage = new UserEditPage(1,"description","email",stream,"password");
-        when(userRepository.findById(id)).thenReturn(null);
+        when(genericRepository.findById(User.class,id)).thenReturn(null);
         when(binaryContentRepository.insert(any())).thenReturn("pictureName");
         assertThrows(ConstraintViolationException.class,() -> service.edit(userEditPage,id));
     }
@@ -202,7 +206,7 @@ public class UserServiceTest extends ServiceTest {
     void successfulNewUser(String email, String username, String password) {
         User user = new User();
         user.setId(1);
-        when(userRepository.insert(any())).thenReturn(user);
+        when(genericRepository.insert(any())).thenReturn(user);
         assertDoesNotThrow(() -> service.newUser(email,username,password));
     }
 
@@ -211,7 +215,7 @@ public class UserServiceTest extends ServiceTest {
     void failNewUserWrongEmail(String email, String username, String password) {
         User user = new User();
         user.setId(1);
-        when(userRepository.insert(any())).thenReturn(user);
+        when(genericRepository.insert(any())).thenReturn(user);
         assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
     }
 
@@ -220,7 +224,7 @@ public class UserServiceTest extends ServiceTest {
     void failNewUserBlankEmail(String email, String username, String password) {
         User user = new User();
         user.setId(1);
-        when(userRepository.insert(any())).thenReturn(user);
+        when(genericRepository.insert(any())).thenReturn(user);
         assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
     }
 
@@ -229,7 +233,7 @@ public class UserServiceTest extends ServiceTest {
     void failNewUserBlankUsername(String email, String username, String password) {
         User user = new User();
         user.setId(1);
-        when(userRepository.insert(any())).thenReturn(user);
+        when(genericRepository.insert(any())).thenReturn(user);
         assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
     }
 
@@ -238,7 +242,7 @@ public class UserServiceTest extends ServiceTest {
     void failNewUserEmptyPassword(String email, String username, String password) {
         User user = new User();
         user.setId(1);
-        when(userRepository.insert(any())).thenReturn(user);
+        when(genericRepository.insert(any())).thenReturn(user);
         assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
     }
 }

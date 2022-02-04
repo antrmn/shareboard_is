@@ -40,7 +40,7 @@ public class NewSectionServlet extends InterceptableServlet {
 
         //gestire errore immagine
 
-        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0);
+        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0,false);//false?
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
         service.newSection(sectionPage,buffPicture,buffBanner);

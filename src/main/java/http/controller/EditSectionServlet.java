@@ -42,7 +42,7 @@ public class EditSectionServlet extends InterceptableServlet {
         Part picture = request.getPart("picture");
         Part banner = request.getPart("banner");
 
-        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0);
+        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
         service.editSection(sectionPage,sectionId,buffPicture,buffBanner);

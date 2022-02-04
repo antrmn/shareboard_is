@@ -72,7 +72,7 @@ public class UserRepositoryIT extends PersistenceIT{
 
         doThenRollback((em) -> {
             genericRepository.insert(ban);
-            Long banId = ban.getId();
+            Integer banId = ban.getId();
 
             User user = genericRepository.findById(User.class,users.get(0).getId());
             Ban foundBan = user.getBans().stream().filter(x -> x.getId().equals(banId)).findAny().orElse(null);
