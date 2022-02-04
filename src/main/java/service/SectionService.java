@@ -1,10 +1,12 @@
 package service;
 
 import persistence.model.Section;
+import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.SectionRepository;
 import service.auth.AdminsOnly;
+import service.dto.CurrentUser;
 import service.dto.SectionPage;
 import service.validation.SectionExists;
 import service.validation.SectionExistsById;
@@ -14,6 +16,8 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Transactional
@@ -22,6 +26,21 @@ public class SectionService {
     @Inject private SectionRepository sectionRepo;
     @Inject private GenericRepository genericRepository;
     @Inject private BinaryContentRepository bcRepo;
+    @Inject private CurrentUser currentUser;
+
+    private SectionPage map(Section section){
+        User user = null;
+        if(currentUser.isLoggedIn()){
+            user = genericRepository.findById(User.class,currentUser.getId());
+        }
+        return SectionPage.builder().id(section.getId())
+                .name(section.getName())
+                .picture(section.getPicture())
+                .description(section.getDescription())
+                .banner(section.getBanner())
+                .nFollowers(section.getFollowCount())
+                .isFollowed(user != null && section.getFollow(user) != null).build();
+    }
 
     @AdminsOnly
     public void delete(@SectionExistsById int id){
@@ -43,19 +62,18 @@ public class SectionService {
         return genericRepository.insert(s).getId();
     }
 
+    public List<SectionPage> showSections(){
+        return genericRepository.findAll(Section.class).stream().map(this::map).collect(Collectors.toList());
+    }
 
     public SectionPage showSection(@SectionExistsById int id){
        Section s =  genericRepository.findById(Section.class, id);
-       int nFollowers = s.getFollowCount();
-       SectionPage sectionData = new SectionPage(id,s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
-       return sectionData;
+       return map(s);
     }
 
     public SectionPage getSection(@SectionExists String sectionName){
         Section s = sectionRepo.getByName(sectionName);
-        int nFollowers = s.getFollowCount();
-        SectionPage section = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
-        return section;
+        return map(s);
     }
 
     @AdminsOnly
