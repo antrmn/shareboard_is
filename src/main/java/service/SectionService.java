@@ -7,8 +7,7 @@ import persistence.repo.SectionRepository;
 import service.auth.AdminsOnly;
 import service.dto.SectionPage;
 import service.validation.SectionExists;
-
-import javax.ejb.Stateless;
+import service.validation.SectionExistsById;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -24,7 +23,7 @@ public class SectionService {
     @Inject private BinaryContentRepository bcRepo;
 
     @AdminsOnly
-    public void delete(@SectionExists int id){
+    public void delete(@SectionExistsById int id){
         sectionRepo.remove(sectionRepo.findById(id));
     }
 
@@ -44,30 +43,23 @@ public class SectionService {
     }
 
 
-    public SectionPage showSection(@SectionExists int id){
+    public SectionPage showSection(@SectionExistsById int id){
        Section s =  sectionRepo.findById(id);
        int nFollowers = followRepo.getBySection(s).size();
        SectionPage sectionData = new SectionPage(id,s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
        return sectionData;
     }
 
-    public SectionPage getSection(@SectionExists int id){
-        Section s = sectionRepo.findById(id);
+    public SectionPage getSection(@SectionExists String sectionName){
+        Section s = sectionRepo.getByName(sectionName);
         int nFollowers = followRepo.getBySection(s).size();
         SectionPage section = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
         return section;
     }
 
-    public SectionPage getSection(String sectionName){
-        Section s = sectionRepo.getByName(sectionName);
-        int nFollowers = followRepo.getBySection(s).size();
-        SectionPage section = new SectionPage(s.getId(), s.getName(), s.getDescription(), s.getPicture(), s.getBanner(), nFollowers);
-        return section;
-    } //todo: notazione sectionExists per il nome
-
     @AdminsOnly
     public void editSection(SectionPage edit,
-                            @SectionExists int id,
+                            @SectionExistsById int id,
                             BufferedInputStream picture,
                             BufferedInputStream banner) throws IOException {
         Section s = sectionRepo.findById(id);

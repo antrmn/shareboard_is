@@ -29,7 +29,7 @@ public class EditSectionServlet extends InterceptableServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int sectionId = converter.getIntParameter("sectionId").orElse(0);
-        SectionPage section = service.getSection(sectionId);
+        SectionPage section = service.showSection(sectionId);
         request.setAttribute("section", section);
         request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);
     }

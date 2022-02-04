@@ -25,13 +25,13 @@ public class BanService {
     @Inject private UserRepository userRepo;
 
     @AdminsOnly
-    public void addBan(@Future Instant date, @UserExists int userId) {
+    public Ban addBan(@Future Instant date, @UserExists int userId) {
         Ban ban = new Ban();
         ban.setEndTime(date);
         User user = new User();
         user.setId(userId);
         ban.setUser(user);
-        banRepo.insert(ban);
+        return banRepo.insert(ban);
     }
 
     @AdminsOnly
