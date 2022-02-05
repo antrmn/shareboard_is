@@ -3,7 +3,6 @@ package http.controller;
 import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
-import persistence.model.Section;
 import service.SectionService;
 import service.dto.SectionPage;
 
@@ -11,7 +10,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -42,7 +40,7 @@ public class EditSectionServlet extends InterceptableServlet {
         Part picture = request.getPart("picture");
         Part banner = request.getPart("banner");
 
-        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0);
+        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0, true);
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
         service.editSection(sectionPage,sectionId,buffPicture,buffBanner);

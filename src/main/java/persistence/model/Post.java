@@ -43,7 +43,7 @@ public class Post implements Serializable {
     protected Integer votesCount;
 
     @Getter
-    @Formula("(select count(c.id) from Comment c where c.post_id = id group by c.post_id)") //native sql ew
+    @Formula("(select 2)") //native sql ew
     protected Integer commentCount;
 
     @Getter @Setter

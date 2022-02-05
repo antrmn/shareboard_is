@@ -6,10 +6,7 @@ import persistence.model.User;
 import persistence.repo.*;
 import service.auth.AuthenticationRequired;
 import service.auth.DenyBannedUsers;
-import service.dto.CurrentUser;
-import service.dto.PostEditDTO;
-import service.dto.PostPage;
-import service.dto.PostSearchForm;
+import service.dto.*;
 import service.validation.Image;
 import service.validation.PostExists;
 import service.validation.SectionExists;
@@ -45,6 +42,8 @@ public class PostService {
         if(currentUser.isLoggedIn())
             user = genericRepository.findById(User.class,currentUser.getId());
 
+        //converte persistence.Post.Type in service.dto.PostType (ew)
+        PostType postType = post.getType() == IMG ? PostType.IMG : PostType.TEXT;
         return PostPage.builder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -55,7 +54,9 @@ public class PostService {
                 .sectionId(post.getSection().getId())
                 .authorId(post.getAuthor().getId())
                 .content(post.getContent())
+                .creationDate(post.getCreationDate())
                 .nComments(post.getCommentCount())
+                .type(postType)
                 .build();
     }
 
@@ -65,6 +66,7 @@ public class PostService {
         return post;
     }
 
+    @Transactional
     public List<PostPage> loadPosts(PostSearchForm form){
         final int elementsPerPage = 10;
         PostRepository.PostFinder finder = postRepo.getFinder();

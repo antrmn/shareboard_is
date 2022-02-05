@@ -1,19 +1,19 @@
 package service.dto;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Map;
 
-@Builder
-@Getter
+@Data @Builder
 public class CommentDTO {
     private final int id;
-    private final String username;
+    private final String authorUsername;
+    private final int authorId;
     private final String content;
-    private final String sectionName;
-    private final Instant creationTime;
-    private final int parentCommentId = 0;
+    private final Instant creationDate;
+    @Builder.Default private final int parentCommentId = 0;
+    private final int postId;
+    private final int vote;
+    private final int votes;
 }

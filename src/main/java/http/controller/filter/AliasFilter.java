@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@WebFilter("/*")
+@WebFilter("*")
 public class AliasFilter extends HttpFilter {
     @Inject CurrentUser currentUser;
 

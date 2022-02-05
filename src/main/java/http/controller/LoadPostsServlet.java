@@ -1,6 +1,8 @@
 package http.controller;
 
 import http.util.ParameterConverter;
+import service.PostService;
+import service.dto.PostPage;
 import service.dto.PostSearchForm;
 
 import javax.inject.Inject;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -20,7 +23,8 @@ import static service.dto.PostSearchForm.SortCriteria.*;
 
 @WebServlet("/loadposts")
 public class LoadPostsServlet extends HttpServlet {
-    @Inject ParameterConverter converter;
+    @Inject private ParameterConverter converter;
+    @Inject private PostService postService;
 
     private static final Function<LocalDate, Instant> LOCALDATE_TO_INSTANT =
             x -> x.atStartOfDay().toInstant(ZoneOffset.UTC);
@@ -56,8 +60,9 @@ public class LoadPostsServlet extends HttpServlet {
                 .page(page)
                 .build();
 
-        //TODO: prendi sezioni, ottieni top all time e top weekly
-        req.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(req,resp);
+        List<PostPage> posts = postService.loadPosts(postSearchForm);
+        req.setAttribute("posts",posts);
+        req.getRequestDispatcher("/WEB-INF/views/partials/post-previews.jsp").forward(req,resp);
     }
 
     @Override

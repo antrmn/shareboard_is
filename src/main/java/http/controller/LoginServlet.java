@@ -16,7 +16,7 @@ import java.io.IOException;
                                             errorPage = ""))
 
 @ServletSecurity(httpMethodConstraints = {
-        @HttpMethodConstraint(value = "GET", rolesAllowed = {"**"})
+        @HttpMethodConstraint(value = "GET", rolesAllowed = {"user","admin"})
 })
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {

@@ -2,7 +2,6 @@
 <%@ taglib prefix="sb" tagdir="/WEB-INF/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<%-- Sta roba (l'anyMatch) è un optional diverso da java.util.stream. Vedi org.apache.el.stream.Optional  --%>
 <c:set var="isUserBanned"
        value="${not empty currentUser.banDuration}"/>
 
@@ -54,7 +53,7 @@
                     </div>
                     <div class = "grid-y-nw" style="flex-grow:1; align-items: start; margin-right: 40px;">
                         <div style = "flex-basis: 100%">
-                            <a href="/shareboard/s/${post.sectionName}" class = white-text>s/${fn:toLowerCase(requestScope.post.sectionName)}</a>
+                            <a href="/shareboard/s/${post.sectionName}" class = white-text>s/${fn:toLowerCase(post.sectionName)}</a>
                             <a href="/shareboard/u/${post.authorName}" class = grey-text>posted by ${post.authorName}</a>
                         </div>
                         <div class = "white-text ${empty post.content ? 'post-big-title' : ''}">
@@ -64,7 +63,7 @@
                         <div>
                             <c:choose>
                                 <c:when test="${post.type == 'IMG'}">
-                                    <img src= "${applicationScope.picsLocation}/${post.content}" class = "post-image">
+                                    <img src= "${pageContext.request.contextPath}/${post.content}" class = "post-image">
                                 </c:when>
                                 <c:when test="${post.type == 'TEXT' && not empty post.content}">
                                     <p class = white-text style = "border: solid 1px gray; border-radius: 4px; padding: 7px; word-break: break-word;">
@@ -75,8 +74,8 @@
                         </div>
                         <div class = "grey-text" >
                             <i class="fas fa-comment-dots"></i>
-                            ${post.nComments}
-                            <c:if test="${currentUser.id == post.authorId || currentUser.isAdmin == true}">
+                            ${post.NComments}
+                            <c:if test="${currentUser.id == post.authorId || currentUser.admin == true}">
                                 <c:if test="${!isUserBanned}">
                                     <a href="${pageContext.request.contextPath}/editpost?id=${post.id}">Edit</a>
                                 </c:if>

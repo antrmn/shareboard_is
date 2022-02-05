@@ -1,16 +1,12 @@
 package service.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@AllArgsConstructor
-@Builder
-@Getter
-@Setter
+import java.time.Instant;
+
+@Data @Builder
 public class PostPage {
-
     private int id;
     private String title;
     private int vote;
@@ -19,6 +15,8 @@ public class PostPage {
     private String authorName;
     private Integer sectionId;
     private Integer authorId;
+    private Instant creationDate;
     private String content;
     private int nComments;
+    private PostType type;
 }

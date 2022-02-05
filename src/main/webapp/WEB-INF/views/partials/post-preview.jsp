@@ -1,6 +1,6 @@
-<%@ page import="model.Post" %>
+<%@ page import="service.dto.PostPage" %>
 <%@ page import="util.DateUtils" %>
-<%--@elvariable id="post" type="model.Post"--%>
+<%--@elvariable id="post" type="service.dto.PostPage"--%>
 <%-- Quello sopra è un commento di IntelliJ che permette di ignorare l'errore "cannot resolve variable" e
      fornisce l'auto-complete anche se l'oggetto non è presente (Ancora) in nessuno scope --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -21,7 +21,7 @@
                        <i class="fas fa-comment post-generic-holder" ></i>
                    </c:when>
                    <c:otherwise>
-                       <img class=" post-generic-holder post-image-holder" src=${applicationScope.picsLocation}/${post.content}>
+                       <img class=" post-generic-holder post-image-holder" src="${pageContext.request.contextPath}/image/${post.content}">
                    </c:otherwise>
                </c:choose>
            </a>
@@ -35,7 +35,7 @@
                 <a href="" title="${sbfn:getDate(post.creationDate)}"  style = "font-size: 12px;font-weight: 400;line-height: 16px">${sbfn:printTimeSince(post.creationDate)} fa</a>
                 <a href="${pageContext.request.contextPath}/post/${post.id}#comment-container" id="post-comment-container" style = "display: block; font-size: 12px;font-weight: 400;line-height: 16px; width: 120px; margin-bottom: 5px;">
                     <i class="fas fa-comment-dots"></i>
-                    ${post.nComments} comments
+                    ${post.NComments} comments
                 </a>
             </div>
         </a>
