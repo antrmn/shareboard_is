@@ -81,7 +81,7 @@ public class BanServiceTest extends ServiceTest{
         assertThrows(ConstraintViolationException.class,() -> service.addBan(data,id));
     }
 
-   /* @ParameterizedTest
+    @ParameterizedTest
     @ValueSource(ints = {1, 4, 50})
     void successfulRetrieveUserBan(int id){
         int year = LocalDate.now().getYear()+1;
@@ -89,32 +89,20 @@ public class BanServiceTest extends ServiceTest{
         User user = new User();
         user.setId(id);
         when(genericRepository.findById(User.class,id)).thenReturn(user);
-        List<Ban> bans = new ArrayList<>();
         Ban ban = new Ban();
         ban.setEndTime(data);
         ban.setUser(user);
-        bans.add(ban);
-        when(banRepo.getByUser(any())).thenReturn(bans);
+        when(genericRepository.insert(ban)).thenReturn(ban);
         List<BanDTO> bansDTO = service.retrieveUserBan(id);
-        assertTrue(bansDTO != null && bansDTO.size() == bans.size());
-    }*/
+        assertTrue(bansDTO != null && bansDTO.size() == 1);
+    }
 
-    /*@ParameterizedTest
+    @ParameterizedTest
     @ValueSource(ints = {-1, -4, -50})
     void failRetrieveUserBanWithWrongId(int id){
-        int year = LocalDate.now().getYear()+1;
-        Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
-        User user = new User();
-        user.setId(id);
         when(genericRepository.findById(User.class,id)).thenReturn(null);
-        List<Ban> bans = new ArrayList<>();
-        Ban ban = new Ban();
-        ban.setEndTime(data);
-        ban.setUser(user);
-        bans.add(ban);
-        when(banRepo.getByUser(any())).thenReturn(bans);
         assertThrows(ConstraintViolationException.class,() -> service.retrieveUserBan(id));
-    }*/
+    }
 
     @ParameterizedTest
     @ValueSource(ints = {2, 7, 35})
