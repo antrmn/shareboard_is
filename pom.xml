@@ -59,12 +59,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-testing</artifactId>
-            <version>5.6.5.Final</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.tomee</groupId>
             <artifactId>openejb-junit5</artifactId>
             <version>${tomee.version}</version>
