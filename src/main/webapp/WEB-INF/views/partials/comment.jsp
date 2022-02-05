@@ -27,15 +27,15 @@
             <c:if test="${not empty comment.parentComment && comment.parentComment.id > 0 && empty actualDepth}">
                 <span id="parent-button" class="grey-text"><a href="${pageContext.request.contextPath}/post/${comment.post.id}?comment=${comment.parentComment.id}"><i class="fas fa-level-up-alt"></i>&nbsp;<span>Parent</span></a></span>
             </c:if>
-            <c:if test="${not empty requestScope.loggedUser && isUserBanned == false}">
+            <c:if test="${not empty currentUser && isUserBanned == false}">
              <span id = "reply-button" class = "grey-text" onclick="toggleTextArea(this)">
                 <input type = "hidden" name = "commentId" value = ${comment.id}>
                 <i class="fas fa-comment-dots"></i>
                 <span>Reply</span>
              </span>
             </c:if>
-            <c:if test="${not empty requestScope.loggedUser
-                        and (comment.author.id == requestScope.loggedUser.id or requestScope.loggedUser.admin.equals(true))}">
+            <c:if test="${not empty currentUser
+                        and (comment.author.id == currentUser.id or currentUser.isAdmin)}">
                 <c:if test="${isUserBanned == false}">
                     <span id = "edit-button" class = "grey-text" onclick="toggleTextArea(this)"><i class="fas fa-pencil-alt"></i>&nbsp;Edit</span>
                 </c:if>

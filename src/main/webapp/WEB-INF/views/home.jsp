@@ -12,7 +12,7 @@
 <body>
         <jsp:include page="/WEB-INF/views/partials/navbar.jsp">
             <jsp:param name="currentSection" value="Home" />
-            <jsp:param name="userName" value="${empty requestScope.loggedUser ? 'unlogged' : currentUser.username}" />
+            <jsp:param name="userName" value="${empty currentUser ? 'unlogged' : currentUser.username}" />
             <jsp:param name="userKarma" value="4316" />
         </jsp:include>
 
@@ -32,7 +32,7 @@
                             background-position-y: center;
                             background-position-x: center;"></div>
                     <c:choose>
-                        <c:when test="${empty requestScope.loggedUser}">
+                        <c:when test="${empty currentUser}">
                             <h4 style = "margin-left: 10px;">Welcome on Shareboard!</h4>
                         </c:when>
                         <c:otherwise>
@@ -44,7 +44,7 @@
                     <div class="card-image" style = "background-image: url('${pageContext.request.contextPath}/images/banner-background.png');height: 80px; align-items: center">
                         <h2 class="card-img-text">Top Sections</h2>
                     </div>
-                    <c:forEach items="${requestScope.topSections}" var="section" end="4">
+                    <c:forEach items="${topSections}" var="section" end="4">
                         <div class = "trending-container">
                             <c:choose>
                                 <c:when test="${empty section.picture }">
@@ -55,9 +55,9 @@
                                 </c:otherwise>
                             </c:choose>
                             <p style = "margin-left: 10px;">${section.name}</p>
-                            <button type="submit" class = "${userFollows.contains(section.id) ? 'roundButton darkGreyButton follow-button follow-roundbutton follow-button-isfollowing' :  'roundButton lightGreyButton follow-button follow-roundbutton' } "
+                            <button type="submit" class = "${section.isFollowed ? 'roundButton darkGreyButton follow-button follow-roundbutton follow-button-isfollowing' :  'roundButton lightGreyButton follow-button follow-roundbutton' } "
                                     onclick="toggleFollow(this)" data-section-id = "${section.id}" style = "margin-left: auto; margin-right: 10px;">
-                                    ${userFollows.contains(section.id) ? 'Joined' : 'Join'}
+                                    ${section.isFollowed ? 'Joined' : 'Join'}
                             </button>
                         </div>
                     </c:forEach>
@@ -66,7 +66,7 @@
                     <div class="card-image" style = "background-image: url('${pageContext.request.contextPath}/images/bg-orange.png');">
                         <h2 class="card-img-text">Trending Sections</h2>
                     </div>
-                        <c:forEach items="${requestScope.trendingSections}" var="section" end="4"  varStatus="loop">
+                        <c:forEach items="${trendingSections}" var="section" end="4"  varStatus="loop">
 
                             <a href = "${context}/s/${section.name}" style = "width: 100%;" class = "trending-container">
                                 <p style = "margin-left: 10px;">${loop.index+1}</p>

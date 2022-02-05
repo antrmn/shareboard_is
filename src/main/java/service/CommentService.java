@@ -34,13 +34,13 @@ public class CommentService {
 
     private static final int MAX_COMMENT_DEPTH = 4;
 
-    public CommentTreeDTO getPostComments(int postId){
+    public CommentTreeDTO getPostComments(@PostExists int postId){
         List<Comment> comments = commentRepo.getByPost(genericRepository.findById(Post.class, postId), 
                 MAX_COMMENT_DEPTH);
         return mapToTree(comments);
     }
 
-    public CommentTreeDTO getReplies(int commentId){
+    public CommentTreeDTO getReplies(@CommentExists int commentId){
         List<Comment> comments = commentRepo.getReplies(genericRepository.findById(Comment.class, commentId), MAX_COMMENT_DEPTH);
         return mapToTree(comments);
     }

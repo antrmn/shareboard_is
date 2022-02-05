@@ -83,7 +83,7 @@
                                 <a href="${pageContext.request.contextPath}/deletepost?id=${post.id}" onclick="return confirm('Cancellare il post?')">Delete</a>
                             </c:if>
                         </div>
-                        <c:if test="${not empty requestScope.loggedUser && !isUserBanned}">
+                        <c:if test="${not empty currentUser && !isUserBanned}">
                             <jsp:include page="../partials/comment-form.jsp">
                                 <jsp:param name="id" value="${post.id}"/>
                             </jsp:include>
@@ -121,8 +121,8 @@
     </div>
     <div id="right-container">
         <jsp:include page="../partials/section-info.jsp">
-            <jsp:param name="description" value="${applicationScope.sections[post.sectionId].description}" />
-            <jsp:param name="nFollowers" value="${applicationScope.sections[post.sectionId].nFollowersTotal}" />
+            <jsp:param name="description" value="${sections[post.sectionId].description}" />
+            <jsp:param name="nFollowers" value="${sections[post.sectionId].nFollowersTotal}" />
             <jsp:param name="sectionId" value="${post.sectionId}" />
         </jsp:include>
         <jsp:include page="../partials/rules.jsp"/>
