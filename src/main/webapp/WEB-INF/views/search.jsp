@@ -37,8 +37,8 @@
                             </h5>
                             <select name="section" id="section-select" class = "dark-select" style = "margin-bottom:5px; display: block; width:40%">
                                 <option></option>
-                                <c:forEach var="section" items="${applicationScope.sections}">
-                                    <option ${section.value.name == param.section ? "selected" : ""} value="${section.value.name}">${section.value.name}</option>
+                                <c:forEach var="section" items="${sections}">
+                                    <option ${section.name == param.section ? "selected" : ""} value="${section.name}">${section.name}</option>
                                 </c:forEach>
                             </select>
                             <label>
