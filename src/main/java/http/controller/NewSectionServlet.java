@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -39,7 +40,7 @@ public class NewSectionServlet extends InterceptableServlet {
 
         //gestire errore immagine
 
-        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0,true);
+        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0,false);//false?
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
         service.newSection(sectionPage,buffPicture,buffBanner);

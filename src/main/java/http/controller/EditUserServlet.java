@@ -41,7 +41,7 @@ public class EditUserServlet extends InterceptableServlet {
         String pass = request.getParameter("pass");
         String pass2 = request.getParameter("pass2");
 
-        if(!pass.equals(pass2))
+        if((!pass.isEmpty() || !pass2.isEmpty()) && !pass.equals(pass2))
             throw new IllegalArgumentException("Le password devono coincidere");
 
         BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());

@@ -6,18 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
-import persistence.model.Follow;
 import persistence.model.Section;
 import persistence.repo.BinaryContentRepository;
-import persistence.repo.FollowRepository;
+import persistence.repo.GenericRepository;
 import persistence.repo.SectionRepository;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.SectionPage;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,8 +26,8 @@ import static org.mockito.Mockito.when;
         cdiStereotypes = CdiMock.class)
 public class SectionServiceTest extends ServiceTest{
 
+    @Mock GenericRepository genericRepository;
     @Mock private SectionRepository sectionRepo;
-    @Mock private FollowRepository followRepo;
     @Mock private BinaryContentRepository bcRepo;
     @Inject private SectionService service;
 
@@ -38,14 +35,15 @@ public class SectionServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 30})
     void successfulDeleteSection(int id){
        Section section = new Section();
-       when(sectionRepo.findById(id)).thenReturn(section);
+       section.setId(id);
+       when(genericRepository.findById(Section.class,id)).thenReturn(section);
        assertDoesNotThrow(() -> service.delete(id));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-1, -5, -30})
     void failDeleteSectionWithWrongId(int id){
-        when(sectionRepo.findById(id)).thenReturn(null);
+        when(genericRepository.findById(Section.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class, () -> service.delete(id));
     }
 
@@ -54,8 +52,8 @@ public class SectionServiceTest extends ServiceTest{
         when(bcRepo.insert(any())).thenReturn("fileName");
         Section section = new Section();
         section.setId(1);
-        when(sectionRepo.insert(any())).thenReturn(section);
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2);
+        when(genericRepository.insert(any())).thenReturn(section);
+        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
         int id = service.newSection(sectionPage, null, null);
         assertDoesNotThrow(() -> bcRepo.insert(any()));
         assertEquals(1,id);
@@ -64,8 +62,8 @@ public class SectionServiceTest extends ServiceTest{
     @Test
     void failNewSection() throws IOException {
         when(bcRepo.insert(any())).thenReturn("fileName");
-        when(sectionRepo.insert(any())).thenReturn(null);
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2);
+        when(genericRepository.insert(any())).thenReturn(null);
+        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
         assertThrows(NullPointerException.class,() -> service.newSection(sectionPage, null, null));
     }
 
@@ -79,10 +77,7 @@ public class SectionServiceTest extends ServiceTest{
         section.setDescription("description");
         section.setPicture("picture");
         section.setName("name");
-        when(sectionRepo.findById(id)).thenReturn(section);
-        List<Follow> followList = new ArrayList<>();
-        followList.add(new Follow());
-        when(followRepo.getBySection(any())).thenReturn(followList);
+        when(genericRepository.findById(Section.class,id)).thenReturn(section);
         SectionPage sectionPage = service.showSection(id);
         assertNotNull(sectionPage);
     }
@@ -90,7 +85,7 @@ public class SectionServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void failShowSectionWithWrongId(int id){
-        when(sectionRepo.findById(id)).thenReturn(null);
+        when(genericRepository.findById(Section.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.showSection(id));
     }
 
@@ -104,9 +99,6 @@ public class SectionServiceTest extends ServiceTest{
         section.setPicture("picture");
         section.setName(sectionName);
         when(sectionRepo.getByName(sectionName)).thenReturn(section);
-        List<Follow> followList = new ArrayList<>();
-        followList.add(new Follow());
-        when(followRepo.getBySection(any())).thenReturn(followList);
         SectionPage sectionPage = service.getSection(sectionName);
         assertNotNull(sectionPage);
     }
@@ -121,9 +113,10 @@ public class SectionServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void successfulEditSection(int id) throws IOException {
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2);
+        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
         Section section = new Section();
-        when(sectionRepo.findById(id)).thenReturn(section);
+        section.setId(id);
+        when(genericRepository.findById(Section.class,id)).thenReturn(section);
         when(bcRepo.insert(any())).thenReturn("fileName");
         assertDoesNotThrow(() -> service.editSection(sectionPage,id,null,null));
     }
@@ -131,8 +124,8 @@ public class SectionServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {-1, -5, -30})
     void failEditSectionWithWrongID(int id) throws IOException {
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2);
-        when(sectionRepo.findById(id)).thenReturn(null);
+        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
+        when(genericRepository.findById(Section.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.editSection(sectionPage,id,null,null));
     }
 

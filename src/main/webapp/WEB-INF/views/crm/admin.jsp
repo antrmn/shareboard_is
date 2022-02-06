@@ -20,20 +20,20 @@
         <jsp:param name="currentSection" value="dashboard" />
     </jsp:include>
 
-    <div id="admin-panel-container" class = "grid-x justify-center align-center">
+<%--    <div id="admin-panel-container" class = "grid-x justify-center align-center">--%>
 
-        <div class="dashboard-card dashboard-card-big grid-x hide">
-            <div id="posts-bysection-chart" class="chart"></div>
-        </div>
-        <div class="dashboard-card dashboard-card-big grid-x hide">
-            <div id="users-bysection-chart" class="chart"></div>
-        </div>
-        <div class="dashboard-card dashboard-card-big grid-x hide">
-            <div id="recent-registrations-chart" class="chart"></div>
-        </div>
-        <div class="dashboard-card dashboard-card-big grid-x hide">
-            <div id="recent-posts-chart" class="chart"></div>
-        </div>
-    </div>
+<%--        <div class="dashboard-card dashboard-card-big grid-x hide">--%>
+<%--            <div id="posts-bysection-chart" class="chart"></div>--%>
+<%--        </div>--%>
+<%--        <div class="dashboard-card dashboard-card-big grid-x hide">--%>
+<%--            <div id="users-bysection-chart" class="chart"></div>--%>
+<%--        </div>--%>
+<%--        <div class="dashboard-card dashboard-card-big grid-x hide">--%>
+<%--            <div id="recent-registrations-chart" class="chart"></div>--%>
+<%--        </div>--%>
+<%--        <div class="dashboard-card dashboard-card-big grid-x hide">--%>
+<%--            <div id="recent-posts-chart" class="chart"></div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 </body>
 </html>
