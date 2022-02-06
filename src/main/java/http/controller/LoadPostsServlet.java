@@ -45,7 +45,7 @@ public class LoadPostsServlet extends HttpServlet {
                 .map(LOCALDATE_TO_INSTANT).orElse(null);
         PostSearchForm.SortCriteria orderBy = SORT_CRITERIA.get(req.getParameter("orderby"));
         int page = converter.getIntParameter("page").orElse(1);
-        boolean onlyFollow = req.getParameter("onlyfollow") != null;
+        boolean onlyFollow = req.getParameter("onlyfollow") != null && req.getParameter("onlyfollow").equals("on");
         boolean includeBody = req.getParameter("includeBody") != null;
 
         PostSearchForm postSearchForm = PostSearchForm.builder()
