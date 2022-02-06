@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import persistence.model.Ban;
 import persistence.model.User;
 import persistence.repo.GenericRepository;
-import persistence.repo.UserRepository;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.BanDTO;
 import javax.inject.Inject;
@@ -21,7 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Classes(cdi = true,
         value={BanService.class},
@@ -54,14 +53,6 @@ public class BanServiceTest extends ServiceTest{
     void failAddBanWithPastDate(int id){
         int year = LocalDate.now().getYear()-1;
         Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
-        User user = new User();
-        user.setId(1);
-        when(genericRepository.findById(User.class,id)).thenReturn(user);
-        Ban ban = new Ban();
-        ban.setId(id);
-        ban.setEndTime(data);
-        ban.setUser(user);
-        when(genericRepository.insert(any())).thenReturn(ban);
         assertThrows(ConstraintViolationException.class,() -> service.addBan(data,id));
     }
 
@@ -70,14 +61,7 @@ public class BanServiceTest extends ServiceTest{
     void failAddBanWithWrongId(int id){
         int year = LocalDate.now().getYear()+1;
         Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
-        User user = new User();
-        user.setId(1);
         when(genericRepository.findById(User.class,id)).thenReturn(null);
-        Ban ban = new Ban();
-        ban.setId(id);
-        ban.setEndTime(data);
-        ban.setUser(user);
-        when(genericRepository.insert(any())).thenReturn(ban);
         assertThrows(ConstraintViolationException.class,() -> service.addBan(data,id));
     }
 
@@ -86,13 +70,15 @@ public class BanServiceTest extends ServiceTest{
     void successfulRetrieveUserBan(int id){
         int year = LocalDate.now().getYear()+1;
         Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
-        User user = new User();
+        User user = spy(User.class);
         user.setId(id);
         when(genericRepository.findById(User.class,id)).thenReturn(user);
+        List<Ban> bans = new ArrayList<>();
         Ban ban = new Ban();
         ban.setEndTime(data);
         ban.setUser(user);
-        when(genericRepository.insert(ban)).thenReturn(ban);
+        bans.add(ban);
+        doReturn(bans).when(user).getBans();
         List<BanDTO> bansDTO = service.retrieveUserBan(id);
         assertTrue(bansDTO != null && bansDTO.size() == 1);
     }
