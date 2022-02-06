@@ -27,7 +27,7 @@ public class EditCommentServlet extends HttpServlet {
         String text = request.getParameter("text");
         service.editComment(commentId,text);
 
-        int parentPostId = service.getComment(commentId).getPost().getId();
+        int parentPostId = service.getComment(commentId).getPostId();
 
         response.sendRedirect( getServletContext().getContextPath() + "/post/" + parentPostId);
     }

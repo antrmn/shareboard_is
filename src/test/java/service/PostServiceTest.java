@@ -18,24 +18,28 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
+import persistence.model.Comment;
+import persistence.model.Post;
+import persistence.model.Section;
 import persistence.model.User;
-import persistence.repo.BinaryContentRepository;
-import persistence.repo.PostRepository;
-import persistence.repo.SectionRepository;
-import persistence.repo.UserRepository;
+import persistence.repo.*;
 import rocks.limburg.cdimock.CdiMock;
 import rocks.limburg.cdimock.CdiMocking;
 import security.Pbkdf2PasswordHashImpl;
+import service.dto.CommentDTO;
+import service.dto.PostPage;
 import service.dto.UserIdentityDTO;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.quality.Strictness.LENIENT;
 
@@ -46,23 +50,33 @@ import static org.mockito.quality.Strictness.LENIENT;
         cdiStereotypes = CdiMock.class)
 public class PostServiceTest extends ServiceTest{
 
-    @Mock SectionRepository sectionRepository;
+    @Mock
+    GenericRepository genericRepository;
     @Mock PostRepository postRepository;
     @Mock UserRepository userRepository;
     @Mock BinaryContentRepository binaryContentRepository;
     @Inject PostService service;
 
-    @BeforeEach
-    void setUp() {}
+//    @Test
+//    public void noSectionFoundNewPost(){
+//        String sectionName = "idontexist";
+//        when(genericRepository.getByName(sectionName)).thenReturn(null);
+//        assertThrows(ConstraintViolationException.class,
+//                () -> service.newPost("title", "body", sectionName));
+//    }
 
-    @AfterEach
-    void tearDown() {}
+//    @Test
+//    void succesfulNewPost(){
+//        Post post = new Post();
+//        post.setId(1);
+//        String sectionName = "test";
+//        Section section = new Section();
+//        section.setId(1);
+//        section.setName(sectionName);
+//        when(genericRepository.insert(any())).thenReturn(section);
+//        when(genericRepository.insert(any())).thenReturn(post);
+//        int id = service.newPost("title", "content", sectionName);
+//        AssertNotNull(id);
+//    }
 
-    @Test
-    public void noSectionFoundNewPost(){
-        String sectionName = "idontexist";
-        when(sectionRepository.getByName(sectionName)).thenReturn(null);
-        assertThrows(ConstraintViolationException.class,
-                () -> service.newPost("title", "body", sectionName));
-    }
 }

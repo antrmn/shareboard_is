@@ -19,7 +19,7 @@ public class DeleteCommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ParameterConverter converter = new ParameterConverter(request);
         int commentId = converter.getIntParameter("id").orElse(0);
-        int postId = service.getComment(commentId).getPost().getId();
+        int postId = service.getComment(commentId).getPostId();
         service.delete(commentId);
         response.sendRedirect(getServletContext().getContextPath() + "/post/" + postId);
     }

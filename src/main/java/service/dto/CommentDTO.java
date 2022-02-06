@@ -1,11 +1,13 @@
 package service.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
 
 @Data @Builder
+@AllArgsConstructor
 public class CommentDTO {
     private final int id;
     private final String authorUsername;
