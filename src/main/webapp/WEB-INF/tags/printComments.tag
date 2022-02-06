@@ -15,7 +15,7 @@
         <c:choose>
             <c:when test="${depth < applicationScope.maxCommentDepth}">
                 <c:set var = "actualDepth"  value = "${depth+1}"/>
-                <sb:printComments comments="${comments}" idParent="${comment}" depth="${depth+1}" isUserBanned="${isUserBanned}">
+                <sb:printComments comments="${comments}" idParent="${comment.id}" depth="${depth+1}" isUserBanned="${isUserBanned}">
                                 <jsp:attribute name="commentFragment">
                                     <%@ include file="/WEB-INF/views/partials/comment.jsp" %>
                                 </jsp:attribute>

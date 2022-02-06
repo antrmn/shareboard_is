@@ -33,7 +33,7 @@
     <span>
       <c:choose>
         <c:when test="${not empty user.picture}">
-          <img id="header-icon" src= "${applicationScope.picsLocation}/${user.picture}" >
+          <img id="header-icon" src= "${pageContext.request.contextPath}/images/${user.picture}" >
         </c:when>
         <c:otherwise>
           <img id = "header-icon" src="${pageContext.request.contextPath}/images/default-user-icon.webp">
@@ -43,7 +43,7 @@
     <span class="grid-y">
       <h2>${user.username}</h2>
       <span>Utente dal <fmt:formatDate value="${creationDate}" pattern="dd/MM/yyyy"/></span>
-      <c:if test="${currentUser.id == user.id || currentUser.isAdmin.equals(true)}">
+      <c:if test="${currentUser.id == user.id || currentUser.admin == true}">
         <a href="${pageContext.request.contextPath}/edituser?id=${user.id}"
            style="margin-right: auto; margin-bottom:10px; margin-top:10px" class="roundButton darkGreyButton">
         Edit profile

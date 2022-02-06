@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -42,9 +44,12 @@ public class Post implements Serializable {
     @Column(name = "votes", nullable = false, insertable = false, updatable = false)
     protected Integer votesCount;
 
-    @Getter
-    @Formula("(select 2)") //native sql ew
-    protected Integer commentCount;
+    @OneToMany(mappedBy="post")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    protected List<Comment> comments;
+    public int getCommentCount(){
+        return comments.size();
+    }
 
     @Getter @Setter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

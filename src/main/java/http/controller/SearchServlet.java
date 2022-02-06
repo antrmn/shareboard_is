@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static service.dto.PostSearchForm.SortCriteria.*;
@@ -44,7 +45,8 @@ public class SearchServlet extends HttpServlet {
                 .map(LOCALDATE_TO_INSTANT).orElse(null);
         Instant postedBefore = converter.getDateParameter("postedBefore")
                 .map(LOCALDATE_TO_INSTANT).orElse(null);
-        PostSearchForm.SortCriteria orderBy = SORT_CRITERIA.get(req.getParameter("orderby"));
+        PostSearchForm.SortCriteria orderBy = SORT_CRITERIA.get(
+                Optional.ofNullable(req.getParameter("orderby")).orElse("newest"));
         int page = converter.getIntParameter("page").orElse(1);
         boolean onlyFollow = req.getParameter("onlyfollow") != null;
         boolean includeBody = req.getParameter("includeBody") != null;

@@ -27,14 +27,14 @@
                 <div style = "padding: 12px 16px; color: #77797a; font-size: 10px; font-weight: 500; line-height: 16px;text-transform: uppercase; ">Sections</div>
 
                 <div id = "section-container">
-                    <c:forEach items="${sections}" var="section">
+                    <c:forEach items="${sections.values()}" var="section">
                         <div class = "section-element" style="display: flex; ">
                              <c:choose>
                                  <c:when test="${empty section.picture }">
                                      <img class = "small-round-image-borderless" src="${pageContext.request.contextPath}/images/default-logo.png">
                                  </c:when>
                                  <c:otherwise>
-                                     <img class = "small-round-image-borderless" src= "${applicationScope.picsLocation}/${ section.picture}">
+                                     <img class = "small-round-image-borderless" src= "${pageContext.request.contextPath}/images/${section.picture}">
                                  </c:otherwise>
                              </c:choose>
                             <a class = "dropdown-section-link" href="${context}/s/${section.name}">${section.name}</a>

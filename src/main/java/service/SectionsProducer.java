@@ -7,7 +7,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class SectionsProducer {
@@ -16,8 +17,8 @@ public class SectionsProducer {
     @Named("sections")
     @RequestScoped
     @Produces
-    public List<SectionPage> produceSections(){
-        return service.showSections();
+    public Map<Integer,SectionPage> produceSections(){
+        return service.showSections().stream().collect(Collectors.toMap(SectionPage::getId, section -> section));
     }
 
 }

@@ -121,7 +121,7 @@
     <div id="right-container">
         <jsp:include page="../partials/section-info.jsp">
             <jsp:param name="description" value="${sections[post.sectionId].description}" />
-            <jsp:param name="nFollowers" value="${sections[post.sectionId].nFollowersTotal}" />
+            <jsp:param name="nFollowers" value="${sections[post.sectionId].NFollowers}" />
             <jsp:param name="sectionId" value="${post.sectionId}" />
         </jsp:include>
         <jsp:include page="../partials/rules.jsp"/>

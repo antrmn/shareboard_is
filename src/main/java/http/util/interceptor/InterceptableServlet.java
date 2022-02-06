@@ -53,8 +53,9 @@ public abstract class InterceptableServlet extends HttpServlet {
     }
 
     private HttpServletBiConsumer buildChain(ServletInterceptor<?>[] interceptors, HttpServletBiConsumer target){
-        interceptors = interceptors == null ? new ServletInterceptor[]{} : interceptors;
+        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);
 
+        //builds the chain backwards
         HttpServletBiConsumer current = target;
         for(int i = interceptors.length-1; i >= 0; i--){
             ServletInterceptor<?> interceptor = interceptors[i];
@@ -65,7 +66,7 @@ public abstract class InterceptableServlet extends HttpServlet {
         return current;
     }
 
-    //unambiguous super.service (there are 2 service methods! java lambdas hate that.)
+    //unambiguous super.service (there are 2 service methods. java lambdas hate that.)
     private void superService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.service(req, resp);
     }
@@ -73,7 +74,7 @@ public abstract class InterceptableServlet extends HttpServlet {
     @Override
     protected final void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String httpMethod = req.getMethod();
-        chains.computeIfAbsent(httpMethod, key -> buildChain(getInterceptors(key), this::superService));
+        chains.computeIfAbsent(httpMethod, key -> buildChain(getInterceptors(key), this::superService)).handle(req,resp);
     }
 
     @Override

@@ -1,21 +1,23 @@
 package http.controller;
 
+import http.controller.interceptor.JSONError;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.FollowService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/unfollow")
-public class UnfollowServlet extends HttpServlet {
+public class UnfollowServlet extends InterceptableServlet {
     @Inject private FollowService service;
 
     @Override
+    @JSONError
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ParameterConverter converter = new ParameterConverter(request);
         int sectionId = converter.getIntParameter("section").orElse(0);
@@ -23,6 +25,7 @@ public class UnfollowServlet extends HttpServlet {
     }
 
     @Override
+    @JSONError
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
