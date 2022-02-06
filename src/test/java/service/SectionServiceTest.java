@@ -11,6 +11,7 @@ import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.SectionRepository;
 import rocks.limburg.cdimock.CdiMock;
+import service.dto.CurrentUser;
 import service.dto.SectionPage;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
@@ -18,7 +19,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Classes(cdi = true,
         value={SectionService.class},
@@ -29,6 +30,7 @@ public class SectionServiceTest extends ServiceTest{
     @Mock GenericRepository genericRepository;
     @Mock private SectionRepository sectionRepo;
     @Mock private BinaryContentRepository bcRepo;
+    @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
     @Inject private SectionService service;
 
     @ParameterizedTest
@@ -71,12 +73,13 @@ public class SectionServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void successfulShowSection(int id){
-        Section section = new Section();
+        Section section = spy(Section.class);
         section.setId(id);
         section.setBanner("banner");
         section.setDescription("description");
         section.setPicture("picture");
         section.setName("name");
+        doReturn(2).when(section).getFollowCount();
         when(genericRepository.findById(Section.class,id)).thenReturn(section);
         SectionPage sectionPage = service.showSection(id);
         assertNotNull(sectionPage);
@@ -92,12 +95,13 @@ public class SectionServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(strings = {"section1", "section2", "section3"})
     void successfulGetSection(String sectionName){
-        Section section = new Section();
+        Section section = spy(Section.class);
         section.setId(1);
         section.setBanner("banner");
         section.setDescription("description");
         section.setPicture("picture");
         section.setName(sectionName);
+        doReturn(2).when(section).getFollowCount();
         when(sectionRepo.getByName(sectionName)).thenReturn(section);
         SectionPage sectionPage = service.getSection(sectionName);
         assertNotNull(sectionPage);

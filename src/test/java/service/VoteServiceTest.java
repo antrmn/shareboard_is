@@ -14,7 +14,7 @@ import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Classes(cdi = true,
         value={VoteService.class},
@@ -23,9 +23,6 @@ import static org.mockito.Mockito.when;
 public class VoteServiceTest extends ServiceTest{
 
     @Mock GenericRepository genericRepository;
-    @Mock private CommentRepository commentRepo;
-    @Mock private UserRepository userRepo;
-    @Mock private PostRepository postRepo;
     @Mock private CurrentUser currentUser;
     @Inject private VoteService service;
 
@@ -33,10 +30,12 @@ public class VoteServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 30})
     void successfulUpvoteComment(int id){
         Comment comment = new Comment();
+        comment.setId(id);
         when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
         User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
         CommentVote commentVote = new CommentVote(user,comment,(short)1);
         when(genericRepository.merge(any())).thenReturn(commentVote);
         assertDoesNotThrow(() -> service.upvoteComment(id));
@@ -53,10 +52,12 @@ public class VoteServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 30})
     void successfulDownvoteComment(int id){
         Comment comment = new Comment();
+        comment.setId(id);
         when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
         User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
         CommentVote commentVote = new CommentVote(user,comment,(short)-1);
         when(genericRepository.merge(any())).thenReturn(commentVote);
         assertDoesNotThrow(() -> service.downvoteComment(id));
@@ -73,10 +74,12 @@ public class VoteServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 30})
     void successfulUpvotePost(int id){
         Post post = new Post();
+        post.setId(id);
         when(genericRepository.findById(Post.class,id)).thenReturn(post);
         User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
         PostVote postVote = new PostVote(user,post,(short)1);
         when(genericRepository.merge(any())).thenReturn(postVote);
         assertDoesNotThrow(() -> service.upvotePost(id));
@@ -93,10 +96,12 @@ public class VoteServiceTest extends ServiceTest{
     @ValueSource(ints = {1, 5, 30})
     void successfulDownvotePost(int id){
         Post post = new Post();
+        post.setId(id);
         when(genericRepository.findById(Post.class,id)).thenReturn(post);
         User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
         PostVote postVote = new PostVote(user,post,(short)-1);
         when(genericRepository.merge(any())).thenReturn(postVote);
         assertDoesNotThrow(() -> service.downvotePost(id));
@@ -113,13 +118,15 @@ public class VoteServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void successfulUnvoteComment(int id){
-        Comment comment = new Comment();
+        Comment comment = spy(Comment.class);
+        comment.setId(id);
         when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
         User user = new User();
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
         CommentVote commentVote = new CommentVote(user,comment,(short)1); //1?
-        when(genericRepository.findById(CommentVote.class,any())).thenReturn(commentVote);
+        doReturn(commentVote).when(comment).getVote(any());
         assertDoesNotThrow(() -> service.unvoteComment(id));
     }
 
@@ -134,15 +141,15 @@ public class VoteServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void successfulUnvotePost(int id){
-        Post post = new Post();
+        Post post = spy(Post.class);
         post.setId(id);
         when(genericRepository.findById(Post.class,id)).thenReturn(post);
         User user = new User();
         user.setId(1);
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
         PostVote postVote = new PostVote(user,post,(short)1);
-        when(genericRepository.findById(PostVote.class,any())).thenReturn(postVote);
+        doReturn(postVote).when(post).getVote(any());
         assertDoesNotThrow(() -> service.unvotePost(id));
     }
 

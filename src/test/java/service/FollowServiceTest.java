@@ -9,8 +9,6 @@ import persistence.model.Follow;
 import persistence.model.Section;
 import persistence.model.User;
 import persistence.repo.GenericRepository;
-import persistence.repo.SectionRepository;
-import persistence.repo.UserRepository;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.CurrentUser;
 import javax.inject.Inject;
@@ -18,6 +16,7 @@ import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @Classes(cdi = true,
@@ -26,7 +25,6 @@ import static org.mockito.Mockito.when;
         cdiStereotypes = CdiMock.class)
 public class FollowServiceTest extends ServiceTest{
 
-    @Mock private UserRepository userRepo;
     @Mock GenericRepository genericRepository;
     @Mock private CurrentUser currentUser;
     @Inject private FollowService service;
@@ -36,8 +34,8 @@ public class FollowServiceTest extends ServiceTest{
     void successfulFollow(int sectionId){
         User user = new User();
         user.setId(1);
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(currentUser.getId()).thenReturn(1);
+        when(genericRepository.findById(User.class,1)).thenReturn(user);
         Section section = new Section();
         section.setId(sectionId);
         when(genericRepository.findById(Section.class,sectionId)).thenReturn(section);
@@ -60,13 +58,13 @@ public class FollowServiceTest extends ServiceTest{
     void successfulUnFollow(int sectionId){
         User user = new User();
         user.setId(1);
-        when(currentUser.getUsername()).thenReturn("username");
-        when(userRepo.getByName(any())).thenReturn(user);
-        Section section = new Section();
+        when(currentUser.getId()).thenReturn(1);
+        when(genericRepository.findById(User.class,1)).thenReturn(user);
+        Section section = mock(Section.class);
         section.setId(sectionId);
-        when(genericRepository.findById(Section.class,sectionId)).thenReturn(section);
         Follow follow = new Follow(user,section);
-        when(genericRepository.findById(Follow.class,any())).thenReturn(follow);
+        when(section.getFollow(any())).thenReturn(follow);
+        when(genericRepository.findById(Section.class,sectionId)).thenReturn(section);
         assertDoesNotThrow(() -> service.unFollow(sectionId));
     }
 
