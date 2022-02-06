@@ -31,7 +31,7 @@ public class VoteServlet extends InterceptableServlet {
                 service.downvotePost(id);
             else
                 throw new IllegalArgumentException();
-        }else if(type!=null && type.equalsIgnoreCase("comment")){
+        }else if(type!=null && type.equalsIgnoreCase("comment") && !vote.isEmpty()){
             if(vote.equalsIgnoreCase("upvote"))
                 service.upvoteComment(id);
             else if(vote.equalsIgnoreCase("downvote"))

@@ -6,7 +6,7 @@
 
 <div id = "${comment.id}" class = "grid-x-nw comment-container" style = "width: 100%; align-items: start; margin-top:10px; background-color: ${actualDepth%2 eq 0 ? "#242323" : "#1A1A1B"}; border-radius: 4px; border: solid 1px #313132; ">
     <div class = "vote-container">
-        <input type = "hidden" name = "id" value = !ID>
+        <input type = "hidden" name = "id" value = ${comment.id}>
         <i class="fas fa-chevron-up voteIcon upvoteIcon interactable ${comment.vote == 1 ? "upvote-icon-active" : ""}" onclick = "toggleVote(this, 'upvote', 'comment')"></i>
         <div class = "vote-count" style="word-break: initial; text-align: center; font-size: 12px;font-weight: 700; line-height: 16px;">
             ${comment.votes}
