@@ -2,7 +2,6 @@ package service;
 
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
@@ -10,18 +9,18 @@ import persistence.model.Comment;
 import persistence.model.Post;
 import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
-import persistence.repo.GenericRepository;
 import persistence.repo.CommentRepository;
+import persistence.repo.GenericRepository;
 import rocks.limburg.cdimock.CdiMock;
-import service.dto.CurrentUser;
 import service.dto.CommentDTO;
+import service.dto.CurrentUser;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
-import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @Classes(cdi = true,
         value={CommentService.class},
@@ -34,7 +33,7 @@ public class CommentServiceTest extends ServiceTest{
     @Mock private BinaryContentRepository bcRepo;
     @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
     @Inject private CommentService service;
-//    @Inject private PostService postService;
+
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
