@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +50,8 @@ public class CommentService {
                 .postId(comment.getPost().getId())
                 .vote(commentVote == null ? 0 : commentVote.getVote())
                 .content(comment.getContent())
-                .votes(comment.getVotesCount())
-                .creationDate(comment.getCreationDate())
+                .votes(comment.getVotesCount() == null ? 0 : comment.getVotesCount())
+                .creationDate(comment.getCreationDate()  == null ? Instant.now() : comment.getCreationDate())
                 .parentCommentId(comment.getParentComment() == null ? 0 : comment.getParentComment().getId())
                 .build();
     }

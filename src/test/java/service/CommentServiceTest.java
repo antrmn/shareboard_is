@@ -34,23 +34,23 @@ public class CommentServiceTest extends ServiceTest{
     @Mock private BinaryContentRepository bcRepo;
     @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
     @Inject private CommentService service;
-    @Inject private PostService postService;
+//    @Inject private PostService postService;
 
-//    @ParameterizedTest
-//    @ValueSource(ints = {1, 5, 30})
-//    void successfulDeleteComment(int id){
-//        Comment comment = new Comment();
-//        comment.setId(id);
-//        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
-//        assertDoesNotThrow(() -> service.delete(id));
-//    }
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void successfulDeleteComment(int id){
+        Comment comment = new Comment();
+        comment.setId(id);
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        assertDoesNotThrow(() -> service.delete(id));
+    }
 
-//    @ParameterizedTest
-//    @ValueSource(ints = {-1, -5, -30})
-//    void failDeleteCommentWithWrongId(int id){
-//        when(genericRepository.findById(Comment.class,id)).thenReturn(null);
-//        assertThrows(ConstraintViolationException.class, () -> service.delete(id));
-//    }
+    @ParameterizedTest
+    @ValueSource(ints = {-1, -5, -30})
+    void failDeleteCommentWithWrongId(int id){
+        when(genericRepository.findById(Comment.class,id)).thenReturn(null);
+        assertThrows(ConstraintViolationException.class, () -> service.delete(id));
+    }
 
 //    @Test
 //    void succesfulNewComment(){
@@ -88,38 +88,41 @@ public class CommentServiceTest extends ServiceTest{
     void successfulShowComment(int id){
         Comment comment = spy(Comment.class);
         User author = spy(User.class);
+        Post post = spy(Post.class);
+        post.setId(1);
         author.setId(1);
         author.setUsername("author");
         comment.setId(id);
         comment.setContent("content");
         comment.setAuthor(author);
+        comment.setPost(post);
         when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
         CommentDTO commentDTO = service.getComment(id);
         assertNotNull(commentDTO);
     }
 
-//    @ParameterizedTest
-//    @ValueSource(ints = {1, 5, 30})
-//    void failShowCommentWithWrongId(int id){
-//        when(genericRepository.findById(Comment.class,id)).thenReturn(null);
-//        assertThrows(ConstraintViolationException.class,() -> service.getComment(id));
-//    }
-//
-//    @ParameterizedTest
-//    @ValueSource(ints = {1, 5, 30})
-//    void successfulEditComment(int id) {
-//        Comment comment = new Comment();
-//        comment.setId(id);
-//        comment.setContent("test");
-//        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
-//        assertDoesNotThrow(() -> service.editComment(id, "new text"));
-//    }
-//
-//    @ParameterizedTest
-//    @ValueSource(ints = {-1, -5, -30})
-//    void failEditCommentWithWrongID(int id){
-//        when(genericRepository.findById(Comment.class,id)).thenReturn(null);
-//        assertThrows(ConstraintViolationException.class,() -> service.editComment(id, "net text"));
-//    }
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void failShowCommentWithWrongId(int id){
+        when(genericRepository.findById(Comment.class,id)).thenReturn(null);
+        assertThrows(ConstraintViolationException.class,() -> service.getComment(id));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void successfulEditComment(int id) {
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setContent("test");
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        assertDoesNotThrow(() -> service.editComment(id, "new text"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, -5, -30})
+    void failEditCommentWithWrongID(int id){
+        when(genericRepository.findById(Comment.class,id)).thenReturn(null);
+        assertThrows(ConstraintViolationException.class,() -> service.editComment(id, "net text"));
+    }
 
 }
