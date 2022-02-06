@@ -34,6 +34,7 @@ public class CurrentUserProducer {
                 .username(user.getUsername())
                 .id(user.getId())
                 .isAdmin(user.getAdmin())
+                .picture(user.getPicture())
                 .banDuration(longestCurrentBan)
                 .isLoggedIn(true)
                 .build();

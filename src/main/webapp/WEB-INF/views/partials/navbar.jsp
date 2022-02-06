@@ -42,7 +42,7 @@
 
                             <%-- NOTA - userFollows in session scope: follow da guest           --%>
                             <%--        userFollows in request scope: follow da logged user     --%>
-                            <i class="${section.isFollowed ? 'fas fa-star star favorite-star follow-button follow-button-isfollowing' : 'far fa-star star follow-button'}"
+                            <i class="${section.followed ? 'fas fa-star star favorite-star follow-button follow-button-isfollowing' : 'far fa-star star follow-button'}"
                                onclick="toggleFollow(this)" data-section-id = "${section.id}">
                             </i>
                         </div>
@@ -60,7 +60,7 @@
     </div>
     <div id="nav-profile">
         <c:choose>
-            <c:when test="${not empty currentUser}">
+            <c:when test="${currentUser.loggedIn == true}">
                 <a href = "${context}/newpost" style="margin-right: 20px;"><i class="fas fa-edit"></i></a>
                 <span id = "profile-container" class = "interactable" href = "${context}/me" onclick="toggleDropdown('toggle', 'profile-dropdown')" >
                     <c:choose>
@@ -90,7 +90,7 @@
                             Edit profile
                         </a>
 
-                    <c:if test="${currentUser.isAdmin == true}">
+                    <c:if test="${currentUser.admin == true}">
                         <a class="dropdown-link" href="${context}/admin">
                             <i class="fas fa-user-shield"></i>
                             Pannello Admin

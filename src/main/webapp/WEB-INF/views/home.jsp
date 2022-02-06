@@ -55,9 +55,9 @@
                                 </c:otherwise>
                             </c:choose>
                             <p style = "margin-left: 10px;">${section.name}</p>
-                            <button type="submit" class = "${section.isFollowed ? 'roundButton darkGreyButton follow-button follow-roundbutton follow-button-isfollowing' :  'roundButton lightGreyButton follow-button follow-roundbutton' } "
+                            <button type="submit" class = "${section.followed ? 'roundButton darkGreyButton follow-button follow-roundbutton follow-button-following' :  'roundButton lightGreyButton follow-button follow-roundbutton' } "
                                     onclick="toggleFollow(this)" data-section-id = "${section.id}" style = "margin-left: auto; margin-right: 10px;">
-                                    ${section.isFollowed ? 'Joined' : 'Join'}
+                                    ${section.followed ? 'Joined' : 'Join'}
                             </button>
                         </div>
                     </c:forEach>
@@ -76,7 +76,7 @@
                                         <img class = "small-round-image" src="${pageContext.request.contextPath}/images/default-logo.png">
                                     </c:when>
                                     <c:otherwise>
-                                        <img class = "small-round-image" src= "${applicationScope.picsLocation}/${section.picture}">
+                                        <img class = "small-round-image" src= "${pageContext.request.contextPath}/images/${section.picture}">
                                     </c:otherwise>
                                 </c:choose>
                                 <p style = "margin-left: 10px;">${section.name}</p>
