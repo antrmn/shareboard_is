@@ -23,7 +23,6 @@ import static service.dto.PostSearchForm.SortCriteria.*;
 
 @WebServlet("/loadposts")
 public class LoadPostsServlet extends HttpServlet {
-    @Inject private ParameterConverter converter;
     @Inject private PostService postService;
 
     private static final Function<LocalDate, Instant> LOCALDATE_TO_INSTANT =
@@ -36,6 +35,7 @@ public class LoadPostsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(req);
         String content = req.getParameter("content");
         String section = req.getParameter("section");
         String author = req.getParameter("author");

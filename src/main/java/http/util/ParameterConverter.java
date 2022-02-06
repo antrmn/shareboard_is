@@ -1,28 +1,22 @@
 package http.util;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 /**
  * Classe di utilità che permette di accedere a parametri di un {@link HttpServletRequest} nel tipo desiderato
  */
-@ApplicationScoped
 public class ParameterConverter {
     private HttpServletRequest request;
 
-    protected ParameterConverter(){}
-
     /**
-     * Costruttore unico dell'oggetto. Se l'oggetto istanziato in un contesto CDI, la dipendenza sarà
-     * soddisfatta automaticamente
+     * Costruttore unico dell'oggetto.
      * @param request L'oggetto {@link HttpServletRequest} rappresentante la richiesta in corso
      */
     @Inject

@@ -16,7 +16,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
-
 import java.util.Map;
 import java.util.function.Function;
 
@@ -25,7 +24,6 @@ import static service.dto.PostSearchForm.SortCriteria.*;
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
 
-    @Inject private ParameterConverter converter;
     @Inject private PostService service;
 
     private static final Function<LocalDate, Instant> LOCALDATE_TO_INSTANT =
@@ -38,6 +36,7 @@ public class SearchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(req);
         String content = req.getParameter("content");
         String section = req.getParameter("section");
         String author = req.getParameter("author");

@@ -13,11 +13,11 @@ import java.io.IOException;
 
 @WebServlet("/deletecomment")
 public class DeleteCommentServlet extends HttpServlet {
-    @Inject private ParameterConverter converter;
     @Inject private CommentService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(request);
         int commentId = converter.getIntParameter("id").orElse(0);
         int postId = service.getComment(commentId).getPost().getId();
         service.delete(commentId);

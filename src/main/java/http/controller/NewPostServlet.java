@@ -7,16 +7,18 @@ import service.PostService;
 import service.SectionService;
 
 import javax.inject.Inject;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
 @WebServlet("/newpost")
 @MultipartConfig
 public class NewPostServlet extends InterceptableServlet {
-    @Inject private ParameterConverter converter;
     @Inject private PostService service;
     @Inject private SectionService sectionService;
 
@@ -30,6 +32,7 @@ public class NewPostServlet extends InterceptableServlet {
     @Override
     @ForwardOnError("/WEB-INF/views/section/create-post.jsp")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(request);
         int sectionId = converter.getIntParameter("section").orElse(0);
         String sectionName = sectionService.showSection(sectionId).getName();
 

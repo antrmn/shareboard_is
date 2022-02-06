@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -22,7 +21,6 @@ import java.io.IOException;
 @WebServlet("/editpost")
 @MultipartConfig
 public class EditPostServlet extends InterceptableServlet {
-    @Inject private ParameterConverter converter;
     @Inject private PostService service;
 
     private static final String EDIT_POST_PAGE = "/WEB-INF/views/section/edit-post.jsp";
@@ -30,6 +28,7 @@ public class EditPostServlet extends InterceptableServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //check necessario?
+        ParameterConverter converter = new ParameterConverter(request);
         int postId = converter.getIntParameter("id").orElse(0);
         PostPage post =  service.getPost(postId);
         request.setAttribute("post", post);
@@ -39,6 +38,7 @@ public class EditPostServlet extends InterceptableServlet {
     @Override
     @ForwardOnError(EDIT_POST_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(request);
         String title = request.getParameter("title");
         String type = request.getParameter("type");
         Post.Type postType = type != null && type.equalsIgnoreCase("text") ? Post.Type.TEXT : Post.Type.IMG;

@@ -13,11 +13,11 @@ import java.io.IOException;
 
 @WebServlet(name = "DeleteSectionServlet", value = "/DeleteSectionServlet")
 public class DeleteSectionServlet extends HttpServlet {
-    @Inject private ParameterConverter converter;
     @Inject private SectionService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(request);
         int sectionId = converter.getIntParameter("sectionId").orElse(0);
         service.delete(sectionId);
         response.sendRedirect(getServletContext().getContextPath() + "/admin/showsections");

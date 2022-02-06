@@ -2,7 +2,7 @@ package http.controller;
 
 import http.util.ParameterConverter;
 import service.CommentService;
-import service.dto.CommentTreeDTO;
+import service.dto.CommentDTO;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -11,11 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet("/post")
 public class PostServlet extends HttpServlet {
 
-    @Inject private ParameterConverter converter;
     @Inject private CommentService service;
 
     @Override
@@ -25,15 +26,18 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(req);
         int _postId = converter.getIntParameter("id").orElse(0);
         int _commentId = converter.getIntParameter("comment").orElse(0);
-        CommentTreeDTO comments;
+        Map<Integer, List<CommentDTO>> comments;
 
         if (_commentId != 0) {
             comments = service.getReplies(_commentId);
         } else{
             comments = service.getPostComments(_postId);
         }
+
+        System.out.println(_postId);
         req.setAttribute("comments", comments);
         req.getRequestDispatcher("/WEB-INF/views/section/post.jsp").forward(req, resp);
 

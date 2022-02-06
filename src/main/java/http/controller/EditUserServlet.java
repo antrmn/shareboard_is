@@ -3,28 +3,30 @@ package http.controller;
 import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
-import persistence.model.User;
 import service.UserService;
 import service.dto.UserEditPage;
 import service.dto.UserProfile;
 
 import javax.inject.Inject;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
 @WebServlet("/edituser")
 @MultipartConfig
 public class EditUserServlet extends InterceptableServlet {
-    @Inject private ParameterConverter converter;
     @Inject private UserService service;
 
     private static final String EDIT_USER_PAGE = "/WEB-INF/views/edit-user.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(request);
         int userId = converter.getIntParameter("id").orElse(0);
         UserProfile user = service.getUser(userId);
         request.setAttribute("user", user);
@@ -34,6 +36,7 @@ public class EditUserServlet extends InterceptableServlet {
     @Override
     @ForwardOnError(EDIT_USER_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ParameterConverter converter = new ParameterConverter(request);
         int userId = converter.getIntParameter("id").orElse(0);
         String email = request.getParameter("email");
         String description = request.getParameter("description");
