@@ -48,7 +48,7 @@ public class DeleteBanServletTest extends ServletTest{
         when(request.getParameter("banId")).thenReturn("-5");
         doThrow(ConstraintViolationException.class).when(service).removeBan(anyInt());
 
-        assertThrows(ConstraintViolationException.class,() ->deleteBanServlet.doPost(request,response));
+        assertThrows(ConstraintViolationException.class,()-> deleteBanServlet.doPost(request,response));
     }
 
     @Test

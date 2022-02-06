@@ -42,7 +42,7 @@
       <h4>s/${fn:toLowerCase(section.name)}</h4>
     </span>
     <span>
-      <button class = "${section.isFollowed ? 'darkGreyButton roundButton follow-button follow-button-isfollowing follow-roundbutton' : 'lightGreyButton roundButton follow-button follow-roundbutton'}" onclick="toggleFollow(this)" data-section-id = "${section.id}">
+      <button class = "${section.followed ? 'darkGreyButton roundButton follow-button follow-button-isfollowing follow-roundbutton' : 'lightGreyButton roundButton follow-button follow-roundbutton'}" onclick="toggleFollow(this)" data-section-id = "${section.id}">
         ${userFollows.contains(section.id) ?  'Joined' : 'Join'}
       </button>
     </span>
@@ -63,7 +63,7 @@
   <div id="right-container">
     <jsp:include page="../partials/section-info.jsp">
       <jsp:param name="description" value="${section.description}" />
-      <jsp:param name="nFollowers" value="${section.nFollowersTotal}" />
+      <jsp:param name="nFollowers" value="${section.NFollowers}" />
       <jsp:param name="sectionId" value="${section.id}" />
     </jsp:include>
     <jsp:include page="../partials/rules.jsp"/>

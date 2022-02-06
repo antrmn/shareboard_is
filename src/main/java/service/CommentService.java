@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +50,8 @@ public class CommentService {
                 .postId(comment.getPost().getId())
                 .vote(commentVote == null ? 0 : commentVote.getVote())
                 .content(comment.getContent())
-                .votes(comment.getVotesCount())
-                .creationDate(comment.getCreationDate())
+                .votes(comment.getVotesCount() == null ? 0 : comment.getVotesCount())
+                .creationDate(comment.getCreationDate()  == null ? Instant.now() : comment.getCreationDate())
                 .parentCommentId(comment.getParentComment() == null ? 0 : comment.getParentComment().getId())
                 .build();
     }
@@ -65,8 +66,8 @@ public class CommentService {
         return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));
     }
 
-    public Comment getComment(@CommentExists int id){
-        return genericRepository.findById(Comment.class, id);
+    public CommentDTO getComment(@CommentExists int id){
+        return map(genericRepository.findById(Comment.class, id));
     }
 
     @AuthenticationRequired
@@ -88,6 +89,19 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setAuthor(user);
         comment.setContent(text);
+        comment.setPost(genericRepository.findById(Post.class, postId));
+        return genericRepository.insert(comment).getId();
+    }
+
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public int newComment(CommentDTO commentDTO,
+                          @PostExists int postId){
+        User user = genericRepository.findById(User.class, currentUser.getId());
+
+        Comment comment = new Comment();
+        comment.setAuthor(user);
+        comment.setContent(commentDTO.getContent());
         comment.setPost(genericRepository.findById(Post.class, postId));
         return genericRepository.insert(comment).getId();
     }

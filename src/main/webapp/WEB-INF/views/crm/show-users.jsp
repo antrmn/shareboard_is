@@ -32,7 +32,7 @@
                 <td><a href="${pageContext.servletContext.contextPath}/u/${user.username}">${user.username}</a></td>
                 <td>
                     <c:choose>
-                        <c:when test="${user.isAdmin}">
+                        <c:when test="${user.admin}">
                             <input type="checkbox" name="isAdmin" onchange="toggleAdminStatus(this, ${user.id});" checked autocomplete="off">
                         </c:when>
                         <c:otherwise>

@@ -1,10 +1,12 @@
 package service;
 
 import persistence.model.Ban;
+import persistence.model.Post;
 import persistence.model.User;
 import persistence.repo.GenericRepository;
 import service.auth.AdminsOnly;
 import service.dto.BanDTO;
+import service.dto.PostPage;
 import service.validation.BanExists;
 import service.validation.UserExists;
 
@@ -20,6 +22,8 @@ import java.util.List;
 @Transactional
 public class BanService {
     @Inject private GenericRepository genericRepository;
+
+
 
     @AdminsOnly
     public Ban addBan(@Future Instant date, @UserExists int userId) {

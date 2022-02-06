@@ -23,7 +23,8 @@ public class Section implements Serializable {
 
 
     @Getter @Setter
-    @Column(length = 50, nullable = false, unique = true) @NaturalId(mutable = true)
+    @Column(length = 50, nullable = false, unique = true)
+    @NaturalId(mutable = true)
     protected String name;
 
     @Getter @Setter

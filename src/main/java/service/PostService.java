@@ -44,6 +44,7 @@ public class PostService {
 
         //converte persistence.Post.Type in service.dto.PostType (ew)
         PostType postType = post.getType() == IMG ? PostType.IMG : PostType.TEXT;
+
         return PostPage.builder()
                 .id(post.getId())
                 .title(post.getTitle())

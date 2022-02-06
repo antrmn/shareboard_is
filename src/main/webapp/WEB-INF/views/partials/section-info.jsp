@@ -15,7 +15,7 @@
       <h4 style = "text-align: center;">Non puoi postare in questa sezione fino al <fmt:formatDate value="${sbfn:getDate(maxLengthBan)}" pattern="dd-MM-YYYY"/></h4>
     </c:when>
     <c:otherwise>
-      <c:if test="${not empty currentUser.isLoggedIn}">
+      <c:if test="${not empty currentUser.loggedIn}">
         <a class = "lightGreyButton roundButton" href = "${context}/newpost?section=${param.sectionId}" style = "margin-bottom: 15px;">Invia Contenuto</a>
       </c:if>
     </c:otherwise>

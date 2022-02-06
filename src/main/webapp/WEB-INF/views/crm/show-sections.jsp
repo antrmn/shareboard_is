@@ -26,16 +26,16 @@
         <th>Followers</th>
         <th>Azioni</th>
       </tr>
-      <c:forEach items="${applicationScope.sections}" var="section">
+      <c:forEach items="${sections.values()}" var="section">
         <tr>
-          <td>${section.value.id}</td>
-          <td>${section.value.name}</td>
-          <td>${section.value.nFollowersTotal}</td>
+          <td>${section.id}</td>
+          <td>${section.name}</td>
+          <td>${section.NFollowers}</td>
           <td>
-            <a href = "${context}/admin/editsection?sectionId=${section.value.id}">
+            <a href = "${context}/admin/editsection?sectionId=${section.id}">
               <i class="fas fa-edit"></i>
             </a>
-            <a href = "${context}/admin/deletesection?sectionId=${section.value.id}" onclick="return confirm('Cancellare la sezione?')">
+            <a href = "${context}/admin/deletesection?sectionId=${section.id}" onclick="return confirm('Cancellare la sezione?')">
               <i class="fas fa-minus-circle"></i>
             </a>
           </td>

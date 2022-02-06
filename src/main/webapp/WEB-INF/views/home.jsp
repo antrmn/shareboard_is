@@ -12,7 +12,7 @@
 <body>
         <jsp:include page="/WEB-INF/views/partials/navbar.jsp">
             <jsp:param name="currentSection" value="Home" />
-            <jsp:param name="userName" value="${empty currentUser ? 'unlogged' : currentUser.username}" />
+            <jsp:param name="userName" value="${not currentUser.loggedIn ? 'unlogged' : currentUser.username}" />
             <jsp:param name="userKarma" value="4316" />
         </jsp:include>
 
@@ -32,7 +32,7 @@
                             background-position-y: center;
                             background-position-x: center;"></div>
                     <c:choose>
-                        <c:when test="${empty currentUser}">
+                        <c:when test="${not currentUser.loggedIn}">
                             <h4 style = "margin-left: 10px;">Welcome on Shareboard!</h4>
                         </c:when>
                         <c:otherwise>
@@ -47,11 +47,11 @@
                     <c:forEach items="${topSections}" var="section" end="4">
                         <div class = "trending-container">
                             <c:choose>
-                                <c:when test="${empty section.picture }">
+                                <c:when test="${empty section.picture}">
                                     <img class = "small-round-image" src="${pageContext.request.contextPath}/images/default-logo.png">
                                 </c:when>
                                 <c:otherwise>
-                                    <img class = "small-round-image" src= "${applicationScope.picsLocation}/${section.picture}">
+                                    <img class = "small-round-image" src= "${pageContext.request.contextPath}/images/${section.picture}">
                                 </c:otherwise>
                             </c:choose>
                             <p style = "margin-left: 10px;">${section.name}</p>

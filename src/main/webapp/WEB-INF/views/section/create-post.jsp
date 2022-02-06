@@ -35,10 +35,10 @@
                             <div style = "align-self: start">
                                 <label for="section-select" style = "display: inline">Choose a section:</label>
                                 <select name="section" id="section-select" class = "dark-select">
-                                    <c:forEach items="${applicationScope.sections}" var="section">
-                                        <option ${section.value.id == param.section ? 'selected' : ''}
-                                                value="${section.value.id}">
-                                                ${section.value.name}
+                                    <c:forEach items="${sections.values()}" var="section">
+                                        <option ${section.id == param.section ? 'selected' : ''}
+                                                value="${section.id}">
+                                                ${section.name}
                                         </option>
                                     </c:forEach>
                                 </select>

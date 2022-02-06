@@ -63,7 +63,7 @@
                         <div>
                             <c:choose>
                                 <c:when test="${post.type == 'IMG'}">
-                                    <img src= "${pageContext.request.contextPath}/${post.content}" class = "post-image">
+                                    <img src= "${pageContext.request.contextPath}/image/${post.content}" class = "post-image">
                                 </c:when>
                                 <c:when test="${post.type == 'TEXT' && not empty post.content}">
                                     <p class = white-text style = "border: solid 1px gray; border-radius: 4px; padding: 7px; word-break: break-word;">
@@ -121,7 +121,7 @@
     <div id="right-container">
         <jsp:include page="../partials/section-info.jsp">
             <jsp:param name="description" value="${sections[post.sectionId].description}" />
-            <jsp:param name="nFollowers" value="${sections[post.sectionId].nFollowersTotal}" />
+            <jsp:param name="nFollowers" value="${sections[post.sectionId].NFollowers}" />
             <jsp:param name="sectionId" value="${post.sectionId}" />
         </jsp:include>
         <jsp:include page="../partials/rules.jsp"/>
