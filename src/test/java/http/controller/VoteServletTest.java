@@ -53,19 +53,19 @@ public class VoteServletTest extends ServletTest{
         }
     }
 
-//    @ParameterizedTest
-//    @CsvSource({"post,upvote", "post,downvote", "comment,upvote", "comment,downvote"})
-//    void faildoPost(String type, String vote) throws ServletException, IOException{
-//        when(request.getParameter("id")).thenReturn("1");
-//        when(request.getParameter("type")).thenReturn(type);
-//        when(request.getParameter("vote")).thenReturn(vote);
-//
-//        when(service.upvotePost(anyInt())).thenThrow(ConstraintViolationException.class);
-//        when(service.downvotePost(anyInt())).thenThrow(ConstraintViolationException.class);
-//        when(service.upvoteComment(anyInt())).thenThrow(ConstraintViolationException.class);
-//        when(service.downvoteComment(anyInt())).thenThrow(ConstraintViolationException.class);
-//        assertThrows(ConstraintViolationException.class,() -> voteServlet.doPost(request,response));
-//    }
+    @ParameterizedTest
+    @CsvSource({"post,upvote", "post,downvote", "comment,upvote", "comment,downvote"})
+    void faildoPost(String type, String vote) throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("type")).thenReturn(type);
+        when(request.getParameter("vote")).thenReturn(vote);
+
+        doThrow(ConstraintViolationException.class).when(service).upvotePost(anyInt());
+        doThrow(ConstraintViolationException.class).when(service).downvotePost(anyInt());
+        doThrow(ConstraintViolationException.class).when(service).upvoteComment(anyInt());
+        doThrow(ConstraintViolationException.class).when(service).downvoteComment(anyInt());
+        assertThrows(ConstraintViolationException.class,() -> voteServlet.doPost(request,response));
+    }
 
     @ParameterizedTest
     @CsvSource({"post,upvote", "post,downvote", "comment,upvote", "comment,downvote"})
@@ -89,18 +89,18 @@ public class VoteServletTest extends ServletTest{
         }
     }
 
-//    @Test
-//    void faildoGet() throws ServletException, IOException{
-//        when(request.getParameter("id")).thenReturn("1");
-//        when(request.getParameter("type")).thenReturn(type);
-//        when(request.getParameter("vote")).thenReturn(vote);
-//
-//
-//        when(service.upvotePost(anyInt())).thenThrow(ConstraintViolationException.class);
-//        when(service.downvotePost(anyInt())).thenThrow(ConstraintViolationException.class);
-//        when(service.upvoteComment(anyInt())).thenThrow(ConstraintViolationException.class);
-//        when(service.downvoteComment(anyInt())).thenThrow(ConstraintViolationException.class);
-//        assertThrows(ConstraintViolationException.class,() -> voteServlet.doPost(request,response));
-//    }
+    @ParameterizedTest
+    @CsvSource({"post,upvote", "post,downvote", "comment,upvote", "comment,downvote"})
+    void faildoGet(String type, String vote) throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("type")).thenReturn(type);
+        when(request.getParameter("vote")).thenReturn(vote);
+
+        doThrow(ConstraintViolationException.class).when(service).upvotePost(anyInt());
+        doThrow(ConstraintViolationException.class).when(service).downvotePost(anyInt());
+        doThrow(ConstraintViolationException.class).when(service).upvoteComment(anyInt());
+        doThrow(ConstraintViolationException.class).when(service).downvoteComment(anyInt());
+        assertThrows(ConstraintViolationException.class,() -> voteServlet.doGet(request,response));
+    }
 
 }
