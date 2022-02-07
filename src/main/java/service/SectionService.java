@@ -19,6 +19,8 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -99,5 +101,20 @@ public class SectionService {
         s.setDescription(edit.getDescription());
         bcRepo.insert(picture);
         bcRepo.insert(banner);
+    }
+
+    @Produces
+    @RequestScoped
+    @Named("topSections")
+    public List<SectionPage> getTopSections(){
+        return sectionRepo.getMostFollowedSections().stream().map(this::map).collect(Collectors.toList());
+    }
+
+    @Produces
+    @RequestScoped
+    @Named("trendingSections")
+    public List<SectionPage> getTrendingSections(){
+        return sectionRepo.getMostFollowedSections(Instant.now().minus(7, ChronoUnit.DAYS))
+                .stream().map(this::map).collect(Collectors.toList());
     }
 }

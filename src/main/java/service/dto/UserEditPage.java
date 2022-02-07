@@ -2,21 +2,20 @@ package service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
+import service.validation.Image;
 
+import javax.validation.constraints.Email;
 import java.io.BufferedInputStream;
 
-@AllArgsConstructor
-@Builder
-@Getter
-@Setter
+@Builder @Getter @Data @AllArgsConstructor
 public class UserEditPage {
     //todo: validation annotations
 
-    private Integer id;
+    private int userId;
     private String description;
-    private String email;
-    private BufferedInputStream picture;
+    @Email private String email;
+    @Image private BufferedInputStream picture;
     private String password;
 }

@@ -80,6 +80,17 @@ public class UserService {
     public void edit(UserEditPage edit,
                      @UserExists int id){
         User u = genericRepository.findById(User.class,id);
+
+        if(edit.getDescription() != null){
+            u.setDescription(edit.getDescription());
+        }
+        if(edit.getEmail() != null){
+            u.setEmail(edit.getEmail());
+        }
+
+
+
+
         HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());
         u.setPassword(hashedPassword.getPassword());
         u.setSalt(hashedPassword.getSalt());
