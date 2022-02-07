@@ -1,17 +1,18 @@
 package http.controller;
 
-import persistence.model.Section;
+import http.util.interceptor.InterceptableServlet;
 import service.SectionService;
 import service.dto.SectionPage;
 
 import javax.inject.Inject;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/s")
-public class SectionServlet extends HttpServlet {
+public class SectionServlet extends InterceptableServlet {
 
     @Inject private SectionService service;
 

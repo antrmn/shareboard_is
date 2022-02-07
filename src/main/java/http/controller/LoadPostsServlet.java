@@ -1,6 +1,7 @@
 package http.controller;
 
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.PostService;
 import service.dto.PostPage;
 import service.dto.PostSearchForm;
@@ -8,7 +9,6 @@ import service.dto.PostSearchForm;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.util.function.Function;
 import static service.dto.PostSearchForm.SortCriteria.*;
 
 @WebServlet("/loadposts")
-public class LoadPostsServlet extends HttpServlet {
+public class LoadPostsServlet extends InterceptableServlet {
     @Inject private PostService postService;
 
     private static final Function<LocalDate, Instant> LOCALDATE_TO_INSTANT =

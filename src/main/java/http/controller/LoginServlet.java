@@ -1,19 +1,19 @@
 package http.controller;
 
+import http.util.interceptor.InterceptableServlet;
 import service.AuthenticationService;
 import service.dto.CurrentUser;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends InterceptableServlet {
     @Inject AuthenticationService authenticationService;
     @Inject CurrentUser currentUser;
 

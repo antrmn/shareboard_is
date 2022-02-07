@@ -1,17 +1,21 @@
 package http.controller;
 
+import http.util.interceptor.InterceptableServlet;
 import service.ImageService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletMapping;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.MappingMatch;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
 @WebServlet("/image/*")
-public class ImageServlet extends HttpServlet {
+public class ImageServlet extends InterceptableServlet {
     @Inject ImageService imageService;
 
     @Override

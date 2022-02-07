@@ -2,12 +2,12 @@ package http.controller;
 
 import http.controller.interceptor.AuthorizationConstraints;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.PostService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 
 @WebServlet(name = "DeletePostServlet", value = "/DeletePostServlet")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-public class DeletePostServlet extends HttpServlet {
+public class DeletePostServlet extends InterceptableServlet {
     @Inject private PostService service;
 
     @Override
