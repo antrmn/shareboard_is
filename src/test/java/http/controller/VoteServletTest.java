@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
-import service.BanService;
 import service.VoteService;
 
 import javax.inject.Inject;
