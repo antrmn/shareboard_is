@@ -62,7 +62,6 @@
                                     <option ${param.orderby == "newest" ? "selected" : ""} value="newest">Più recenti</option>
                                     <option ${param.orderby == "oldest" ? "selected" : ""} value="oldest">Più vecchi</option>
                                     <option ${param.orderby == "mostvoted" ? "selected" : ""} value="mostvoted">Più votati</option>
-                                    <option ${param.orderby == "leastvoted" ? "selected" : ""} value="leastvoted">Meno votati</option>
                                 </select>
                         </div>
                         <br>

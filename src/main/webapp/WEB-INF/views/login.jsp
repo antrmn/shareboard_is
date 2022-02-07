@@ -28,7 +28,7 @@
           <li>Credenziali non valide</li>
         </c:if>
       </ul>
-      <form class = "grid-y-nw justify-center" id = "login-form" action="${pageContext.request.contextPath}/doLogin" method="post">
+      <form class = "grid-y-nw justify-center" id = "login-form" action="${pageContext.request.contextPath}/login" method="post">
         <label for="username">
           Username
           <i class="fas fa-info-circle tooltipicon">

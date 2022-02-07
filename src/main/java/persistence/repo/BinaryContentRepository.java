@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
-public class BinaryContentRepository {
+public class BinaryContentRepository implements Serializable{
 
     private Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");
 

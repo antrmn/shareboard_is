@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.controller.interceptor.AuthorizationConstraints;
 import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
@@ -16,8 +17,11 @@ import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
+import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
+
 @WebServlet("/newpost")
 @MultipartConfig
+@AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 public class NewPostServlet extends InterceptableServlet {
     @Inject private PostService service;
     @Inject private SectionService sectionService;

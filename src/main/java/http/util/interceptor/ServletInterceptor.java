@@ -12,4 +12,8 @@ public abstract class ServletInterceptor<A extends Annotation>{
 
     public abstract void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next)
             throws ServletException, IOException;
+
+    public int priority(){
+        return Integer.MAX_VALUE/2;
+    }
 }

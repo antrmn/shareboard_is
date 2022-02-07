@@ -2,19 +2,16 @@ package http.controller;
 
 import http.controller.interceptor.ForwardOnError;
 import http.util.interceptor.InterceptableServlet;
+import service.AuthenticationService;
 import service.PostService;
 import service.UserService;
 import service.dto.CurrentUser;
 
-import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -23,6 +20,7 @@ import java.util.Objects;
 public class RegisterServlet extends InterceptableServlet {
     @Inject private UserService userService;
     @Inject private CurrentUser currentUser;
+    @Inject private AuthenticationService authenticationService;
     @Inject private PostService service;
 
     private static final String REGISTER_PAGE = "/WEB-INF/views/register.jsp";
@@ -53,6 +51,8 @@ public class RegisterServlet extends InterceptableServlet {
             throw new IllegalArgumentException("Le password devono coincidere");
         }
         userService.newUser(email, username, password);
+        authenticationService.authenticate(username,password);
         resp.sendRedirect(req.getContextPath());
+
     }
 }

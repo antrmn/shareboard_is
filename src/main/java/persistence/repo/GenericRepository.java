@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  *            interfaccia
  * @see javax.persistence.EntityManager
  */
-public class GenericRepository {
+public class GenericRepository implements Serializable {
 
     @PersistenceContext
     protected EntityManager em;

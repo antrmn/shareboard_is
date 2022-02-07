@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.controller.interceptor.AuthorizationConstraints;
 import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
@@ -16,8 +17,11 @@ import javax.servlet.http.Part;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
+import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;
+
 @WebServlet("/admin/editsection")
 @MultipartConfig
+@AuthorizationConstraints(ADMINS_ONLY)
 public class EditSectionServlet extends InterceptableServlet {
     @Inject private SectionService service;
 

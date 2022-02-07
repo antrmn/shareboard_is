@@ -20,6 +20,8 @@ import static javax.servlet.http.HttpServletResponse.*;
 
 @WebFilter("*")
 public class FallbackExceptionHandlerFilter extends HttpFilter {
+    //low priority  todo: fare in modo che tutte le eccezioni non gestite vengano loggate da catalina
+
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
         try{

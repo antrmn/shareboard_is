@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.controller.interceptor.AuthorizationConstraints;
 import http.util.ParameterConverter;
 import service.UserService;
 
@@ -11,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;
+
 @WebServlet("/admin/deleteuser")
+@AuthorizationConstraints(ADMINS_ONLY)
 public class DeleteUserServlet extends HttpServlet {
     @Inject private UserService service;
 

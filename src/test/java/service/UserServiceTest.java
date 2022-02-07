@@ -10,11 +10,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import persistence.model.User;
-import persistence.repo.*;
+import persistence.repo.BinaryContentRepository;
+import persistence.repo.GenericRepository;
+import persistence.repo.UserRepository;
 import rocks.limburg.cdimock.CdiMock;
-import security.Pbkdf2PasswordHashImpl;
 import service.dto.UserEditPage;
 import service.dto.UserIdentityDTO;
+import util.Pbkdf2PasswordHashImpl;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import java.io.BufferedInputStream;

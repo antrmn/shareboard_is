@@ -8,8 +8,6 @@ import service.auth.BannedUserException;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.json.bind.JsonbBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,12 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
 import static javax.servlet.http.HttpServletResponse.*;
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 public class JSONErrorInterceptor extends ServletInterceptor<JSONError> {
 
@@ -80,5 +75,10 @@ public class JSONErrorInterceptor extends ServletInterceptor<JSONError> {
 
     private void sendJSONError(HttpServletResponse resp, int code) throws IOException{
         sendJSONError(resp,code,Collections.emptyList());
+    }
+
+    @Override
+    public int priority() {
+        return 2;
     }
 }

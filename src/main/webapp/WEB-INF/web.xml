@@ -49,11 +49,4 @@
     <error-page>
         <location>/WEB-INF/views/error/generic.jsp</location>
     </error-page>
-
-    <security-role>
-        <role-name>admin</role-name>
-    </security-role>
-    <security-role>
-        <role-name>user</role-name>
-    </security-role>
 </web-app>

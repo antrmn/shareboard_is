@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 
 public abstract class InterceptableServlet extends HttpServlet {
@@ -45,10 +47,12 @@ public abstract class InterceptableServlet extends HttpServlet {
             return new ServletInterceptor[]{};
         }
 
+
         //get annotations and their respective interceptor
-        return Arrays.stream(method.getAnnotations())
+        return Stream.concat(Arrays.stream(getClass().getAnnotations()), Arrays.stream(method.getAnnotations()))
                 .map(ServletInterceptorFactory::instantiate)
                 .filter(Objects::nonNull)
+                .sorted(Comparator.comparingInt(ServletInterceptor::priority))
                 .toArray(ServletInterceptor[]::new);
     }
 

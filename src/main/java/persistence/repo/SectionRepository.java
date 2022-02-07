@@ -6,10 +6,11 @@ import persistence.model.Section;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-public class SectionRepository {
+public class SectionRepository implements Serializable {
 
     @PersistenceContext
     protected EntityManager em;

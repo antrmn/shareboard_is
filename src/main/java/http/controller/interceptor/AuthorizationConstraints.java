@@ -5,7 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.METHOD,ElementType.TYPE})
+
+
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JSONError {
+public @interface AuthorizationConstraints {
+    enum Types {
+        REQUIRE_AUTHENTICATION, DENY_BANNED_USERS, ADMINS_ONLY;
+    }
+
+    Types[] value();
 }

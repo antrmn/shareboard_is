@@ -1,14 +1,15 @@
-package security;
+package util;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
-public class Pbkdf2PasswordHashImpl {
+public class Pbkdf2PasswordHashImpl implements Serializable {
     public HashedPassword generate(String password, byte[] salt){
         try {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);

@@ -4,8 +4,6 @@ import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.UserRepository;
-import security.Pbkdf2PasswordHashImpl;
-import security.Pbkdf2PasswordHashImpl.HashedPassword;
 import service.auth.AdminsOnly;
 import service.auth.AuthenticationRequired;
 import service.dto.UserEditPage;
@@ -13,6 +11,8 @@ import service.dto.UserIdentityDTO;
 import service.dto.UserProfile;
 import service.validation.UserExists;
 import service.validation.UserExistsByName;
+import util.Pbkdf2PasswordHashImpl;
+import util.Pbkdf2PasswordHashImpl.HashedPassword;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

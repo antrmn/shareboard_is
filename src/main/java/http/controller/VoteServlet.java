@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.controller.interceptor.AuthorizationConstraints;
 import http.controller.interceptor.JSONError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
@@ -12,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
+
 @WebServlet("/vote")
+@AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 public class VoteServlet extends InterceptableServlet {
     @Inject private VoteService service;
 

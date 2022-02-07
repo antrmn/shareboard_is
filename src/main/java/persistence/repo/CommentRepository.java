@@ -5,9 +5,10 @@ import persistence.model.Post;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 import java.util.List;
 
-public class CommentRepository {
+public class CommentRepository implements Serializable {
 
     @PersistenceContext
     protected EntityManager em;

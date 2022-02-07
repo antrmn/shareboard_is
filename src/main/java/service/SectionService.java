@@ -12,11 +12,15 @@ import service.validation.SectionExists;
 import service.validation.SectionExistsById;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -64,6 +68,14 @@ public class SectionService {
 
     public List<SectionPage> showSections(){
         return genericRepository.findAll(Section.class).stream().map(this::map).collect(Collectors.toList());
+    }
+
+    @Named("sections")
+    @RequestScoped
+    @Produces
+    public Map<Integer,SectionPage> getSectionsMap(){
+        return genericRepository.findAll(Section.class).stream().map(this::map)
+                .collect(Collectors.toMap(SectionPage::getId, section -> section));
     }
 
     public SectionPage showSection(@SectionExistsById int id){

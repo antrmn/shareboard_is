@@ -1,5 +1,6 @@
 package http.controller;
 
+import http.controller.interceptor.AuthorizationConstraints;
 import http.util.ParameterConverter;
 import service.CommentService;
 
@@ -11,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
+
 @WebServlet("/editcomment")
+@AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 public class EditCommentServlet extends HttpServlet {
     @Inject private CommentService service;
 

@@ -6,8 +6,9 @@ import persistence.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 
-public class UserRepository {
+public class UserRepository implements Serializable {
 
     @PersistenceContext
     protected EntityManager em;
