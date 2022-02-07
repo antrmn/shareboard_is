@@ -14,7 +14,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
         <junit.version>5.8.2</junit.version>
-        <mockito.version>4.2.0</mockito.version>
+        <mockito.version>4.3.1</mockito.version>
         <tomee.version>8.0.8</tomee.version>
     </properties>
 
@@ -102,23 +102,41 @@
     </dependencies>
 
     <build>
-        <finalName>shareboard</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <warName>${artifactId}</warName>
+                    <warName>${project.artifactId}</warName>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>verify</goal>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <version>${tomee.version}</version>
                 <configuration>
-                    <disableXmlReport>true</disableXmlReport>
-                    <useFile>false</useFile>
+                    <tomeeClassifier>webprofile</tomeeClassifier>
+                    <args>-Xms256m -Xmx768m -XX:MaxPermSize=256m</args>
                 </configuration>
             </plugin>
             <plugin>
@@ -138,30 +156,12 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
-    </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <configLocation>google_checks.xml</configLocation>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+    </build>
 </project>
