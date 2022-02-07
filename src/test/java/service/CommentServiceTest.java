@@ -2,6 +2,7 @@ package service;
 
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
@@ -14,11 +15,10 @@ import persistence.repo.GenericRepository;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.CommentDTO;
 import service.dto.CurrentUser;
-
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -51,37 +51,81 @@ public class CommentServiceTest extends ServiceTest{
         assertThrows(ConstraintViolationException.class, () -> service.delete(id));
     }
 
-//    @Test
-//    void succesfulNewComment(){
-//        Post post = new Post();
-//        post.setId(1);
-////        Comment comment = new Comment();
-////        comment.setId(1);
-//////        when(genericRepository.insert(post)).thenReturn(post);
-////        when(genericRepository.insert(any())).thenReturn(comment);
-////        CommentDTO commentDTO = new CommentDTO(1,"name",1,"content", Instant.now(),0,1, 0, 0);
-//        when(genericRepository.findById(Post.class, 1)).thenReturn(post);
-//        int id = service.newComment("content", 1);
-//        assertNotNull(id);
-//    }
-//
-//    @Test
-//    void failNewComment(){
-//        when(genericRepository.insert(any())).thenReturn(null);
-//        assertThrows(NullPointerException.class,() -> service.newComment("content", 1));
-//    }
-//
-//    @Test
-//    void failNewCommentWithWrongPostId(){
-//        int postId = 1;
-//        Comment comment = new Comment();
-//        comment.setId(1);
-//        when(genericRepository.insert(any())).thenReturn(comment);
-//        CommentDTO commentDTO = new CommentDTO(1,"name",1,"content", Instant.now(),0,postId, 0, 0);
-//        int id = service.newComment("content", 1);
-//        assertThrows(NullPointerException.class,() -> postService.getPost(postId));
-//    }
-//
+    @Test
+    void succesfulNewComment(){
+        Post post = new Post();
+        post.setId(1);
+        User user = new User();
+        user.setId(1);
+        Comment comment = new Comment();
+        comment.setId(1);
+        comment.setPost(post);
+        comment.setAuthor(user);
+        when(genericRepository.insert(any())).thenReturn(comment);
+        when(genericRepository.findById(Post.class, 1)).thenReturn(post);
+        when(genericRepository.findById(User.class, 1)).thenReturn(user);
+        int id = service.newComment("content", 1);
+        assertEquals(1, id);
+    }
+
+    @Test
+    void failNewCommentWithWrongPostId(){
+        Post post = new Post();
+        post.setId(1);
+        Comment comment = new Comment();
+        comment.setId(1);
+        comment.setPost(post);
+        when(genericRepository.insert(any())).thenReturn(comment);
+        assertThrows(ConstraintViolationException.class,() -> service.newComment("content", 1));
+    }
+
+    @Test
+    void failNewComment(){
+        Post post = new Post();
+        post.setId(1);
+        when(genericRepository.findById(Post.class, 1)).thenReturn(post);
+        when(genericRepository.insert(any())).thenReturn(null);
+        assertThrows(java.lang.NullPointerException.class,() -> service.newComment("content", 1));
+    }
+
+    @Test
+    void succesfulNewCommentReply(){
+        Post post = new Post();
+        post.setId(1);
+        User user = new User();
+        user.setId(1);
+        Comment comment = new Comment();
+        comment.setId(1);
+        comment.setPost(post);
+        comment.setAuthor(user);
+        Comment parent = new Comment();
+        parent.setId(2);
+        parent.setPost(post);
+        parent.setAuthor(user);
+        when(genericRepository.insert(parent)).thenReturn(parent);
+        when(genericRepository.insert(any())).thenReturn(comment);
+        when(genericRepository.findById(Post.class, 1)).thenReturn(post);
+        when(genericRepository.findById(User.class, 1)).thenReturn(user);
+        when(genericRepository.findById(Comment.class, 2)).thenReturn(parent);
+        int id = service.newCommentReply("reply", parent.getId(), post.getId());
+        assertEquals(1, id);
+    }
+
+    @Test
+    void failNewCommentWithWrongParentId(){
+        Post post = new Post();
+        post.setId(1);
+        Comment comment = new Comment();
+        comment.setId(1);
+        comment.setPost(post);
+        Comment parent = new Comment();
+        parent.setId(2);
+        parent.setPost(post);
+        when(genericRepository.insert(any())).thenReturn(comment);
+        when(genericRepository.findById(Post.class, 1)).thenReturn(post);
+        assertThrows(ConstraintViolationException.class,() -> service.newCommentReply("reply", parent.getId(), post.getId()));
+    }
+
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void successfulShowComment(int id){

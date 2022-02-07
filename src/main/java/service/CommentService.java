@@ -94,19 +94,6 @@ public class CommentService {
     }
 
     @AuthenticationRequired
-    @DenyBannedUsers
-    public int newComment(CommentDTO commentDTO,
-                          @PostExists int postId){
-        User user = genericRepository.findById(User.class, currentUser.getId());
-
-        Comment comment = new Comment();
-        comment.setAuthor(user);
-        comment.setContent(commentDTO.getContent());
-        comment.setPost(genericRepository.findById(Post.class, postId));
-        return genericRepository.insert(comment).getId();
-    }
-
-    @AuthenticationRequired
     public int newCommentReply(@NotBlank @Size String text,
                                @CommentExists int parentId,
                                @PostExists int postId){
