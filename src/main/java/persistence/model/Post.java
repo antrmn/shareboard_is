@@ -48,7 +48,7 @@ public class Post implements Serializable {
     @LazyCollection(LazyCollectionOption.EXTRA)
     protected List<Comment> comments;
     public int getCommentCount(){
-        return comments.size();
+        return comments == null ? 0 : comments.size();
     }
 
     @Getter @Setter

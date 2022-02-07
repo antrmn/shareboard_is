@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,13 +50,13 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .vote(post.getVote(user) == null ? 0 : post.getVote(user).getVote())
-                .votes(post.getVotesCount())
+                .votes(post.getVotesCount() == null ? 0 : post.getVotesCount())
                 .sectionName(post.getSection().getName())
                 .authorName(post.getAuthor().getUsername())
                 .sectionId(post.getSection().getId())
                 .authorId(post.getAuthor().getId())
                 .content(post.getContent())
-                .creationDate(post.getCreationDate())
+                .creationDate(post.getCreationDate() == null ? Instant.now() : post.getCreationDate())
                 .nComments(post.getCommentCount())
                 .type(postType)
                 .build();
