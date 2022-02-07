@@ -52,7 +52,9 @@ function toggleFollowAjax(id, addFollow){
     $.post(url,
         {
             section: id,
-        });
+        }).fail(function (){
+        window.location.replace(window.location.origin+ "/shareboard/login")
+    });
 }
 
 function updateAllFollowButtons(e, addFollow){
