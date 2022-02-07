@@ -41,9 +41,16 @@ public class PostServiceTest extends ServiceTest{
     @Mock private SectionRepository sectionRepo;
     @Mock private UserRepository userRepo;
     @Mock private PostRepository postRepo;
+    @Mock private PostRepository.PostFinder postFinder;
     @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
     @Inject private PostService service;
 
+    private static BufferedInputStream createFakeImageStream(){
+        byte[] ar = {(byte)0xFF , (byte)0xD8, (byte)0xFF, (byte)0xE0};
+        ByteArrayInputStream bai = new ByteArrayInputStream(ar);
+        BufferedInputStream stream = new BufferedInputStream(bai);
+        return stream;
+    }
 
     @Test
     void succesfulNewTextPost(){
@@ -64,13 +71,6 @@ public class PostServiceTest extends ServiceTest{
         assertEquals(1, id);
     }
 
-    private static BufferedInputStream createFakeImageStream(){
-        byte[] ar = {(byte)0xFF , (byte)0xD8, (byte)0xFF, (byte)0xE0};
-        ByteArrayInputStream bai = new ByteArrayInputStream(ar);
-        BufferedInputStream stream = new BufferedInputStream(bai);
-        return stream;
-    }
-
     @Test
     void succesfulNewImagePost() throws IOException {
         Post post = new Post();
@@ -83,10 +83,10 @@ public class PostServiceTest extends ServiceTest{
         post.setAuthor(user);
         post.setSection(section);
         BufferedInputStream stream = createFakeImageStream();
+        when(bcRepo.insert(any())).thenReturn("pictureName");
         when(genericRepository.insert(any())).thenReturn(post);
         when(genericRepository.findById(User.class, 1)).thenReturn(user);
         when(sectionRepo.getByName("section1")).thenReturn(section);
-        when(bcRepo.insert(any())).thenReturn("pictureName");
         int id = service.newPost("title", stream, 1, "section1");
         assertEquals(1, id);
     }
@@ -103,13 +103,39 @@ public class PostServiceTest extends ServiceTest{
     }
 
     @Test
-    void failNewPost(){
+    void failNewTextPost(){
         Section section = new Section();
         section.setId(1);
         section.setName("section");
         when(sectionRepo.getByName("section")).thenReturn(section);
         when(genericRepository.insert(any())).thenReturn(null);
         assertThrows(java.lang.NullPointerException.class,() -> service.newPost("title", "text", "section"));
+    }
+
+    @Test
+    void failNewImagePost() throws IOException {
+        Section section = new Section();
+        section.setId(1);
+        section.setName("section");
+        BufferedInputStream stream = createFakeImageStream();
+        when(bcRepo.insert(any())).thenReturn("pictureName");
+        when(sectionRepo.getByName("section")).thenReturn(section);
+        when(genericRepository.insert(any())).thenReturn(null);
+        assertThrows(java.lang.NullPointerException.class,() -> service.newPost("title", stream, 0, "section"));
+    }
+
+    @Test
+    void failNewImagePostWithWrongStreamType() throws IOException {
+        Post post = new Post();
+        post.setId(1);
+        Section section = new Section();
+        section.setId(1);
+        section.setName("section");
+        BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
+        when(bcRepo.insert(any())).thenReturn("pictureName");
+        when(sectionRepo.getByName("section")).thenReturn(section);
+        when(genericRepository.insert(any())).thenReturn(post);
+        assertThrows(ConstraintViolationException.class,() -> service.newPost("title", stream, 0, "section"));
     }
 
     @ParameterizedTest
@@ -153,13 +179,6 @@ public class PostServiceTest extends ServiceTest{
         assertThrows(ConstraintViolationException.class,() -> service.getPost(id));
     }
 
-//    @ParameterizedTest
-//    @ValueSource(strings = {"section1", "section2", "section3"})
-//    void failShowPostWithWrongSectionName(String sName){
-//        when(genericRepository.findById(Post.class,1)).thenReturn(post);
-//        assertThrows(ConstraintViolationException.class,() -> service.getPost(id));
-//    }
-
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
     void successfulEditTextPost(int id) {
@@ -179,13 +198,32 @@ public class PostServiceTest extends ServiceTest{
         assertThrows(ConstraintViolationException.class,() -> service.editPost(postEdit, id));
     }
 
+//    @ParameterizedTest
+//    @ValueSource(ints = {1, 5, 30})
+//    void successfulEditImagePost(int id) {
+//        Post post = new Post();
+//        post.setId(id);
+//        when(bcRepo.insert(any())).thenReturn("pictureName");
+//        when(genericRepository.findById(Post.class,id)).thenReturn(post);
+//        PostEditDTO postEdit = new PostEditDTO("title", "content", Post.Type.IMG);
+//        assertDoesNotThrow(() -> service.editPost(postEdit, id));
+//    }
+
     @Test
     void successfulFindPosts(){
         Post post = spy(Post.class);
-        Post post1 = spy(Post.class);
+        User author = spy(User.class);
+        Section section = spy(Section.class);
+        post.setId(1);
+        post.setSection(section);
+        post.setAuthor(author);
+        author.setId(1);
+        author.setUsername("author");
+        section.setId(1);
+        section.setName("section");
         List<Post> posts = new ArrayList<>();
-        posts.add(post1);
         posts.add(post);
+        when(postRepo.getFinder()).thenReturn(postFinder);
         when(postRepo.getFinder().getResults()).thenReturn(posts);
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
@@ -194,7 +232,22 @@ public class PostServiceTest extends ServiceTest{
                 .sectionName("section")
                 .authorName("author")
                 .build();
-        assertDoesNotThrow(() -> service.loadPosts(postSearchForm));
+        assertEquals(posts.get(0).getId(), service.loadPosts(postSearchForm).get(0).getId());
+    }
+
+    @Test
+    void failFindPosts(){
+        when(postRepo.getFinder()).thenReturn(postFinder);
+        when(postRepo.getFinder().getResults()).thenReturn(null);
+        PostSearchForm postSearchForm = PostSearchForm.builder()
+                .content("content")
+                .onlyFollow(false)
+                .includeBody(true)
+                .sectionName("section")
+                .authorName("author")
+                .build();
+
+        assertThrows(java.lang.NullPointerException.class, () -> service.loadPosts(postSearchForm).get(0));
     }
 
 }
