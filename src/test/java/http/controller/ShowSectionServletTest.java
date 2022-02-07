@@ -5,7 +5,8 @@ import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
-import service.UserService;
+import service.SectionService;
+
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,30 +20,29 @@ import static org.mockito.Mockito.*;
 
 
 @Classes(cdi = true,
-        value={UserServlet.class},
+        value={ShowSectionServlet.class},
         cdiStereotypes = CdiMock.class)
-public class UserServletTest extends ServletTest{
+public class ShowSectionServletTest extends ServletTest{
 
-    @Mock private UserService service;
+    @Mock private SectionService service;
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
-    @Inject UserServlet userServlet;
+    @Inject ShowSectionServlet showSectionsServlet;
 
 
     @Test
     void successfulldoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        userServlet.doGet(request,response);
+        showSectionsServlet.doGet(request,response);
         verify(dispatcher, times(1)).forward(any(), any());
     }
 
     @Test
     void faildoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
-        when(service.getUser(any())).thenThrow(ConstraintViolationException.class);
-        assertThrows(ConstraintViolationException.class,() -> userServlet.doGet(request,response));
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        doThrow(ConstraintViolationException.class).when(dispatcher).forward(any(), any());
+        assertThrows(ConstraintViolationException.class,() -> showSectionsServlet.doGet(request,response));
     }
 
 

@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
 import service.BanService;
 import javax.inject.Inject;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,13 +26,15 @@ public class ShowBansServletTest extends ServletTest{
     @Mock private BanService service;
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
+    @Mock private RequestDispatcher dispatcher;
     @Inject ShowBansServlet showBansServlet;
 
     @Test
     void successfulldoPost() throws ServletException, IOException{
         when(request.getParameter("userId")).thenReturn("1");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         showBansServlet.doPost(request,response);
-        verify(service, times(1)).retrieveUserBan(anyInt());
+        verify(dispatcher, times(1)).forward(any(), any());
     }
 
     @Test
@@ -45,8 +48,9 @@ public class ShowBansServletTest extends ServletTest{
     @Test
     void successfulldoGet() throws ServletException, IOException{
         when(request.getParameter("userId")).thenReturn("1");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         showBansServlet.doGet(request,response);
-        verify(service, times(1)).retrieveUserBan(anyInt());
+        verify(dispatcher, times(1)).forward(any(), any());
     }
 
     @Test

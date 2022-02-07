@@ -8,6 +8,7 @@ import rocks.limburg.cdimock.CdiMock;
 import service.SectionService;
 
 import javax.inject.Inject;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,13 +27,15 @@ public class SectionServletTest extends ServletTest{
     @Mock private SectionService service;
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
+    @Mock private RequestDispatcher dispatcher;
     @Inject SectionServlet sectionServlet;
 
     @Test
     void successfulldoPost() throws ServletException, IOException{
         when(request.getParameter("section")).thenReturn("sectionName");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         sectionServlet.doPost(request,response);
-        verify(service, times(1)).getSection(anyString());
+        verify(dispatcher, times(1)).forward(any(), any());
     }
 
     @Test
@@ -46,8 +49,9 @@ public class SectionServletTest extends ServletTest{
     @Test
     void successfulldoGet() throws ServletException, IOException{
         when(request.getParameter("section")).thenReturn("sectionName");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         sectionServlet.doGet(request,response);
-        verify(service, times(1)).getSection(anyString());
+        verify(dispatcher, times(1)).forward(any(), any());
     }
 
     @Test
