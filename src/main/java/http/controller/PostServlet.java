@@ -1,6 +1,7 @@
 package http.controller;
 
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.CommentService;
 import service.PostService;
 import service.dto.CommentDTO;
@@ -9,7 +10,6 @@ import service.dto.PostPage;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet("/post")
-public class PostServlet extends HttpServlet {
+public class PostServlet extends InterceptableServlet {
 
     @Inject private PostService postService;
     @Inject private CommentService service;

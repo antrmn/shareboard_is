@@ -1,17 +1,18 @@
 package http.controller;
 
-import persistence.model.User;
+import http.util.interceptor.InterceptableServlet;
 import service.UserService;
 import service.dto.UserProfile;
 
 import javax.inject.Inject;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user")
-public class UserServlet extends HttpServlet {
+public class UserServlet extends InterceptableServlet {
 
     @Inject
     private UserService service;

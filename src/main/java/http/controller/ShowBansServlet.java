@@ -2,13 +2,13 @@ package http.controller;
 
 import http.controller.interceptor.AuthorizationConstraints;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.BanService;
 import service.dto.BanDTO;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 
 @WebServlet("/admin/showbans")
 @AuthorizationConstraints(ADMINS_ONLY)
-public class ShowBansServlet extends HttpServlet {
+public class ShowBansServlet extends InterceptableServlet {
     @Inject private BanService service;
 
     @Override

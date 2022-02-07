@@ -2,6 +2,7 @@ package http.controller;
 
 import http.controller.interceptor.AuthorizationConstraints;
 import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
 import service.CommentService;
 
 import javax.inject.Inject;
@@ -9,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 @WebServlet("/newcomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"admin","user"}))
-public class NewCommentServlet extends HttpServlet {
+public class NewCommentServlet extends InterceptableServlet {
     @Inject private CommentService service;
 
     @Override
