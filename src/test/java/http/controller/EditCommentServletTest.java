@@ -25,7 +25,6 @@ import static org.mockito.Mockito.*;
 @Classes(cdi = true,
         value={EditCommentServlet.class},
         cdiStereotypes = CdiMock.class)
-@Disabled
 public class EditCommentServletTest extends ServletTest{
 
     @Mock private CommentService service;

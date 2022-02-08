@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 @Classes(cdi = true,
         value={NewCommentServlet.class},
         cdiStereotypes = CdiMock.class)
-@Disabled
+
 public class NewCommentServletTest extends ServletTest{
 
     @Mock private CommentService service;
