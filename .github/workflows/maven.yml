@@ -43,8 +43,8 @@ jobs:
       id: buildsite
       run: mvn --batch-mode site
     - name: Publish site with Github Pages
-      uses: peaceiris/actions-gh-pages@v3
       if: steps.buildsite.outcome == 'success'
+      uses: JamesIves/github-pages-deploy-action@v4.2.3
       with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir:  ${GITHUB_WORKSPACE}/site/
+        branch: gh-pages
+        folder: ./site
