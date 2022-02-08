@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
 import service.UserService;
+
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,30 +20,29 @@ import static org.mockito.Mockito.*;
 
 
 @Classes(cdi = true,
-        value={UserServlet.class},
+        value={ShowUsersServlet.class},
         cdiStereotypes = CdiMock.class)
-public class UserServletTest extends ServletTest{
+public class ShowUsersServletTest extends ServletTest{
 
     @Mock private UserService service;
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
-    @Inject UserServlet userServlet;
+    @Inject ShowUsersServlet showUsersServlet;
 
 
     @Test
     void successfulldoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        userServlet.doGet(request,response);
+        showUsersServlet.doGet(request,response);
         verify(dispatcher, times(1)).forward(any(), any());
     }
 
     @Test
     void faildoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
-        when(service.getUser(any())).thenThrow(ConstraintViolationException.class);
-        assertThrows(ConstraintViolationException.class,() -> userServlet.doGet(request,response));
+        when(request.getParameter("section")).thenReturn("1");
+        doThrow(ConstraintViolationException.class).when(service).showUsers();
+        assertThrows(ConstraintViolationException.class,() -> showUsersServlet.doGet(request,response));
     }
 
 

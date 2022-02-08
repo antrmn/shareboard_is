@@ -5,12 +5,13 @@ import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
-import service.UserService;
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 
@@ -19,30 +20,34 @@ import static org.mockito.Mockito.*;
 
 
 @Classes(cdi = true,
-        value={UserServlet.class},
+        value={Logout.class},
         cdiStereotypes = CdiMock.class)
-public class UserServletTest extends ServletTest{
+public class LogoutServletTest extends ServletTest{
 
-    @Mock private UserService service;
     @Mock private HttpServletRequest request;
+    @Mock private HttpSession session;
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
-    @Inject UserServlet userServlet;
+    @Inject Logout logoutServlet;
 
 
     @Test
     void successfulldoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
+        when(request.getSession(true)).thenReturn(session);
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        userServlet.doGet(request,response);
-        verify(dispatcher, times(1)).forward(any(), any());
+        Logout spyServlet = spy(logoutServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        doReturn(servletContext).when(spyServlet).getServletContext();
+        logoutServlet.doGet(request,response);
+        verify(response, times(1)).sendRedirect(any());
     }
 
     @Test
     void faildoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
-        when(service.getUser(any())).thenThrow(ConstraintViolationException.class);
-        assertThrows(ConstraintViolationException.class,() -> userServlet.doGet(request,response));
+        when(request.getSession(true)).thenReturn(session);
+        doThrow(ConstraintViolationException.class).when(response).sendRedirect(any());
+        assertThrows(ConstraintViolationException.class,() -> logoutServlet.doGet(request,response));
     }
 
 

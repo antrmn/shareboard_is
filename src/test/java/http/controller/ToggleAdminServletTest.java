@@ -5,9 +5,10 @@ import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
+import service.FollowService;
 import service.UserService;
+
 import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,30 +20,28 @@ import static org.mockito.Mockito.*;
 
 
 @Classes(cdi = true,
-        value={UserServlet.class},
+        value={ToggleAdminServlet.class},
         cdiStereotypes = CdiMock.class)
-public class UserServletTest extends ServletTest{
+public class ToggleAdminServletTest extends ServletTest{
 
     @Mock private UserService service;
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
-    @Mock private RequestDispatcher dispatcher;
-    @Inject UserServlet userServlet;
+    @Inject ToggleAdminServlet toggleAdminServlet;
 
 
     @Test
     void successfulldoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
-        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        userServlet.doGet(request,response);
-        verify(dispatcher, times(1)).forward(any(), any());
+        when(request.getParameter("userId")).thenReturn("1");
+        toggleAdminServlet.doGet(request,response);
+        verify(service, times(1)).toggleAdmin(anyInt());
     }
 
     @Test
     void faildoGet() throws ServletException, IOException{
-        when(request.getParameter("name")).thenReturn("test");
-        when(service.getUser(any())).thenThrow(ConstraintViolationException.class);
-        assertThrows(ConstraintViolationException.class,() -> userServlet.doGet(request,response));
+        when(request.getParameter("section")).thenReturn("1");
+        doThrow(ConstraintViolationException.class).when(service).toggleAdmin(anyInt());
+        assertThrows(ConstraintViolationException.class,() -> toggleAdminServlet.doGet(request,response));
     }
 
 

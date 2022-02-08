@@ -56,6 +56,6 @@ public class PostServlet extends InterceptableServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        doGet(req, resp);
     }
 }
