@@ -2,27 +2,31 @@ package http.controller;
 
 
 import org.apache.openejb.testing.Classes;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
-import service.SectionService;;
+import service.SectionService;
+
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+;
+
 
 @Classes(cdi = true,
         value={NewSectionServlet.class},
         cdiStereotypes = CdiMock.class)
+@Disabled
 public class NewSectionServletTest extends ServletTest{
 
     @Mock private SectionService service;

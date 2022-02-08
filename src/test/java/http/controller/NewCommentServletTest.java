@@ -2,10 +2,12 @@ package http.controller;
 
 
 import org.apache.openejb.testing.Classes;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
 import service.CommentService;
+
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -22,6 +24,7 @@ import static org.mockito.Mockito.*;
 @Classes(cdi = true,
         value={NewCommentServlet.class},
         cdiStereotypes = CdiMock.class)
+@Disabled
 public class NewCommentServletTest extends ServletTest{
 
     @Mock private CommentService service;
