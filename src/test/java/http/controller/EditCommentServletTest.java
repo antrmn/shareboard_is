@@ -39,7 +39,6 @@ public class EditCommentServletTest extends ServletTest{
         when(request.getParameter("text")).thenReturn("text");
 
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         EditCommentServlet spyServlet = spy(editCommentServlet);
         ServletContext servletContext = mock(ServletContext.class);
         when(servletContext.getContextPath()).thenReturn("path");
