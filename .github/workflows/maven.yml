@@ -47,4 +47,4 @@ jobs:
       if: steps.buildsite.outcome == 'success'
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: site/
+          publish_dir:  ${GITHUB_WORKSPACE}/site/
