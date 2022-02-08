@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONErrorInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">http.controller.interceptor</a> &gt; <span class="el_source">JSONErrorInterceptor.java</span></div><h1>JSONErrorInterceptor.java</h1><pre class="source lang-java linenums">package http.controller.interceptor;
+
+import http.util.interceptor.HttpServletBiConsumer;
+import http.util.interceptor.ServletInterceptor;
+import service.auth.AuthenticationRequiredException;
+import service.auth.AuthorizationException;
+import service.auth.BannedUserException;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static javax.servlet.http.HttpServletResponse.*;
+
+<span class="nc" id="L26">public class JSONErrorInterceptor extends ServletInterceptor&lt;JSONError&gt; {</span>
+
+    @Override
+    protected void init(JSONError annotation) {
+
+<span class="nc" id="L31">    }</span>
+
+    @Override
+    public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
+        try{
+<span class="nc" id="L36">            next.handle(req,resp);</span>
+<span class="nc" id="L37">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L38">            sendJSONError(resp, SC_BAD_REQUEST, e.getMessage());</span>
+<span class="nc" id="L39">        } catch (ConstraintViolationException e) {</span>
+<span class="nc" id="L40">            List&lt;String&gt; collect = e.getConstraintViolations().stream()</span>
+<span class="nc" id="L41">                    .map(ConstraintViolation::getMessage)</span>
+<span class="nc" id="L42">                    .collect(Collectors.toList());</span>
+
+<span class="nc" id="L44">            sendJSONError(resp,SC_BAD_REQUEST,collect);</span>
+<span class="nc" id="L45">        } catch (AuthenticationRequiredException e) {</span>
+<span class="nc" id="L46">            sendJSONError(resp,SC_UNAUTHORIZED, e.getMessage());</span>
+<span class="nc" id="L47">        } catch (BannedUserException e){</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (e.getDuration() != null){</span>
+<span class="nc" id="L49">                String end  = DateTimeFormatter.ISO_INSTANT.format(e.getDuration());</span>
+<span class="nc" id="L50">                sendJSONError(resp,SC_FORBIDDEN, &quot;Sei bannato fino a &quot; + end);</span>
+<span class="nc" id="L51">            } else {</span>
+<span class="nc" id="L52">                sendJSONError(resp, SC_FORBIDDEN);</span>
+            }
+<span class="nc" id="L54">        } catch (AuthorizationException e) {</span>
+<span class="nc" id="L55">            sendJSONError(resp,SC_FORBIDDEN, e.getMessage());</span>
+<span class="nc" id="L56">        } catch (RuntimeException | ServletException | IOException e){</span>
+<span class="nc" id="L57">            sendJSONError(resp,SC_INTERNAL_SERVER_ERROR, &quot;Internal server error&quot;);</span>
+<span class="nc" id="L58">            req.getServletContext().log(e.getMessage(), e);</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+
+    private void sendJSONError(HttpServletResponse resp, int code, Collection&lt;String&gt; messages) throws IOException {
+<span class="nc" id="L63">        JsonObject errors = Json.createObjectBuilder().add(&quot;errors&quot;, Json.createArrayBuilder(messages)).build();</span>
+<span class="nc" id="L64">        resp.setStatus(code);</span>
+<span class="nc" id="L65">        resp.setContentType(&quot;application/json&quot;);</span>
+<span class="nc" id="L66">        PrintWriter writer = resp.getWriter();</span>
+<span class="nc" id="L67">        writer.print(errors.toString());</span>
+<span class="nc" id="L68">        writer.flush();</span>
+<span class="nc" id="L69">    }</span>
+
+    private void sendJSONError(HttpServletResponse resp, int code, String message) throws IOException {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        List&lt;String&gt; singleton = message == null ? Collections.emptyList() : List.of(message);</span>
+<span class="nc" id="L73">        sendJSONError(resp, code, singleton);</span>
+<span class="nc" id="L74">    }</span>
+
+    private void sendJSONError(HttpServletResponse resp, int code) throws IOException{
+<span class="nc" id="L77">        sendJSONError(resp,code,Collections.emptyList());</span>
+<span class="nc" id="L78">    }</span>
+
+    @Override
+    public int priority() {
+<span class="nc" id="L82">        return 2;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

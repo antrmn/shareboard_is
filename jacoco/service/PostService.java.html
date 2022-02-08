@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">service</a> &gt; <span class="el_source">PostService.java</span></div><h1>PostService.java</h1><pre class="source lang-java linenums">package service;
+
+import persistence.model.Post;
+import persistence.model.Section;
+import persistence.model.User;
+import persistence.repo.*;
+import service.auth.AuthenticationRequired;
+import service.auth.DenyBannedUsers;
+import service.dto.*;
+import service.validation.Image;
+import service.validation.PostExists;
+import service.validation.SectionExists;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.validation.constraints.NotBlank;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static persistence.model.Post.Type.IMG;
+import static persistence.model.Post.Type.TEXT;
+import static service.dto.PostSearchForm.SortCriteria.NEWEST;
+
+
+@ApplicationScoped
+@Transactional
+<span class="fc" id="L31">public class PostService {</span>
+
+    @Inject private GenericRepository genericRepository;
+    @Inject private PostRepository postRepo;
+    @Inject private UserRepository userRepo;
+    @Inject private SectionRepository sectionRepo;
+    @Inject private BinaryContentRepository bcRepo;
+    @Inject private CurrentUser currentUser;
+
+
+    private PostPage mapPost(Post post){
+<span class="fc" id="L42">        User user = null;</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn())</span>
+<span class="nc" id="L44">            user = genericRepository.findById(User.class,currentUser.getId());</span>
+
+        //converte persistence.Post.Type in service.dto.PostType (ew)
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        PostType postType = post.getType() == IMG ? PostType.IMG : PostType.TEXT;</span>
+
+<span class="fc" id="L49">        return PostPage.builder()</span>
+<span class="fc" id="L50">                .id(post.getId())</span>
+<span class="fc" id="L51">                .title(post.getTitle())</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">                .vote(post.getVote(user) == null ? 0 : post.getVote(user).getVote())</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                .votes(post.getVotesCount() == null ? 0 : post.getVotesCount())</span>
+<span class="fc" id="L54">                .sectionName(post.getSection().getName())</span>
+<span class="fc" id="L55">                .authorName(post.getAuthor().getUsername())</span>
+<span class="fc" id="L56">                .sectionId(post.getSection().getId())</span>
+<span class="fc" id="L57">                .authorId(post.getAuthor().getId())</span>
+<span class="fc" id="L58">                .content(post.getContent())</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                .creationDate(post.getCreationDate() == null ? Instant.now() : post.getCreationDate())</span>
+<span class="fc" id="L60">                .nComments(post.getCommentCount())</span>
+<span class="fc" id="L61">                .type(postType)</span>
+<span class="fc" id="L62">                .build();</span>
+    }
+
+    public PostPage getPost(@PostExists int id){
+<span class="fc" id="L66">        Post p = genericRepository.findById(Post.class,id);</span>
+<span class="fc" id="L67">        PostPage post = mapPost(p);</span>
+<span class="fc" id="L68">        return post;</span>
+    }
+
+    @Transactional
+    public List&lt;PostPage&gt; loadPosts(PostSearchForm form){
+<span class="fc" id="L73">        final int elementsPerPage = 10;</span>
+<span class="fc" id="L74">        PostRepository.PostFinder finder = postRepo.getFinder();</span>
+
+<span class="fc" id="L76">        finder.limit(elementsPerPage);</span>
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        int page = form.getPage() &gt; 0 ? form.getPage() : 1;</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        finder.offset((page == 1) ? 0 : (page-1) * elementsPerPage+1);</span>
+
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if(form.getContent() != null) {</span>
+<span class="fc" id="L82">            finder.byContent(form.getContent());</span>
+        }
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if(form.isIncludeBody()){</span>
+<span class="fc" id="L85">            finder.includeBody();</span>
+        }
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if(form.getSectionName() != null){</span>
+<span class="fc" id="L88">            Section section = sectionRepo.getByName(form.getSectionName());</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">            if(section != null){</span>
+<span class="nc" id="L90">                finder.bySection(section);</span>
+            }
+        }
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if(form.getAuthorName() != null){</span>
+<span class="fc" id="L94">            User user = userRepo.getByName(form.getAuthorName());</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            if(user != null){</span>
+<span class="nc" id="L96">                finder.byAuthor(user);</span>
+            }
+        }
+<span class="pc bpc" id="L99" title="3 of 4 branches missed.">        if(form.isOnlyFollow() &amp;&amp; currentUser.isLoggedIn()){</span>
+<span class="nc" id="L100">            finder.joinUserFollows(genericRepository.findById(User.class,currentUser.getId()));</span>
+        }
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if(form.getPostedAfter() != null){</span>
+<span class="nc" id="L103">            finder.postedAfter(form.getPostedAfter());</span>
+        }
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if(form.getPostedBefore() != null){</span>
+<span class="nc" id="L106">            finder.postedBefore(form.getPostedBefore());</span>
+        }
+
+        //null-safe switch
+<span class="pc bpc" id="L110" title="3 of 5 branches missed.">        switch(form.getOrderBy() != null ? form.getOrderBy() : NEWEST){</span>
+            case NEWEST: default: {
+<span class="fc" id="L112">                finder.getNewest();</span>
+<span class="fc" id="L113">                break;</span>
+            }
+            case OLDEST:{
+<span class="nc" id="L116">                finder.getOldest();</span>
+<span class="nc" id="L117">                break;</span>
+            }
+            case MOSTVOTED:{
+<span class="nc" id="L120">                finder.getMostVoted();</span>
+                break;
+            }
+        }
+<span class="fc" id="L124">        return finder.getResults().stream().map(this::mapPost).collect(Collectors.toList());</span>
+    }
+
+    @AuthenticationRequired //TODO: check autore post?
+    @DenyBannedUsers
+    public void delete(@PostExists int id){
+<span class="fc" id="L130">        genericRepository.remove(genericRepository.findById(User.class,id));</span>
+<span class="fc" id="L131">    }</span>
+
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public void editPost(PostEditDTO edit, @PostExists int id){
+<span class="fc" id="L136">        Post post = genericRepository.findById(Post.class, id);</span>
+<span class="fc" id="L137">        post.setTitle(edit.getTitle());</span>
+<span class="fc" id="L138">        post.setContent(edit.getContent());</span>
+<span class="fc" id="L139">        post.setType(edit.getType());</span>
+<span class="fc" id="L140">    }</span>
+
+    @AuthenticationRequired
+    public void editPost(PostEditDTO edit,
+                         @PostExists int id,
+                         @Image BufferedInputStream content){
+<span class="nc" id="L146">        Post post = genericRepository.findById(Post.class, id);</span>
+<span class="nc" id="L147">        post.setTitle(edit.getTitle());</span>
+        String fileName;
+        try {
+<span class="nc" id="L150">            fileName = bcRepo.insert(content);</span>
+<span class="nc" id="L151">        } catch (IOException e) {</span>
+<span class="nc" id="L152">            throw new RuntimeException(e);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">        post.setContent(fileName);</span>
+<span class="nc" id="L155">        post.setType(edit.getType());</span>
+<span class="nc" id="L156">    }</span>
+
+
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public int newPost(@NotBlank(message=&quot;{post.title.blank}&quot;) String title,
+                       String body,
+                       @SectionExists String sectionName){
+<span class="fc" id="L164">        User user = userRepo.getByName(currentUser.getUsername());</span>
+<span class="fc" id="L165">        Section section = sectionRepo.getByName(sectionName);</span>
+
+
+<span class="fc" id="L168">        Post post = new Post();</span>
+<span class="fc" id="L169">        post.setTitle(title);</span>
+<span class="pc bpc" id="L170" title="2 of 4 branches missed.">        post.setContent(body == null || body.isBlank() ? &quot;&quot; : body);</span>
+<span class="fc" id="L171">        post.setAuthor(user);</span>
+<span class="fc" id="L172">        post.setSection(section);</span>
+<span class="fc" id="L173">        post.setType(TEXT);</span>
+
+<span class="fc" id="L175">        return genericRepository.insert(post).getId();</span>
+    }
+
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public int newPost(@NotBlank(message = &quot;{post.title.blank}&quot;) String title,
+                       @Image BufferedInputStream content,
+                       long size, //todo range
+                       @SectionExists String sectionName){
+<span class="fc" id="L184">        User user = userRepo.getByName(currentUser.getUsername());</span>
+<span class="fc" id="L185">        Section section = sectionRepo.getByName(sectionName);</span>
+
+        String fileName;
+        try {
+<span class="fc" id="L189">            fileName = bcRepo.insert(content);</span>
+<span class="nc" id="L190">        } catch (IOException e) {</span>
+<span class="nc" id="L191">            throw new RuntimeException(e);</span>
+<span class="fc" id="L192">        }</span>
+
+<span class="fc" id="L194">        Post post = new Post();</span>
+<span class="fc" id="L195">        post.setTitle(title);</span>
+<span class="fc" id="L196">        post.setAuthor(user);</span>
+<span class="fc" id="L197">        post.setContent(fileName);</span>
+<span class="fc" id="L198">        post.setSection(section);</span>
+<span class="fc" id="L199">        post.setType(IMG);</span>
+
+<span class="fc" id="L201">        return genericRepository.insert(post).getId(); //in caso di errore il file resta</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

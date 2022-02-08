@@ -1,0 +1,12 @@
+http.controller
+http.controller.filter
+http.controller.interceptor
+http.util
+http.util.interceptor
+persistence.model
+persistence.repo
+service
+service.auth
+service.dto
+service.validation
+util

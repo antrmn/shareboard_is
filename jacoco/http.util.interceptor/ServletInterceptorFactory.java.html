@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletInterceptorFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">http.util.interceptor</a> &gt; <span class="el_source">ServletInterceptorFactory.java</span></div><h1>ServletInterceptorFactory.java</h1><pre class="source lang-java linenums">package http.util.interceptor;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+public final class ServletInterceptorFactory {
+    private ServletInterceptorFactory(){}
+
+    private static final
+<span class="nc" id="L13">    ConcurrentMap&lt;Class&lt;? extends Annotation&gt;, Class&lt;? extends ServletInterceptor&lt;?&gt;&gt;&gt; classes =</span>
+            new ConcurrentHashMap&lt;&gt;();
+
+    public static &lt;T extends Annotation&gt; ServletInterceptor&lt;T&gt; instantiate(T annotation){
+<span class="nc" id="L17">        Class&lt;? extends ServletInterceptor&lt;?&gt;&gt; clazz = ServletInterceptorFactory.classes.get(annotation.annotationType());</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        if(clazz == null)</span>
+<span class="nc" id="L19">            return null;</span>
+
+        ServletInterceptor&lt;T&gt; interceptor;
+        try {
+            //noinspection unchecked
+<span class="nc" id="L24">            interceptor = (ServletInterceptor&lt;T&gt;) clazz.getConstructor().newInstance();</span>
+<span class="nc" id="L25">        } catch (ReflectiveOperationException e) {</span>
+<span class="nc" id="L26">            throw new RuntimeException(e);</span>
+<span class="nc" id="L27">        }</span>
+
+<span class="nc" id="L29">        interceptor.init(annotation);</span>
+<span class="nc" id="L30">        return interceptor;</span>
+    }
+
+    public static void register(Class&lt;? extends ServletInterceptor&lt;? extends Annotation&gt;&gt; interceptorClass){
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if(Modifier.isAbstract(interceptorClass.getModifiers())){</span>
+<span class="nc" id="L35">            throw new IllegalArgumentException(&quot;Interceptor class must be concrete&quot;);</span>
+        }
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if(interceptorClass.getTypeParameters().length &gt; 0){</span>
+<span class="nc" id="L38">            throw new IllegalArgumentException(&quot;Interceptor class must be non-generic&quot;);</span>
+        }
+
+        //get ServletInterceptor.class immediate subclass
+<span class="nc" id="L42">        Class&lt;?&gt; clazz = interceptorClass;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        while(clazz.getSuperclass() != ServletInterceptor.class){</span>
+<span class="nc" id="L44">            clazz = clazz.getSuperclass();</span>
+        }
+        //get ServletInterceptor.class as ParameterizedType object
+<span class="nc" id="L47">        ParameterizedType genericSuperclass = (ParameterizedType) clazz.getGenericSuperclass();</span>
+
+        @SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L50">        Class&lt;? extends Annotation&gt; actualTypeArgument =</span>
+<span class="nc" id="L51">                (Class&lt;? extends Annotation&gt;) genericSuperclass.getActualTypeArguments()[0];</span>
+
+<span class="nc" id="L53">        Class&lt;?&gt; oldValue = classes.putIfAbsent(actualTypeArgument, interceptorClass);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if(oldValue != null){</span>
+<span class="nc" id="L55">            throw new IllegalArgumentException(&quot;There already is a registered Servlet Interceptor with annotation &quot;</span>
+<span class="nc" id="L56">                    + actualTypeArgument.getName());</span>
+        }
+<span class="nc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

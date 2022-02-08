@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditSectionServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">http.controller</a> &gt; <span class="el_source">EditSectionServlet.java</span></div><h1>EditSectionServlet.java</h1><pre class="source lang-java linenums">package http.controller;
+
+import http.controller.interceptor.AuthorizationConstraints;
+import http.controller.interceptor.ForwardOnError;
+import http.util.ParameterConverter;
+import http.util.interceptor.InterceptableServlet;
+import service.SectionService;
+import service.dto.SectionPage;
+
+import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+
+import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;
+
+@WebServlet(&quot;/admin/editsection&quot;)
+@MultipartConfig
+@AuthorizationConstraints(ADMINS_ONLY)
+<span class="nc" id="L25">public class EditSectionServlet extends InterceptableServlet {</span>
+    @Inject private SectionService service;
+
+    private static final String EDIT_SECTION_PAGE = &quot;/WEB-INF/views/crm/edit-section.jsp&quot;;
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<span class="nc" id="L32">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="nc" id="L33">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
+<span class="nc" id="L34">        SectionPage section = service.showSection(sectionId);</span>
+<span class="nc" id="L35">        request.setAttribute(&quot;section&quot;, section);</span>
+<span class="nc" id="L36">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</span>
+<span class="nc" id="L37">    }</span>
+
+    @Override
+    @ForwardOnError(EDIT_SECTION_PAGE)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<span class="nc" id="L42">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="nc" id="L43">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
+<span class="nc" id="L44">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="nc" id="L45">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="nc" id="L46">        Part banner = request.getPart(&quot;banner&quot;);</span>
+
+<span class="nc" id="L48">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</span>
+<span class="nc" id="L49">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+<span class="nc" id="L50">        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());</span>
+<span class="nc" id="L51">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</span>
+<span class="nc" id="L52">        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);</span>
+<span class="nc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

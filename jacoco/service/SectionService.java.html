@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SectionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">service</a> &gt; <span class="el_source">SectionService.java</span></div><h1>SectionService.java</h1><pre class="source lang-java linenums">package service;
+
+import persistence.model.Section;
+import persistence.model.User;
+import persistence.repo.BinaryContentRepository;
+import persistence.repo.GenericRepository;
+import persistence.repo.SectionRepository;
+import service.auth.AdminsOnly;
+import service.dto.CurrentUser;
+import service.dto.SectionPage;
+import service.validation.SectionExists;
+import service.validation.SectionExistsById;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.transaction.Transactional;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@ApplicationScoped
+@Transactional
+<span class="fc" id="L30">public class SectionService {</span>
+
+    @Inject private SectionRepository sectionRepo;
+    @Inject private GenericRepository genericRepository;
+    @Inject private BinaryContentRepository bcRepo;
+    @Inject private CurrentUser currentUser;
+
+    private SectionPage map(Section section){
+<span class="fc" id="L38">        User user = null;</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
+<span class="nc" id="L40">            user = genericRepository.findById(User.class,currentUser.getId());</span>
+        }
+<span class="fc" id="L42">        return SectionPage.builder().id(section.getId())</span>
+<span class="fc" id="L43">                .name(section.getName())</span>
+<span class="fc" id="L44">                .picture(section.getPicture())</span>
+<span class="fc" id="L45">                .description(section.getDescription())</span>
+<span class="fc" id="L46">                .banner(section.getBanner())</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">                .nFollowers(section.getFollowCount())</span>
+<span class="pc bnc" id="L48" title="All 2 branches missed.">                .isFollowed(user != null &amp;&amp; section.getFollow(user) != null).build();</span>
+    }
+
+    @AdminsOnly
+    public void delete(@SectionExistsById int id){
+<span class="fc" id="L53">        genericRepository.remove(genericRepository.findById(Section.class, id));</span>
+<span class="fc" id="L54">    }</span>
+
+    @AdminsOnly
+    public int newSection(SectionPage sectiondata,
+                          BufferedInputStream picture,
+                          BufferedInputStream banner) throws IOException {
+<span class="fc" id="L60">        Section s = new Section();</span>
+<span class="fc" id="L61">        s.setName(sectiondata.getName());</span>
+<span class="fc" id="L62">        s.setPicture(sectiondata.getPicture());</span>
+<span class="fc" id="L63">        s.setBanner(sectiondata.getBanner());</span>
+<span class="fc" id="L64">        s.setDescription(sectiondata.getDescription());</span>
+<span class="fc" id="L65">        bcRepo.insert(picture);</span>
+<span class="fc" id="L66">        bcRepo.insert(banner);</span>
+
+<span class="fc" id="L68">        return genericRepository.insert(s).getId();</span>
+    }
+
+    public List&lt;SectionPage&gt; showSections(){
+<span class="nc" id="L72">        return genericRepository.findAll(Section.class).stream().map(this::map).collect(Collectors.toList());</span>
+    }
+
+    @Named(&quot;sections&quot;)
+    @RequestScoped
+    @Produces
+    public Map&lt;Integer,SectionPage&gt; getSectionsMap(){
+<span class="nc" id="L79">        return genericRepository.findAll(Section.class).stream().map(this::map)</span>
+<span class="nc" id="L80">                .collect(Collectors.toMap(SectionPage::getId, section -&gt; section));</span>
+    }
+
+    public SectionPage showSection(@SectionExistsById int id){
+<span class="fc" id="L84">       Section s =  genericRepository.findById(Section.class, id);</span>
+<span class="fc" id="L85">       return map(s);</span>
+    }
+
+    public SectionPage getSection(@SectionExists String sectionName){
+<span class="fc" id="L89">        Section s = sectionRepo.getByName(sectionName);</span>
+<span class="fc" id="L90">        return map(s);</span>
+    }
+
+    @AdminsOnly
+    public void editSection(SectionPage edit,
+                            @SectionExistsById int id,
+                            BufferedInputStream picture,
+                            BufferedInputStream banner) throws IOException {
+<span class="fc" id="L98">        Section s = genericRepository.findById(Section.class,id);</span>
+<span class="fc" id="L99">        s.setBanner(edit.getBanner());</span>
+<span class="fc" id="L100">        s.setPicture(edit.getPicture());</span>
+<span class="fc" id="L101">        s.setDescription(edit.getDescription());</span>
+<span class="fc" id="L102">        bcRepo.insert(picture);</span>
+<span class="fc" id="L103">        bcRepo.insert(banner);</span>
+<span class="fc" id="L104">    }</span>
+
+    @Produces
+    @RequestScoped
+    @Named(&quot;topSections&quot;)
+    public List&lt;SectionPage&gt; getTopSections(){
+<span class="nc" id="L110">        return sectionRepo.getMostFollowedSections().stream().map(this::map).collect(Collectors.toList());</span>
+    }
+
+    @Produces
+    @RequestScoped
+    @Named(&quot;trendingSections&quot;)
+    public List&lt;SectionPage&gt; getTrendingSections(){
+<span class="nc" id="L117">        return sectionRepo.getMostFollowedSections(Instant.now().minus(7, ChronoUnit.DAYS))</span>
+<span class="nc" id="L118">                .stream().map(this::map).collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

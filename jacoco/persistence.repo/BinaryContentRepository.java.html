@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BinaryContentRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">persistence.repo</a> &gt; <span class="el_source">BinaryContentRepository.java</span></div><h1>BinaryContentRepository.java</h1><pre class="source lang-java linenums">package persistence.repo;
+
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.UUID;
+
+public class BinaryContentRepository implements Serializable{
+
+<span class="pc" id="L11">    private Path uploadRoot = Path.of(System.getProperty(&quot;openejb.home&quot;), &quot;uploads&quot;);</span>
+
+<span class="nc" id="L13">    public BinaryContentRepository(){}</span>
+
+<span class="fc" id="L15">    public BinaryContentRepository(Path uploadRoot){</span>
+<span class="fc" id="L16">        this.uploadRoot = uploadRoot;</span>
+<span class="fc" id="L17">    }</span>
+
+    public String insert(InputStream stream, String filename) throws IOException {
+<span class="fc" id="L20">        File file = new File(uploadRoot.toFile(), filename);</span>
+<span class="fc" id="L21">        Files.copy(stream, file.toPath());</span>
+<span class="fc" id="L22">        return filename;</span>
+    }
+
+    public String insert(InputStream stream) throws IOException {
+<span class="fc" id="L26">        return insert(stream, UUID.randomUUID().toString());</span>
+    }
+
+    public void remove(String filename) throws IOException {
+<span class="fc" id="L30">        boolean successful = Files.deleteIfExists(uploadRoot.resolve(filename));</span>
+        // if (!successful) { ???? }
+<span class="fc" id="L32">    }</span>
+
+    public InputStream get(String filename){
+<span class="fc" id="L35">        File file = new File(uploadRoot.toFile(), filename);</span>
+<span class="pc bpc" id="L36" title="1 of 4 branches missed.">        if (!file.exists() || !file.isFile())</span>
+<span class="fc" id="L37">            return null;</span>
+        try {
+<span class="fc" id="L39">            return new FileInputStream(file);</span>
+<span class="nc" id="L40">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L41">            return null;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

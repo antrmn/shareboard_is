@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AliasFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">http.controller.filter</a> &gt; <span class="el_source">AliasFilter.java</span></div><h1>AliasFilter.java</h1><pre class="source lang-java linenums">package http.controller.filter;
+
+import service.dto.CurrentUser;
+
+import javax.inject.Inject;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+@WebFilter(&quot;*&quot;)
+<span class="nc" id="L17">public class AliasFilter extends HttpFilter {</span>
+    @Inject CurrentUser currentUser;
+
+    @Override
+    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+        String requri;
+        try {
+<span class="nc" id="L24">            requri = new URI(req.getRequestURI())</span>
+<span class="nc" id="L25">                    .normalize() //rimuove slash multipli e simili</span>
+<span class="nc" id="L26">                    .toString()</span>
+<span class="nc" id="L27">                    .substring(req.getContextPath().length() +1 );</span>
+<span class="nc" id="L28">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L29">            e.printStackTrace();</span>
+<span class="nc" id="L30">            chain.doFilter(req, res);</span>
+<span class="nc" id="L31">            return;</span>
+<span class="nc" id="L32">        }</span>
+<span class="nc" id="L33">        String[] splits = requri.split(&quot;/+&quot;);</span>
+<span class="nc bnc" id="L34" title="All 7 branches missed.">        switch(splits[0]){</span>
+            case &quot;me&quot;:{
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                if(currentUser.isLoggedIn()){</span>
+<span class="nc" id="L37">                    req.getRequestDispatcher(&quot;/user?name=&quot; + currentUser.getUsername() + '&amp;' + req.getQueryString())</span>
+<span class="nc" id="L38">                            .forward(req, res);</span>
+<span class="nc" id="L39">                    return;</span>
+                } else {
+<span class="nc" id="L41">                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);</span>
+<span class="nc" id="L42">                    return;</span>
+                }
+            }
+            case &quot;popular&quot;: {
+<span class="nc" id="L46">                req.getRequestDispatcher(&quot;/home?view=popular&quot; + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="nc" id="L47">                return;</span>
+            }
+            case &quot;feed&quot;:{
+<span class="nc" id="L50">                req.getRequestDispatcher(&quot;/home?view=following&quot; + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="nc" id="L51">                return;</span>
+            }
+            case &quot;s&quot;:{
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if(splits.length &gt;= 2) {</span>
+<span class="nc" id="L55">                    req.getRequestDispatcher(&quot;/s?section=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="nc" id="L56">                    return;</span>
+                }
+                break;
+            }
+            case &quot;u&quot;: {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                if (splits.length &gt;= 2) {</span>
+<span class="nc" id="L62">                    req.getRequestDispatcher(&quot;/user?name=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="nc" id="L63">                    return;</span>
+                }
+                break;
+            }
+            case &quot;post&quot;:{
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                if(splits.length &gt;= 2){</span>
+<span class="nc" id="L69">                    req.getRequestDispatcher(&quot;/post?id=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="nc" id="L70">                    return;</span>
+                }
+                break;
+            }
+        }
+
+<span class="nc" id="L76">        chain.doFilter(req, res);</span>
+<span class="nc" id="L77">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

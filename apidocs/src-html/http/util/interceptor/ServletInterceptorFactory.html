@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">package http.util.interceptor;</a>
+<span class="sourceLineNo">002</span><a id="line.2"></a>
+<span class="sourceLineNo">003</span><a id="line.3">import java.lang.annotation.Annotation;</a>
+<span class="sourceLineNo">004</span><a id="line.4">import java.lang.reflect.Modifier;</a>
+<span class="sourceLineNo">005</span><a id="line.5">import java.lang.reflect.ParameterizedType;</a>
+<span class="sourceLineNo">006</span><a id="line.6">import java.util.concurrent.ConcurrentHashMap;</a>
+<span class="sourceLineNo">007</span><a id="line.7">import java.util.concurrent.ConcurrentMap;</a>
+<span class="sourceLineNo">008</span><a id="line.8"></a>
+<span class="sourceLineNo">009</span><a id="line.9">public final class ServletInterceptorFactory {</a>
+<span class="sourceLineNo">010</span><a id="line.10">    private ServletInterceptorFactory(){}</a>
+<span class="sourceLineNo">011</span><a id="line.11"></a>
+<span class="sourceLineNo">012</span><a id="line.12">    private static final</a>
+<span class="sourceLineNo">013</span><a id="line.13">    ConcurrentMap&lt;Class&lt;? extends Annotation&gt;, Class&lt;? extends ServletInterceptor&lt;?&gt;&gt;&gt; classes =</a>
+<span class="sourceLineNo">014</span><a id="line.14">            new ConcurrentHashMap&lt;&gt;();</a>
+<span class="sourceLineNo">015</span><a id="line.15"></a>
+<span class="sourceLineNo">016</span><a id="line.16">    public static &lt;T extends Annotation&gt; ServletInterceptor&lt;T&gt; instantiate(T annotation){</a>
+<span class="sourceLineNo">017</span><a id="line.17">        Class&lt;? extends ServletInterceptor&lt;?&gt;&gt; clazz = ServletInterceptorFactory.classes.get(annotation.annotationType());</a>
+<span class="sourceLineNo">018</span><a id="line.18">        if(clazz == null)</a>
+<span class="sourceLineNo">019</span><a id="line.19">            return null;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">        ServletInterceptor&lt;T&gt; interceptor;</a>
+<span class="sourceLineNo">022</span><a id="line.22">        try {</a>
+<span class="sourceLineNo">023</span><a id="line.23">            //noinspection unchecked</a>
+<span class="sourceLineNo">024</span><a id="line.24">            interceptor = (ServletInterceptor&lt;T&gt;) clazz.getConstructor().newInstance();</a>
+<span class="sourceLineNo">025</span><a id="line.25">        } catch (ReflectiveOperationException e) {</a>
+<span class="sourceLineNo">026</span><a id="line.26">            throw new RuntimeException(e);</a>
+<span class="sourceLineNo">027</span><a id="line.27">        }</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">        interceptor.init(annotation);</a>
+<span class="sourceLineNo">030</span><a id="line.30">        return interceptor;</a>
+<span class="sourceLineNo">031</span><a id="line.31">    }</a>
+<span class="sourceLineNo">032</span><a id="line.32"></a>
+<span class="sourceLineNo">033</span><a id="line.33">    public static void register(Class&lt;? extends ServletInterceptor&lt;? extends Annotation&gt;&gt; interceptorClass){</a>
+<span class="sourceLineNo">034</span><a id="line.34">        if(Modifier.isAbstract(interceptorClass.getModifiers())){</a>
+<span class="sourceLineNo">035</span><a id="line.35">            throw new IllegalArgumentException("Interceptor class must be concrete");</a>
+<span class="sourceLineNo">036</span><a id="line.36">        }</a>
+<span class="sourceLineNo">037</span><a id="line.37">        if(interceptorClass.getTypeParameters().length &gt; 0){</a>
+<span class="sourceLineNo">038</span><a id="line.38">            throw new IllegalArgumentException("Interceptor class must be non-generic");</a>
+<span class="sourceLineNo">039</span><a id="line.39">        }</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">        //get ServletInterceptor.class immediate subclass</a>
+<span class="sourceLineNo">042</span><a id="line.42">        Class&lt;?&gt; clazz = interceptorClass;</a>
+<span class="sourceLineNo">043</span><a id="line.43">        while(clazz.getSuperclass() != ServletInterceptor.class){</a>
+<span class="sourceLineNo">044</span><a id="line.44">            clazz = clazz.getSuperclass();</a>
+<span class="sourceLineNo">045</span><a id="line.45">        }</a>
+<span class="sourceLineNo">046</span><a id="line.46">        //get ServletInterceptor.class as ParameterizedType object</a>
+<span class="sourceLineNo">047</span><a id="line.47">        ParameterizedType genericSuperclass = (ParameterizedType) clazz.getGenericSuperclass();</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">        @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">050</span><a id="line.50">        Class&lt;? extends Annotation&gt; actualTypeArgument =</a>
+<span class="sourceLineNo">051</span><a id="line.51">                (Class&lt;? extends Annotation&gt;) genericSuperclass.getActualTypeArguments()[0];</a>
+<span class="sourceLineNo">052</span><a id="line.52"></a>
+<span class="sourceLineNo">053</span><a id="line.53">        Class&lt;?&gt; oldValue = classes.putIfAbsent(actualTypeArgument, interceptorClass);</a>
+<span class="sourceLineNo">054</span><a id="line.54">        if(oldValue != null){</a>
+<span class="sourceLineNo">055</span><a id="line.55">            throw new IllegalArgumentException("There already is a registered Servlet Interceptor with annotation "</a>
+<span class="sourceLineNo">056</span><a id="line.56">                    + actualTypeArgument.getName());</a>
+<span class="sourceLineNo">057</span><a id="line.57">        }</a>
+<span class="sourceLineNo">058</span><a id="line.58">    }</a>
+<span class="sourceLineNo">059</span><a id="line.59">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

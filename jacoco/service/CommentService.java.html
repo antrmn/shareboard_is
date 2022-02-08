@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">service</a> &gt; <span class="el_source">CommentService.java</span></div><h1>CommentService.java</h1><pre class="source lang-java linenums">package service;
+
+import persistence.model.Comment;
+import persistence.model.CommentVote;
+import persistence.model.Post;
+import persistence.model.User;
+import persistence.repo.CommentRepository;
+import persistence.repo.GenericRepository;
+import service.auth.AuthenticationRequired;
+import service.auth.DenyBannedUsers;
+import service.dto.CommentDTO;
+import service.dto.CurrentUser;
+import service.validation.CommentExists;
+import service.validation.PostExists;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
+
+
+@ApplicationScoped
+@Transactional
+<span class="fc" id="L31">public class CommentService {</span>
+    @Inject private GenericRepository genericRepository;
+    @Inject private CommentRepository commentRepo;
+    @Inject private CurrentUser currentUser;
+
+    private static final int MAX_COMMENT_DEPTH = 4;
+
+    private CommentDTO map (Comment comment){
+<span class="fc" id="L39">        CommentVote commentVote = null;</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
+<span class="nc" id="L41">            User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="nc" id="L42">            commentVote = comment.getVote(user);</span>
+        }
+
+<span class="fc" id="L45">        return CommentDTO.builder()</span>
+<span class="fc" id="L46">                .id(comment.getId())</span>
+<span class="fc" id="L47">                .authorUsername(comment.getAuthor().getUsername())</span>
+<span class="fc" id="L48">                .authorId(comment.getAuthor().getId())</span>
+<span class="fc" id="L49">                .creationDate(comment.getCreationDate())</span>
+<span class="fc" id="L50">                .postId(comment.getPost().getId())</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                .vote(commentVote == null ? 0 : commentVote.getVote())</span>
+<span class="fc" id="L52">                .content(comment.getContent())</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                .votes(comment.getVotesCount() == null ? 0 : comment.getVotesCount())</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">                .creationDate(comment.getCreationDate()  == null ? Instant.now() : comment.getCreationDate())</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                .parentCommentId(comment.getParentComment() == null ? 0 : comment.getParentComment().getId())</span>
+<span class="fc" id="L56">                .build();</span>
+    }
+
+    public Map&lt;Integer,List&lt;CommentDTO&gt;&gt; getPostComments(@PostExists int postId){
+<span class="nc" id="L60">        List&lt;Comment&gt; comments = commentRepo.getByPost(genericRepository.findById(Post.class, postId), MAX_COMMENT_DEPTH);</span>
+<span class="nc" id="L61">        return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));</span>
+    }
+
+    public Map&lt;Integer, List&lt;CommentDTO&gt;&gt; getReplies(@CommentExists int commentId){
+<span class="nc" id="L65">        List&lt;Comment&gt; comments = commentRepo.getReplies(genericRepository.findById(Comment.class, commentId), MAX_COMMENT_DEPTH);</span>
+<span class="nc" id="L66">        return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));</span>
+    }
+
+    public CommentDTO getComment(@CommentExists int id){
+<span class="fc" id="L70">        return map(genericRepository.findById(Comment.class, id));</span>
+    }
+
+    @AuthenticationRequired
+    public void delete(@CommentExists int id){
+<span class="fc" id="L75">        genericRepository.remove(genericRepository.findById(Comment.class, id));</span>
+<span class="fc" id="L76">    }</span>
+
+    @AuthenticationRequired
+    public void editComment(@CommentExists int id, String text){
+<span class="fc" id="L80">        genericRepository.findById(Comment.class, id).setContent(text);</span>
+<span class="fc" id="L81">    }</span>
+
+    @AuthenticationRequired
+    @DenyBannedUsers
+    public int newComment(@NotBlank @Size String text,
+                       @PostExists int postId){
+<span class="fc" id="L87">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+
+<span class="fc" id="L89">        Comment comment = new Comment();</span>
+<span class="fc" id="L90">        comment.setAuthor(user);</span>
+<span class="fc" id="L91">        comment.setContent(text);</span>
+<span class="fc" id="L92">        comment.setPost(genericRepository.findById(Post.class, postId));</span>
+<span class="fc" id="L93">        return genericRepository.insert(comment).getId();</span>
+    }
+
+    @AuthenticationRequired
+    public int newCommentReply(@NotBlank @Size String text,
+                               @CommentExists int parentId,
+                               @PostExists int postId){
+<span class="fc" id="L100">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L101">        Comment parent = genericRepository.findById(Comment.class, parentId);</span>
+
+<span class="fc" id="L103">        Comment comment = new Comment();</span>
+<span class="fc" id="L104">        comment.setAuthor(user);</span>
+<span class="fc" id="L105">        comment.setContent(text);</span>
+<span class="fc" id="L106">        comment.setPost(genericRepository.findById(Post.class, postId));</span>
+<span class="fc" id="L107">        comment.setParentComment(parent);</span>
+<span class="fc" id="L108">        return genericRepository.insert(comment).getId();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
