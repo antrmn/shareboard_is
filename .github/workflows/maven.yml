@@ -30,7 +30,7 @@ jobs:
       run: mvn --batch-mode --update-snapshots test
     - name: Package war
       id: package
-      run: mvn --batch-mode --update-snapshots '--define maven.test.skip' package
+      run: mvn --batch-mode --update-snapshots '--define maven.test.skip=true' package
     - name: Upload artifact
       if: steps.package.outcome == 'success'
       uses: actions/upload-artifact@v2
