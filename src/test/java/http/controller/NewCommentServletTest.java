@@ -49,6 +49,15 @@ public class NewCommentServletTest extends ServletTest{
 
     @Test
     void faildoPost() throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("0");
+        when(request.getParameter("parent")).thenReturn("0");
+        when(request.getParameter("text")).thenReturn("text");
+
+        NewCommentServlet spyServlet = spy(commentServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        doReturn(servletContext).when(spyServlet).getServletContext();
+
         doThrow(ConstraintViolationException.class).when(service).newComment(anyString(),anyInt());
         doThrow(ConstraintViolationException.class).when(service).newCommentReply(anyString(), anyInt(),anyInt());
         assertThrows(ConstraintViolationException.class,() -> commentServlet.doPost(request,response));
@@ -73,6 +82,15 @@ public class NewCommentServletTest extends ServletTest{
 
     @Test
     void faildoGet() throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("0");
+        when(request.getParameter("parent")).thenReturn("0");
+        when(request.getParameter("text")).thenReturn("text");
+
+        NewCommentServlet spyServlet = spy(commentServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        doReturn(servletContext).when(spyServlet).getServletContext();
+
         doThrow(ConstraintViolationException.class).when(service).newComment(anyString(),anyInt());
         doThrow(ConstraintViolationException.class).when(service).newCommentReply(anyString(), anyInt(),anyInt());
         assertThrows(ConstraintViolationException.class,() -> commentServlet.doGet(request,response));
