@@ -8,13 +8,13 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
+  
 jobs:
   build:
+    name: Build and test
     # choosing windows due to integration tests consistency
     # (db table names are case insensitive in windows)
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -24,16 +24,27 @@ jobs:
         distribution: 'temurin'
         cache: maven
         architecture: x64
-    - name: Build with Maven
-      run: mvn --batch-mode --update-snapshots verify
-    - run: mkdir staging && cp target/*.war staging
-    - uses: actions/upload-artifact@v2
+    - name: Compile
+      run: mvn --batch-mode --update-snapshots compile
+    - name: Unit tests
+      run: mvn --batch-mode --update-snapshots test
+    - name: Package war
+      id: package
+      run: mvn --batch-mode --update snapshots '--define maven.test.skip' package
+    - name: Upload artifact
+      if: steps.package.outcome == 'success'
+      uses: actions/upload-artifact@v2
       with:
-        name: Package
-        path: staging
-    - run: mvn --batch-mode site
+        name: War artifact
+        path: target/*.war
+    - name: Integration tests
+      run: mvn --batch-mode --update-snapshots verify
+    - name: Build site
+      id: buildsite
+      run: mvn --batch-mode site
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
+      if: steps.buildsite.outcome == 'success'
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: site/
