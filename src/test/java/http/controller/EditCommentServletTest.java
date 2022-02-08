@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
 import service.CommentService;
+import service.dto.CommentDTO;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -29,6 +30,7 @@ public class EditCommentServletTest extends ServletTest{
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
+    @Mock private CommentDTO comment;
     @Inject EditCommentServlet editCommentServlet;
 
 
@@ -37,41 +39,60 @@ public class EditCommentServletTest extends ServletTest{
 
         when(request.getParameter("id")).thenReturn("1");
         when(request.getParameter("text")).thenReturn("text");
-
+        when(service.getComment(anyInt())).thenReturn(comment);
+        when(comment.getPostId()).thenReturn(1);
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         EditCommentServlet spyServlet = spy(editCommentServlet);
         ServletContext servletContext = mock(ServletContext.class);
         when(servletContext.getContextPath()).thenReturn("path");
         doReturn(servletContext).when(spyServlet).getServletContext();
-        editCommentServlet.doGet(request,response);
-        verify(service, times(1)).editComment(any(), any());
+        spyServlet.doGet(request,response);
+        verify(service, times(1)).editComment(anyInt(), anyString());
     }
 
     @Test
     void faildoGet() throws ServletException, IOException{
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("text")).thenReturn("text");
+        when(service.getComment(anyInt())).thenReturn(comment);
+        when(comment.getPostId()).thenReturn(1);
+        EditCommentServlet spyServlet = spy(editCommentServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        doReturn(servletContext).when(spyServlet).getServletContext();
+        when(servletContext.getContextPath()).thenReturn("path");
         doThrow(ConstraintViolationException.class).when(response).sendRedirect(any());
-        assertThrows(ConstraintViolationException.class,() -> editCommentServlet.doGet(request,response));
+        assertThrows(ConstraintViolationException.class,() -> spyServlet.doGet(request,response));
     }
 
     @Test
     void successfulldoPost() throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("text")).thenReturn("text");
+        when(service.getComment(anyInt())).thenReturn(comment);
+        when(comment.getPostId()).thenReturn(1);
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        when(request.getParameter("username")).thenReturn("username");
-        when(request.getParameter("pass")).thenReturn("pass");
         EditCommentServlet spyServlet = spy(editCommentServlet);
         ServletContext servletContext = mock(ServletContext.class);
         when(servletContext.getContextPath()).thenReturn("path");
         doReturn(servletContext).when(spyServlet).getServletContext();
-        editCommentServlet.doPost(request,response);
-        verify(response, times(1)).sendRedirect(any());
+        spyServlet.doPost(request,response);
+        verify(service, times(1)).editComment(anyInt(), anyString());
     }
 
     @Test
     void faildoPost() throws ServletException, IOException{
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("text")).thenReturn("text");
+        when(service.getComment(anyInt())).thenReturn(comment);
+        when(comment.getPostId()).thenReturn(1);
+        EditCommentServlet spyServlet = spy(editCommentServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        doReturn(servletContext).when(spyServlet).getServletContext();
         doThrow(ConstraintViolationException.class).when(response).sendRedirect(any());
-        assertThrows(ConstraintViolationException.class,() -> editCommentServlet.doPost(request,response));
+        assertThrows(ConstraintViolationException.class,() -> spyServlet.doPost(request,response));
     }
 
 
