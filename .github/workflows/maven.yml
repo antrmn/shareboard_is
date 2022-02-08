@@ -30,7 +30,7 @@ jobs:
       run: mvn --batch-mode --update-snapshots test
     - name: Package war
       id: package
-      run: mvn --batch-mode --update snapshots '--define maven.test.skip' package
+      run: mvn --batch-mode --update-snapshots '--define maven.test.skip' package
     - name: Upload artifact
       if: steps.package.outcome == 'success'
       uses: actions/upload-artifact@v2
@@ -39,10 +39,10 @@ jobs:
         path: target/*.war
     - name: Integration tests
       run: mvn --batch-mode --update-snapshots verify
-    - name: Build site
+    - name: Build Maven site
       id: buildsite
       run: mvn --batch-mode site
-    - name: Deploy
+    - name: Publish site with Github Pages
       uses: peaceiris/actions-gh-pages@v3
       if: steps.buildsite.outcome == 'success'
       with:
