@@ -7,10 +7,10 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueEmailValidator.class)
+@Constraint(validatedBy = UsernameFormatValidator.class)
 @Documented
-public @interface UniqueEmail {
-    String message() default "Email already exists";
+public @interface UsernameFormat {
+    String message() default "Formato username non valido";
 
     Class<?>[] groups() default {};
 

@@ -32,14 +32,14 @@
         <label for="username">
           Username
           <i class="fas fa-info-circle tooltipicon">
-            <div class="tooltip">Richiesto, Max: 30 char</div>
+            <div class="tooltip">Min: 3 char, Max: 30 char</div>
           </i>
         </label>
-        <input class = "auth-input-field" type="text" id="username" name="username" value="${fn:trim(fn:escapeXml(param.username))}" required maxlength="30">
+        <input class = "auth-input-field" type="text" id="username" name="username" value="${fn:trim(fn:escapeXml(param.username))}" required minlength="3" maxlength="30">
         <label for="pass">
           Password
           <i class="fas fa-info-circle tooltipicon">
-            <div class="tooltip">Min: 3 char, Max: 30 char</div>
+            <div class="tooltip">Min: 3 char, Max: 255 char</div>
           </i>
         </label>
         <input class = "auth-input-field" type="password" id="pass" name="pass" minlength="3" maxlength="255" required>

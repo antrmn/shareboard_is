@@ -37,7 +37,7 @@
 <%--      <jsp:useBean id="startDate" class="java.util.Date" />--%>
 <%--      <jsp:setProperty name="startDate" property="time" value="${ban.startTime.toEpochMilli()}" />--%>
       <tr>
-        <td>${ban.id}</td>
+        <td>${ban.banId}</td>
         <td>Tutte</td>
 <%--        <c:choose>--%>
 <%--          <c:when test="${ban.sectionId eq 0}">--%>
@@ -60,7 +60,7 @@
         <td>MAI</td>
 <%--        <td>${ban.admin.username} (${ban.admin.id})</td>--%>
         <td>
-          <a href = "${context}/admin/deleteban?banId=${ban.id}&userId=${requestScope.userId}" onclick="return confirm('Cancellare il ban?')">
+          <a href = "${context}/admin/deleteban?banId=${ban.banId}&userId=${requestScope.userId}" onclick="return confirm('Cancellare il ban?')">
             <i class="fas fa-minus-circle"></i>
           </a>
         </td>
@@ -76,7 +76,6 @@
       </div>
       <div class="modal-body">
         <ul id="error-list"></ul>
-
         <form id = "ban-form" class="grid-y align-center justify-center">
           <input type="hidden" value="${requestScope.userId}" name="userId">
           <div>

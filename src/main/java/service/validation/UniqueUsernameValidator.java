@@ -6,23 +6,22 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.ValidationException;
 
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
+
     @Inject
     UserRepository userRepository;
 
-
     @Override
-    public void initialize(UniqueEmail userExists) {
+    public void initialize(UniqueUsername userExists) {
 
     }
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
         boolean check;
         try{
-            check = userRepository.getByEmail(email) == null;
+            check = userRepository.getByName(username) == null;
         }catch (NoResultException e){
             check = true;
         }

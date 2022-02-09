@@ -9,8 +9,7 @@ import service.auth.AuthenticationRequired;
 import service.dto.UserEditPage;
 import service.dto.UserIdentityDTO;
 import service.dto.UserProfile;
-import service.validation.UserExists;
-import service.validation.UserExistsByName;
+import service.validation.*;
 import util.Pbkdf2PasswordHashImpl;
 import util.Pbkdf2PasswordHashImpl.HashedPassword;
 
@@ -20,6 +19,7 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,9 +106,9 @@ public class UserService {
     }
 
     // unique email unique username length email username password
-    public int newUser(@NotBlank @Email String email,
-                       @NotBlank String username,
-                       @NotEmpty String password){
+    public int newUser(@NotBlank @EmailFormat @UniqueEmail String email,
+                       @NotBlank @UsernameFormat @UniqueUsername String username,
+                       @NotEmpty @Size(min = 3,max = 255) String password){
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
