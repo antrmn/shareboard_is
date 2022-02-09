@@ -12,7 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Email;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -48,11 +50,14 @@ public class RegisterServlet extends InterceptableServlet {
         String confirmPassword = req.getParameter("pass2");
 
         if(!Objects.equals(password, confirmPassword)){
-            throw new IllegalArgumentException("Le password devono coincidere");
+            ArrayList<String> errors = new ArrayList<>();
+            errors.add("Le password devono coincidere");
+            req.setAttribute("errors",errors);
+            req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+        }else {
+            userService.newUser(email, username, password);
+            authenticationService.authenticate(username,password);
+            resp.sendRedirect(req.getContextPath());
         }
-        userService.newUser(email, username, password);
-        authenticationService.authenticate(username,password);
-        resp.sendRedirect(req.getContextPath());
-
     }
 }

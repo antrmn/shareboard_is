@@ -55,7 +55,7 @@
             </i>
           </label>
           <input class = "auth-input-field" type="password" id="pass2" name="pass2" minlength="3" maxlength="255" required>
-          <input type="submit" value="Sign Up" class="roundButton" style = "margin-top:10px; align-self: center" onclick = "validatePassword(this)">
+          <input type="submit" value="Sign Up" class="roundButton" style = "margin-top:10px; align-self: center">
           <span class = "auth-alternative-text">Hai già un account? <a class = "auth-alternative-link" href="./login">Accedi</a></span>
         </form>
       </div>
