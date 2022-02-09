@@ -222,30 +222,35 @@ public class UserServiceTest extends ServiceTest {
         assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
     }
 
-    @ParameterizedTest
-    @CsvSource({"  ,username,password", "  ,username2,password2"})
-    void failNewUserBlankEmail(String email, String username, String password) {
+    @Test
+    void failNewUserBlankEmail() {
         User user = new User();
         user.setId(1);
         when(genericRepository.insert(any())).thenReturn(user);
-        assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
+        when(userRepository.getByEmail(any())).thenReturn(user);
+        assertThrows(ConstraintViolationException.class, () -> {
+            service.newUser("","username","mypassword123");
+        });
     }
 
-    @ParameterizedTest
-    @CsvSource({"email2@gmail.com,  ,password", "email45@gmail.com,  ,password2"})
-    void failNewUserBlankUsername(String email, String username, String password) {
+    @Test
+    void failNewUserBlankUsername() {
         User user = new User();
         user.setId(1);
+        when(userRepository.getByName(any())).thenReturn(user);
         when(genericRepository.insert(any())).thenReturn(user);
-        assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
+        assertThrows(ConstraintViolationException.class, () -> {
+            service.newUser("email@email.email"," \n\t","mypassword123");
+        });
     }
 
-    @ParameterizedTest
-    @CsvSource({"email2@gmail.com,username,", "email45@gmail.com,username,"})
-    void failNewUserEmptyPassword(String email, String username, String password) {
+    @Test
+    void failNewUserEmptyPassword() {
         User user = new User();
         user.setId(1);
         when(genericRepository.insert(any())).thenReturn(user);
-        assertThrows(ConstraintViolationException.class,() -> service.newUser(email,username,password));
+        assertThrows(ConstraintViolationException.class,() -> {
+            service.newUser("email@email.email","username","\t");
+        });
     }
 }
