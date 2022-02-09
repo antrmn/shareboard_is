@@ -60,7 +60,7 @@
         <td>MAI</td>
 <%--        <td>${ban.admin.username} (${ban.admin.id})</td>--%>
         <td>
-          <a href = "${context}/admin/deleteban?banId=${ban.banId}&userId=${requestScope.userId}" onclick="return confirm('Cancellare il ban?')">
+          <a href = "${context}/admin/deleteban?banId=${ban.banId}&userId=${ban.userId}" onclick="return confirm('Cancellare il ban?')">
             <i class="fas fa-minus-circle"></i>
           </a>
         </td>
@@ -76,6 +76,7 @@
       </div>
       <div class="modal-body">
         <ul id="error-list"></ul>
+
         <form id = "ban-form" class="grid-y align-center justify-center">
           <input type="hidden" value="${requestScope.userId}" name="userId">
           <div>
@@ -86,8 +87,8 @@
             <label for="section-select" style = "display: inline">Scegli sezione:</label>
             <select name="sectionId" id="section-select" class = "dark-select">
               <option value="-1" selected>Tutte</option>
-              <c:forEach items="${applicationScope.sections}" var="section">
-                <option value="${section.value.id}">${section.value.name}</option>
+              <c:forEach items="${sections.values()}" var="section">
+                <option value="${section.id}">${section.name}</option>
               </c:forEach>
             </select>
           </div>

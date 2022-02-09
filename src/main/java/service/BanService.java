@@ -43,7 +43,7 @@ public class BanService {
         List<Ban> temp = user.getBans();
 
         for(Ban b : temp){
-            BanDTO ban = new BanDTO(b.getId(), b.getEndTime());
+            BanDTO ban = new BanDTO(b.getId(), b.getEndTime(), b.getUser().getId());
             bans.add(ban);
         }
         return bans;
