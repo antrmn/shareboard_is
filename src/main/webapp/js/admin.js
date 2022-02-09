@@ -38,10 +38,10 @@ $('#ban-form').submit(function(e) {
     $.post('./addban', $('#ban-form').serialize())
         .done(function(){ window.location.reload(false);})
         .fail(function(xhr, status, error){
-            let errors = JSON.parse(xhr.responseText)
+            let response = JSON.parse(xhr.responseText)
             $('#error-list').empty();
-            for(let error of errors){
-                $('#error-list').append(`<li>${error}</li>`)
+            for(let i = 0; i< response.errors.length; i++){
+                $('#error-list').append(`<li>${response.errors[i]}</li>`)
             }
         });
 });
