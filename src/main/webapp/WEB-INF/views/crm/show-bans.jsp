@@ -38,7 +38,7 @@
 <%--      <jsp:setProperty name="startDate" property="time" value="${ban.startTime.toEpochMilli()}" />--%>
       <tr>
         <td>${ban.banId}</td>
-        <td>Tutte</td>
+        <td>${ban.endTime}</td>
 <%--        <c:choose>--%>
 <%--          <c:when test="${ban.sectionId eq 0}">--%>
 <%--            <td>Tutte</td>--%>
