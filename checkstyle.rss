@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2022</copyright>
     <item>
-      <title>File: 112,
+      <title>File: 114,
              Errors: 0,
-             Warnings: 3069,
+             Warnings: 3084,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -942,6 +942,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#service.validation.UniqueEmailValidator.java">service/validation/UniqueEmailValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#http.controller.UserServlet.java">http/controller/UserServlet.java</a>
                 </td>
                 <td>
@@ -1131,6 +1145,20 @@ under the License.
                 </td>
                 <td>
                   14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#service.validation.UniqueEmail.java">service/validation/UniqueEmail.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
                 </td>
                 <td>
                   0

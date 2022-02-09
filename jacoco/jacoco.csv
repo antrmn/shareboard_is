@@ -1,4 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+shareboard_is,service.validation,UniqueEmailValidator,13,0,2,0,3,0,4,0,3,0
 shareboard_is,service.validation,CommentExistsValidator,0,14,0,2,0,3,0,4,0,3
 shareboard_is,service.validation,BanExistsValidator,14,0,2,0,3,0,4,0,3,0
 shareboard_is,service.validation,PostExistsValidator,0,14,0,2,0,3,0,4,0,3
