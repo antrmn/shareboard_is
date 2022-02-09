@@ -2,7 +2,6 @@ package service;
 
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
@@ -28,7 +27,6 @@ import static org.mockito.Mockito.*;
         value={BanService.class},
         cdiInterceptors = BValInterceptor.class,
         cdiStereotypes = CdiMock.class)
-@Disabled
 public class BanServiceTest extends ServiceTest{
 
     @Mock GenericRepository genericRepository;
