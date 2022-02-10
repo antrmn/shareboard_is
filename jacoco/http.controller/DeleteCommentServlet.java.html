@@ -16,17 +16,17 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 
 @WebServlet(&quot;/deletecomment&quot;)
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="nc" id="L19">public class DeleteCommentServlet extends InterceptableServlet {</span>
+<span class="fc" id="L19">public class DeleteCommentServlet extends InterceptableServlet {</span>
     @Inject private CommentService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L24">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L25">        int commentId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="nc" id="L26">        int postId = service.getComment(commentId).getPostId();</span>
-<span class="nc" id="L27">        service.delete(commentId);</span>
-<span class="nc" id="L28">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + postId);</span>
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L24">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L25">        int commentId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L26">        int postId = service.getComment(commentId).getPostId();</span>
+<span class="fc" id="L27">        service.delete(commentId);</span>
+<span class="fc" id="L28">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + postId);</span>
+<span class="fc" id="L29">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -16,7 +16,7 @@
 <span class="sourceLineNo">007</span><a id="line.7">@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,</a>
 <span class="sourceLineNo">008</span><a id="line.8">        ElementType.ANNOTATION_TYPE})</a>
 <span class="sourceLineNo">009</span><a id="line.9">@Retention(RetentionPolicy.RUNTIME)</a>
-<span class="sourceLineNo">010</span><a id="line.10">@Constraint(validatedBy = UserExistsByNameValidator.class)</a>
+<span class="sourceLineNo">010</span><a id="line.10">@Constraint(validatedBy = UniqueEmailValidator.class)</a>
 <span class="sourceLineNo">011</span><a id="line.11">@Documented</a>
 <span class="sourceLineNo">012</span><a id="line.12">public @interface UniqueEmail {</a>
 <span class="sourceLineNo">013</span><a id="line.13">    String message() default "Email already exists";</a>

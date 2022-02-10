@@ -18,17 +18,17 @@ import java.util.List;
 
 @ApplicationScoped
 @Transactional
-<span class="nc" id="L21">public class BanService {</span>
+<span class="fc" id="L21">public class BanService {</span>
     @Inject private GenericRepository genericRepository;
 
     @AdminsOnly
     public Ban addBan(@Future Instant date, @UserExists int userId) {
-<span class="nc" id="L26">        Ban ban = new Ban();</span>
-<span class="nc" id="L27">        ban.setEndTime(date);</span>
-<span class="nc" id="L28">        User user = new User();</span>
-<span class="nc" id="L29">        user.setId(userId);</span>
-<span class="nc" id="L30">        ban.setUser(user);</span>
-<span class="nc" id="L31">        return genericRepository.insert(ban);</span>
+<span class="fc" id="L26">        Ban ban = new Ban();</span>
+<span class="fc" id="L27">        ban.setEndTime(date);</span>
+<span class="fc" id="L28">        User user = new User();</span>
+<span class="fc" id="L29">        user.setId(userId);</span>
+<span class="fc" id="L30">        ban.setUser(user);</span>
+<span class="fc" id="L31">        return genericRepository.insert(ban);</span>
     }
 
     @AdminsOnly
@@ -38,15 +38,15 @@ import java.util.List;
 
     @AdminsOnly
     public List&lt;BanDTO&gt; retrieveUserBan(@UserExists int userId){
-<span class="nc" id="L41">        User user = genericRepository.findById(User.class, userId);</span>
-<span class="nc" id="L42">        List&lt;BanDTO&gt; bans = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L43">        List&lt;Ban&gt; temp = user.getBans();</span>
+<span class="fc" id="L41">        User user = genericRepository.findById(User.class, userId);</span>
+<span class="fc" id="L42">        List&lt;BanDTO&gt; bans = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L43">        List&lt;Ban&gt; temp = user.getBans();</span>
 
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        for(Ban b : temp){</span>
-<span class="nc" id="L46">            BanDTO ban = new BanDTO(b.getId(), b.getEndTime());</span>
-<span class="nc" id="L47">            bans.add(ban);</span>
-<span class="nc" id="L48">        }</span>
-<span class="nc" id="L49">        return bans;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for(Ban b : temp){</span>
+<span class="fc" id="L46">            BanDTO ban = new BanDTO(b.getId(), b.getEndTime(), b.getUser().getId());</span>
+<span class="fc" id="L47">            bans.add(ban);</span>
+<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">        return bans;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -52,7 +52,7 @@
 <span class="sourceLineNo">043</span><a id="line.43">        List&lt;Ban&gt; temp = user.getBans();</a>
 <span class="sourceLineNo">044</span><a id="line.44"></a>
 <span class="sourceLineNo">045</span><a id="line.45">        for(Ban b : temp){</a>
-<span class="sourceLineNo">046</span><a id="line.46">            BanDTO ban = new BanDTO(b.getId(), b.getEndTime());</a>
+<span class="sourceLineNo">046</span><a id="line.46">            BanDTO ban = new BanDTO(b.getId(), b.getEndTime(), b.getUser().getId());</a>
 <span class="sourceLineNo">047</span><a id="line.47">            bans.add(ban);</a>
 <span class="sourceLineNo">048</span><a id="line.48">        }</a>
 <span class="sourceLineNo">049</span><a id="line.49">        return bans;</a>

@@ -13,15 +13,15 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 
 @WebServlet(&quot;/admin&quot;)
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="nc" id="L16">public class AdminServlet extends InterceptableServlet {</span>
+<span class="fc" id="L16">public class AdminServlet extends InterceptableServlet {</span>
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="nc" id="L19">        req.getRequestDispatcher(&quot;/WEB-INF/views/crm/admin.jsp&quot;).forward(req,resp);</span>
-<span class="nc" id="L20">    }</span>
+<span class="fc" id="L19">        req.getRequestDispatcher(&quot;/WEB-INF/views/crm/admin.jsp&quot;).forward(req,resp);</span>
+<span class="fc" id="L20">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="nc" id="L24">        doGet(req,resp);</span>
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L24">        doGet(req,resp);</span>
+<span class="fc" id="L25">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

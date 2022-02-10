@@ -22,34 +22,34 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 @WebServlet(&quot;/admin/editsection&quot;)
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="nc" id="L25">public class EditSectionServlet extends InterceptableServlet {</span>
+<span class="fc" id="L25">public class EditSectionServlet extends InterceptableServlet {</span>
     @Inject private SectionService service;
 
     private static final String EDIT_SECTION_PAGE = &quot;/WEB-INF/views/crm/edit-section.jsp&quot;;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L32">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L33">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
-<span class="nc" id="L34">        SectionPage section = service.showSection(sectionId);</span>
-<span class="nc" id="L35">        request.setAttribute(&quot;section&quot;, section);</span>
-<span class="nc" id="L36">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</span>
-<span class="nc" id="L37">    }</span>
+<span class="fc" id="L32">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L33">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
+<span class="fc" id="L34">        SectionPage section = service.showSection(sectionId);</span>
+<span class="fc" id="L35">        request.setAttribute(&quot;section&quot;, section);</span>
+<span class="fc" id="L36">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</span>
+<span class="fc" id="L37">    }</span>
 
     @Override
     @ForwardOnError(EDIT_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L42">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L43">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
-<span class="nc" id="L44">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="nc" id="L45">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="nc" id="L46">        Part banner = request.getPart(&quot;banner&quot;);</span>
+<span class="fc" id="L42">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L43">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
+<span class="fc" id="L44">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L45">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L46">        Part banner = request.getPart(&quot;banner&quot;);</span>
 
-<span class="nc" id="L48">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</span>
-<span class="nc" id="L49">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
-<span class="nc" id="L50">        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());</span>
-<span class="nc" id="L51">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</span>
-<span class="nc" id="L52">        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);</span>
-<span class="nc" id="L53">    }</span>
+<span class="fc" id="L48">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</span>
+<span class="fc" id="L49">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+<span class="fc" id="L50">        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());</span>
+<span class="fc" id="L51">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</span>
+<span class="fc" id="L52">        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);</span>
+<span class="fc" id="L53">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

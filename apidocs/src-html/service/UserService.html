@@ -18,17 +18,17 @@
 <span class="sourceLineNo">009</span><a id="line.9">import service.dto.UserEditPage;</a>
 <span class="sourceLineNo">010</span><a id="line.10">import service.dto.UserIdentityDTO;</a>
 <span class="sourceLineNo">011</span><a id="line.11">import service.dto.UserProfile;</a>
-<span class="sourceLineNo">012</span><a id="line.12">import service.validation.UserExists;</a>
-<span class="sourceLineNo">013</span><a id="line.13">import service.validation.UserExistsByName;</a>
-<span class="sourceLineNo">014</span><a id="line.14">import util.Pbkdf2PasswordHashImpl;</a>
-<span class="sourceLineNo">015</span><a id="line.15">import util.Pbkdf2PasswordHashImpl.HashedPassword;</a>
-<span class="sourceLineNo">016</span><a id="line.16"></a>
-<span class="sourceLineNo">017</span><a id="line.17">import javax.enterprise.context.ApplicationScoped;</a>
-<span class="sourceLineNo">018</span><a id="line.18">import javax.inject.Inject;</a>
-<span class="sourceLineNo">019</span><a id="line.19">import javax.transaction.Transactional;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import javax.validation.constraints.Email;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import javax.validation.constraints.NotBlank;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import javax.validation.constraints.NotEmpty;</a>
+<span class="sourceLineNo">012</span><a id="line.12">import service.validation.*;</a>
+<span class="sourceLineNo">013</span><a id="line.13">import util.Pbkdf2PasswordHashImpl;</a>
+<span class="sourceLineNo">014</span><a id="line.14">import util.Pbkdf2PasswordHashImpl.HashedPassword;</a>
+<span class="sourceLineNo">015</span><a id="line.15"></a>
+<span class="sourceLineNo">016</span><a id="line.16">import javax.enterprise.context.ApplicationScoped;</a>
+<span class="sourceLineNo">017</span><a id="line.17">import javax.inject.Inject;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import javax.transaction.Transactional;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import javax.validation.constraints.Email;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import javax.validation.constraints.NotBlank;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import javax.validation.constraints.NotEmpty;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import javax.validation.constraints.Size;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import java.io.IOException;</a>
 <span class="sourceLineNo">024</span><a id="line.24">import java.util.ArrayList;</a>
 <span class="sourceLineNo">025</span><a id="line.25">import java.util.List;</a>
@@ -115,9 +115,9 @@
 <span class="sourceLineNo">106</span><a id="line.106">    }</a>
 <span class="sourceLineNo">107</span><a id="line.107"></a>
 <span class="sourceLineNo">108</span><a id="line.108">    // unique email unique username length email username password</a>
-<span class="sourceLineNo">109</span><a id="line.109">    public int newUser(@NotBlank @Email String email,</a>
-<span class="sourceLineNo">110</span><a id="line.110">                       @NotBlank String username,</a>
-<span class="sourceLineNo">111</span><a id="line.111">                       @NotEmpty String password){</a>
+<span class="sourceLineNo">109</span><a id="line.109">    public int newUser(@NotBlank @EmailFormat @UniqueEmail String email,</a>
+<span class="sourceLineNo">110</span><a id="line.110">                       @NotBlank @UsernameFormat @UniqueUsername String username,</a>
+<span class="sourceLineNo">111</span><a id="line.111">                       @NotEmpty @Size(min = 3,max = 255) String password){</a>
 <span class="sourceLineNo">112</span><a id="line.112">        User user = new User();</a>
 <span class="sourceLineNo">113</span><a id="line.113">        user.setUsername(username);</a>
 <span class="sourceLineNo">114</span><a id="line.114">        user.setEmail(email);</a>

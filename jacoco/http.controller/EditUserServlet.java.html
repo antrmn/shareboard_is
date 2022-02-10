@@ -23,39 +23,39 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 @WebServlet(&quot;/edituser&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="nc" id="L26">public class EditUserServlet extends InterceptableServlet {</span>
+<span class="fc" id="L26">public class EditUserServlet extends InterceptableServlet {</span>
     @Inject private UserService service;
 
     private static final String EDIT_USER_PAGE = &quot;/WEB-INF/views/edit-user.jsp&quot;;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L33">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L34">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="nc" id="L35">        UserProfile user = service.getUser(userId);</span>
-<span class="nc" id="L36">        request.setAttribute(&quot;user&quot;, user);</span>
-<span class="nc" id="L37">        request.getRequestDispatcher(&quot;/WEB-INF/views/edit-user.jsp&quot;).forward(request, response);</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L33">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L34">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L35">        UserProfile user = service.getUser(userId);</span>
+<span class="fc" id="L36">        request.setAttribute(&quot;user&quot;, user);</span>
+<span class="fc" id="L37">        request.getRequestDispatcher(&quot;/WEB-INF/views/edit-user.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L38">    }</span>
 
     @Override
     @ForwardOnError(EDIT_USER_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L43">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L44">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="nc" id="L45">        String email = request.getParameter(&quot;email&quot;);</span>
-<span class="nc" id="L46">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="nc" id="L47">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="nc" id="L48">        String pass = request.getParameter(&quot;pass&quot;);</span>
-<span class="nc" id="L49">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
+<span class="fc" id="L43">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L44">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L45">        String email = request.getParameter(&quot;email&quot;);</span>
+<span class="fc" id="L46">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L47">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L48">        String pass = request.getParameter(&quot;pass&quot;);</span>
+<span class="fc" id="L49">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
 
-<span class="nc bnc" id="L51" title="All 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
+<span class="pc bpc" id="L51" title="4 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
 <span class="nc" id="L52">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
 
-<span class="nc" id="L54">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
-<span class="nc" id="L55">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
-<span class="nc" id="L56">        service.edit(userEditPage,userId);</span>
+<span class="fc" id="L54">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+<span class="fc" id="L55">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
+<span class="fc" id="L56">        service.edit(userEditPage,userId);</span>
 
-<span class="nc" id="L58">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L58">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
+<span class="fc" id="L59">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

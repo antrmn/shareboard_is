@@ -24,7 +24,7 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 @WebServlet(&quot;/editpost&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="nc" id="L27">public class EditPostServlet extends InterceptableServlet {</span>
+<span class="fc" id="L27">public class EditPostServlet extends InterceptableServlet {</span>
     @Inject private PostService service;
 
     private static final String EDIT_POST_PAGE = &quot;/WEB-INF/views/section/edit-post.jsp&quot;;
@@ -32,34 +32,34 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //check necessario?
-<span class="nc" id="L35">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L36">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="nc" id="L37">        PostPage post =  service.getPost(postId);</span>
-<span class="nc" id="L38">        request.setAttribute(&quot;post&quot;, post);</span>
-<span class="nc" id="L39">        request.getRequestDispatcher(EDIT_POST_PAGE).forward(request, response);</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L35">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L36">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L37">        PostPage post =  service.getPost(postId);</span>
+<span class="fc" id="L38">        request.setAttribute(&quot;post&quot;, post);</span>
+<span class="fc" id="L39">        request.getRequestDispatcher(EDIT_POST_PAGE).forward(request, response);</span>
+<span class="fc" id="L40">    }</span>
 
     @Override
     @ForwardOnError(EDIT_POST_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L45">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="nc" id="L46">        String title = request.getParameter(&quot;title&quot;);</span>
-<span class="nc" id="L47">        String type = request.getParameter(&quot;type&quot;);</span>
-<span class="nc bnc" id="L48" title="All 4 branches missed.">        Post.Type postType = type != null &amp;&amp; type.equalsIgnoreCase(&quot;text&quot;) ? Post.Type.TEXT : Post.Type.IMG;</span>
-<span class="nc" id="L49">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="nc" id="L50">        String content = request.getParameter(&quot;content&quot;);</span>
+<span class="fc" id="L45">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L46">        String title = request.getParameter(&quot;title&quot;);</span>
+<span class="fc" id="L47">        String type = request.getParameter(&quot;type&quot;);</span>
+<span class="pc bpc" id="L48" title="3 of 4 branches missed.">        Post.Type postType = type != null &amp;&amp; type.equalsIgnoreCase(&quot;text&quot;) ? Post.Type.TEXT : Post.Type.IMG;</span>
+<span class="fc" id="L49">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L50">        String content = request.getParameter(&quot;content&quot;);</span>
 
-<span class="nc" id="L52">        PostEditDTO postToEdit = new PostEditDTO(title,content,postType);</span>
+<span class="fc" id="L52">        PostEditDTO postToEdit = new PostEditDTO(title,content,postType);</span>
         //in caso di immagine il content sarà null infatti non sarà utilizzato nel servizio EditPostIMG
 
-<span class="nc" id="L55">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">        if(postType == Post.Type.TEXT){</span>
+<span class="fc" id="L55">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if(postType == Post.Type.TEXT){</span>
 <span class="nc" id="L57">            service.editPost(postToEdit,postId);</span>
         }else{
-<span class="nc" id="L59">            BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());</span>
-<span class="nc" id="L60">            service.editPost(postToEdit,postId,buff);</span>
+<span class="fc" id="L59">            BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());</span>
+<span class="fc" id="L60">            service.editPost(postToEdit,postId,buff);</span>
         }
-<span class="nc" id="L62">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + postId);</span>
-<span class="nc" id="L63">    }</span>
+<span class="fc" id="L62">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + postId);</span>
+<span class="fc" id="L63">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
