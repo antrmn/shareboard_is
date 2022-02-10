@@ -4,37 +4,41 @@ import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import persistence.model.Ban;
+import org.mockito.Mock;
+import persistence.model.Follow;
+import persistence.model.Section;
 import persistence.model.User;
 import persistence.repo.*;
-import service.dto.BanDTO;
+import rocks.limburg.cdimock.CdiMock;
+import service.dto.CurrentUser;
 import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 
 @Classes(cdi = true,
-        value={BanService.class,
+        value={FollowService.class,
                 BinaryContentRepository.class,
                 CommentRepository.class,
                 GenericRepository.class,
                 PostRepository.class,
                 SectionRepository.class,
                 UserRepository.class},
-        cdiInterceptors = BValInterceptor.class)
-public class BanServiceIT extends PersistenceIT {
-    @Inject private BanService service;
+        cdiInterceptors = BValInterceptor.class,
+        cdiStereotypes = CdiMock.class)
+public class FollowServiceIT extends PersistenceIT {
+    @Mock private CurrentUser currentUser;
     @Inject private GenericRepository repository;
+    @Inject private FollowService followService;
 
     private List<User> users;
+    private Section section;
 
     @BeforeAll
     public void populate() throws Exception {
@@ -50,35 +54,47 @@ public class BanServiceIT extends PersistenceIT {
                 user.setSalt((n + "salt").getBytes(StandardCharsets.UTF_8));
                 return user;
             }).map(repository::insert).collect(Collectors.toList());
+
+            section = new Section();
+            section.setName("Nome sezione");
+            section.setDescription("Description");
+            section.setPicture("picture");
+            section.setBanner("banner");
+            repository.insert(section);
+
         });
     }
 
     @Test
-    void successfulAddBanWithFutureDate() throws Exception {
-        doThenRollback(() -> {
-            int year = LocalDate.now().getYear()+1;
-            Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
-
-            Ban ban2 = service.addBan(data,users.get(0).getId());
-            List<BanDTO> bans = service.retrieveUserBan(users.get(0).getId());
-            assertEquals(bans.get(0).getBanId(),ban2.getId());
-        });
-    }
-
-    @Test
-    void successfulRemoveBan() throws Exception {
+    void successfullyFollow() throws Exception {
         doThenRollback((em) -> {
-            int year = LocalDate.now().getYear()+1;
-            Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
+            when(currentUser.getId()).thenReturn(users.get(0).getId());
 
-            Ban ban2 = service.addBan(data,users.get(2).getId());
+            Follow follow = followService.follow(section.getId());
             em.flush();
             em.clear();
-            service.removeBan(ban2.getId());
+            Section section2 = repository.findById(Section.class,section.getId());
+            Follow follow1 = section2.getFollow(users.get(0));
+            assertEquals(follow.getId(),follow1.getId());
+        });
+    }
+
+    @Test
+    void successfullyUnfollow() throws Exception {
+        doThenRollback((em) -> {
+
+            when(currentUser.getId()).thenReturn(users.get(0).getId());
+
+            followService.follow(section.getId());
             em.flush();
-            em.clear();
-            List<BanDTO> bans = service.retrieveUserBan(users.get(2).getId());
-            assertTrue(bans.size() == 0);
+
+            Section section2 = repository.findById(Section.class,section.getId());
+
+            followService.unFollow(section.getId());
+            em.flush();
+
+            Follow follow1 = section2.getFollow(users.get(0));
+            assertTrue(follow1 == null);
         });
     }
 

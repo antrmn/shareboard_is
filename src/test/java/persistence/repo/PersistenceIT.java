@@ -15,6 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
+import rocks.limburg.cdimock.CdiMocking;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -28,7 +29,7 @@ import java.util.function.Supplier;
 
 import static org.mockito.quality.Strictness.LENIENT;
 
-@ExtendWith({MockitoExtension.class})
+@ExtendWith({MockitoExtension.class, CdiMocking.class})
 @MockitoSettings(strictness = LENIENT)
 @RunWithApplicationComposer(mode = ExtensionMode.PER_ALL)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
