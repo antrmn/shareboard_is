@@ -8,17 +8,17 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-<span class="nc" id="L11">public class BanExistsValidator implements ConstraintValidator&lt;BanExists, Integer&gt; {</span>
+<span class="fc" id="L11">public class BanExistsValidator implements ConstraintValidator&lt;BanExists, Integer&gt; {</span>
     @Inject GenericRepository genericRepository;
 
     @Override
     public void initialize(BanExists constraintAnnotation) {
 
-<span class="nc" id="L17">    }</span>
+<span class="fc" id="L17">    }</span>
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        return (genericRepository.findById(Ban.class, value) != null);</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        return (genericRepository.findById(Ban.class, value) != null);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -40,7 +40,7 @@ public class Section implements Serializable {
     @LazyCollection(LazyCollectionOption.EXTRA)
     protected Map&lt;User, Follow&gt; follows;
     public Follow getFollow(User user){
-<span class="nc" id="L43">        return follows.get(user);</span>
+<span class="fc" id="L43">        return follows.get(user);</span>
     }
     public int getFollowCount(){
 <span class="nc" id="L46">        return follows.size();</span>
