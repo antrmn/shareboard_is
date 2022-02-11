@@ -1,6 +1,8 @@
 package util;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 public final class DateUtils {
@@ -18,7 +20,8 @@ public final class DateUtils {
             n /= 30;
             return n == 1 ? n + " mese" : n + " mesi";
         } else {
-            n = Math.abs(Instant.now().until(then, ChronoUnit.YEARS));
+            int thenYear = then.atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+            n = Math.abs(thenYear - LocalDate.now().getYear());
             return n == 1 ? n + " anno" : n + " anni";
         }
     }
