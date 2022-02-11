@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
  * Per definire un interceptor occorre:
  * <ul>
  *     <li>Estendere questa classe (Specificando l'annotazione a cui la nuova sottoclasse sarà associata)</li>
- *     <li>Definire il comportamento dell'interceptor sovrascrivendo i metodi {@link this#handle(HttpServletRequest, HttpServletResponse, HttpServletBiConsumer)}
+ *     <li>Definire il comportamento dell'interceptor sovrascrivendo i metodi {@link ServletInterceptor#handle(HttpServletRequest, HttpServletResponse, HttpServletBiConsumer)}
  *     e {@link this#init(Annotation)}</li>
  * </ul>
  *
@@ -43,7 +43,7 @@ public abstract class ServletInterceptor<A extends Annotation>{
 
     /**
      * Definisce l'ordine in cui l'interceptor deve essere eseguito rispetto agli altri interceptor.
-     * Un numero più basso implica una maggiore priorità. Il valore di default (Se il metodo non è sovrascritto) è @link{Integer.MAX_VALUE}
+     * Un numero più basso implica una maggiore priorità. Il valore di default (Se il metodo non è sovrascritto) è Integer.MAX_VALUE
      * @return La priorità dell'interceptor
      */
     public int priority(){

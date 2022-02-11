@@ -6,6 +6,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -44,7 +46,6 @@ class InterceptableServletTest {
         assertThrows(IllegalArgumentException.class,() -> servlet.service(req,resp));
     }
 
-
     @Test
     void interceptorsOrderTest() throws ServletException, IOException {
         {
@@ -64,8 +65,18 @@ class InterceptableServletTest {
             InterceptableServlet servlet = new SampleInterceptableServlet();
             when(req.getMethod()).thenReturn("POST");
             HttpServletResponse resp = Mockito.mock(HttpServletResponse.class);
-            servlet.service(req,resp);
+            servlet.service((ServletRequest) req,(ServletResponse) resp);
             assertEquals(sequence,List.of(2,5,1));
+        }
+        {
+            List<Integer> sequence = new ArrayList<>();
+            HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
+            when(req.getAttribute(any())).thenReturn(sequence);
+            InterceptableServlet servlet = new SampleInterceptableServlet();
+            when(req.getMethod()).thenReturn("PUT");
+            HttpServletResponse resp = Mockito.mock(HttpServletResponse.class);
+            assertThrows(NullPointerException.class, () -> servlet.service(req,resp));
+            assertEquals(sequence,List.of());
         }
     }
 

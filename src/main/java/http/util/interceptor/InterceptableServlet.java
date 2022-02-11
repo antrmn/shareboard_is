@@ -28,17 +28,17 @@ import java.util.stream.Stream;
  *
  *
  * <pre>
- *     {@code
- *     @RequireAuthentication
- *     @EnableLogging(SEVERE)
+*  <code>
+ *     {@literal @}RequireAuthentication
+ *     {@literal @}EnableLogging(SEVERE)
  *     private static class SampleInterceptableServlet extends InterceptableServlet{
- *         @Override
- *         @ErrorsAsJson
+ *         {@literal @}Override
+ *         {@literal @}ErrorsAsJson
  *         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
  *              ....
  *         }
- *     }*
  *     }
+ * </code>
  * </pre>
  * @see ServletInterceptor
  * @see HttpServlet
