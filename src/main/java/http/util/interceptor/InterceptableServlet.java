@@ -84,7 +84,6 @@ public abstract class InterceptableServlet extends HttpServlet {
     }
 
     private HttpServletBiConsumer buildChain(ServletInterceptor<?>[] interceptors, HttpServletBiConsumer target){
-        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);
 
         //builds the chain backwards
         HttpServletBiConsumer current = target;
