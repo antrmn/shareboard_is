@@ -226,15 +226,16 @@ public class PostServiceTest extends ServiceTest{
         posts.add(post);
         when(postRepo.getFinder()).thenReturn(postFinder);
         when(postRepo.getFinder().getResults()).thenReturn(posts);
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(currentUser.getId()).thenReturn(1);
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
-                .onlyFollow(false)
+                .onlyFollow(true)
                 .includeBody(true)
                 .sectionName("section")
                 .authorName("author")
                 .postedAfter(Instant.now())
                 .postedBefore(Instant.now())
-                .onlyFollow(false)
                 .page(1)
                 .orderBy(PostSearchForm.SortCriteria.NEWEST)
                 .build();
@@ -245,15 +246,16 @@ public class PostServiceTest extends ServiceTest{
     void failFindPosts(){
         when(postRepo.getFinder()).thenReturn(postFinder);
         when(postRepo.getFinder().getResults()).thenReturn(null);
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(currentUser.getId()).thenReturn(1);
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
-                .onlyFollow(false)
+                .onlyFollow(true)
                 .includeBody(true)
                 .sectionName("section")
                 .authorName("author")
                 .postedAfter(Instant.now())
                 .postedBefore(Instant.now())
-                .onlyFollow(false)
                 .page(1)
                 .orderBy(PostSearchForm.SortCriteria.NEWEST)
                 .build();
