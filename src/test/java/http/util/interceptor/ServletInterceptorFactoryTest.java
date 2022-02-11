@@ -28,9 +28,13 @@ class ServletInterceptorTest {
 
     @BeforeAll
     void registerInterceptors(){
-        ServletInterceptorFactory.register(JSONErrorInterceptor.class);
-        ServletInterceptorFactory.register(ForwardOnErrorInterceptor.class);
-        ServletInterceptorFactory.register(AuthorizationConstraintsInterceptor.class);
+        try{
+            ServletInterceptorFactory.register(JSONErrorInterceptor.class);
+            ServletInterceptorFactory.register(ForwardOnErrorInterceptor.class);
+            ServletInterceptorFactory.register(AuthorizationConstraintsInterceptor.class);
+        } catch(IllegalArgumentException e){
+            //noop
+        }
     }
 
     @Test
