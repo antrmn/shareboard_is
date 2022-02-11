@@ -28,17 +28,17 @@ import java.util.stream.Stream;
  *
  *
  * &lt;pre&gt;
- *     {@code
- *     @RequireAuthentication
- *     @EnableLogging(SEVERE)
+*  &lt;code&gt;
+ *     {@literal @}RequireAuthentication
+ *     {@literal @}EnableLogging(SEVERE)
  *     private static class SampleInterceptableServlet extends InterceptableServlet{
- *         @Override
- *         @ErrorsAsJson
+ *         {@literal @}Override
+ *         {@literal @}ErrorsAsJson
  *         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
  *              ....
  *         }
- *     }*
  *     }
+ * &lt;/code&gt;
  * &lt;/pre&gt;
  * @see ServletInterceptor
  * @see HttpServlet
@@ -68,10 +68,10 @@ import java.util.stream.Stream;
         try {
 <span class="fc" id="L69">            method = this.getClass()</span>
 <span class="fc" id="L70">                    .getDeclaredMethod(javaMethodName, HttpServletRequest.class, HttpServletResponse.class);</span>
-<span class="nc" id="L71">        } catch (NoSuchMethodException e) {</span>
+<span class="fc" id="L71">        } catch (NoSuchMethodException e) {</span>
             //method has not been overriden by this class.
             //return empty array
-<span class="nc" id="L74">            return new ServletInterceptor[]{};</span>
+<span class="fc" id="L74">            return new ServletInterceptor[]{};</span>
 <span class="fc" id="L75">        }</span>
 
 
@@ -110,8 +110,8 @@ import java.util.stream.Stream;
 
     @Override
     public final void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-<span class="nc" id="L113">        service((HttpServletRequest) req, (HttpServletResponse) res);</span>
-<span class="nc" id="L114">    }</span>
+<span class="fc" id="L113">        service((HttpServletRequest) req, (HttpServletResponse) res);</span>
+<span class="fc" id="L114">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
