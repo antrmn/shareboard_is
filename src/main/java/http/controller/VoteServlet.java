@@ -28,17 +28,17 @@ public class VoteServlet extends InterceptableServlet {
         String vote = request.getParameter("vote");
         String type = request.getParameter("type");
 
-        if(type!=null && type.equalsIgnoreCase("post") && !vote.isEmpty()){
-            if(vote.equalsIgnoreCase("upvote"))
+        if("post".equalsIgnoreCase(type)){
+            if("upvote".equalsIgnoreCase(vote))
                 service.upvotePost(id);
-            else if(vote.equalsIgnoreCase("downvote"))
+            else if("downvote".equalsIgnoreCase(vote))
                 service.downvotePost(id);
             else
                 throw new IllegalArgumentException();
-        }else if(type!=null && type.equalsIgnoreCase("comment") && !vote.isEmpty()){
-            if(vote.equalsIgnoreCase("upvote"))
+        }else if("comment".equalsIgnoreCase(type)){
+            if("upvote".equalsIgnoreCase(vote))
                 service.upvoteComment(id);
-            else if(vote.equalsIgnoreCase("downvote"))
+            else if("downvote".equalsIgnoreCase(vote))
                 service.downvoteComment(id);
             else
                 throw new IllegalArgumentException();

@@ -103,4 +103,31 @@ public class VoteServletTest extends ServletTest{
         assertThrows(ConstraintViolationException.class,() -> voteServlet.doGet(request,response));
     }
 
+    @Test
+    void emptyTypedoGet(){
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("type")).thenReturn(null);
+        when(request.getParameter("vote")).thenReturn("upvote");
+
+        assertThrows(IllegalArgumentException.class,() -> voteServlet.doGet(request,response));
+    }
+
+    @Test
+    void emptyPostVotedoGet(){
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("type")).thenReturn("post");
+        when(request.getParameter("vote")).thenReturn(null);
+
+        assertThrows(IllegalArgumentException.class,() -> voteServlet.doGet(request,response));
+    }
+
+    @Test
+    void emptyCommentVotedoGet(){
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("type")).thenReturn("comment");
+        when(request.getParameter("vote")).thenReturn(null);
+
+        assertThrows(IllegalArgumentException.class,() -> voteServlet.doGet(request,response));
+    }
+
 }
