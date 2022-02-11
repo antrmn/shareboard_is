@@ -12,14 +12,22 @@
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> javax.servlet.annotation.HandlesTypes;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> java.util.Set;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   @HandlesTypes(ServletInterceptor.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ServletContainerInitializer" href="../../../http/util/interceptor/ServletContainerInitializer.html#ServletContainerInitializer">ServletContainerInitializer</a> <strong class="jxr_keyword">implements</strong> javax.servlet.ServletContainerInitializer {
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>       @Override
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> onStartup(Set&lt;Class&lt;?&gt;&gt; set, ServletContext servletContext) {
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>          <em class="jxr_comment">//noinspection unchecked</em>
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>          set.stream().map(x -&gt; (Class&lt;? <strong class="jxr_keyword">extends</strong> ServletInterceptor&lt;?&gt;&gt;) x).forEach(ServletInterceptorFactory::register);
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>      }
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  }
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * Classe chiamata nella fase di start-up del servlet container. Vedi JSR 369 sec 8.2.4</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * @see ServletContainerInitializer</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  @HandlesTypes(ServletInterceptor.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ServletContainerInitializer" href="../../../http/util/interceptor/ServletContainerInitializer.html#ServletContainerInitializer">ServletContainerInitializer</a> <strong class="jxr_keyword">implements</strong> javax.servlet.ServletContainerInitializer {
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment">     * @param set L'insieme delle classi che rispettano i criteri imposti dall'annotazione {@link HandlesTypes}</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment">     * @param servletContext Il servlet context della webapp</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      @Override
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> onStartup(Set&lt;Class&lt;?&gt;&gt; set, ServletContext servletContext) {
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          <em class="jxr_comment">//noinspection unchecked</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          set.stream().map(x -&gt; (Class&lt;? <strong class="jxr_keyword">extends</strong> ServletInterceptor&lt;?&gt;&gt;) x).forEach(ServletInterceptorFactory::register);
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>      }
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

@@ -16,9 +16,36 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 
-<span class="fc" id="L19">public abstract class InterceptableServlet extends HttpServlet {</span>
-<span class="fc" id="L20">    private static final Map&lt;String, String&gt; methods =</span>
-<span class="fc" id="L21">            Map.of(</span>
+/**
+ * Estende la classe astratta {@link HttpServlet} per fornire supporto al meccanismo degli interceptor.
+ *
+ * È possibile applicare gli interceptor in due modi:
+ * &lt;ul&gt;
+ *     &lt;li&gt;Applicando l'annotazione associata all'interceptor desiderato sul metodo &quot;doX&quot; desiderato&lt;/li&gt;
+ *     &lt;li&gt;Applicando l'annotazione associata all'interceptor desiderato sulla classe interceptor. In questo modo,
+ *     l'interceptor sarà applicato a tutti i metodi &quot;doX&quot; sovrascritti.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ *
+ * &lt;pre&gt;
+ *     {@code
+ *     @RequireAuthentication
+ *     @EnableLogging(SEVERE)
+ *     private static class SampleInterceptableServlet extends InterceptableServlet{
+ *         @Override
+ *         @ErrorsAsJson
+ *         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+ *              ....
+ *         }
+ *     }*
+ *     }
+ * &lt;/pre&gt;
+ * @see ServletInterceptor
+ * @see HttpServlet
+ */
+<span class="fc" id="L46">public abstract class InterceptableServlet extends HttpServlet {</span>
+<span class="fc" id="L47">    private static final Map&lt;String, String&gt; methods =</span>
+<span class="fc" id="L48">            Map.of(</span>
                     &quot;GET&quot;,     &quot;doGet&quot;,
                     &quot;POST&quot;,    &quot;doPost&quot;,
                     &quot;PUT&quot;,     &quot;doPut&quot;,
@@ -28,63 +55,63 @@ import java.util.stream.Stream;
                     &quot;HEAD&quot;,    &quot;doHead&quot;
             );
 
-<span class="fc" id="L31">    private final Map&lt;String, HttpServletBiConsumer&gt; chains = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="fc" id="L58">    private final Map&lt;String, HttpServletBiConsumer&gt; chains = new ConcurrentHashMap&lt;&gt;();</span>
 
     private ServletInterceptor&lt;?&gt;[] getInterceptors(String httpMethodName) {
-<span class="nc" id="L34">        String javaMethodName = methods.get(httpMethodName);</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">        if(javaMethodName == null){</span>
+<span class="fc" id="L61">        String javaMethodName = methods.get(httpMethodName);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if(javaMethodName == null){</span>
             //Not a &quot;doX&quot; method
-<span class="nc" id="L37">            throw new IllegalArgumentException();</span>
+<span class="fc" id="L64">            throw new IllegalArgumentException();</span>
         }
 
         Method method;
         try {
-<span class="nc" id="L42">            method = this.getClass()</span>
-<span class="nc" id="L43">                    .getDeclaredMethod(javaMethodName, HttpServletRequest.class, HttpServletResponse.class);</span>
-<span class="nc" id="L44">        } catch (NoSuchMethodException e) {</span>
+<span class="fc" id="L69">            method = this.getClass()</span>
+<span class="fc" id="L70">                    .getDeclaredMethod(javaMethodName, HttpServletRequest.class, HttpServletResponse.class);</span>
+<span class="nc" id="L71">        } catch (NoSuchMethodException e) {</span>
             //method has not been overriden by this class.
             //return empty array
-<span class="nc" id="L47">            return new ServletInterceptor[]{};</span>
-<span class="nc" id="L48">        }</span>
+<span class="nc" id="L74">            return new ServletInterceptor[]{};</span>
+<span class="fc" id="L75">        }</span>
 
 
         //get annotations and their respective interceptor
-<span class="nc" id="L52">        return Stream.concat(Arrays.stream(getClass().getAnnotations()), Arrays.stream(method.getAnnotations()))</span>
-<span class="nc" id="L53">                .map(ServletInterceptorFactory::instantiate)</span>
-<span class="nc" id="L54">                .filter(Objects::nonNull)</span>
-<span class="nc" id="L55">                .sorted(Comparator.comparingInt(ServletInterceptor::priority))</span>
-<span class="nc" id="L56">                .toArray(ServletInterceptor[]::new);</span>
+<span class="fc" id="L79">        return Stream.concat(Arrays.stream(getClass().getAnnotations()), Arrays.stream(method.getAnnotations()))</span>
+<span class="fc" id="L80">                .map(ServletInterceptorFactory::instantiate)</span>
+<span class="fc" id="L81">                .filter(Objects::nonNull)</span>
+<span class="fc" id="L82">                .sorted(Comparator.comparingInt(ServletInterceptor::priority)) //stable ordering</span>
+<span class="fc" id="L83">                .toArray(ServletInterceptor[]::new);</span>
     }
 
     private HttpServletBiConsumer buildChain(ServletInterceptor&lt;?&gt;[] interceptors, HttpServletBiConsumer target){
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);</span>
 
         //builds the chain backwards
-<span class="nc" id="L63">        HttpServletBiConsumer current = target;</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        for(int i = interceptors.length-1; i &gt;= 0; i--){</span>
-<span class="nc" id="L65">            ServletInterceptor&lt;?&gt; interceptor = interceptors[i];</span>
+<span class="fc" id="L90">        HttpServletBiConsumer current = target;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        for(int i = interceptors.length-1; i &gt;= 0; i--){</span>
+<span class="fc" id="L92">            ServletInterceptor&lt;?&gt; interceptor = interceptors[i];</span>
 
-<span class="nc" id="L67">            HttpServletBiConsumer next = current;</span>
-<span class="nc" id="L68">            current = (req, res) -&gt; interceptor.handle(req, res, next);</span>
+<span class="fc" id="L94">            HttpServletBiConsumer next = current;</span>
+<span class="fc" id="L95">            current = (req, res) -&gt; interceptor.handle(req, res, next);</span>
         }
-<span class="nc" id="L70">        return current;</span>
+<span class="fc" id="L97">        return current;</span>
     }
 
     //unambiguous super.service (there are 2 service methods. java lambdas hate that.)
     private void superService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="nc" id="L75">        super.service(req, resp);</span>
-<span class="nc" id="L76">    }</span>
+<span class="fc" id="L102">        super.service(req, resp);</span>
+<span class="fc" id="L103">    }</span>
 
     @Override
     protected final void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="nc" id="L80">        String httpMethod = req.getMethod();</span>
-<span class="nc" id="L81">        chains.computeIfAbsent(httpMethod, key -&gt; buildChain(getInterceptors(key), this::superService)).handle(req,resp);</span>
-<span class="nc" id="L82">    }</span>
+<span class="fc" id="L107">        String httpMethod = req.getMethod();</span>
+<span class="fc" id="L108">        chains.computeIfAbsent(httpMethod, key -&gt; buildChain(getInterceptors(key), this::superService)).handle(req,resp);</span>
+<span class="fc" id="L109">    }</span>
 
     @Override
     public final void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-<span class="nc" id="L86">        service((HttpServletRequest) req, (HttpServletResponse) res);</span>
-<span class="nc" id="L87">    }</span>
+<span class="nc" id="L113">        service((HttpServletRequest) req, (HttpServletResponse) res);</span>
+<span class="nc" id="L114">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

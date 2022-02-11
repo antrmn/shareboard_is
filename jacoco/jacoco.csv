@@ -11,10 +11,10 @@ shareboard_is,service.validation,UsersExistsValidator,0,14,0,2,0,3,0,4,0,3
 shareboard_is,service.validation,UsernameFormatValidator,0,20,2,4,0,3,2,4,0,3
 shareboard_is,service.validation,EmailFormatValidator,0,8,0,0,0,3,0,3,0,3
 shareboard_is,service.validation,SectionExistsByIdValidator,0,14,0,2,0,3,0,4,0,3
-shareboard_is,http.controller.interceptor,AuthorizationConstrainsInterceptor,77,0,14,0,18,0,11,0,4,0
-shareboard_is,http.controller.interceptor,JSONErrorInterceptor,127,0,4,0,38,0,9,0,7,0
+shareboard_is,http.controller.interceptor,AuthorizationConstraintsInterceptor,77,0,14,0,18,0,11,0,4,0
+shareboard_is,http.controller.interceptor,JSONErrorInterceptor,123,4,4,0,36,2,7,2,5,2
 shareboard_is,http.controller.interceptor,AuthorizationConstraints.Types,0,34,0,0,0,2,0,1,0,1
-shareboard_is,http.controller.interceptor,ForwardOnErrorInterceptor,77,0,2,0,23,0,8,0,7,0
+shareboard_is,http.controller.interceptor,ForwardOnErrorInterceptor,69,8,2,0,20,3,6,2,5,2
 shareboard_is,persistence.repo,CommentRepository,0,33,0,0,0,9,0,3,0,3
 shareboard_is,persistence.repo,PostRepository,0,8,0,0,0,2,0,2,0,2
 shareboard_is,persistence.repo,PostRepository.SortCriteria,0,34,0,0,0,1,0,1,0,1
@@ -77,7 +77,7 @@ shareboard_is,service.auth,AuthorizationException,16,0,0,0,8,0,4,0,4,0
 shareboard_is,service.auth,AuthenticationRequiredException,16,0,0,0,8,0,4,0,4,0
 shareboard_is,service.auth,BannedUserException,9,0,0,0,5,0,3,0,3,0
 shareboard_is,http.util,ParameterConverter,0,86,0,16,0,27,0,13,0,5
-shareboard_is,http.util.interceptor,InterceptableServlet,123,25,6,0,27,4,11,2,8,2
-shareboard_is,http.util.interceptor,ServletContainerInitializer,12,0,0,0,3,0,3,0,3,0
-shareboard_is,http.util.interceptor,ServletInterceptorFactory,90,0,10,0,25,0,8,0,3,0
-shareboard_is,http.util.interceptor,ServletInterceptor,5,0,0,0,2,0,2,0,2,0
+shareboard_is,http.util.interceptor,InterceptableServlet,14,134,1,5,4,27,2,11,1,9
+shareboard_is,http.util.interceptor,ServletContainerInitializer,0,12,0,0,0,3,0,3,0,3
+shareboard_is,http.util.interceptor,ServletInterceptorFactory,0,81,0,8,0,23,0,7,0,3
+shareboard_is,http.util.interceptor,ServletInterceptor,0,5,0,0,0,2,0,2,0,2

@@ -7,14 +7,47 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 
-<span class="nc" id="L10">public abstract class ServletInterceptor&lt;A extends Annotation&gt;{</span>
+/**
+ * Classe astratta rappresentante un interceptor invocabile da un {@link InterceptableServlet} prima di eseguire
+ * un metodo &quot;doGet&quot;, &quot;doPost&quot;, &quot;doX&quot;... &lt;br/&gt;
+ *
+ * Per definire un interceptor occorre:
+ * &lt;ul&gt;
+ *     &lt;li&gt;Estendere questa classe (Specificando l'annotazione a cui la nuova sottoclasse sarà associata)&lt;/li&gt;
+ *     &lt;li&gt;Definire il comportamento dell'interceptor sovrascrivendo i metodi {@link this#handle(HttpServletRequest, HttpServletResponse, HttpServletBiConsumer)}
+ *     e {@link this#init(Annotation)}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @param &lt;A&gt; Il tipo di annotazione a cui l'interceptor sarà associato
+ */
+<span class="fc" id="L23">public abstract class ServletInterceptor&lt;A extends Annotation&gt;{</span>
+
+
+    /**
+     * Chiamato dal factory per inizializzare l'interceptor dopo averlo istanziato.
+     * @param annotation L'istanza di annotazione associata all'interceptor, con eventuali parametri necessari per la configurazione
+     */
     protected abstract void init (A annotation);
 
+    /**
+     * Metodo contenete la logica dell'interceptor, che si occupa di processare la richiesta e la risposta passati come parametro
+     * e di passare eventualmente il controllo eventualmente al prossimo metodo specificato come parametro
+     * @param req La richiesta da processare
+     * @param resp La risposta da processare
+     * @param next Il riferimento al metodo a cui poter passare il controllo
+     * @throws ServletException
+     * @throws IOException
+     */
     public abstract void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next)
             throws ServletException, IOException;
 
+    /**
+     * Definisce l'ordine in cui l'interceptor deve essere eseguito rispetto agli altri interceptor.
+     * Un numero più basso implica una maggiore priorità. Il valore di default (Se il metodo non è sovrascritto) è @link{Integer.MAX_VALUE}
+     * @return La priorità dell'interceptor
+     */
     public int priority(){
-<span class="nc" id="L17">        return Integer.MAX_VALUE/2;</span>
+<span class="fc" id="L50">        return Integer.MAX_VALUE/2;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

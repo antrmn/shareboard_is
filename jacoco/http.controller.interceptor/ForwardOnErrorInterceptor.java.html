@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
-<span class="nc" id="L19">public class ForwardOnErrorInterceptor extends ServletInterceptor&lt;ForwardOnError&gt; {</span>
+<span class="fc" id="L19">public class ForwardOnErrorInterceptor extends ServletInterceptor&lt;ForwardOnError&gt; {</span>
 
     private String page;
 
     @Override
     protected void init(ForwardOnError annotation) {
-<span class="nc" id="L25">        this.page = annotation.value();</span>
-<span class="nc" id="L26">    }</span>
+<span class="fc" id="L25">        this.page = annotation.value();</span>
+<span class="fc" id="L26">    }</span>
 
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
