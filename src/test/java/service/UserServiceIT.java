@@ -4,21 +4,13 @@ import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import persistence.model.Ban;
 import persistence.model.User;
 import persistence.repo.*;
-import service.dto.BanDTO;
 import util.Pbkdf2PasswordHashImpl;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,7 +33,6 @@ import static org.mockito.Mockito.when;
                 SectionRepository.class},
         cdiInterceptors = BValInterceptor.class,
         cdiStereotypes = CdiMock.class)
-@Disabled
 public class SectionServiceIT extends PersistenceIT {
     @Inject private SectionService service;
     @Inject private GenericRepository repository;
@@ -65,6 +65,18 @@ public class SectionServiceIT extends PersistenceIT {
                 assertEquals(sections.get(i).getId(), sections2.get(i).getId());
             }
             assertEquals(sections2.size(), sections.size());
+        });
+    }
+
+    @Test
+    void successfulShowSectionsMap() throws Exception {
+        doThenRollback((em) -> {
+            Map<Integer, SectionPage> sectionsMap = service.getSectionsMap();
+            for(int i = 0; i < sections.size(); i++){
+                Integer sectionId = sections.get(i).getId();
+                assertEquals(sectionId, sectionsMap.get(sectionId).getId());
+            }
+            assertEquals(sectionsMap.size(), sections.size());
         });
     }
 
