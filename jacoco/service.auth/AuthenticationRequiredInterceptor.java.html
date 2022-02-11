@@ -11,15 +11,15 @@ import javax.interceptor.InvocationContext;
 @Interceptor
 @AuthenticationRequired
 @Priority(Interceptor.Priority.APPLICATION+1)
-<span class="nc" id="L14">public class AuthenticationRequiredInterceptor {</span>
+<span class="fc" id="L14">public class AuthenticationRequiredInterceptor {</span>
     @Inject private CurrentUser currentUser;
 
     @AroundInvoke
     public Object checkAdmin(InvocationContext invocationContext) throws Exception{
-<span class="nc bnc" id="L19" title="All 4 branches missed.">        if(currentUser == null || !currentUser.isLoggedIn()){</span>
-<span class="nc" id="L20">            throw new AuthenticationRequiredException();</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if(!currentUser.isLoggedIn()){</span>
+<span class="fc" id="L20">            throw new AuthenticationRequiredException();</span>
         }
-<span class="nc" id="L22">        return invocationContext.proceed();</span>
+<span class="fc" id="L22">        return invocationContext.proceed();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
