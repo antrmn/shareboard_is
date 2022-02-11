@@ -14,66 +14,65 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @WebFilter(&quot;*&quot;)
-<span class="nc" id="L17">public class AliasFilter extends HttpFilter {</span>
+<span class="fc" id="L17">public class AliasFilter extends HttpFilter {</span>
     @Inject CurrentUser currentUser;
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String requri;
         try {
-<span class="nc" id="L24">            requri = new URI(req.getRequestURI())</span>
-<span class="nc" id="L25">                    .normalize() //rimuove slash multipli e simili</span>
-<span class="nc" id="L26">                    .toString()</span>
-<span class="nc" id="L27">                    .substring(req.getContextPath().length() +1 );</span>
-<span class="nc" id="L28">        } catch (URISyntaxException e) {</span>
-<span class="nc" id="L29">            e.printStackTrace();</span>
-<span class="nc" id="L30">            chain.doFilter(req, res);</span>
-<span class="nc" id="L31">            return;</span>
-<span class="nc" id="L32">        }</span>
-<span class="nc" id="L33">        String[] splits = requri.split(&quot;/+&quot;);</span>
-<span class="nc bnc" id="L34" title="All 7 branches missed.">        switch(splits[0]){</span>
+<span class="fc" id="L24">            requri = new URI(req.getRequestURI())</span>
+<span class="fc" id="L25">                    .normalize() //rimuove slash multipli e simili</span>
+<span class="fc" id="L26">                    .toString()</span>
+<span class="fc" id="L27">                    .substring(req.getContextPath().length() +1 );</span>
+<span class="fc" id="L28">        } catch (URISyntaxException e) {</span>
+<span class="fc" id="L29">            chain.doFilter(req, res);</span>
+<span class="fc" id="L30">            return;</span>
+<span class="fc" id="L31">        }</span>
+<span class="fc" id="L32">        String[] splits = requri.split(&quot;/+&quot;);</span>
+<span class="pc bpc" id="L33" title="1 of 7 branches missed.">        switch(splits[0]){</span>
             case &quot;me&quot;:{
-<span class="nc bnc" id="L36" title="All 2 branches missed.">                if(currentUser.isLoggedIn()){</span>
-<span class="nc" id="L37">                    req.getRequestDispatcher(&quot;/user?name=&quot; + currentUser.getUsername() + '&amp;' + req.getQueryString())</span>
-<span class="nc" id="L38">                            .forward(req, res);</span>
-<span class="nc" id="L39">                    return;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">                if(currentUser.isLoggedIn()){</span>
+<span class="fc" id="L36">                    req.getRequestDispatcher(&quot;/user?name=&quot; + currentUser.getUsername() + '&amp;' + req.getQueryString())</span>
+<span class="fc" id="L37">                            .forward(req, res);</span>
+<span class="fc" id="L38">                    return;</span>
                 } else {
-<span class="nc" id="L41">                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);</span>
-<span class="nc" id="L42">                    return;</span>
+<span class="fc" id="L40">                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);</span>
+<span class="fc" id="L41">                    return;</span>
                 }
             }
             case &quot;popular&quot;: {
-<span class="nc" id="L46">                req.getRequestDispatcher(&quot;/home?view=popular&quot; + '&amp;' + req.getQueryString()).forward(req, res);</span>
-<span class="nc" id="L47">                return;</span>
+<span class="fc" id="L45">                req.getRequestDispatcher(&quot;/home?view=popular&quot; + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="fc" id="L46">                return;</span>
             }
             case &quot;feed&quot;:{
-<span class="nc" id="L50">                req.getRequestDispatcher(&quot;/home?view=following&quot; + '&amp;' + req.getQueryString()).forward(req, res);</span>
-<span class="nc" id="L51">                return;</span>
+<span class="fc" id="L49">                req.getRequestDispatcher(&quot;/home?view=following&quot; + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="fc" id="L50">                return;</span>
             }
             case &quot;s&quot;:{
-<span class="nc bnc" id="L54" title="All 2 branches missed.">                if(splits.length &gt;= 2) {</span>
-<span class="nc" id="L55">                    req.getRequestDispatcher(&quot;/s?section=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
-<span class="nc" id="L56">                    return;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                if(splits.length &gt;= 2) {</span>
+<span class="fc" id="L54">                    req.getRequestDispatcher(&quot;/s?section=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="fc" id="L55">                    return;</span>
                 }
                 break;
             }
             case &quot;u&quot;: {
-<span class="nc bnc" id="L61" title="All 2 branches missed.">                if (splits.length &gt;= 2) {</span>
-<span class="nc" id="L62">                    req.getRequestDispatcher(&quot;/user?name=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
-<span class="nc" id="L63">                    return;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">                if (splits.length &gt;= 2) {</span>
+<span class="fc" id="L61">                    req.getRequestDispatcher(&quot;/user?name=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="fc" id="L62">                    return;</span>
                 }
                 break;
             }
             case &quot;post&quot;:{
-<span class="nc bnc" id="L68" title="All 2 branches missed.">                if(splits.length &gt;= 2){</span>
-<span class="nc" id="L69">                    req.getRequestDispatcher(&quot;/post?id=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
-<span class="nc" id="L70">                    return;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                if(splits.length &gt;= 2){</span>
+<span class="fc" id="L68">                    req.getRequestDispatcher(&quot;/post?id=&quot; + splits[1] + '&amp;' + req.getQueryString()).forward(req, res);</span>
+<span class="fc" id="L69">                    return;</span>
                 }
                 break;
             }
         }
 
-<span class="nc" id="L76">        chain.doFilter(req, res);</span>
-<span class="nc" id="L77">    }</span>
+<span class="fc" id="L75">        chain.doFilter(req, res);</span>
+<span class="fc" id="L76">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
