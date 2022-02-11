@@ -19,31 +19,31 @@ import java.util.stream.Collectors;
 import static javax.servlet.http.HttpServletResponse.*;
 
 @WebFilter(&quot;*&quot;)
-<span class="nc" id="L22">public class FallbackExceptionHandlerFilter extends HttpFilter {</span>
+<span class="fc" id="L22">public class FallbackExceptionHandlerFilter extends HttpFilter {</span>
     //low priority  todo: fare in modo che tutte le eccezioni non gestite vengano loggate da catalina
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
         try{
 <span class="nc" id="L28">            chain.doFilter(req, resp);</span>
-<span class="nc" id="L29">        } catch (IllegalArgumentException e) {</span>
-<span class="nc" id="L30">            resp.sendError(SC_BAD_REQUEST, e.getMessage());</span>
-<span class="nc" id="L31">        } catch (ConstraintViolationException e) {</span>
-<span class="nc" id="L32">            String messages = e.getConstraintViolations().stream()</span>
-<span class="nc" id="L33">                    .map(ConstraintViolation::getMessage).collect(Collectors.joining(&quot;\n&quot;));</span>
-<span class="nc" id="L34">            resp.sendError(SC_BAD_REQUEST, messages);</span>
-<span class="nc" id="L35">        } catch (AuthenticationRequiredException e) {</span>
-<span class="nc" id="L36">            resp.sendError(SC_UNAUTHORIZED, e.getMessage());</span>
-<span class="nc" id="L37">        } catch (BannedUserException e){</span>
-<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (e.getDuration() != null){</span>
+<span class="fc" id="L29">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L30">            resp.sendError(SC_BAD_REQUEST, e.getMessage());</span>
+<span class="fc" id="L31">        } catch (ConstraintViolationException e) {</span>
+<span class="fc" id="L32">            String messages = e.getConstraintViolations().stream()</span>
+<span class="fc" id="L33">                    .map(ConstraintViolation::getMessage).collect(Collectors.joining(&quot;\n&quot;));</span>
+<span class="fc" id="L34">            resp.sendError(SC_BAD_REQUEST, messages);</span>
+<span class="fc" id="L35">        } catch (AuthenticationRequiredException e) {</span>
+<span class="fc" id="L36">            resp.sendError(SC_UNAUTHORIZED, e.getMessage());</span>
+<span class="fc" id="L37">        } catch (BannedUserException e){</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">            if (e.getDuration() != null){</span>
 <span class="nc" id="L39">                String end  = DateTimeFormatter.ISO_INSTANT.format(e.getDuration());</span>
 <span class="nc" id="L40">                resp.sendError(SC_FORBIDDEN, &quot;Sei bannato fino a &quot; + end);</span>
 <span class="nc" id="L41">            } else {</span>
-<span class="nc" id="L42">                resp.sendError(SC_FORBIDDEN, e.getMessage());</span>
+<span class="fc" id="L42">                resp.sendError(SC_FORBIDDEN, e.getMessage());</span>
             }
 <span class="nc" id="L44">        } catch (AuthorizationException e) {</span>
 <span class="nc" id="L45">            resp.sendError(SC_FORBIDDEN, e.getMessage());</span>
-<span class="nc" id="L46">        }</span>
-<span class="nc" id="L47">    }</span>
+<span class="pc" id="L46">        }</span>
+<span class="fc" id="L47">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
