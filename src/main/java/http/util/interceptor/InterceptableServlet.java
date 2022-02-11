@@ -52,7 +52,7 @@ public abstract class InterceptableServlet extends HttpServlet {
         return Stream.concat(Arrays.stream(getClass().getAnnotations()), Arrays.stream(method.getAnnotations()))
                 .map(ServletInterceptorFactory::instantiate)
                 .filter(Objects::nonNull)
-                .sorted(Comparator.comparingInt(ServletInterceptor::priority))
+                .sorted(Comparator.comparingInt(ServletInterceptor::priority)) //stable ordering
                 .toArray(ServletInterceptor[]::new);
     }
 
