@@ -34,9 +34,6 @@ public final class ServletInterceptorFactory {
         if(Modifier.isAbstract(interceptorClass.getModifiers())){
             throw new IllegalArgumentException("Interceptor class must be concrete");
         }
-        if(interceptorClass.getTypeParameters().length > 0){
-            throw new IllegalArgumentException("Interceptor class must be non-generic");
-        }
 
         //get ServletInterceptor.class immediate subclass
         Class<?> clazz = interceptorClass;

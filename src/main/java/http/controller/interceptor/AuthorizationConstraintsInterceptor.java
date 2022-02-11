@@ -19,7 +19,7 @@ import java.util.Set;
 
 import static http.controller.interceptor.AuthorizationConstraints.Types.*;
 
-public class AuthorizationConstrainsInterceptor extends ServletInterceptor<AuthorizationConstraints> {
+public class AuthorizationConstraintsInterceptor extends ServletInterceptor<AuthorizationConstraints> {
 
     private Set<AuthorizationConstraints.Types> authorizationConstraintTypes;
 
