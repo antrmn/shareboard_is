@@ -49,6 +49,12 @@
         </dependency>
         <!-- Test dependencies -->
         <dependency>
+            <groupId>org.apache.johnzon</groupId>
+            <artifactId>johnzon-core</artifactId>
+            <version>1.2.16</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>ch.vorburger.mariaDB4j</groupId>
             <artifactId>mariaDB4j</artifactId>
             <version>2.5.3</version>
@@ -157,6 +163,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/service/dto/*</exclude>
+                        <exclude>**/persistence/model/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -169,7 +176,7 @@
                     <execution>
                         <!-- Unisce gli execution files relativi a unit test e integration testing.
                              In questo modo è possibile effettuare un report "complessivo"
-                             Vedi: <reporting>-->
+                             Vedi: <reporting> -->
                         <id>merge-coverage-data</id>
                         <phase>verify</phase>
                         <goals>
@@ -219,6 +226,7 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/service/dto/*</exclude>
+                                <exclude>**/persistence/model/*</exclude>
                             </excludes>
                             <dataFile>${project.build.directory}/jacoco-merge.exec</dataFile>
                         </configuration>

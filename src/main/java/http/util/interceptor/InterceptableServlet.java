@@ -16,6 +16,33 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 
+/**
+ * Estende la classe astratta {@link HttpServlet} per fornire supporto al meccanismo degli interceptor.
+ *
+ * È possibile applicare gli interceptor in due modi:
+ * <ul>
+ *     <li>Applicando l'annotazione associata all'interceptor desiderato sul metodo "doX" desiderato</li>
+ *     <li>Applicando l'annotazione associata all'interceptor desiderato sulla classe interceptor. In questo modo,
+ *     l'interceptor sarà applicato a tutti i metodi "doX" sovrascritti.</li>
+ * </ul>
+ *
+ *
+ * <pre>
+*  <code>
+ *     {@literal @}RequireAuthentication
+ *     {@literal @}EnableLogging(SEVERE)
+ *     private static class SampleInterceptableServlet extends InterceptableServlet{
+ *         {@literal @}Override
+ *         {@literal @}ErrorsAsJson
+ *         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+ *              ....
+ *         }
+ *     }
+ * </code>
+ * </pre>
+ * @see ServletInterceptor
+ * @see HttpServlet
+ */
 public abstract class InterceptableServlet extends HttpServlet {
     private static final Map<String, String> methods =
             Map.of(
@@ -52,12 +79,11 @@ public abstract class InterceptableServlet extends HttpServlet {
         return Stream.concat(Arrays.stream(getClass().getAnnotations()), Arrays.stream(method.getAnnotations()))
                 .map(ServletInterceptorFactory::instantiate)
                 .filter(Objects::nonNull)
-                .sorted(Comparator.comparingInt(ServletInterceptor::priority))
+                .sorted(Comparator.comparingInt(ServletInterceptor::priority)) //stable ordering
                 .toArray(ServletInterceptor[]::new);
     }
 
     private HttpServletBiConsumer buildChain(ServletInterceptor<?>[] interceptors, HttpServletBiConsumer target){
-        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);
 
         //builds the chain backwards
         HttpServletBiConsumer current = target;

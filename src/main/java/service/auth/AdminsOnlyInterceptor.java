@@ -16,7 +16,7 @@ public class AdminsOnlyInterceptor {
 
     @AroundInvoke
     public Object checkAdmin(InvocationContext invocationContext) throws Exception{
-        if(currentUser == null || !currentUser.isLoggedIn() || !currentUser.isAdmin()){
+        if(!currentUser.isLoggedIn() || !currentUser.isAdmin()){
             throw new AuthorizationException();
         }
         return invocationContext.proceed();

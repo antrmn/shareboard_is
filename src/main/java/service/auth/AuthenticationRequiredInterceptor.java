@@ -16,7 +16,7 @@ public class AuthenticationRequiredInterceptor {
 
     @AroundInvoke
     public Object checkAdmin(InvocationContext invocationContext) throws Exception{
-        if(currentUser == null || !currentUser.isLoggedIn()){
+        if(!currentUser.isLoggedIn()){
             throw new AuthenticationRequiredException();
         }
         return invocationContext.proceed();

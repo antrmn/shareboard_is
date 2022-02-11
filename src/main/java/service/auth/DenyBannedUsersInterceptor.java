@@ -16,7 +16,7 @@ public class DenyBannedUsersInterceptor {
 
     @AroundInvoke
     public Object checkAdmin(InvocationContext invocationContext) throws Exception{
-        if(currentUser != null && currentUser.isLoggedIn() && currentUser.getBanDuration() != null){
+        if(currentUser.isLoggedIn() && currentUser.getBanDuration() != null){
             throw new BannedUserException(currentUser.getBanDuration());
         }
         return invocationContext.proceed();
