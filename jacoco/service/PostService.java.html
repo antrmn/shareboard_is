@@ -92,13 +92,13 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
 <span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if(form.getSectionName() != null){</span>
 <span class="fc" id="L93">            Section section = sectionRepo.getByName(form.getSectionName());</span>
 <span class="pc bpc" id="L94" title="1 of 2 branches missed.">            if(section != null){</span>
-<span class="nc" id="L95">                finder.bySection(section);</span>
+<span class="fc" id="L95">                finder.bySection(section);</span>
             }
         }
 <span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if(form.getAuthorName() != null){</span>
 <span class="fc" id="L99">            User user = userRepo.getByName(form.getAuthorName());</span>
 <span class="pc bpc" id="L100" title="1 of 2 branches missed.">            if(user != null){</span>
-<span class="nc" id="L101">                finder.byAuthor(user);</span>
+<span class="fc" id="L101">                finder.byAuthor(user);</span>
             }
         }
 <span class="pc bpc" id="L104" title="2 of 4 branches missed.">        if(form.isOnlyFollow() &amp;&amp; currentUser.isLoggedIn()){</span>
@@ -112,17 +112,17 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
         }
 
         //null-safe switch
-<span class="pc bpc" id="L115" title="3 of 5 branches missed.">        switch(form.getOrderBy() != null ? form.getOrderBy() : NEWEST){</span>
+<span class="pc bpc" id="L115" title="1 of 5 branches missed.">        switch(form.getOrderBy() != null ? form.getOrderBy() : NEWEST){</span>
             case NEWEST: default: {
 <span class="fc" id="L117">                finder.getNewest();</span>
 <span class="fc" id="L118">                break;</span>
             }
             case OLDEST:{
-<span class="nc" id="L121">                finder.getOldest();</span>
-<span class="nc" id="L122">                break;</span>
+<span class="fc" id="L121">                finder.getOldest();</span>
+<span class="fc" id="L122">                break;</span>
             }
             case MOSTVOTED:{
-<span class="nc" id="L125">                finder.getMostVoted();</span>
+<span class="fc" id="L125">                finder.getMostVoted();</span>
                 break;
             }
         }
