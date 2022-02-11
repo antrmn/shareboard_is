@@ -22,6 +22,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,6 +232,11 @@ public class PostServiceTest extends ServiceTest{
                 .includeBody(true)
                 .sectionName("section")
                 .authorName("author")
+                .postedAfter(Instant.now())
+                .postedBefore(Instant.now())
+                .onlyFollow(false)
+                .page(1)
+                .orderBy(PostSearchForm.SortCriteria.NEWEST)
                 .build();
         assertEquals(posts.get(0).getId(), service.loadPosts(postSearchForm).get(0).getId());
     }
@@ -245,6 +251,11 @@ public class PostServiceTest extends ServiceTest{
                 .includeBody(true)
                 .sectionName("section")
                 .authorName("author")
+                .postedAfter(Instant.now())
+                .postedBefore(Instant.now())
+                .onlyFollow(false)
+                .page(1)
+                .orderBy(PostSearchForm.SortCriteria.NEWEST)
                 .build();
 
         assertThrows(java.lang.NullPointerException.class, () -> service.loadPosts(postSearchForm).get(0));
