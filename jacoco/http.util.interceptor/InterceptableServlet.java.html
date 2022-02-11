@@ -84,34 +84,33 @@ import java.util.stream.Stream;
     }
 
     private HttpServletBiConsumer buildChain(ServletInterceptor&lt;?&gt;[] interceptors, HttpServletBiConsumer target){
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);</span>
 
         //builds the chain backwards
-<span class="fc" id="L90">        HttpServletBiConsumer current = target;</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">        for(int i = interceptors.length-1; i &gt;= 0; i--){</span>
-<span class="fc" id="L92">            ServletInterceptor&lt;?&gt; interceptor = interceptors[i];</span>
+<span class="fc" id="L89">        HttpServletBiConsumer current = target;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for(int i = interceptors.length-1; i &gt;= 0; i--){</span>
+<span class="fc" id="L91">            ServletInterceptor&lt;?&gt; interceptor = interceptors[i];</span>
 
-<span class="fc" id="L94">            HttpServletBiConsumer next = current;</span>
-<span class="fc" id="L95">            current = (req, res) -&gt; interceptor.handle(req, res, next);</span>
+<span class="fc" id="L93">            HttpServletBiConsumer next = current;</span>
+<span class="fc" id="L94">            current = (req, res) -&gt; interceptor.handle(req, res, next);</span>
         }
-<span class="fc" id="L97">        return current;</span>
+<span class="fc" id="L96">        return current;</span>
     }
 
     //unambiguous super.service (there are 2 service methods. java lambdas hate that.)
     private void superService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc" id="L102">        super.service(req, resp);</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc" id="L101">        super.service(req, resp);</span>
+<span class="fc" id="L102">    }</span>
 
     @Override
     protected final void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc" id="L107">        String httpMethod = req.getMethod();</span>
-<span class="fc" id="L108">        chains.computeIfAbsent(httpMethod, key -&gt; buildChain(getInterceptors(key), this::superService)).handle(req,resp);</span>
-<span class="fc" id="L109">    }</span>
+<span class="fc" id="L106">        String httpMethod = req.getMethod();</span>
+<span class="fc" id="L107">        chains.computeIfAbsent(httpMethod, key -&gt; buildChain(getInterceptors(key), this::superService)).handle(req,resp);</span>
+<span class="fc" id="L108">    }</span>
 
     @Override
     public final void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-<span class="fc" id="L113">        service((HttpServletRequest) req, (HttpServletResponse) res);</span>
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L112">        service((HttpServletRequest) req, (HttpServletResponse) res);</span>
+<span class="fc" id="L113">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

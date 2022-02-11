@@ -93,36 +93,35 @@
 <span class="sourceLineNo">084</span><a id="line.84">    }</a>
 <span class="sourceLineNo">085</span><a id="line.85"></a>
 <span class="sourceLineNo">086</span><a id="line.86">    private HttpServletBiConsumer buildChain(ServletInterceptor&lt;?&gt;[] interceptors, HttpServletBiConsumer target){</a>
-<span class="sourceLineNo">087</span><a id="line.87">        interceptors = (interceptors == null ? new ServletInterceptor[]{} : interceptors);</a>
-<span class="sourceLineNo">088</span><a id="line.88"></a>
-<span class="sourceLineNo">089</span><a id="line.89">        //builds the chain backwards</a>
-<span class="sourceLineNo">090</span><a id="line.90">        HttpServletBiConsumer current = target;</a>
-<span class="sourceLineNo">091</span><a id="line.91">        for(int i = interceptors.length-1; i &gt;= 0; i--){</a>
-<span class="sourceLineNo">092</span><a id="line.92">            ServletInterceptor&lt;?&gt; interceptor = interceptors[i];</a>
-<span class="sourceLineNo">093</span><a id="line.93"></a>
-<span class="sourceLineNo">094</span><a id="line.94">            HttpServletBiConsumer next = current;</a>
-<span class="sourceLineNo">095</span><a id="line.95">            current = (req, res) -&gt; interceptor.handle(req, res, next);</a>
-<span class="sourceLineNo">096</span><a id="line.96">        }</a>
-<span class="sourceLineNo">097</span><a id="line.97">        return current;</a>
-<span class="sourceLineNo">098</span><a id="line.98">    }</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">    //unambiguous super.service (there are 2 service methods. java lambdas hate that.)</a>
-<span class="sourceLineNo">101</span><a id="line.101">    private void superService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {</a>
-<span class="sourceLineNo">102</span><a id="line.102">        super.service(req, resp);</a>
-<span class="sourceLineNo">103</span><a id="line.103">    }</a>
-<span class="sourceLineNo">104</span><a id="line.104"></a>
-<span class="sourceLineNo">105</span><a id="line.105">    @Override</a>
-<span class="sourceLineNo">106</span><a id="line.106">    protected final void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {</a>
-<span class="sourceLineNo">107</span><a id="line.107">        String httpMethod = req.getMethod();</a>
-<span class="sourceLineNo">108</span><a id="line.108">        chains.computeIfAbsent(httpMethod, key -&gt; buildChain(getInterceptors(key), this::superService)).handle(req,resp);</a>
-<span class="sourceLineNo">109</span><a id="line.109">    }</a>
-<span class="sourceLineNo">110</span><a id="line.110"></a>
-<span class="sourceLineNo">111</span><a id="line.111">    @Override</a>
-<span class="sourceLineNo">112</span><a id="line.112">    public final void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {</a>
-<span class="sourceLineNo">113</span><a id="line.113">        service((HttpServletRequest) req, (HttpServletResponse) res);</a>
-<span class="sourceLineNo">114</span><a id="line.114">    }</a>
-<span class="sourceLineNo">115</span><a id="line.115"></a>
-<span class="sourceLineNo">116</span><a id="line.116">}</a>
+<span class="sourceLineNo">087</span><a id="line.87"></a>
+<span class="sourceLineNo">088</span><a id="line.88">        //builds the chain backwards</a>
+<span class="sourceLineNo">089</span><a id="line.89">        HttpServletBiConsumer current = target;</a>
+<span class="sourceLineNo">090</span><a id="line.90">        for(int i = interceptors.length-1; i &gt;= 0; i--){</a>
+<span class="sourceLineNo">091</span><a id="line.91">            ServletInterceptor&lt;?&gt; interceptor = interceptors[i];</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">            HttpServletBiConsumer next = current;</a>
+<span class="sourceLineNo">094</span><a id="line.94">            current = (req, res) -&gt; interceptor.handle(req, res, next);</a>
+<span class="sourceLineNo">095</span><a id="line.95">        }</a>
+<span class="sourceLineNo">096</span><a id="line.96">        return current;</a>
+<span class="sourceLineNo">097</span><a id="line.97">    }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">    //unambiguous super.service (there are 2 service methods. java lambdas hate that.)</a>
+<span class="sourceLineNo">100</span><a id="line.100">    private void superService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {</a>
+<span class="sourceLineNo">101</span><a id="line.101">        super.service(req, resp);</a>
+<span class="sourceLineNo">102</span><a id="line.102">    }</a>
+<span class="sourceLineNo">103</span><a id="line.103"></a>
+<span class="sourceLineNo">104</span><a id="line.104">    @Override</a>
+<span class="sourceLineNo">105</span><a id="line.105">    protected final void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {</a>
+<span class="sourceLineNo">106</span><a id="line.106">        String httpMethod = req.getMethod();</a>
+<span class="sourceLineNo">107</span><a id="line.107">        chains.computeIfAbsent(httpMethod, key -&gt; buildChain(getInterceptors(key), this::superService)).handle(req,resp);</a>
+<span class="sourceLineNo">108</span><a id="line.108">    }</a>
+<span class="sourceLineNo">109</span><a id="line.109"></a>
+<span class="sourceLineNo">110</span><a id="line.110">    @Override</a>
+<span class="sourceLineNo">111</span><a id="line.111">    public final void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {</a>
+<span class="sourceLineNo">112</span><a id="line.112">        service((HttpServletRequest) req, (HttpServletResponse) res);</a>
+<span class="sourceLineNo">113</span><a id="line.113">    }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">}</a>
 
 
 
