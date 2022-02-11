@@ -26,7 +26,6 @@ public class AliasFilter extends HttpFilter {
                     .toString()
                     .substring(req.getContextPath().length() +1 );
         } catch (URISyntaxException e) {
-            e.printStackTrace();
             chain.doFilter(req, res);
             return;
         }
