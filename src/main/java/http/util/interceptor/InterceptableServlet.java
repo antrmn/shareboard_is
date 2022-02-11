@@ -16,6 +16,33 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 
+/**
+ * Estende la classe astratta {@link HttpServlet} per fornire supporto al meccanismo degli interceptor.
+ *
+ * È possibile applicare gli interceptor in due modi:
+ * <ul>
+ *     <li>Applicando l'annotazione associata all'interceptor desiderato sul metodo "doX" desiderato</li>
+ *     <li>Applicando l'annotazione associata all'interceptor desiderato sulla classe interceptor. In questo modo,
+ *     l'interceptor sarà applicato a tutti i metodi "doX" sovrascritti.</li>
+ * </ul>
+ *
+ *
+ * <pre>
+ *     {@code
+ *     @RequireAuthentication
+ *     @EnableLogging(SEVERE)
+ *     private static class SampleInterceptableServlet extends InterceptableServlet{
+ *         @Override
+ *         @ErrorsAsJson
+ *         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+ *              ....
+ *         }
+ *     }*
+ *     }
+ * </pre>
+ * @see ServletInterceptor
+ * @see HttpServlet
+ */
 public abstract class InterceptableServlet extends HttpServlet {
     private static final Map<String, String> methods =
             Map.of(
