@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.net.URLConnection;
 
 @ApplicationScoped
-<span class="nc" id="L14">public class ImageService {</span>
+<span class="fc" id="L14">public class ImageService {</span>
     @Inject private BinaryContentRepository binaryContentRepository;
 
     /**
@@ -21,16 +21,16 @@ import java.net.URLConnection;
      * @throws IOException
      */
     public InputStream getImage(@NotBlank String filename) throws IOException {
-<span class="nc" id="L24">        InputStream inputStream = binaryContentRepository.get(filename);</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">        if(inputStream == null)</span>
-<span class="nc" id="L26">            return null;</span>
+<span class="fc" id="L24">        InputStream inputStream = binaryContentRepository.get(filename);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(inputStream == null)</span>
+<span class="fc" id="L26">            return null;</span>
 
-<span class="nc" id="L28">        inputStream = new BufferedInputStream(inputStream);</span>
-<span class="nc" id="L29">        String mimetype = URLConnection.guessContentTypeFromStream(inputStream);</span>
-<span class="nc bnc" id="L30" title="All 4 branches missed.">        if(mimetype == null || !mimetype.startsWith(&quot;image/&quot;))</span>
-<span class="nc" id="L31">            return  null;</span>
+<span class="fc" id="L28">        inputStream = new BufferedInputStream(inputStream);</span>
+<span class="fc" id="L29">        String mimetype = URLConnection.guessContentTypeFromStream(inputStream);</span>
+<span class="fc bfc" id="L30" title="All 4 branches covered.">        if(mimetype == null || !mimetype.startsWith(&quot;image/&quot;))</span>
+<span class="fc" id="L31">            return  null;</span>
 
-<span class="nc" id="L33">        return inputStream;</span>
+<span class="fc" id="L33">        return inputStream;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
