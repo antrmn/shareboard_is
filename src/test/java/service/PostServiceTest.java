@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -210,8 +211,14 @@ public class PostServiceTest extends ServiceTest{
 //        assertDoesNotThrow(() -> service.editPost(postEdit, id));
 //    }
 
-    @Test
-    void successfulFindPosts(){
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    void successfulFindPosts(int id){
+
+        PostSearchForm.SortCriteria criteria = PostSearchForm.SortCriteria.NEWEST;
+        if (id == 1) criteria = PostSearchForm.SortCriteria.OLDEST;
+        if (id == 2) criteria = PostSearchForm.SortCriteria.MOSTVOTED;
+
         Post post = spy(Post.class);
         User author = spy(User.class);
         Section section = spy(Section.class);
@@ -228,6 +235,8 @@ public class PostServiceTest extends ServiceTest{
         when(postRepo.getFinder().getResults()).thenReturn(posts);
         when(currentUser.isLoggedIn()).thenReturn(true);
         when(currentUser.getId()).thenReturn(1);
+        when(sectionRepo.getByName(anyString())).thenReturn(new Section());
+        when(userRepo.getByName(anyString())).thenReturn(new User());
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
                 .onlyFollow(true)
@@ -237,17 +246,25 @@ public class PostServiceTest extends ServiceTest{
                 .postedAfter(Instant.now())
                 .postedBefore(Instant.now())
                 .page(1)
-                .orderBy(PostSearchForm.SortCriteria.NEWEST)
+                .orderBy(criteria)
                 .build();
         assertEquals(posts.get(0).getId(), service.loadPosts(postSearchForm).get(0).getId());
     }
 
-    @Test
-    void failFindPosts(){
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    void failFindPosts(int id){
+
+        PostSearchForm.SortCriteria criteria = PostSearchForm.SortCriteria.NEWEST;
+        if (id == 1) criteria = PostSearchForm.SortCriteria.OLDEST;
+        if (id == 2) criteria = PostSearchForm.SortCriteria.MOSTVOTED;
+
         when(postRepo.getFinder()).thenReturn(postFinder);
         when(postRepo.getFinder().getResults()).thenReturn(null);
         when(currentUser.isLoggedIn()).thenReturn(true);
         when(currentUser.getId()).thenReturn(1);
+        when(sectionRepo.getByName(anyString())).thenReturn(new Section());
+        when(userRepo.getByName(anyString())).thenReturn(new User());
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
                 .onlyFollow(true)
@@ -257,7 +274,7 @@ public class PostServiceTest extends ServiceTest{
                 .postedAfter(Instant.now())
                 .postedBefore(Instant.now())
                 .page(1)
-                .orderBy(PostSearchForm.SortCriteria.NEWEST)
+                .orderBy(criteria)
                 .build();
 
         assertThrows(java.lang.NullPointerException.class, () -> service.loadPosts(postSearchForm).get(0));
