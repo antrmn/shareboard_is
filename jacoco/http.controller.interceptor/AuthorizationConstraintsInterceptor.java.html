@@ -7,8 +7,6 @@ import service.auth.AuthorizationException;
 import service.auth.BannedUserException;
 import service.dto.CurrentUser;
 
-import javax.enterprise.inject.literal.NamedLiteral;
-import javax.enterprise.inject.spi.CDI;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,46 +17,45 @@ import java.util.Set;
 
 import static http.controller.interceptor.AuthorizationConstraints.Types.*;
 
-<span class="nc" id="L22">public class AuthorizationConstraintsInterceptor extends ServletInterceptor&lt;AuthorizationConstraints&gt; {</span>
+<span class="fc" id="L20">public class AuthorizationConstraintsInterceptor extends ServletInterceptor&lt;AuthorizationConstraints&gt; {</span>
 
     private Set&lt;AuthorizationConstraints.Types&gt; authorizationConstraintTypes;
 
     @Override
     protected void init(AuthorizationConstraints annotation) {
-<span class="nc" id="L28">        authorizationConstraintTypes = EnumSet.noneOf(AuthorizationConstraints.Types.class);</span>
-<span class="nc" id="L29">        authorizationConstraintTypes.addAll(Arrays.asList(annotation.value()));</span>
-<span class="nc" id="L30">    }</span>
+<span class="fc" id="L26">        authorizationConstraintTypes = EnumSet.noneOf(AuthorizationConstraints.Types.class);</span>
+<span class="fc" id="L27">        authorizationConstraintTypes.addAll(Arrays.asList(annotation.value()));</span>
+<span class="fc" id="L28">    }</span>
 
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
-        //equivalente di @Inject CurrentUser in forma programmatica
-<span class="nc" id="L35">        CurrentUser currentUser = CDI.current().select(CurrentUser.class, NamedLiteral.of(&quot;currentUser&quot;)).get();</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">        if(authorizationConstraintTypes.contains(ADMINS_ONLY)</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">                || authorizationConstraintTypes.contains(REQUIRE_AUTHENTICATION)){</span>
+<span class="fc" id="L32">        CurrentUser currentUser = (CurrentUser) req.getAttribute(&quot;currentUser&quot;);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if(authorizationConstraintTypes.contains(ADMINS_ONLY)</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">                || authorizationConstraintTypes.contains(REQUIRE_AUTHENTICATION)){</span>
             //controlla se l'utente è autenticato
-<span class="nc bnc" id="L39" title="All 2 branches missed.">            if(!currentUser.isLoggedIn()){</span>
-<span class="nc" id="L40">                throw new AuthenticationRequiredException();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if(!currentUser.isLoggedIn()){</span>
+<span class="fc" id="L37">                throw new AuthenticationRequiredException();</span>
             }
         }
 
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if(authorizationConstraintTypes.contains(ADMINS_ONLY)){</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">            if(!currentUser.isAdmin()){</span>
-<span class="nc" id="L46">                throw new AuthorizationException();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if(authorizationConstraintTypes.contains(ADMINS_ONLY)){</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            if(!currentUser.isAdmin()){</span>
+<span class="fc" id="L43">                throw new AuthorizationException();</span>
             }
         }
 
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        if(authorizationConstraintTypes.contains(DENY_BANNED_USERS)){</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">            if(currentUser.getBanDuration() != null){</span>
-<span class="nc" id="L52">                throw new BannedUserException();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if(authorizationConstraintTypes.contains(DENY_BANNED_USERS)){</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            if(currentUser.getBanDuration() != null){</span>
+<span class="fc" id="L49">                throw new BannedUserException();</span>
             }
         }
 
-<span class="nc" id="L56">        next.handle(req,resp);</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L53">        next.handle(req,resp);</span>
+<span class="fc" id="L54">    }</span>
 
     @Override
     public int priority() {
-<span class="nc" id="L61">        return super.priority();</span>
+<span class="nc" id="L58">        return super.priority();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

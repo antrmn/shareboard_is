@@ -17,7 +17,7 @@ import java.util.Set;
     @Override
     public void onStartup(Set&lt;Class&lt;?&gt;&gt; set, ServletContext servletContext) {
         //noinspection unchecked
-<span class="fc" id="L20">        set.stream().map(x -&gt; (Class&lt;? extends ServletInterceptor&lt;?&gt;&gt;) x).forEach(ServletInterceptorFactory::register);</span>
-<span class="fc" id="L21">    }</span>
+<span class="pc" id="L20">        set.stream().map(x -&gt; (Class&lt;? extends ServletInterceptor&lt;?&gt;&gt;) x).forEach(ServletInterceptorFactory::register);</span>
+<span class="nc" id="L21">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

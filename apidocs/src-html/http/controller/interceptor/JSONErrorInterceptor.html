@@ -75,22 +75,23 @@
 <span class="sourceLineNo">066</span><a id="line.66">        PrintWriter writer = resp.getWriter();</a>
 <span class="sourceLineNo">067</span><a id="line.67">        writer.print(errors.toString());</a>
 <span class="sourceLineNo">068</span><a id="line.68">        writer.flush();</a>
-<span class="sourceLineNo">069</span><a id="line.69">    }</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">    private void sendJSONError(HttpServletResponse resp, int code, String message) throws IOException {</a>
-<span class="sourceLineNo">072</span><a id="line.72">        List&lt;String&gt; singleton = message == null ? Collections.emptyList() : List.of(message);</a>
-<span class="sourceLineNo">073</span><a id="line.73">        sendJSONError(resp, code, singleton);</a>
-<span class="sourceLineNo">074</span><a id="line.74">    }</a>
-<span class="sourceLineNo">075</span><a id="line.75"></a>
-<span class="sourceLineNo">076</span><a id="line.76">    private void sendJSONError(HttpServletResponse resp, int code) throws IOException{</a>
-<span class="sourceLineNo">077</span><a id="line.77">        sendJSONError(resp,code,Collections.emptyList());</a>
-<span class="sourceLineNo">078</span><a id="line.78">    }</a>
-<span class="sourceLineNo">079</span><a id="line.79"></a>
-<span class="sourceLineNo">080</span><a id="line.80">    @Override</a>
-<span class="sourceLineNo">081</span><a id="line.81">    public int priority() {</a>
-<span class="sourceLineNo">082</span><a id="line.82">        return 2;</a>
-<span class="sourceLineNo">083</span><a id="line.83">    }</a>
-<span class="sourceLineNo">084</span><a id="line.84">}</a>
+<span class="sourceLineNo">069</span><a id="line.69"></a>
+<span class="sourceLineNo">070</span><a id="line.70">    }</a>
+<span class="sourceLineNo">071</span><a id="line.71"></a>
+<span class="sourceLineNo">072</span><a id="line.72">    private void sendJSONError(HttpServletResponse resp, int code, String message) throws IOException {</a>
+<span class="sourceLineNo">073</span><a id="line.73">        List&lt;String&gt; singleton = message == null ? Collections.emptyList() : List.of(message);</a>
+<span class="sourceLineNo">074</span><a id="line.74">        sendJSONError(resp, code, singleton);</a>
+<span class="sourceLineNo">075</span><a id="line.75">    }</a>
+<span class="sourceLineNo">076</span><a id="line.76"></a>
+<span class="sourceLineNo">077</span><a id="line.77">    private void sendJSONError(HttpServletResponse resp, int code) throws IOException{</a>
+<span class="sourceLineNo">078</span><a id="line.78">        sendJSONError(resp,code,Collections.emptyList());</a>
+<span class="sourceLineNo">079</span><a id="line.79">    }</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">    @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">    public int priority() {</a>
+<span class="sourceLineNo">083</span><a id="line.83">        return 2;</a>
+<span class="sourceLineNo">084</span><a id="line.84">    }</a>
+<span class="sourceLineNo">085</span><a id="line.85">}</a>
 
 
 

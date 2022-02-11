@@ -28,36 +28,32 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
         try{
-<span class="nc" id="L31">            next.handle(req,resp);</span>
-<span class="nc" id="L32">        } catch (IllegalArgumentException e) {</span>
-<span class="nc" id="L33">            forwardErrorPage(req, resp, SC_BAD_REQUEST, e.getMessage());</span>
-<span class="nc" id="L34">        } catch (ConstraintViolationException e) {</span>
-<span class="nc" id="L35">            List&lt;String&gt; collect = e.getConstraintViolations().stream()</span>
-<span class="nc" id="L36">                    .map(ConstraintViolation::getMessage)</span>
-<span class="nc" id="L37">                    .collect(Collectors.toList());</span>
-<span class="nc" id="L38">            forwardErrorPage(req,resp,SC_BAD_REQUEST,collect);</span>
-<span class="nc" id="L39">        }</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L31">            next.handle(req,resp);</span>
+<span class="fc" id="L32">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L33">            forwardErrorPage(req, resp, SC_BAD_REQUEST, e.getMessage());</span>
+<span class="fc" id="L34">        } catch (ConstraintViolationException e) {</span>
+<span class="fc" id="L35">            List&lt;String&gt; collect = e.getConstraintViolations().stream()</span>
+<span class="fc" id="L36">                    .map(ConstraintViolation::getMessage)</span>
+<span class="fc" id="L37">                    .collect(Collectors.toList());</span>
+<span class="fc" id="L38">            forwardErrorPage(req,resp,SC_BAD_REQUEST,collect);</span>
+<span class="fc" id="L39">        }</span>
+<span class="fc" id="L40">    }</span>
 
     private void forwardErrorPage(HttpServletRequest req, HttpServletResponse resp,
                                   int code, Collection&lt;String&gt; messages) throws ServletException, IOException {
-<span class="nc" id="L44">        req.setAttribute(&quot;errors&quot;, messages);</span>
-<span class="nc" id="L45">        resp.setStatus(code);</span>
-<span class="nc" id="L46">        req.getRequestDispatcher(page).forward(req, resp);</span>
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L44">        req.setAttribute(&quot;errors&quot;, messages);</span>
+<span class="fc" id="L45">        resp.setStatus(code);</span>
+<span class="fc" id="L46">        req.getRequestDispatcher(page).forward(req, resp);</span>
+<span class="fc" id="L47">    }</span>
 
     private void forwardErrorPage(HttpServletRequest req, HttpServletResponse resp, int code, String message) throws IOException, ServletException {
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        List&lt;String&gt; singleton = message == null ? Collections.emptyList() : List.of(message);</span>
-<span class="nc" id="L51">        forwardErrorPage(req, resp, code, singleton);</span>
-<span class="nc" id="L52">    }</span>
-
-    private void forwardErrorPage(HttpServletRequest req, HttpServletResponse resp, int code) throws IOException, ServletException {
-<span class="nc" id="L55">        forwardErrorPage(req, resp,code,Collections.emptyList());</span>
-<span class="nc" id="L56">    }</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        List&lt;String&gt; singleton = message == null ? Collections.emptyList() : List.of(message);</span>
+<span class="fc" id="L51">        forwardErrorPage(req, resp, code, singleton);</span>
+<span class="fc" id="L52">    }</span>
 
     @Override
     public int priority() {
-<span class="nc" id="L60">        return 1;</span>
+<span class="nc" id="L56">        return 1;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
