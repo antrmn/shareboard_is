@@ -23,8 +23,8 @@ import javax.validation.ValidationException;
         boolean check;
         try{
 <span class="fc bfc" id="L25" title="All 2 branches covered.">            check = userRepository.getByEmail(email) == null;</span>
-<span class="nc" id="L26">        }catch (NoResultException e){</span>
-<span class="nc" id="L27">            check = true;</span>
+<span class="fc" id="L26">        }catch (NoResultException e){</span>
+<span class="fc" id="L27">            check = true;</span>
 <span class="fc" id="L28">        }</span>
 <span class="fc" id="L29">        return check;</span>
     }

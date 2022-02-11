@@ -105,10 +105,10 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
 <span class="nc" id="L105">            finder.joinUserFollows(genericRepository.findById(User.class,currentUser.getId()));</span>
         }
 <span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if(form.getPostedAfter() != null){</span>
-<span class="nc" id="L108">            finder.postedAfter(form.getPostedAfter());</span>
+<span class="fc" id="L108">            finder.postedAfter(form.getPostedAfter());</span>
         }
 <span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if(form.getPostedBefore() != null){</span>
-<span class="nc" id="L111">            finder.postedBefore(form.getPostedBefore());</span>
+<span class="fc" id="L111">            finder.postedBefore(form.getPostedBefore());</span>
         }
 
         //null-safe switch

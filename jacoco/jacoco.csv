@@ -1,6 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 shareboard_is,service.validation,UniqueUsernameValidator,3,16,0,2,2,5,0,4,0,3
-shareboard_is,service.validation,UniqueEmailValidator,3,16,0,2,2,5,0,4,0,3
+shareboard_is,service.validation,UniqueEmailValidator,0,19,0,2,0,7,0,4,0,3
 shareboard_is,service.validation,CommentExistsValidator,0,14,0,2,0,3,0,4,0,3
 shareboard_is,service.validation,BanExistsValidator,1,13,1,1,0,3,1,3,0,3
 shareboard_is,service.validation,PostExistsValidator,0,14,0,2,0,3,0,4,0,3
@@ -18,7 +18,7 @@ shareboard_is,http.controller.interceptor,ForwardOnErrorInterceptor,2,68,0,2,1,2
 shareboard_is,persistence.repo,CommentRepository,0,33,0,0,0,9,0,3,0,3
 shareboard_is,persistence.repo,PostRepository,0,8,0,0,0,2,0,2,0,2
 shareboard_is,persistence.repo,PostRepository.SortCriteria,0,34,0,0,0,1,0,1,0,1
-shareboard_is,persistence.repo,BinaryContentRepository,17,68,1,3,3,14,2,6,1,5
+shareboard_is,persistence.repo,BinaryContentRepository,3,82,1,3,2,15,1,7,0,6
 shareboard_is,persistence.repo,PostRepository.PostFinder,0,306,3,20,0,68,3,25,0,16
 shareboard_is,persistence.repo,GenericRepository,0,84,0,2,0,17,0,9,0,8
 shareboard_is,persistence.repo,SectionRepository,0,45,0,2,0,7,0,6,0,5
@@ -32,7 +32,7 @@ shareboard_is,service,CommentService,72,175,5,5,6,34,7,7,2,7
 shareboard_is,service,ImageService,30,0,6,0,9,0,5,0,2,0
 shareboard_is,service,UserService,6,238,3,7,2,44,3,12,0,10
 shareboard_is,service,SectionService,70,136,4,2,7,31,8,7,5,7
-shareboard_is,service,PostService,112,297,23,20,20,70,23,8,1,8
+shareboard_is,service,PostService,102,307,23,20,18,72,23,8,1,8
 shareboard_is,service,FollowService,0,60,1,1,0,10,1,3,0,3
 shareboard_is,service,VoteService,0,145,2,2,0,31,2,9,0,9
 shareboard_is,http.controller,HomeServlet,0,15,0,0,0,5,0,3,0,3
