@@ -17,22 +17,22 @@ import java.time.Instant;
 
 @SessionScoped
 @Transactional
-<span class="nc" id="L20">public class AuthenticationService implements Serializable {</span>
+<span class="fc" id="L20">public class AuthenticationService implements Serializable {</span>
     @Inject UserRepository userRepository;
     @Inject GenericRepository genericRepository;
     @Inject Pbkdf2PasswordHashImpl passwordHash;
 
-<span class="nc" id="L25">    private int currentUserId = 0;</span>
+<span class="fc" id="L25">    private int currentUserId = 0;</span>
 
     public boolean authenticate(String username, String password){
-<span class="nc" id="L28">        User user = userRepository.getByName(username);</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        if(user == null)</span>
-<span class="nc" id="L30">            return false;</span>
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (passwordHash.verify(password, user.getPassword(), user.getSalt())){</span>
-<span class="nc" id="L32">            currentUserId = user.getId();</span>
-<span class="nc" id="L33">            return true;</span>
+<span class="fc" id="L28">        User user = userRepository.getByName(username);</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if(user == null)</span>
+<span class="fc" id="L30">            return false;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (passwordHash.verify(password, user.getPassword(), user.getSalt())){</span>
+<span class="fc" id="L32">            currentUserId = user.getId();</span>
+<span class="fc" id="L33">            return true;</span>
         } else {
-<span class="nc" id="L35">            return false;</span>
+<span class="fc" id="L35">            return false;</span>
         }
     }
 
@@ -40,26 +40,26 @@ import java.time.Instant;
     @RequestScoped
     @Produces
     public CurrentUser getCurrentUser(){
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(currentUserId &lt;= 0)</span>
-<span class="nc" id="L44">            return new CurrentUser();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(currentUserId &lt;= 0)</span>
+<span class="fc" id="L44">            return new CurrentUser();</span>
 
-<span class="nc" id="L46">        User user = genericRepository.findById(User.class,currentUserId);</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        if(user == null)</span>
-<span class="nc" id="L48">            return new CurrentUser();</span>
+<span class="fc" id="L46">        User user = genericRepository.findById(User.class,currentUserId);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if(user == null)</span>
+<span class="fc" id="L48">            return new CurrentUser();</span>
 
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        Instant longestCurrentBan = user.getBans().isEmpty() ? null : user.getBans().get(0).getEndTime();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        Instant longestCurrentBan = user.getBans().isEmpty() ? null : user.getBans().get(0).getEndTime();</span>
 
-<span class="nc" id="L52">        CurrentUser currentUser = CurrentUser.builder()</span>
-<span class="nc" id="L53">                .username(user.getUsername())</span>
-<span class="nc" id="L54">                .id(user.getId())</span>
-<span class="nc" id="L55">                .isAdmin(user.getAdmin())</span>
-<span class="nc" id="L56">                .picture(user.getPicture())</span>
-<span class="nc" id="L57">                .banDuration(longestCurrentBan)</span>
-<span class="nc" id="L58">                .isLoggedIn(true)</span>
-<span class="nc" id="L59">                .build();</span>
+<span class="fc" id="L52">        CurrentUser currentUser = CurrentUser.builder()</span>
+<span class="fc" id="L53">                .username(user.getUsername())</span>
+<span class="fc" id="L54">                .id(user.getId())</span>
+<span class="fc" id="L55">                .isAdmin(user.getAdmin())</span>
+<span class="fc" id="L56">                .picture(user.getPicture())</span>
+<span class="fc" id="L57">                .banDuration(longestCurrentBan)</span>
+<span class="fc" id="L58">                .isLoggedIn(true)</span>
+<span class="fc" id="L59">                .build();</span>
 
-<span class="nc" id="L61">        System.out.println(currentUser);</span>
-<span class="nc" id="L62">        return currentUser;</span>
+<span class="fc" id="L61">        System.out.println(currentUser);</span>
+<span class="fc" id="L62">        return currentUser;</span>
     }
 
 }
