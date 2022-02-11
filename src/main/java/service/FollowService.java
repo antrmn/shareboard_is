@@ -18,6 +18,11 @@ public class FollowService {
     @Inject private GenericRepository genericRepository;
     @Inject private CurrentUser currentUser;
 
+    /**
+     * Permette di seguire una sezione
+     * @param sectionId identificativo sezione
+     * @return entità follow inserita nel database
+     */
     @AuthenticationRequired
     public Follow follow(@SectionExistsById int sectionId){
         User user = genericRepository.findById(User.class, currentUser.getId());
@@ -25,6 +30,10 @@ public class FollowService {
         return genericRepository.insert(new Follow(user,section));
     }
 
+    /**
+     * Permette di togliere il follow ad una sezione
+     * @param sectionId identificativo sezione
+     */
     @AuthenticationRequired
     public void unFollow(@SectionExistsById int sectionId){
         User user = genericRepository.findById(User.class, currentUser.getId());

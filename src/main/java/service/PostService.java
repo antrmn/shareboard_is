@@ -62,6 +62,11 @@ public class PostService {
                 .build();
     }
 
+    /**
+     * Ritorna un entità DTO relativa ad un post
+     * @param id identificativo post
+     * @return DTO di un post
+     */
     public PostPage getPost(@PostExists int id){
         Post p = genericRepository.findById(Post.class,id);
         PostPage post = mapPost(p);
@@ -124,12 +129,21 @@ public class PostService {
         return finder.getResults().stream().map(this::mapPost).collect(Collectors.toList());
     }
 
+    /**
+     * Elimina un post dato il suo id
+     * @param id identificativo del post
+     */
     @AuthenticationRequired //TODO: check autore post?
     @DenyBannedUsers
     public void delete(@PostExists int id){
         genericRepository.remove(genericRepository.findById(User.class,id));
     }
 
+    /**
+     * Permette la modifica di un post
+     * @param edit oggetto DTO con i dati modificati del post
+     * @param id identificativo del post
+     */
     @AuthenticationRequired
     @DenyBannedUsers
     public void editPost(PostEditDTO edit, @PostExists int id){
@@ -139,6 +153,12 @@ public class PostService {
         post.setType(edit.getType());
     }
 
+    /**
+     * Permette di modificare un post, compresa l'immagine
+     * @param edit oggetto DTO con i dati modificati del post
+     * @param id identificativo del post
+     * @param content stream relativo all'immagine
+     */
     @AuthenticationRequired
     public void editPost(PostEditDTO edit,
                          @PostExists int id,
@@ -155,7 +175,13 @@ public class PostService {
         post.setType(edit.getType());
     }
 
-
+    /**
+     * Aggiunge un post ad una sezione
+     * @param title titolo della sezione
+     * @param body testo del post
+     * @param sectionName nome della sezione
+     * @return identificativo del nuovo post creato
+     */
     @AuthenticationRequired
     @DenyBannedUsers
     public int newPost(@NotBlank(message="{post.title.blank}") String title,

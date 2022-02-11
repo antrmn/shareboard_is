@@ -19,8 +19,15 @@ import java.util.List;
 @ApplicationScoped
 @Transactional
 public class BanService {
+
     @Inject private GenericRepository genericRepository;
 
+    /**
+     * Aggiunge un ban dato l'id di un utente.
+     * @param date data di fine ban
+     * @param userId identificativo utente
+     * @return entità ban aggiunta
+     */
     @AdminsOnly
     public Ban addBan(@Future Instant date, @UserExists int userId) {
         Ban ban = new Ban();
@@ -31,11 +38,20 @@ public class BanService {
         return genericRepository.insert(ban);
     }
 
+    /**
+     * Rimuove un ban dato il suo id
+     * @param banId identificativo del ban
+     */
     @AdminsOnly
     public void removeBan(@BanExists int banId){
         genericRepository.remove(genericRepository.findById(Ban.class, banId));
     }
 
+    /**
+     * Ritorna la lista dei ban di un utente
+     * @param userId identificativo utente
+     * @return lista dei ban relativi all'utente
+     */
     @AdminsOnly
     public List<BanDTO> retrieveUserBan(@UserExists int userId){
         User user = genericRepository.findById(User.class, userId);

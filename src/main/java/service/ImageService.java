@@ -14,6 +14,12 @@ import java.net.URLConnection;
 public class ImageService {
     @Inject private BinaryContentRepository binaryContentRepository;
 
+    /**
+     * Ritorna l'input stream di un immagine
+     * @param filename nome dell'immagine
+     * @return input stream dell'immagine
+     * @throws IOException
+     */
     public InputStream getImage(@NotBlank String filename) throws IOException {
         InputStream inputStream = binaryContentRepository.get(filename);
         if(inputStream == null)
