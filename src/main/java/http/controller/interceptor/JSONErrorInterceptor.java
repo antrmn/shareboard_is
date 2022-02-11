@@ -66,6 +66,7 @@ public class JSONErrorInterceptor extends ServletInterceptor<JSONError> {
         PrintWriter writer = resp.getWriter();
         writer.print(errors.toString());
         writer.flush();
+
     }
 
     private void sendJSONError(HttpServletResponse resp, int code, String message) throws IOException {

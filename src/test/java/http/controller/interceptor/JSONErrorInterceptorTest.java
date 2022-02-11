@@ -35,7 +35,7 @@ import static org.mockito.quality.Strictness.LENIENT;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = LENIENT)
-class JSONErrorInterceptorTest {
+class JSONErrorInterceptorTest{
 
     @Mock HttpServletRequest req;
     @Mock HttpServletResponse resp;
