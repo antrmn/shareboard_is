@@ -51,10 +51,6 @@ public class ForwardOnErrorInterceptor extends ServletInterceptor<ForwardOnError
         forwardErrorPage(req, resp, code, singleton);
     }
 
-    private void forwardErrorPage(HttpServletRequest req, HttpServletResponse resp, int code) throws IOException, ServletException {
-        forwardErrorPage(req, resp,code,Collections.emptyList());
-    }
-
     @Override
     public int priority() {
         return 1;

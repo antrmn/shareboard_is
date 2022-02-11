@@ -7,8 +7,6 @@ import service.auth.AuthorizationException;
 import service.auth.BannedUserException;
 import service.dto.CurrentUser;
 
-import javax.enterprise.inject.literal.NamedLiteral;
-import javax.enterprise.inject.spi.CDI;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,8 +29,7 @@ public class AuthorizationConstraintsInterceptor extends ServletInterceptor<Auth
 
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, HttpServletBiConsumer next) throws ServletException, IOException {
-        //equivalente di @Inject CurrentUser in forma programmatica
-        CurrentUser currentUser = CDI.current().select(CurrentUser.class, NamedLiteral.of("currentUser")).get();
+        CurrentUser currentUser = (CurrentUser) req.getAttribute("currentUser");
         if(authorizationConstraintTypes.contains(ADMINS_ONLY)
                 || authorizationConstraintTypes.contains(REQUIRE_AUTHENTICATION)){
             //controlla se l'utente è autenticato
