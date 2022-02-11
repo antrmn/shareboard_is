@@ -9,28 +9,31 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> util;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.time.Instant;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> java.time.temporal.ChronoUnit;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a name="DateUtils" href="../util/DateUtils.html#DateUtils">DateUtils</a> {
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>       <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String printTimeSince(Instant then){
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>           <strong class="jxr_keyword">long</strong> n;
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>           <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.SECONDS))) &lt; 60){
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" secondo"</span> : n + <span class="jxr_string">" secondi"</span>;
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.MINUTES))) &lt; 60){
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" minuto"</span> : n + <span class="jxr_string">" minuti"</span>;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.HOURS))) &lt; 24){
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" ora"</span> : n + <span class="jxr_string">" ore"</span>;
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 30) {
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" giorno"</span> : n + <span class="jxr_string">" giorni"</span>;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 365) {
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>              n /= 30;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" mese"</span> : n + <span class="jxr_string">" mesi"</span>;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>          } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>              n = Math.abs(Instant.now().until(then, ChronoUnit.YEARS));
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" anno"</span> : n + <span class="jxr_string">" anni"</span>;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>          }
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>      }
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  }
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> java.time.LocalDate;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> java.time.ZoneId;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.time.temporal.ChronoUnit;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a name="DateUtils" href="../util/DateUtils.html#DateUtils">DateUtils</a> {
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>       <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String printTimeSince(Instant then){
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>          <strong class="jxr_keyword">long</strong> n;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>          <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.SECONDS))) &lt; 60){
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" secondo"</span> : n + <span class="jxr_string">" secondi"</span>;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.MINUTES))) &lt; 60){
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" minuto"</span> : n + <span class="jxr_string">" minuti"</span>;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.HOURS))) &lt; 24){
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" ora"</span> : n + <span class="jxr_string">" ore"</span>;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 30) {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" giorno"</span> : n + <span class="jxr_string">" giorni"</span>;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 365) {
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>              n /= 30;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" mese"</span> : n + <span class="jxr_string">" mesi"</span>;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>              <strong class="jxr_keyword">int</strong> thenYear = then.atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>              n = Math.abs(thenYear - LocalDate.now().getYear());
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>              <strong class="jxr_keyword">return</strong> n == 1 ? n + <span class="jxr_string">" anno"</span> : n + <span class="jxr_string">" anni"</span>;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          }
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      }
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

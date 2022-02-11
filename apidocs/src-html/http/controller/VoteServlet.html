@@ -37,17 +37,17 @@
 <span class="sourceLineNo">028</span><a id="line.28">        String vote = request.getParameter("vote");</a>
 <span class="sourceLineNo">029</span><a id="line.29">        String type = request.getParameter("type");</a>
 <span class="sourceLineNo">030</span><a id="line.30"></a>
-<span class="sourceLineNo">031</span><a id="line.31">        if(type!=null &amp;&amp; type.equalsIgnoreCase("post") &amp;&amp; !vote.isEmpty()){</a>
-<span class="sourceLineNo">032</span><a id="line.32">            if(vote.equalsIgnoreCase("upvote"))</a>
+<span class="sourceLineNo">031</span><a id="line.31">        if("post".equalsIgnoreCase(type)){</a>
+<span class="sourceLineNo">032</span><a id="line.32">            if("upvote".equalsIgnoreCase(vote))</a>
 <span class="sourceLineNo">033</span><a id="line.33">                service.upvotePost(id);</a>
-<span class="sourceLineNo">034</span><a id="line.34">            else if(vote.equalsIgnoreCase("downvote"))</a>
+<span class="sourceLineNo">034</span><a id="line.34">            else if("downvote".equalsIgnoreCase(vote))</a>
 <span class="sourceLineNo">035</span><a id="line.35">                service.downvotePost(id);</a>
 <span class="sourceLineNo">036</span><a id="line.36">            else</a>
 <span class="sourceLineNo">037</span><a id="line.37">                throw new IllegalArgumentException();</a>
-<span class="sourceLineNo">038</span><a id="line.38">        }else if(type!=null &amp;&amp; type.equalsIgnoreCase("comment") &amp;&amp; !vote.isEmpty()){</a>
-<span class="sourceLineNo">039</span><a id="line.39">            if(vote.equalsIgnoreCase("upvote"))</a>
+<span class="sourceLineNo">038</span><a id="line.38">        }else if("comment".equalsIgnoreCase(type)){</a>
+<span class="sourceLineNo">039</span><a id="line.39">            if("upvote".equalsIgnoreCase(vote))</a>
 <span class="sourceLineNo">040</span><a id="line.40">                service.upvoteComment(id);</a>
-<span class="sourceLineNo">041</span><a id="line.41">            else if(vote.equalsIgnoreCase("downvote"))</a>
+<span class="sourceLineNo">041</span><a id="line.41">            else if("downvote".equalsIgnoreCase(vote))</a>
 <span class="sourceLineNo">042</span><a id="line.42">                service.downvoteComment(id);</a>
 <span class="sourceLineNo">043</span><a id="line.43">            else</a>
 <span class="sourceLineNo">044</span><a id="line.44">                throw new IllegalArgumentException();</a>

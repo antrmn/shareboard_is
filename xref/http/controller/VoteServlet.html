@@ -36,17 +36,17 @@
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>          String vote = request.getParameter(<span class="jxr_string">"vote"</span>);
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>          String type = request.getParameter(<span class="jxr_string">"type"</span>);
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>          <strong class="jxr_keyword">if</strong>(type!=<strong class="jxr_keyword">null</strong> &amp;&amp; type.equalsIgnoreCase(<span class="jxr_string">"post"</span>) &amp;&amp; !vote.isEmpty()){
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>              <strong class="jxr_keyword">if</strong>(vote.equalsIgnoreCase(<span class="jxr_string">"upvote"</span>))
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"post"</span>.equalsIgnoreCase(type)){
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>              <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"upvote"</span>.equalsIgnoreCase(vote))
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>                  service.upvotePost(id);
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>              <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(vote.equalsIgnoreCase(<span class="jxr_string">"downvote"</span>))
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>              <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"downvote"</span>.equalsIgnoreCase(vote))
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>                  service.downvotePost(id);
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>              <strong class="jxr_keyword">else</strong>
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>                  <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>          }<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(type!=<strong class="jxr_keyword">null</strong> &amp;&amp; type.equalsIgnoreCase(<span class="jxr_string">"comment"</span>) &amp;&amp; !vote.isEmpty()){
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>              <strong class="jxr_keyword">if</strong>(vote.equalsIgnoreCase(<span class="jxr_string">"upvote"</span>))
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>          }<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"comment"</span>.equalsIgnoreCase(type)){
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>              <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"upvote"</span>.equalsIgnoreCase(vote))
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>                  service.upvoteComment(id);
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>              <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(vote.equalsIgnoreCase(<span class="jxr_string">"downvote"</span>))
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>              <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"downvote"</span>.equalsIgnoreCase(vote))
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>                  service.downvoteComment(id);
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>              <strong class="jxr_keyword">else</strong>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>                  <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();

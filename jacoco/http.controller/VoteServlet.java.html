@@ -28,22 +28,22 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 <span class="fc" id="L28">        String vote = request.getParameter(&quot;vote&quot;);</span>
 <span class="fc" id="L29">        String type = request.getParameter(&quot;type&quot;);</span>
 
-<span class="pc bpc" id="L31" title="2 of 6 branches missed.">        if(type!=null &amp;&amp; type.equalsIgnoreCase(&quot;post&quot;) &amp;&amp; !vote.isEmpty()){</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">            if(vote.equalsIgnoreCase(&quot;upvote&quot;))</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if(&quot;post&quot;.equalsIgnoreCase(type)){</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if(&quot;upvote&quot;.equalsIgnoreCase(vote))</span>
 <span class="fc" id="L33">                service.upvotePost(id);</span>
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">            else if(vote.equalsIgnoreCase(&quot;downvote&quot;))</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            else if(&quot;downvote&quot;.equalsIgnoreCase(vote))</span>
 <span class="fc" id="L35">                service.downvotePost(id);</span>
             else
-<span class="nc" id="L37">                throw new IllegalArgumentException();</span>
-<span class="pc bpc" id="L38" title="3 of 6 branches missed.">        }else if(type!=null &amp;&amp; type.equalsIgnoreCase(&quot;comment&quot;) &amp;&amp; !vote.isEmpty()){</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">            if(vote.equalsIgnoreCase(&quot;upvote&quot;))</span>
+<span class="fc" id="L37">                throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        }else if(&quot;comment&quot;.equalsIgnoreCase(type)){</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            if(&quot;upvote&quot;.equalsIgnoreCase(vote))</span>
 <span class="fc" id="L40">                service.upvoteComment(id);</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            else if(vote.equalsIgnoreCase(&quot;downvote&quot;))</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            else if(&quot;downvote&quot;.equalsIgnoreCase(vote))</span>
 <span class="fc" id="L42">                service.downvoteComment(id);</span>
             else
-<span class="nc" id="L44">                throw new IllegalArgumentException();</span>
+<span class="fc" id="L44">                throw new IllegalArgumentException();</span>
         }else{
-<span class="nc" id="L46">            throw new IllegalArgumentException();</span>
+<span class="fc" id="L46">            throw new IllegalArgumentException();</span>
         }
 <span class="fc" id="L48">    }</span>
 
