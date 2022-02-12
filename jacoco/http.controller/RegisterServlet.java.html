@@ -29,9 +29,9 @@ import java.util.Objects;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
-<span class="nc" id="L33">            resp.sendRedirect(req.getContextPath());</span>
-<span class="nc" id="L34">            return;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
+<span class="fc" id="L33">            resp.sendRedirect(req.getContextPath());</span>
+<span class="fc" id="L34">            return;</span>
         }
 <span class="fc" id="L36">        req.getRequestDispatcher(REGISTER_PAGE).forward(req, resp);</span>
 <span class="fc" id="L37">    }</span>
@@ -40,21 +40,21 @@ import java.util.Objects;
     @Override
     @ForwardOnError(REGISTER_PAGE)
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
-<span class="nc" id="L44">            resp.sendRedirect(req.getContextPath());</span>
-<span class="nc" id="L45">            return;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
+<span class="fc" id="L44">            resp.sendRedirect(req.getContextPath());</span>
+<span class="fc" id="L45">            return;</span>
         }
 <span class="fc" id="L47">        String email = req.getParameter(&quot;mail&quot;);</span>
 <span class="fc" id="L48">        String username = req.getParameter(&quot;username&quot;);</span>
 <span class="fc" id="L49">        String password = req.getParameter(&quot;pass&quot;);</span>
 <span class="fc" id="L50">        String confirmPassword = req.getParameter(&quot;pass2&quot;);</span>
 
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if(!Objects.equals(password, confirmPassword)){</span>
-<span class="nc" id="L53">            ArrayList&lt;String&gt; errors = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L54">            errors.add(&quot;Le password devono coincidere&quot;);</span>
-<span class="nc" id="L55">            req.setAttribute(&quot;errors&quot;,errors);</span>
-<span class="nc" id="L56">            req.getRequestDispatcher(&quot;/WEB-INF/views/register.jsp&quot;).forward(req, resp);</span>
-<span class="nc" id="L57">        }else {</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if(!Objects.equals(password, confirmPassword)){</span>
+<span class="fc" id="L53">            ArrayList&lt;String&gt; errors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L54">            errors.add(&quot;Le password devono coincidere&quot;);</span>
+<span class="fc" id="L55">            req.setAttribute(&quot;errors&quot;,errors);</span>
+<span class="fc" id="L56">            req.getRequestDispatcher(&quot;/WEB-INF/views/register.jsp&quot;).forward(req, resp);</span>
+<span class="fc" id="L57">        }else {</span>
 <span class="fc" id="L58">            userService.newUser(email, username, password);</span>
 <span class="fc" id="L59">            authenticationService.authenticate(username,password);</span>
 <span class="fc" id="L60">            resp.sendRedirect(req.getContextPath());</span>

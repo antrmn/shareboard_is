@@ -26,7 +26,7 @@ import static service.dto.PostSearchForm.SortCriteria.*;
     @Inject private PostService postService;
 
 <span class="fc" id="L28">    private static final Function&lt;LocalDate, Instant&gt; LOCALDATE_TO_INSTANT =</span>
-<span class="nc" id="L29">            x -&gt; x.atStartOfDay().toInstant(ZoneOffset.UTC);</span>
+<span class="fc" id="L29">            x -&gt; x.atStartOfDay().toInstant(ZoneOffset.UTC);</span>
 
 <span class="fc" id="L31">    private static final Map&lt;String, PostSearchForm.SortCriteria&gt; SORT_CRITERIA = Map.of(</span>
             &quot;oldest&quot;, OLDEST,
@@ -45,8 +45,8 @@ import static service.dto.PostSearchForm.SortCriteria.*;
 <span class="fc" id="L45">                .map(LOCALDATE_TO_INSTANT).orElse(null);</span>
 <span class="fc" id="L46">        PostSearchForm.SortCriteria orderBy = SORT_CRITERIA.get(req.getParameter(&quot;orderby&quot;));</span>
 <span class="fc" id="L47">        int page = converter.getIntParameter(&quot;page&quot;).orElse(1);</span>
-<span class="pc bpc" id="L48" title="3 of 4 branches missed.">        boolean onlyFollow = req.getParameter(&quot;onlyfollow&quot;) != null &amp;&amp; req.getParameter(&quot;onlyfollow&quot;).equals(&quot;on&quot;);</span>
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        boolean includeBody = req.getParameter(&quot;includeBody&quot;) != null;</span>
+<span class="fc" id="L48">        boolean onlyFollow = &quot;on&quot;.equals(req.getParameter(&quot;onlyfollow&quot;));</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        boolean includeBody = req.getParameter(&quot;includeBody&quot;) != null;</span>
 
 <span class="fc" id="L51">        PostSearchForm postSearchForm = PostSearchForm.builder()</span>
 <span class="fc" id="L52">                .content(content)</span>
