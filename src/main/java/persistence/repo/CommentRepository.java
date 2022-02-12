@@ -8,15 +8,7 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
- * @param <T> La classe delle entità di persistenza gestite da classi che implementano questa interfaccia
- * @param <ID> La classe della chiave primaria delle entità di persistenza gestite da classi che implementano questa
- *            interfaccia
- * @see javax.persistence.EntityManager
- */
+
 public class CommentRepository implements Serializable {
 
     @PersistenceContext

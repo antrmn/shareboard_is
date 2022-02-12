@@ -10,12 +10,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
- * @see javax.persistence.EntityManager
- */
+
 public class SectionRepository implements Serializable {
 
     @PersistenceContext
