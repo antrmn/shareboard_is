@@ -41,16 +41,16 @@ import java.util.stream.Collectors;
      */
     private SectionPage map(Section section){
 <span class="fc" id="L43">        User user = null;</span>
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
-<span class="nc" id="L45">            user = genericRepository.findById(User.class,currentUser.getId());</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
+<span class="fc" id="L45">            user = genericRepository.findById(User.class,currentUser.getId());</span>
         }
 <span class="fc" id="L47">        return SectionPage.builder().id(section.getId())</span>
 <span class="fc" id="L48">                .name(section.getName())</span>
 <span class="fc" id="L49">                .picture(section.getPicture())</span>
 <span class="fc" id="L50">                .description(section.getDescription())</span>
 <span class="fc" id="L51">                .banner(section.getBanner())</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">                .nFollowers(section.getFollowCount())</span>
-<span class="pc bnc" id="L53" title="All 2 branches missed.">                .isFollowed(user != null &amp;&amp; section.getFollow(user) != null).build();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">                .nFollowers(section.getFollowCount())</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                .isFollowed(user != null &amp;&amp; section.getFollow(user) != null).build();</span>
     }
 
     /**
@@ -155,7 +155,7 @@ import java.util.stream.Collectors;
     @RequestScoped
     @Named(&quot;topSections&quot;)
     public List&lt;SectionPage&gt; getTopSections(){
-<span class="nc" id="L158">        return sectionRepo.getMostFollowedSections().stream().map(this::map).collect(Collectors.toList());</span>
+<span class="fc" id="L158">        return sectionRepo.getMostFollowedSections().stream().map(this::map).collect(Collectors.toList());</span>
     }
 
     /**
@@ -166,8 +166,8 @@ import java.util.stream.Collectors;
     @RequestScoped
     @Named(&quot;trendingSections&quot;)
     public List&lt;SectionPage&gt; getTrendingSections(){
-<span class="nc" id="L169">        return sectionRepo.getMostFollowedSections(Instant.now().minus(7, ChronoUnit.DAYS))</span>
-<span class="nc" id="L170">                .stream().map(this::map).collect(Collectors.toList());</span>
+<span class="fc" id="L169">        return sectionRepo.getMostFollowedSections(Instant.now().minus(7, ChronoUnit.DAYS))</span>
+<span class="fc" id="L170">                .stream().map(this::map).collect(Collectors.toList());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
