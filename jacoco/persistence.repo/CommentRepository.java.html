@@ -8,27 +8,48 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-<span class="fc" id="L11">public class CommentRepository implements Serializable {</span>
+/**
+ * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
+ * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
+ * essenziali (CRUD) per una specifica entità di persistenza
+ * @param &lt;T&gt; La classe delle entità di persistenza gestite da classi che implementano questa interfaccia
+ * @param &lt;ID&gt; La classe della chiave primaria delle entità di persistenza gestite da classi che implementano questa
+ *            interfaccia
+ * @see javax.persistence.EntityManager
+ */
+<span class="fc" id="L20">public class CommentRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
 
+    /**
+     *  Trova tutti i commenti di un determinato post
+     * @param post entità Post di cui si vuole ottenere i commenti
+     * @param depth profondità della ricorsione per le risposte ai post
+     * @return Lista di commenti
+     */
     public List&lt;Comment&gt; getByPost(Post post, int depth){
-<span class="fc" id="L17">        return em.createQuery(</span>
+<span class="fc" id="L32">        return em.createQuery(</span>
                         &quot;from Comment c where c.post = :post and length(c.path) &lt;= (7 * :depth) + 1 order by c.path&quot;,
                         Comment.class)
-<span class="fc" id="L20">                .setParameter(&quot;depth&quot;, depth)</span>
-<span class="fc" id="L21">                .setParameter(&quot;post&quot;, post)</span>
-<span class="fc" id="L22">                .getResultList();</span>
+<span class="fc" id="L35">                .setParameter(&quot;depth&quot;, depth)</span>
+<span class="fc" id="L36">                .setParameter(&quot;post&quot;, post)</span>
+<span class="fc" id="L37">                .getResultList();</span>
     }
 
+    /**
+     *  Trova tutti i commenti di riposta a un determinato commento
+     * @param comment Entità Comment di cui si vuole ottenere i commenti
+     * @param depth profondità della ricorsione per le risposte ai post
+     * @return Lista di commenti
+     */
     public List&lt;Comment&gt; getReplies(Comment comment, int depth){
-<span class="fc" id="L26">        return em.createQuery(</span>
+<span class="fc" id="L47">        return em.createQuery(</span>
                     &quot;from Comment c where c.path like :path and length(c.path) &lt;= (7 * :depth) + 1 order by c.path&quot;,
                     Comment.class)
-<span class="fc" id="L29">                .setParameter(&quot;depth&quot;, depth)</span>
-<span class="fc" id="L30">                .setParameter(&quot;path&quot;, comment.getPath() + '%')</span>
-<span class="fc" id="L31">                .getResultList();</span>
+<span class="fc" id="L50">                .setParameter(&quot;depth&quot;, depth)</span>
+<span class="fc" id="L51">                .setParameter(&quot;path&quot;, comment.getPath() + '%')</span>
+<span class="fc" id="L52">                .getResultList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

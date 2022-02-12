@@ -10,35 +10,67 @@ public class BinaryContentRepository implements Serializable{
 
 <span class="fc" id="L11">    private Path uploadRoot = Path.of(System.getProperty(&quot;openejb.home&quot;), &quot;uploads&quot;);</span>
 
-<span class="fc" id="L13">    public BinaryContentRepository(){}</span>
+    /**
+     *  Costruttore vuoto
+     * @return nuova istanza di BinaryContentRepository
+     */
+<span class="fc" id="L17">    public BinaryContentRepository(){}</span>
 
-<span class="fc" id="L15">    public BinaryContentRepository(Path uploadRoot){</span>
-<span class="fc" id="L16">        this.uploadRoot = uploadRoot;</span>
-<span class="fc" id="L17">    }</span>
+    /**
+     *  Costruttore con parametro per settare uploadRoot
+     * @param uploadRoot oggetto Path per settare uploadRoot
+     * @return nuova istanza di BinaryContentRepository
+     */
+<span class="fc" id="L24">    public BinaryContentRepository(Path uploadRoot){</span>
+<span class="fc" id="L25">        this.uploadRoot = uploadRoot;</span>
+<span class="fc" id="L26">    }</span>
 
+    /**
+     *  Salva un file nel filesystem e ne restituisce il nome
+     * @param stream stream di dati
+     * @param filename nome del file da salvare
+     * @throws IOException
+     * @return nuova istanza di BinaryContentRepository
+     */
     public String insert(InputStream stream, String filename) throws IOException {
-<span class="fc" id="L20">        File file = new File(uploadRoot.toFile(), filename);</span>
-<span class="fc" id="L21">        Files.copy(stream, file.toPath());</span>
-<span class="fc" id="L22">        return filename;</span>
+<span class="fc" id="L36">        File file = new File(uploadRoot.toFile(), filename);</span>
+<span class="fc" id="L37">        Files.copy(stream, file.toPath());</span>
+<span class="fc" id="L38">        return filename;</span>
     }
 
+    /**
+     *  Salva un file nel filesystem e ne restituisce un nome univoco generato in maniera casuale
+     * @param stream stream di dati
+     * @throws IOException
+     * @return nuova istanza di BinaryContentRepository
+     */
     public String insert(InputStream stream) throws IOException {
-<span class="fc" id="L26">        return insert(stream, UUID.randomUUID().toString());</span>
+<span class="fc" id="L48">        return insert(stream, UUID.randomUUID().toString());</span>
     }
 
+    /**
+     *  Rimuove un file dal filesystem dato un nome se esiste
+     * @param filename nome del file
+     * @throws IOException
+     */
     public void remove(String filename) throws IOException {
-<span class="fc" id="L30">        boolean successful = Files.deleteIfExists(uploadRoot.resolve(filename));</span>
+<span class="fc" id="L57">        boolean successful = Files.deleteIfExists(uploadRoot.resolve(filename));</span>
         // if (!successful) { ???? }
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L59">    }</span>
 
+    /**
+     *  Restituisce un file dal filesystem dato un nome se esiste altrimenti restituisce null
+     * @param filename nome del file
+     * @return stream di dati del file o null
+     */
     public InputStream get(String filename){
-<span class="fc" id="L35">        File file = new File(uploadRoot.toFile(), filename);</span>
-<span class="pc bpc" id="L36" title="1 of 4 branches missed.">        if (!file.exists() || !file.isFile())</span>
-<span class="fc" id="L37">            return null;</span>
+<span class="fc" id="L67">        File file = new File(uploadRoot.toFile(), filename);</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">        if (!file.exists() || !file.isFile())</span>
+<span class="fc" id="L69">            return null;</span>
         try {
-<span class="fc" id="L39">            return new FileInputStream(file);</span>
-<span class="nc" id="L40">        } catch (FileNotFoundException e) {</span>
-<span class="nc" id="L41">            return null;</span>
+<span class="fc" id="L71">            return new FileInputStream(file);</span>
+<span class="nc" id="L72">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L73">            return null;</span>
         }
     }
 

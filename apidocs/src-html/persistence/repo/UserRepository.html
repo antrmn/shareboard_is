@@ -17,24 +17,46 @@
 <span class="sourceLineNo">008</span><a id="line.8">import javax.persistence.PersistenceContext;</a>
 <span class="sourceLineNo">009</span><a id="line.9">import java.io.Serializable;</a>
 <span class="sourceLineNo">010</span><a id="line.10"></a>
-<span class="sourceLineNo">011</span><a id="line.11">public class UserRepository implements Serializable {</a>
-<span class="sourceLineNo">012</span><a id="line.12"></a>
-<span class="sourceLineNo">013</span><a id="line.13">    @PersistenceContext</a>
-<span class="sourceLineNo">014</span><a id="line.14">    protected EntityManager em;</a>
-<span class="sourceLineNo">015</span><a id="line.15"></a>
-<span class="sourceLineNo">016</span><a id="line.16">    public User getByName(String name) {</a>
-<span class="sourceLineNo">017</span><a id="line.17">        return getByName(name, false);</a>
-<span class="sourceLineNo">018</span><a id="line.18">    }</a>
-<span class="sourceLineNo">019</span><a id="line.19"></a>
-<span class="sourceLineNo">020</span><a id="line.20">    public User getByName(String name, boolean getReference) {</a>
-<span class="sourceLineNo">021</span><a id="line.21">        SimpleNaturalIdLoadAccess&lt;User&gt; user = em.unwrap(Session.class).bySimpleNaturalId(User.class);</a>
-<span class="sourceLineNo">022</span><a id="line.22">        return getReference ? user.getReference(name) : user.load(name);</a>
-<span class="sourceLineNo">023</span><a id="line.23">    }</a>
-<span class="sourceLineNo">024</span><a id="line.24"></a>
-<span class="sourceLineNo">025</span><a id="line.25">    public User getByEmail(String email) {</a>
-<span class="sourceLineNo">026</span><a id="line.26">        return em.createQuery("from User u where u.email=:email", User.class).setParameter("email", email).getSingleResult();</a>
-<span class="sourceLineNo">027</span><a id="line.27">    }</a>
-<span class="sourceLineNo">028</span><a id="line.28">}</a>
+<span class="sourceLineNo">011</span><a id="line.11">/**</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * essenziali (CRUD) per una specifica entità di persistenza</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * @see javax.persistence.EntityManager</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">public class UserRepository implements Serializable {</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">    @PersistenceContext</a>
+<span class="sourceLineNo">020</span><a id="line.20">    protected EntityManager em;</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">    /**</a>
+<span class="sourceLineNo">023</span><a id="line.23">     * Restituisce i dati di un utente dato un nome</a>
+<span class="sourceLineNo">024</span><a id="line.24">     * @param name nome dell'utente</a>
+<span class="sourceLineNo">025</span><a id="line.25">     * @return entità User</a>
+<span class="sourceLineNo">026</span><a id="line.26">     */</a>
+<span class="sourceLineNo">027</span><a id="line.27">    public User getByName(String name) {</a>
+<span class="sourceLineNo">028</span><a id="line.28">        return getByName(name, false);</a>
+<span class="sourceLineNo">029</span><a id="line.29">    }</a>
+<span class="sourceLineNo">030</span><a id="line.30"></a>
+<span class="sourceLineNo">031</span><a id="line.31">    /**</a>
+<span class="sourceLineNo">032</span><a id="line.32">     * Restituisce i dati di un utente dato un nome</a>
+<span class="sourceLineNo">033</span><a id="line.33">     * @param name nome dell'utente</a>
+<span class="sourceLineNo">034</span><a id="line.34">     * @param getReference booleano per attivare lazy loading</a>
+<span class="sourceLineNo">035</span><a id="line.35">     * @return entità User</a>
+<span class="sourceLineNo">036</span><a id="line.36">     */</a>
+<span class="sourceLineNo">037</span><a id="line.37">    public User getByName(String name, boolean getReference) {</a>
+<span class="sourceLineNo">038</span><a id="line.38">        SimpleNaturalIdLoadAccess&lt;User&gt; user = em.unwrap(Session.class).bySimpleNaturalId(User.class);</a>
+<span class="sourceLineNo">039</span><a id="line.39">        return getReference ? user.getReference(name) : user.load(name);</a>
+<span class="sourceLineNo">040</span><a id="line.40">    }</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">    /**</a>
+<span class="sourceLineNo">043</span><a id="line.43">     * Restituisce i dati di un utente data un email</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * @param email email dell'utente</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * @return entità User</a>
+<span class="sourceLineNo">046</span><a id="line.46">     */</a>
+<span class="sourceLineNo">047</span><a id="line.47">    public User getByEmail(String email) {</a>
+<span class="sourceLineNo">048</span><a id="line.48">        return em.createQuery("from User u where u.email=:email", User.class).setParameter("email", email).getSingleResult();</a>
+<span class="sourceLineNo">049</span><a id="line.49">    }</a>
+<span class="sourceLineNo">050</span><a id="line.50">}</a>
 
 
 

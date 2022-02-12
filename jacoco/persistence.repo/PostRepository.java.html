@@ -14,160 +14,239 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-<span class="fc" id="L17">public class PostRepository implements Serializable {</span>
+/**
+ * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
+ * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
+ * essenziali (CRUD) per una specifica entità di persistenza
+ * @see javax.persistence.EntityManager
+ */
+<span class="fc" id="L23">public class PostRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
 
+    /**
+     * Restituisce una nuova istanza di PostFinder
+     * @return nuova istanza di PostFinder
+     */
     public PostFinder getFinder(){
-<span class="fc" id="L23">        return new PostFinder();</span>
+<span class="fc" id="L33">        return new PostFinder();</span>
     }
 
-<span class="fc" id="L26">    private enum SortCriteria {OLDEST, NEWEST, MOSTVOTED};</span>
+<span class="fc" id="L36">    private enum SortCriteria {OLDEST, NEWEST, MOSTVOTED};</span>
+
+    /**
+     *  Classe interna usata per specificare i parametri di ricerca di un post
+     */
     public class PostFinder {
         private User author;
         private List&lt;Section&gt; sections;
         private Instant before;
         private Instant after;
-<span class="fc" id="L32">        private int offset = 0;</span>
-<span class="fc" id="L33">        private int pageSize = 30;</span>
+<span class="fc" id="L46">        private int offset = 0;</span>
+<span class="fc" id="L47">        private int pageSize = 30;</span>
         private String content;
-<span class="fc" id="L35">        private boolean includeBody = false;</span>
+<span class="fc" id="L49">        private boolean includeBody = false;</span>
         private User joinUserFollows;
-<span class="fc" id="L37">        private SortCriteria sortCriteria = PostRepository.SortCriteria.NEWEST;</span>
+<span class="fc" id="L51">        private SortCriteria sortCriteria = PostRepository.SortCriteria.NEWEST;</span>
 
-<span class="fc" id="L39">        protected PostFinder(){ }</span>
+<span class="fc" id="L53">        protected PostFinder(){ }</span>
 
+        /**
+         * Setta il campo author e restituisce l'istanza passata di PostFinder
+         * @param author entità User dell'autore dei post
+         * @return istanza passata di PostFinder
+         */
         public PostFinder byAuthor(User author){
-<span class="fc" id="L42">            this.author = author;</span>
-<span class="fc" id="L43">            return this;</span>
+<span class="fc" id="L61">            this.author = author;</span>
+<span class="fc" id="L62">            return this;</span>
         }
 
+        /**
+         * Setta il campo content e restituisce l'istanza passata di PostFinder
+         * @param author text contenuto dei post
+         * @return istanza passata di PostFinder
+         */
         public PostFinder byContent(String text){
-<span class="fc" id="L47">            this.content = text;</span>
-<span class="fc" id="L48">            return this;</span>
+<span class="fc" id="L71">            this.content = text;</span>
+<span class="fc" id="L72">            return this;</span>
         }
 
+        /**
+         * Setta il campo sections e restituisce l'istanza passata di PostFinder
+         * @param sections lista di sezioni
+         * @return istanza passata di PostFinder
+         */
         public PostFinder bySections(List&lt;Section&gt; sections){
-<span class="fc" id="L52">            this.sections = sections;</span>
-<span class="fc" id="L53">            return this;</span>
+<span class="fc" id="L81">            this.sections = sections;</span>
+<span class="fc" id="L82">            return this;</span>
         }
 
+        /**
+         * Setta il campo sections e restituisce l'istanza passata di PostFinder
+         * @param sections sezione dei post
+         * @return istanza passata di PostFinder
+         */
         public PostFinder bySection(Section section){
-<span class="fc" id="L57">            this.sections = Collections.singletonList(section);</span>
-<span class="fc" id="L58">            return this;</span>
+<span class="fc" id="L91">            this.sections = Collections.singletonList(section);</span>
+<span class="fc" id="L92">            return this;</span>
         }
 
+        /**
+         * Setta il campo postedAfter e restituisce l'istanza passata di PostFinder
+         * @param after data dopo la quale i post da trovare sono stati postati
+         * @return istanza passata di PostFinder
+         */
         public PostFinder postedAfter(Instant after){
-<span class="fc" id="L62">            this.after = after;</span>
-<span class="fc" id="L63">            return this;</span>
+<span class="fc" id="L101">            this.after = after;</span>
+<span class="fc" id="L102">            return this;</span>
         }
 
+        /**
+         * Setta il campo postedBefore e restituisce l'istanza passata di PostFinder
+         * @param before data prima della quale i post da trovare sono stati postati
+         * @return istanza passata di PostFinder
+         */
         public PostFinder postedBefore(Instant before){
-<span class="fc" id="L67">            this.before = before;</span>
-<span class="fc" id="L68">            return this;</span>
+<span class="fc" id="L111">            this.before = before;</span>
+<span class="fc" id="L112">            return this;</span>
         }
 
+        /**
+         * Setta il campo offset e restituisce l'istanza passata di PostFinder
+         * @param n offset per la paginazione
+         * @return istanza passata di PostFinder
+         */
         public PostFinder offset(int n){
-<span class="fc" id="L72">            offset = n;</span>
-<span class="fc" id="L73">            return this;</span>
+<span class="fc" id="L121">            offset = n;</span>
+<span class="fc" id="L122">            return this;</span>
         }
 
+        /**
+         * Setta il campo limit e restituisce l'istanza passata di PostFinder
+         * @param n limite di post da caricare
+         * @return istanza passata di PostFinder
+         */
         public PostFinder limit(int n){
-<span class="fc" id="L77">            pageSize = n;</span>
-<span class="fc" id="L78">            return this;</span>
+<span class="fc" id="L131">            pageSize = n;</span>
+<span class="fc" id="L132">            return this;</span>
         }
 
+        /**
+         * Setta il campo sortCriteria a oldest e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder getOldest(){
-<span class="fc" id="L82">            sortCriteria = SortCriteria.OLDEST;</span>
-<span class="fc" id="L83">            return this;</span>
+<span class="fc" id="L140">            sortCriteria = SortCriteria.OLDEST;</span>
+<span class="fc" id="L141">            return this;</span>
         }
 
+        /**
+         * Setta il campo sortCriteria a newest e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder getNewest(){
-<span class="fc" id="L87">            sortCriteria = SortCriteria.NEWEST;</span>
-<span class="fc" id="L88">            return this;</span>
+<span class="fc" id="L149">            sortCriteria = SortCriteria.NEWEST;</span>
+<span class="fc" id="L150">            return this;</span>
         }
 
+        /**
+         * Setta il campo sortCriteria a most voted e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder getMostVoted(){
-<span class="fc" id="L92">            sortCriteria = SortCriteria.MOSTVOTED;</span>
-<span class="fc" id="L93">            return this;</span>
+<span class="fc" id="L158">            sortCriteria = SortCriteria.MOSTVOTED;</span>
+<span class="fc" id="L159">            return this;</span>
         }
 
+        /**
+         * Setta il campo includeBody a true e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder includeBody(){
-<span class="fc" id="L97">            includeBody = true;</span>
-<span class="fc" id="L98">            return this;</span>
+<span class="fc" id="L167">            includeBody = true;</span>
+<span class="fc" id="L168">            return this;</span>
         }
 
+        /**
+         * Setta il campo joinUserFollows e restituisce l'istanza passata di PostFinder
+         * @param user entita utente da cui ottenere le sezioni seguite
+         * @return istanza passata di PostFinder
+         */
         public PostFinder joinUserFollows(User user){
-<span class="fc" id="L102">            joinUserFollows = user;</span>
-<span class="fc" id="L103">            return this;</span>
+<span class="fc" id="L177">            joinUserFollows = user;</span>
+<span class="fc" id="L178">            return this;</span>
         }
 
+        /**
+         * Restituisce tutti i post che rispettano i criteri di ricerca
+         * @return lista di entità Post
+         */
         public List&lt;Post&gt; getResults(){
-<span class="fc" id="L107">            CriteriaBuilder cb = em.getCriteriaBuilder();</span>
-<span class="fc" id="L108">            CriteriaQuery&lt;Post&gt; cq = cb.createQuery(Post.class);</span>
-<span class="fc" id="L109">            Root&lt;Post&gt; root = cq.from(Post.class);</span>
+<span class="fc" id="L186">            CriteriaBuilder cb = em.getCriteriaBuilder();</span>
+<span class="fc" id="L187">            CriteriaQuery&lt;Post&gt; cq = cb.createQuery(Post.class);</span>
+<span class="fc" id="L188">            Root&lt;Post&gt; root = cq.from(Post.class);</span>
 
-<span class="fc" id="L111">            List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L190">            List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L113" title="All 2 branches covered.">            if(author != null) {</span>
-<span class="fc" id="L114">                predicates.add(cb.equal(root.get(&quot;author&quot;), author));</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            if(author != null) {</span>
+<span class="fc" id="L193">                predicates.add(cb.equal(root.get(&quot;author&quot;), author));</span>
             }
 
-<span class="pc bpc" id="L117" title="1 of 4 branches missed.">            if(sections != null &amp;&amp; !sections.isEmpty()) {</span>
-<span class="fc" id="L118">                predicates.add(root.get(&quot;section&quot;).in(sections));</span>
+<span class="pc bpc" id="L196" title="1 of 4 branches missed.">            if(sections != null &amp;&amp; !sections.isEmpty()) {</span>
+<span class="fc" id="L197">                predicates.add(root.get(&quot;section&quot;).in(sections));</span>
             }
 
-<span class="fc bfc" id="L121" title="All 2 branches covered.">            if(after != null) {</span>
-<span class="fc" id="L122">                predicates.add(cb.greaterThanOrEqualTo(root.get(&quot;creationDate&quot;), after));</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">            if(after != null) {</span>
+<span class="fc" id="L201">                predicates.add(cb.greaterThanOrEqualTo(root.get(&quot;creationDate&quot;), after));</span>
             }
 
-<span class="fc bfc" id="L125" title="All 2 branches covered.">            if(before != null) {</span>
-<span class="fc" id="L126">                predicates.add(cb.lessThanOrEqualTo(root.get(&quot;creationDate&quot;), before));</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">            if(before != null) {</span>
+<span class="fc" id="L205">                predicates.add(cb.lessThanOrEqualTo(root.get(&quot;creationDate&quot;), before));</span>
             }
 
-<span class="fc bfc" id="L129" title="All 2 branches covered.">            if(content != null) {</span>
-<span class="fc bfc" id="L130" title="All 2 branches covered.">                if(includeBody) {</span>
-<span class="fc" id="L131">                    predicates.add(</span>
-<span class="fc" id="L132">                            cb.or(</span>
-<span class="fc" id="L133">                                    cb.like(root.get(&quot;title&quot;), '%' + content + '%'),</span>
-<span class="fc" id="L134">                                    cb.and(</span>
-<span class="fc" id="L135">                                            cb.notEqual(root.get(&quot;type&quot;), Post.Type.IMG),</span>
-<span class="fc" id="L136">                                            cb.like(root.get(&quot;content&quot;), '%' + content + '%')</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            if(content != null) {</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">                if(includeBody) {</span>
+<span class="fc" id="L210">                    predicates.add(</span>
+<span class="fc" id="L211">                            cb.or(</span>
+<span class="fc" id="L212">                                    cb.like(root.get(&quot;title&quot;), '%' + content + '%'),</span>
+<span class="fc" id="L213">                                    cb.and(</span>
+<span class="fc" id="L214">                                            cb.notEqual(root.get(&quot;type&quot;), Post.Type.IMG),</span>
+<span class="fc" id="L215">                                            cb.like(root.get(&quot;content&quot;), '%' + content + '%')</span>
                                     )));
                 } else {
-<span class="fc" id="L139">                    predicates.add(cb.like(root.get(&quot;title&quot;), '%' + content + '%'));</span>
+<span class="fc" id="L218">                    predicates.add(cb.like(root.get(&quot;title&quot;), '%' + content + '%'));</span>
                 }
             }
 
-<span class="fc bfc" id="L143" title="All 2 branches covered.">            if(joinUserFollows != null){</span>
-<span class="fc" id="L144">                Join&lt;Object, Object&gt; joinFollow = root.join(&quot;section&quot;).join(&quot;follows&quot;);</span>
-<span class="fc" id="L145">                predicates.add(cb.equal(joinFollow.get(&quot;user&quot;), joinUserFollows));</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">            if(joinUserFollows != null){</span>
+<span class="fc" id="L223">                Join&lt;Object, Object&gt; joinFollow = root.join(&quot;section&quot;).join(&quot;follows&quot;);</span>
+<span class="fc" id="L224">                predicates.add(cb.equal(joinFollow.get(&quot;user&quot;), joinUserFollows));</span>
             }
 
-<span class="fc" id="L148">            cq.where(cb.and(predicates.toArray(Predicate[]::new)));</span>
+<span class="fc" id="L227">            cq.where(cb.and(predicates.toArray(Predicate[]::new)));</span>
 
-<span class="fc bfc" id="L150" title="All 3 branches covered.">            switch (sortCriteria) {</span>
+<span class="fc bfc" id="L229" title="All 3 branches covered.">            switch (sortCriteria) {</span>
                 case MOSTVOTED:
-<span class="fc" id="L152">                    cq.orderBy(cb.desc(root.get(&quot;votesCount&quot;)));</span>
-<span class="fc" id="L153">                    break;</span>
+<span class="fc" id="L231">                    cq.orderBy(cb.desc(root.get(&quot;votesCount&quot;)));</span>
+<span class="fc" id="L232">                    break;</span>
                 case OLDEST:
-<span class="fc" id="L155">                    cq.orderBy(cb.asc(root.get(&quot;creationDate&quot;)));</span>
-<span class="fc" id="L156">                    break;</span>
+<span class="fc" id="L234">                    cq.orderBy(cb.asc(root.get(&quot;creationDate&quot;)));</span>
+<span class="fc" id="L235">                    break;</span>
                 case NEWEST:
                 default:
-<span class="fc" id="L159">                    cq.orderBy(cb.desc(root.get(&quot;creationDate&quot;)));</span>
+<span class="fc" id="L238">                    cq.orderBy(cb.desc(root.get(&quot;creationDate&quot;)));</span>
                     break;
             }
 
 
-<span class="fc" id="L164">            TypedQuery&lt;Post&gt; tq = em.createQuery(cq);</span>
-<span class="pc bpc" id="L165" title="1 of 2 branches missed.">            if(offset &gt;= 0)</span>
-<span class="fc" id="L166">                tq.setFirstResult(offset);</span>
-<span class="pc bpc" id="L167" title="1 of 2 branches missed.">            if(pageSize&gt;=0)</span>
-<span class="fc" id="L168">                tq.setMaxResults(pageSize);</span>
+<span class="fc" id="L243">            TypedQuery&lt;Post&gt; tq = em.createQuery(cq);</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">            if(offset &gt;= 0)</span>
+<span class="fc" id="L245">                tq.setFirstResult(offset);</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">            if(pageSize&gt;=0)</span>
+<span class="fc" id="L247">                tq.setMaxResults(pageSize);</span>
 
-<span class="fc" id="L170">            return tq.getResultList();</span>
+<span class="fc" id="L249">            return tq.getResultList();</span>
         }
     }
 }
