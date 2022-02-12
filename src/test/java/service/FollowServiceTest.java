@@ -16,8 +16,7 @@ import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Classes(cdi = true,
         value={FollowService.class},
@@ -73,6 +72,16 @@ public class FollowServiceTest extends ServiceTest{
     void failUnFollowWithWrongId(int sectionId){
         when(genericRepository.findById(Section.class,sectionId)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.unFollow(sectionId));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, -5, -8})
+    void failUnFollowNotExists(int sectionId){
+        Section section = spy(Section.class);
+        doReturn(null).when(section).getFollow(any());
+        when(genericRepository.findById(Section.class,sectionId)).thenReturn(section);
+        service.unFollow(sectionId);
+        verify(genericRepository,never()).remove(any());
     }
 
 }
