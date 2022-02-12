@@ -36,9 +36,9 @@
 <span class="sourceLineNo">027</span><a id="line.27">        int id = converter.getIntParameter("id").orElse(0);</a>
 <span class="sourceLineNo">028</span><a id="line.28">        String type = request.getParameter("type");</a>
 <span class="sourceLineNo">029</span><a id="line.29"></a>
-<span class="sourceLineNo">030</span><a id="line.30">        if(type!=null &amp;&amp; type.equalsIgnoreCase("post")){</a>
+<span class="sourceLineNo">030</span><a id="line.30">        if("post".equalsIgnoreCase(type)){</a>
 <span class="sourceLineNo">031</span><a id="line.31">            service.unvotePost(id);</a>
-<span class="sourceLineNo">032</span><a id="line.32">        }else if(type!=null &amp;&amp; type.equalsIgnoreCase("comment")){</a>
+<span class="sourceLineNo">032</span><a id="line.32">        }else if("comment".equalsIgnoreCase(type)){</a>
 <span class="sourceLineNo">033</span><a id="line.33">            service.unvoteComment(id);</a>
 <span class="sourceLineNo">034</span><a id="line.34">        } else {</a>
 <span class="sourceLineNo">035</span><a id="line.35">            throw new IllegalArgumentException();</a>

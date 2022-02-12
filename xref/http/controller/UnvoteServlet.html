@@ -35,9 +35,9 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>          <strong class="jxr_keyword">int</strong> id = converter.getIntParameter(<span class="jxr_string">"id"</span>).orElse(0);
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>          String type = request.getParameter(<span class="jxr_string">"type"</span>);
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>          <strong class="jxr_keyword">if</strong>(type!=<strong class="jxr_keyword">null</strong> &amp;&amp; type.equalsIgnoreCase(<span class="jxr_string">"post"</span>)){
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"post"</span>.equalsIgnoreCase(type)){
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>              service.unvotePost(id);
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>          }<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(type!=<strong class="jxr_keyword">null</strong> &amp;&amp; type.equalsIgnoreCase(<span class="jxr_string">"comment"</span>)){
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          }<strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong>(<span class="jxr_string">"comment"</span>.equalsIgnoreCase(type)){
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>              service.unvoteComment(id);
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>          } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();

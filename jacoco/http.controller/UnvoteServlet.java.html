@@ -27,12 +27,12 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 <span class="fc" id="L27">        int id = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
 <span class="fc" id="L28">        String type = request.getParameter(&quot;type&quot;);</span>
 
-<span class="pc bpc" id="L30" title="1 of 4 branches missed.">        if(type!=null &amp;&amp; type.equalsIgnoreCase(&quot;post&quot;)){</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(&quot;post&quot;.equalsIgnoreCase(type)){</span>
 <span class="fc" id="L31">            service.unvotePost(id);</span>
-<span class="pc bpc" id="L32" title="2 of 4 branches missed.">        }else if(type!=null &amp;&amp; type.equalsIgnoreCase(&quot;comment&quot;)){</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        }else if(&quot;comment&quot;.equalsIgnoreCase(type)){</span>
 <span class="fc" id="L33">            service.unvoteComment(id);</span>
         } else {
-<span class="nc" id="L35">            throw new IllegalArgumentException();</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException();</span>
         }
 <span class="fc" id="L37">    }</span>
 
