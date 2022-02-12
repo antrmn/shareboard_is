@@ -19,11 +19,19 @@ public class PostRepository implements Serializable {
     @PersistenceContext
     protected EntityManager em;
 
+    /**
+     * Restituisce una nuova istanza di PostFinder
+     * @return nuova istanza di PostFinder
+     */
     public PostFinder getFinder(){
         return new PostFinder();
     }
 
     private enum SortCriteria {OLDEST, NEWEST, MOSTVOTED};
+
+    /**
+     *  Classe interna usata per specificare i parametri di ricerca di un post
+     */
     public class PostFinder {
         private User author;
         private List<Section> sections;
@@ -38,71 +46,136 @@ public class PostRepository implements Serializable {
 
         protected PostFinder(){ }
 
+        /**
+         * Setta il campo author e restituisce l'istanza passata di PostFinder
+         * @param author entità User dell'autore dei post
+         * @return istanza passata di PostFinder
+         */
         public PostFinder byAuthor(User author){
             this.author = author;
             return this;
         }
 
+        /**
+         * Setta il campo content e restituisce l'istanza passata di PostFinder
+         * @param author text contenuto dei post
+         * @return istanza passata di PostFinder
+         */
         public PostFinder byContent(String text){
             this.content = text;
             return this;
         }
 
+        /**
+         * Setta il campo sections e restituisce l'istanza passata di PostFinder
+         * @param sections lista di sezioni
+         * @return istanza passata di PostFinder
+         */
         public PostFinder bySections(List<Section> sections){
             this.sections = sections;
             return this;
         }
 
+        /**
+         * Setta il campo sections e restituisce l'istanza passata di PostFinder
+         * @param sections sezione dei post
+         * @return istanza passata di PostFinder
+         */
         public PostFinder bySection(Section section){
             this.sections = Collections.singletonList(section);
             return this;
         }
 
+        /**
+         * Setta il campo postedAfter e restituisce l'istanza passata di PostFinder
+         * @param after data dopo la quale i post da trovare sono stati postati
+         * @return istanza passata di PostFinder
+         */
         public PostFinder postedAfter(Instant after){
             this.after = after;
             return this;
         }
 
+        /**
+         * Setta il campo postedBefore e restituisce l'istanza passata di PostFinder
+         * @param before data prima della quale i post da trovare sono stati postati
+         * @return istanza passata di PostFinder
+         */
         public PostFinder postedBefore(Instant before){
             this.before = before;
             return this;
         }
 
+        /**
+         * Setta il campo offset e restituisce l'istanza passata di PostFinder
+         * @param n offset per la paginazione
+         * @return istanza passata di PostFinder
+         */
         public PostFinder offset(int n){
             offset = n;
             return this;
         }
 
+        /**
+         * Setta il campo limit e restituisce l'istanza passata di PostFinder
+         * @param n limite di post da caricare
+         * @return istanza passata di PostFinder
+         */
         public PostFinder limit(int n){
             pageSize = n;
             return this;
         }
 
+        /**
+         * Setta il campo sortCriteria a oldest e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder getOldest(){
             sortCriteria = SortCriteria.OLDEST;
             return this;
         }
 
+        /**
+         * Setta il campo sortCriteria a newest e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder getNewest(){
             sortCriteria = SortCriteria.NEWEST;
             return this;
         }
 
+        /**
+         * Setta il campo sortCriteria a most voted e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder getMostVoted(){
             sortCriteria = SortCriteria.MOSTVOTED;
             return this;
         }
 
+        /**
+         * Setta il campo includeBody a true e restituisce l'istanza passata di PostFinder
+         * @return istanza passata di PostFinder
+         */
         public PostFinder includeBody(){
             includeBody = true;
             return this;
         }
 
+        /**
+         * Setta il campo joinUserFollows e restituisce l'istanza passata di PostFinder
+         * @param user entita utente da cui ottenere le sezioni seguite
+         * @return istanza passata di PostFinder
+         */
         public PostFinder joinUserFollows(User user){
             joinUserFollows = user;
             return this;
         }
 
+        /**
+         * Restituisce tutti i post che rispettano i criteri di ricerca
+         * @return lista di entità Post
+         */
         public List<Post> getResults(){
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Post> cq = cb.createQuery(Post.class);
