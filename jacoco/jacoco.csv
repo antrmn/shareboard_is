@@ -34,7 +34,7 @@ shareboard_is,service,UserService,6,238,3,7,2,44,3,12,0,10
 shareboard_is,service,SectionService,0,206,0,6,0,38,0,15,0,12
 shareboard_is,service,PostService,61,348,19,24,11,79,20,11,1,8
 shareboard_is,service,FollowService,0,60,0,2,0,10,0,4,0,3
-shareboard_is,service,VoteService,0,145,2,2,0,31,2,9,0,9
+shareboard_is,service,VoteService,0,145,1,3,0,31,1,10,0,9
 shareboard_is,http.controller,HomeServlet,0,15,0,0,0,5,0,3,0,3
 shareboard_is,http.controller,DeleteSectionServlet,0,30,0,0,0,8,0,3,0,3
 shareboard_is,http.controller,DeleteBanServlet,0,33,0,0,0,8,0,3,0,3

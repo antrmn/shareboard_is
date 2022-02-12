@@ -89,7 +89,7 @@ import javax.transaction.Transactional;
 <span class="fc" id="L89">        Comment comment = genericRepository.findById(Comment.class, id);</span>
 <span class="fc" id="L90">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
 <span class="fc" id="L91">        CommentVote commentVote = comment.getVote(user);</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if(commentVote != null)</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if(commentVote != null)</span>
 <span class="fc" id="L93">            genericRepository.remove(commentVote);</span>
 <span class="fc" id="L94">    }</span>
 
