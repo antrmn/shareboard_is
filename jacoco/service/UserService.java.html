@@ -32,93 +32,133 @@ import java.util.List;
     @Inject private BinaryContentRepository bcRepo;
     @Inject private Pbkdf2PasswordHashImpl passwordHash;
 
+    /**
+     * Inverte lo stato di admin di un utente dato un id
+     * @param id id di un utente esistente
+     */
     @AdminsOnly
     public void toggleAdmin(@UserExists int id){
-<span class="fc" id="L37">        User u = genericRepository.findById(User.class,id);</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        u.setAdmin(!u.getAdmin());</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L41">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        u.setAdmin(!u.getAdmin());</span>
+<span class="fc" id="L43">    }</span>
 
+    /**
+     * Ritorna un entita UserProfile dato un nome
+     * @param nome di un utente esistente
+     * @return entita UserProfile
+     */
     public UserProfile getUser(@UserExistsByName String name){
-<span class="fc" id="L42">        User u = userRepo.getByName(name);</span>
-<span class="fc" id="L43">        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());</span>
-<span class="fc" id="L44">        return user;</span>
+<span class="fc" id="L51">        User u = userRepo.getByName(name);</span>
+<span class="fc" id="L52">        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());</span>
+<span class="fc" id="L53">        return user;</span>
     }
 
+    /**
+     * Ritorna un entita UserProfile dato un id
+     * @param id di un utente esistente
+     * @return entita UserProfile
+     */
     public UserProfile getUser(@UserExists int id){
-<span class="fc" id="L48">        User u = genericRepository.findById(User.class,id);</span>
-<span class="fc" id="L49">        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());</span>
-<span class="fc" id="L50">        return user;</span>
+<span class="fc" id="L62">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc" id="L63">        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());</span>
+<span class="fc" id="L64">        return user;</span>
     }
 
-
+    /**
+     * Ritorna un entita UserIdentityDTO dato un id
+     * @param id di un utente esistente
+     * @return entita UserIdentityDTO
+     */
     public UserIdentityDTO get(@UserExists int id){
-<span class="fc" id="L55">        User u = genericRepository.findById(User.class,id);</span>
-<span class="fc" id="L56">        return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());</span>
+<span class="fc" id="L73">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc" id="L74">        return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());</span>
     }
 
+    /**
+     * Ritorna un lo username di un utente dato un id
+     * @param id di un utente esistente
+     * @return nome dell'utente
+     */
     public String getUsernameById(@UserExists int id){
-<span class="fc" id="L60">        return genericRepository.findById(User.class,id).getUsername();</span>
+<span class="fc" id="L83">        return genericRepository.findById(User.class,id).getUsername();</span>
     }
 
+    /**
+     * Ritorna un lista di tutte le gli utenti
+     * @return lista di entita UserIdentityDTO
+     */
     public List&lt;UserIdentityDTO&gt; showUsers(){
-<span class="fc" id="L64">        List&lt;User&gt; users = genericRepository.findAll(User.class);</span>
-<span class="fc" id="L65">        List&lt;UserIdentityDTO&gt; usersDTO = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L91">        List&lt;User&gt; users = genericRepository.findAll(User.class);</span>
+<span class="fc" id="L92">        List&lt;UserIdentityDTO&gt; usersDTO = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L67" title="All 2 branches covered.">        for(User u : users){</span>
-<span class="fc" id="L68">            UserIdentityDTO userDTO = new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());</span>
-<span class="fc" id="L69">            usersDTO.add(userDTO);</span>
-<span class="fc" id="L70">        }</span>
-<span class="fc" id="L71">        return usersDTO;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for(User u : users){</span>
+<span class="fc" id="L95">            UserIdentityDTO userDTO = new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());</span>
+<span class="fc" id="L96">            usersDTO.add(userDTO);</span>
+<span class="fc" id="L97">        }</span>
+<span class="fc" id="L98">        return usersDTO;</span>
     }
 
+    /**
+     * Elimina un utente dato un id
+     * @param id di un utente esistente
+     */
     @AdminsOnly
     public void delete(@UserExists int id){
-<span class="fc" id="L76">        genericRepository.remove(genericRepository.findById(User.class, id));</span>
-<span class="fc" id="L77">    }</span>
+<span class="fc" id="L107">        genericRepository.remove(genericRepository.findById(User.class, id));</span>
+<span class="fc" id="L108">    }</span>
 
+    /**
+     * Modifica i dati di un utente dato un id
+     * @param edit nuovi dati dell'utente
+     * @param id di un utente esistente
+     */
     @AuthenticationRequired
     public void edit(UserEditPage edit,
                      @UserExists int id){
-<span class="fc" id="L82">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc" id="L118">        User u = genericRepository.findById(User.class,id);</span>
 
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if(edit.getDescription() != null){</span>
-<span class="fc" id="L85">            u.setDescription(edit.getDescription());</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if(edit.getDescription() != null){</span>
+<span class="fc" id="L121">            u.setDescription(edit.getDescription());</span>
         }
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if(edit.getEmail() != null){</span>
-<span class="fc" id="L88">            u.setEmail(edit.getEmail());</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if(edit.getEmail() != null){</span>
+<span class="fc" id="L124">            u.setEmail(edit.getEmail());</span>
         }
 
+<span class="fc" id="L127">        HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
+<span class="fc" id="L128">        u.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L129">        u.setSalt(hashedPassword.getSalt());</span>
+<span class="fc" id="L130">        u.setDescription(edit.getDescription());</span>
 
-
-
-<span class="fc" id="L94">        HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
-<span class="fc" id="L95">        u.setPassword(hashedPassword.getPassword());</span>
-<span class="fc" id="L96">        u.setSalt(hashedPassword.getSalt());</span>
-<span class="fc" id="L97">        u.setDescription(edit.getDescription());</span>
-
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if(edit.getPicture() != null){</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if(edit.getPicture() != null){</span>
             try {
-<span class="fc" id="L101">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
-<span class="nc" id="L102">            } catch (IOException e) {</span>
-<span class="nc" id="L103">                throw new RuntimeException(e); //todo: delet this</span>
-<span class="fc" id="L104">            }</span>
+<span class="fc" id="L134">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
+<span class="nc" id="L135">            } catch (IOException e) {</span>
+<span class="nc" id="L136">                throw new RuntimeException(e); //todo: delet this</span>
+<span class="fc" id="L137">            }</span>
         }
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L139">    }</span>
 
+    /**
+     * Crea un nuovo utente e ne restituisce l'id
+     * @param email stringa non vuota, unica e in formato email
+     * @param username stringa non vuota e unica
+     * @param password Stringa non vuota con minimo: 3 e massimo: 255 caratteri
+     * @return identificativo dell'utente creato
+     */
     // unique email unique username length email username password
     public int newUser(@NotBlank @EmailFormat @UniqueEmail String email,
                        @NotBlank @UsernameFormat @UniqueUsername String username,
                        @NotEmpty @Size(min = 3,max = 255) String password){
-<span class="fc" id="L112">        User user = new User();</span>
-<span class="fc" id="L113">        user.setUsername(username);</span>
-<span class="fc" id="L114">        user.setEmail(email);</span>
-<span class="fc" id="L115">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
-<span class="fc" id="L116">        user.setPassword(hashedPassword.getPassword());</span>
-<span class="fc" id="L117">        user.setSalt(hashedPassword.getSalt());</span>
-<span class="fc" id="L118">        user.setAdmin(false);</span>
+<span class="fc" id="L152">        User user = new User();</span>
+<span class="fc" id="L153">        user.setUsername(username);</span>
+<span class="fc" id="L154">        user.setEmail(email);</span>
+<span class="fc" id="L155">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
+<span class="fc" id="L156">        user.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L157">        user.setSalt(hashedPassword.getSalt());</span>
+<span class="fc" id="L158">        user.setAdmin(false);</span>
 
-<span class="fc" id="L120">        user = genericRepository.insert(user);</span>
-<span class="fc" id="L121">        return user.getId();</span>
+<span class="fc" id="L160">        user = genericRepository.insert(user);</span>
+<span class="fc" id="L161">        return user.getId();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

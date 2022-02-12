@@ -38,28 +38,33 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
     @Inject private CurrentUser currentUser;
 
 
+    /**
+     * Converte post in PostPage.
+     * @param post post da convertire
+     * @return PostPage con i dati di post
+     */
     private PostPage mapPost(Post post){
-<span class="fc" id="L42">        User user = null;</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(currentUser.isLoggedIn())</span>
-<span class="fc" id="L44">            user = genericRepository.findById(User.class,currentUser.getId());</span>
+<span class="fc" id="L47">        User user = null;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if(currentUser.isLoggedIn())</span>
+<span class="fc" id="L49">            user = genericRepository.findById(User.class,currentUser.getId());</span>
 
         //converte persistence.Post.Type in service.dto.PostType (ew)
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        PostType postType = post.getType() == IMG ? PostType.IMG : PostType.TEXT;</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        PostType postType = post.getType() == IMG ? PostType.IMG : PostType.TEXT;</span>
 
-<span class="fc" id="L49">        return PostPage.builder()</span>
-<span class="fc" id="L50">                .id(post.getId())</span>
-<span class="fc" id="L51">                .title(post.getTitle())</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">                .vote(post.getVote(user) == null ? 0 : post.getVote(user).getVote())</span>
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                .votes(post.getVotesCount() == null ? 0 : post.getVotesCount())</span>
-<span class="fc" id="L54">                .sectionName(post.getSection().getName())</span>
-<span class="fc" id="L55">                .authorName(post.getAuthor().getUsername())</span>
-<span class="fc" id="L56">                .sectionId(post.getSection().getId())</span>
-<span class="fc" id="L57">                .authorId(post.getAuthor().getId())</span>
-<span class="fc" id="L58">                .content(post.getContent())</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                .creationDate(post.getCreationDate() == null ? Instant.now() : post.getCreationDate())</span>
-<span class="fc" id="L60">                .nComments(post.getCommentCount())</span>
-<span class="fc" id="L61">                .type(postType)</span>
-<span class="fc" id="L62">                .build();</span>
+<span class="fc" id="L54">        return PostPage.builder()</span>
+<span class="fc" id="L55">                .id(post.getId())</span>
+<span class="fc" id="L56">                .title(post.getTitle())</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                .vote(post.getVote(user) == null ? 0 : post.getVote(user).getVote())</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">                .votes(post.getVotesCount() == null ? 0 : post.getVotesCount())</span>
+<span class="fc" id="L59">                .sectionName(post.getSection().getName())</span>
+<span class="fc" id="L60">                .authorName(post.getAuthor().getUsername())</span>
+<span class="fc" id="L61">                .sectionId(post.getSection().getId())</span>
+<span class="fc" id="L62">                .authorId(post.getAuthor().getId())</span>
+<span class="fc" id="L63">                .content(post.getContent())</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                .creationDate(post.getCreationDate() == null ? Instant.now() : post.getCreationDate())</span>
+<span class="fc" id="L65">                .nComments(post.getCommentCount())</span>
+<span class="fc" id="L66">                .type(postType)</span>
+<span class="fc" id="L67">                .build();</span>
     }
 
     /**
@@ -68,65 +73,70 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
      * @return DTO di un post
      */
     public PostPage getPost(@PostExists int id){
-<span class="fc" id="L71">        Post p = genericRepository.findById(Post.class,id);</span>
-<span class="fc" id="L72">        PostPage post = mapPost(p);</span>
-<span class="fc" id="L73">        return post;</span>
+<span class="fc" id="L76">        Post p = genericRepository.findById(Post.class,id);</span>
+<span class="fc" id="L77">        PostPage post = mapPost(p);</span>
+<span class="fc" id="L78">        return post;</span>
     }
 
+    /**
+     * Ritorna una lista di post che rispettano determinati parametri
+     * @param form entità con i parametri di ricerca
+     * @return lista di PostPage
+     */
     @Transactional
     public List&lt;PostPage&gt; loadPosts(PostSearchForm form){
-<span class="fc" id="L78">        final int elementsPerPage = 10;</span>
-<span class="fc" id="L79">        PostRepository.PostFinder finder = postRepo.getFinder();</span>
+<span class="fc" id="L88">        final int elementsPerPage = 10;</span>
+<span class="fc" id="L89">        PostRepository.PostFinder finder = postRepo.getFinder();</span>
 
-<span class="fc" id="L81">        finder.limit(elementsPerPage);</span>
+<span class="fc" id="L91">        finder.limit(elementsPerPage);</span>
 
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        int page = form.getPage() &gt; 0 ? form.getPage() : 1;</span>
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        finder.offset((page == 1) ? 0 : (page-1) * elementsPerPage+1);</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        int page = form.getPage() &gt; 0 ? form.getPage() : 1;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        finder.offset((page == 1) ? 0 : (page-1) * elementsPerPage+1);</span>
 
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if(form.getContent() != null) {</span>
-<span class="fc" id="L87">            finder.byContent(form.getContent());</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if(form.getContent() != null) {</span>
+<span class="fc" id="L97">            finder.byContent(form.getContent());</span>
         }
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if(form.isIncludeBody()){</span>
-<span class="fc" id="L90">            finder.includeBody();</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if(form.isIncludeBody()){</span>
+<span class="fc" id="L100">            finder.includeBody();</span>
         }
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if(form.getSectionName() != null){</span>
-<span class="fc" id="L93">            Section section = sectionRepo.getByName(form.getSectionName());</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">            if(section != null){</span>
-<span class="fc" id="L95">                finder.bySection(section);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if(form.getSectionName() != null){</span>
+<span class="fc" id="L103">            Section section = sectionRepo.getByName(form.getSectionName());</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">            if(section != null){</span>
+<span class="fc" id="L105">                finder.bySection(section);</span>
             }
         }
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if(form.getAuthorName() != null){</span>
-<span class="fc" id="L99">            User user = userRepo.getByName(form.getAuthorName());</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">            if(user != null){</span>
-<span class="fc" id="L101">                finder.byAuthor(user);</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if(form.getAuthorName() != null){</span>
+<span class="fc" id="L109">            User user = userRepo.getByName(form.getAuthorName());</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">            if(user != null){</span>
+<span class="fc" id="L111">                finder.byAuthor(user);</span>
             }
         }
-<span class="pc bpc" id="L104" title="2 of 4 branches missed.">        if(form.isOnlyFollow() &amp;&amp; currentUser.isLoggedIn()){</span>
-<span class="fc" id="L105">            finder.joinUserFollows(genericRepository.findById(User.class,currentUser.getId()));</span>
+<span class="pc bpc" id="L114" title="2 of 4 branches missed.">        if(form.isOnlyFollow() &amp;&amp; currentUser.isLoggedIn()){</span>
+<span class="fc" id="L115">            finder.joinUserFollows(genericRepository.findById(User.class,currentUser.getId()));</span>
         }
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if(form.getPostedAfter() != null){</span>
-<span class="fc" id="L108">            finder.postedAfter(form.getPostedAfter());</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if(form.getPostedAfter() != null){</span>
+<span class="fc" id="L118">            finder.postedAfter(form.getPostedAfter());</span>
         }
-<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if(form.getPostedBefore() != null){</span>
-<span class="fc" id="L111">            finder.postedBefore(form.getPostedBefore());</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if(form.getPostedBefore() != null){</span>
+<span class="fc" id="L121">            finder.postedBefore(form.getPostedBefore());</span>
         }
 
         //null-safe switch
-<span class="pc bpc" id="L115" title="1 of 5 branches missed.">        switch(form.getOrderBy() != null ? form.getOrderBy() : NEWEST){</span>
+<span class="pc bpc" id="L125" title="1 of 5 branches missed.">        switch(form.getOrderBy() != null ? form.getOrderBy() : NEWEST){</span>
             case NEWEST: default: {
-<span class="fc" id="L117">                finder.getNewest();</span>
-<span class="fc" id="L118">                break;</span>
+<span class="fc" id="L127">                finder.getNewest();</span>
+<span class="fc" id="L128">                break;</span>
             }
             case OLDEST:{
-<span class="fc" id="L121">                finder.getOldest();</span>
-<span class="fc" id="L122">                break;</span>
+<span class="fc" id="L131">                finder.getOldest();</span>
+<span class="fc" id="L132">                break;</span>
             }
             case MOSTVOTED:{
-<span class="fc" id="L125">                finder.getMostVoted();</span>
+<span class="fc" id="L135">                finder.getMostVoted();</span>
                 break;
             }
         }
-<span class="fc" id="L129">        return finder.getResults().stream().map(this::mapPost).collect(Collectors.toList());</span>
+<span class="fc" id="L139">        return finder.getResults().stream().map(this::mapPost).collect(Collectors.toList());</span>
     }
 
     /**
@@ -136,8 +146,8 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
     @AuthenticationRequired //TODO: check autore post?
     @DenyBannedUsers
     public void delete(@PostExists int id){
-<span class="fc" id="L139">        genericRepository.remove(genericRepository.findById(User.class,id));</span>
-<span class="fc" id="L140">    }</span>
+<span class="fc" id="L149">        genericRepository.remove(genericRepository.findById(User.class,id));</span>
+<span class="fc" id="L150">    }</span>
 
     /**
      * Permette la modifica di un post
@@ -147,11 +157,11 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
     @AuthenticationRequired
     @DenyBannedUsers
     public void editPost(PostEditDTO edit, @PostExists int id){
-<span class="fc" id="L150">        Post post = genericRepository.findById(Post.class, id);</span>
-<span class="fc" id="L151">        post.setTitle(edit.getTitle());</span>
-<span class="fc" id="L152">        post.setContent(edit.getContent());</span>
-<span class="fc" id="L153">        post.setType(edit.getType());</span>
-<span class="fc" id="L154">    }</span>
+<span class="fc" id="L160">        Post post = genericRepository.findById(Post.class, id);</span>
+<span class="fc" id="L161">        post.setTitle(edit.getTitle());</span>
+<span class="fc" id="L162">        post.setContent(edit.getContent());</span>
+<span class="fc" id="L163">        post.setType(edit.getType());</span>
+<span class="fc" id="L164">    }</span>
 
     /**
      * Permette di modificare un post, compresa l'immagine
@@ -163,21 +173,21 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
     public void editPost(PostEditDTO edit,
                          @PostExists int id,
                          @Image BufferedInputStream content){
-<span class="nc" id="L166">        Post post = genericRepository.findById(Post.class, id);</span>
-<span class="nc" id="L167">        post.setTitle(edit.getTitle());</span>
+<span class="nc" id="L176">        Post post = genericRepository.findById(Post.class, id);</span>
+<span class="nc" id="L177">        post.setTitle(edit.getTitle());</span>
         String fileName;
         try {
-<span class="nc" id="L170">            fileName = bcRepo.insert(content);</span>
-<span class="nc" id="L171">        } catch (IOException e) {</span>
-<span class="nc" id="L172">            throw new RuntimeException(e);</span>
-<span class="nc" id="L173">        }</span>
-<span class="nc" id="L174">        post.setContent(fileName);</span>
-<span class="nc" id="L175">        post.setType(edit.getType());</span>
-<span class="nc" id="L176">    }</span>
+<span class="nc" id="L180">            fileName = bcRepo.insert(content);</span>
+<span class="nc" id="L181">        } catch (IOException e) {</span>
+<span class="nc" id="L182">            throw new RuntimeException(e);</span>
+<span class="nc" id="L183">        }</span>
+<span class="nc" id="L184">        post.setContent(fileName);</span>
+<span class="nc" id="L185">        post.setType(edit.getType());</span>
+<span class="nc" id="L186">    }</span>
 
     /**
      * Aggiunge un post ad una sezione
-     * @param title titolo della sezione
+     * @param title titolo del post
      * @param body testo del post
      * @param sectionName nome della sezione
      * @return identificativo del nuovo post creato
@@ -187,44 +197,52 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
     public int newPost(@NotBlank(message=&quot;{post.title.blank}&quot;) String title,
                        String body,
                        @SectionExists String sectionName){
-<span class="fc" id="L190">        User user = userRepo.getByName(currentUser.getUsername());</span>
-<span class="fc" id="L191">        Section section = sectionRepo.getByName(sectionName);</span>
+<span class="fc" id="L200">        User user = userRepo.getByName(currentUser.getUsername());</span>
+<span class="fc" id="L201">        Section section = sectionRepo.getByName(sectionName);</span>
 
 
-<span class="fc" id="L194">        Post post = new Post();</span>
-<span class="fc" id="L195">        post.setTitle(title);</span>
-<span class="pc bpc" id="L196" title="2 of 4 branches missed.">        post.setContent(body == null || body.isBlank() ? &quot;&quot; : body);</span>
-<span class="fc" id="L197">        post.setAuthor(user);</span>
-<span class="fc" id="L198">        post.setSection(section);</span>
-<span class="fc" id="L199">        post.setType(TEXT);</span>
+<span class="fc" id="L204">        Post post = new Post();</span>
+<span class="fc" id="L205">        post.setTitle(title);</span>
+<span class="pc bpc" id="L206" title="2 of 4 branches missed.">        post.setContent(body == null || body.isBlank() ? &quot;&quot; : body);</span>
+<span class="fc" id="L207">        post.setAuthor(user);</span>
+<span class="fc" id="L208">        post.setSection(section);</span>
+<span class="fc" id="L209">        post.setType(TEXT);</span>
 
-<span class="fc" id="L201">        return genericRepository.insert(post).getId();</span>
+<span class="fc" id="L211">        return genericRepository.insert(post).getId();</span>
     }
 
+    /**
+     * Aggiunge un post ad una sezione
+     * @param title titolo del post
+     * @param content file di tipo immagine
+     * @param size lunghezza in byte di content
+     * @param sectionName nome della sezione
+     * @return identificativo del nuovo post creato
+     */
     @AuthenticationRequired
     @DenyBannedUsers
     public int newPost(@NotBlank(message = &quot;{post.title.blank}&quot;) String title,
                        @Image BufferedInputStream content,
                        long size, //todo range
                        @SectionExists String sectionName){
-<span class="fc" id="L210">        User user = userRepo.getByName(currentUser.getUsername());</span>
-<span class="fc" id="L211">        Section section = sectionRepo.getByName(sectionName);</span>
+<span class="fc" id="L228">        User user = userRepo.getByName(currentUser.getUsername());</span>
+<span class="fc" id="L229">        Section section = sectionRepo.getByName(sectionName);</span>
 
         String fileName;
         try {
-<span class="fc" id="L215">            fileName = bcRepo.insert(content);</span>
-<span class="nc" id="L216">        } catch (IOException e) {</span>
-<span class="nc" id="L217">            throw new RuntimeException(e);</span>
-<span class="fc" id="L218">        }</span>
+<span class="fc" id="L233">            fileName = bcRepo.insert(content);</span>
+<span class="nc" id="L234">        } catch (IOException e) {</span>
+<span class="nc" id="L235">            throw new RuntimeException(e);</span>
+<span class="fc" id="L236">        }</span>
 
-<span class="fc" id="L220">        Post post = new Post();</span>
-<span class="fc" id="L221">        post.setTitle(title);</span>
-<span class="fc" id="L222">        post.setAuthor(user);</span>
-<span class="fc" id="L223">        post.setContent(fileName);</span>
-<span class="fc" id="L224">        post.setSection(section);</span>
-<span class="fc" id="L225">        post.setType(IMG);</span>
+<span class="fc" id="L238">        Post post = new Post();</span>
+<span class="fc" id="L239">        post.setTitle(title);</span>
+<span class="fc" id="L240">        post.setAuthor(user);</span>
+<span class="fc" id="L241">        post.setContent(fileName);</span>
+<span class="fc" id="L242">        post.setSection(section);</span>
+<span class="fc" id="L243">        post.setType(IMG);</span>
 
-<span class="fc" id="L227">        return genericRepository.insert(post).getId(); //in caso di errore il file resta</span>
+<span class="fc" id="L245">        return genericRepository.insert(post).getId(); //in caso di errore il file resta</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

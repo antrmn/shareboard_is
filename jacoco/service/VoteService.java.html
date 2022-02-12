@@ -17,60 +17,95 @@ import javax.transaction.Transactional;
     @Inject private GenericRepository genericRepository;
     @Inject private CurrentUser currentUser;
 
+    /**
+     * Aggiunge un voto positivo ad un commento
+     * @param id di un commento esistente
+     */
     @AuthenticationRequired
     public void upvoteComment(@CommentExists int id){
-<span class="fc" id="L22">        voteComment(id, (short) +1);</span>
-<span class="fc" id="L23">    }</span>
+<span class="fc" id="L26">        voteComment(id, (short) +1);</span>
+<span class="fc" id="L27">    }</span>
 
+    /**
+     * Aggiunge un voto negativo ad un commento
+     * @param id di un commento esistente
+     */
     @AuthenticationRequired
     public void downvoteComment(@CommentExists int id){
-<span class="fc" id="L27">        voteComment(id, (short) -1);</span>
-<span class="fc" id="L28">    }</span>
-
-    private void voteComment(int id, short vote) {
-<span class="fc" id="L31">        Comment comment = genericRepository.findById(Comment.class,id);</span>
-<span class="fc" id="L32">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-
-<span class="fc" id="L34">        CommentVote commentVote = new CommentVote(user,comment, vote);</span>
-<span class="fc" id="L35">        genericRepository.merge(commentVote);</span>
+<span class="fc" id="L35">        voteComment(id, (short) -1);</span>
 <span class="fc" id="L36">    }</span>
 
+
+    /**
+     * Aggiunge un voto ad un commento
+     * @param id di un commento
+     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
+     */
+    private void voteComment(int id, short vote) {
+<span class="fc" id="L45">        Comment comment = genericRepository.findById(Comment.class,id);</span>
+<span class="fc" id="L46">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+
+<span class="fc" id="L48">        CommentVote commentVote = new CommentVote(user,comment, vote);</span>
+<span class="fc" id="L49">        genericRepository.merge(commentVote);</span>
+<span class="fc" id="L50">    }</span>
+
+    /**
+     * Aggiunge un voto positivo ad un post
+     * @param id di un post esistente
+     */
     @AuthenticationRequired
     public void upvotePost(@PostExists int id){
-<span class="fc" id="L40">        votePost(id, (short) +1);</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L58">        votePost(id, (short) +1);</span>
+<span class="fc" id="L59">    }</span>
 
+    /**
+     * Aggiunge un voto negativo ad un post
+     * @param id di un post esistente
+     */
     @AuthenticationRequired
     public void downvotePost(@PostExists int id){
-<span class="fc" id="L45">        votePost(id, (short) -1);</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L67">        votePost(id, (short) -1);</span>
+<span class="fc" id="L68">    }</span>
 
+    /**
+     * Aggiunge un voto ad un post
+     * @param id di un post
+     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
+     */
     private void votePost(int id, short vote){
-<span class="fc" id="L49">        Post post = genericRepository.findById(Post.class,id);</span>
-<span class="fc" id="L50">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L76">        Post post = genericRepository.findById(Post.class,id);</span>
+<span class="fc" id="L77">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
 
-<span class="fc" id="L52">        PostVote postVote = new PostVote(user,post,vote);</span>
-<span class="fc" id="L53">        genericRepository.merge(postVote);</span>
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L79">        PostVote postVote = new PostVote(user,post,vote);</span>
+<span class="fc" id="L80">        genericRepository.merge(postVote);</span>
+<span class="fc" id="L81">    }</span>
 
+    /**
+     * Rimuove il voto ad un commento
+     * @param id di un commento esistente
+     */
     @AuthenticationRequired
     public void unvoteComment(@CommentExists int id){
-<span class="fc" id="L58">        Comment comment = genericRepository.findById(Comment.class, id);</span>
-<span class="fc" id="L59">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="fc" id="L60">        CommentVote commentVote = comment.getVote(user);</span>
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if(commentVote != null)</span>
-<span class="fc" id="L62">            genericRepository.remove(commentVote);</span>
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L89">        Comment comment = genericRepository.findById(Comment.class, id);</span>
+<span class="fc" id="L90">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L91">        CommentVote commentVote = comment.getVote(user);</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if(commentVote != null)</span>
+<span class="fc" id="L93">            genericRepository.remove(commentVote);</span>
+<span class="fc" id="L94">    }</span>
 
+    /**
+     * Rimuove il voto ad un post
+     * @param id di un post esistente
+     */
     @AuthenticationRequired
     public void unvotePost(@PostExists int id){
-<span class="fc" id="L67">        Post post = genericRepository.findById(Post.class,id);</span>
-<span class="fc" id="L68">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L102">        Post post = genericRepository.findById(Post.class,id);</span>
+<span class="fc" id="L103">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
 
-<span class="fc" id="L70">        PostVote vote = post.getVote(user);</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if(vote != null)</span>
-<span class="fc" id="L72">            genericRepository.remove(vote);</span>
-<span class="fc" id="L73">    }</span>
+<span class="fc" id="L105">        PostVote vote = post.getVote(user);</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if(vote != null)</span>
+<span class="fc" id="L107">            genericRepository.remove(vote);</span>
+<span class="fc" id="L108">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

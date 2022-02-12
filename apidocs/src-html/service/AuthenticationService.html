@@ -33,45 +33,55 @@
 <span class="sourceLineNo">024</span><a id="line.24"></a>
 <span class="sourceLineNo">025</span><a id="line.25">    private int currentUserId = 0;</a>
 <span class="sourceLineNo">026</span><a id="line.26"></a>
-<span class="sourceLineNo">027</span><a id="line.27">    public boolean authenticate(String username, String password){</a>
-<span class="sourceLineNo">028</span><a id="line.28">        User user = userRepository.getByName(username);</a>
-<span class="sourceLineNo">029</span><a id="line.29">        if(user == null)</a>
-<span class="sourceLineNo">030</span><a id="line.30">            return false;</a>
-<span class="sourceLineNo">031</span><a id="line.31">        if (passwordHash.verify(password, user.getPassword(), user.getSalt())){</a>
-<span class="sourceLineNo">032</span><a id="line.32">            currentUserId = user.getId();</a>
-<span class="sourceLineNo">033</span><a id="line.33">            return true;</a>
-<span class="sourceLineNo">034</span><a id="line.34">        } else {</a>
-<span class="sourceLineNo">035</span><a id="line.35">            return false;</a>
-<span class="sourceLineNo">036</span><a id="line.36">        }</a>
-<span class="sourceLineNo">037</span><a id="line.37">    }</a>
-<span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">    @Named("currentUser") //accessibile nelle jsp con ${currentUser}</a>
-<span class="sourceLineNo">040</span><a id="line.40">    @RequestScoped</a>
-<span class="sourceLineNo">041</span><a id="line.41">    @Produces</a>
-<span class="sourceLineNo">042</span><a id="line.42">    public CurrentUser getCurrentUser(){</a>
-<span class="sourceLineNo">043</span><a id="line.43">        if(currentUserId &lt;= 0)</a>
-<span class="sourceLineNo">044</span><a id="line.44">            return new CurrentUser();</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">        User user = genericRepository.findById(User.class,currentUserId);</a>
-<span class="sourceLineNo">047</span><a id="line.47">        if(user == null)</a>
-<span class="sourceLineNo">048</span><a id="line.48">            return new CurrentUser();</a>
-<span class="sourceLineNo">049</span><a id="line.49"></a>
-<span class="sourceLineNo">050</span><a id="line.50">        Instant longestCurrentBan = user.getBans().isEmpty() ? null : user.getBans().get(0).getEndTime();</a>
-<span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">        CurrentUser currentUser = CurrentUser.builder()</a>
-<span class="sourceLineNo">053</span><a id="line.53">                .username(user.getUsername())</a>
-<span class="sourceLineNo">054</span><a id="line.54">                .id(user.getId())</a>
-<span class="sourceLineNo">055</span><a id="line.55">                .isAdmin(user.getAdmin())</a>
-<span class="sourceLineNo">056</span><a id="line.56">                .picture(user.getPicture())</a>
-<span class="sourceLineNo">057</span><a id="line.57">                .banDuration(longestCurrentBan)</a>
-<span class="sourceLineNo">058</span><a id="line.58">                .isLoggedIn(true)</a>
-<span class="sourceLineNo">059</span><a id="line.59">                .build();</a>
-<span class="sourceLineNo">060</span><a id="line.60"></a>
-<span class="sourceLineNo">061</span><a id="line.61">        System.out.println(currentUser);</a>
-<span class="sourceLineNo">062</span><a id="line.62">        return currentUser;</a>
-<span class="sourceLineNo">063</span><a id="line.63">    }</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">}</a>
+<span class="sourceLineNo">027</span><a id="line.27">    /**</a>
+<span class="sourceLineNo">028</span><a id="line.28">     * Autentica un utente</a>
+<span class="sourceLineNo">029</span><a id="line.29">     * @param username stringa con nome utente</a>
+<span class="sourceLineNo">030</span><a id="line.30">     * @param password stringa con password</a>
+<span class="sourceLineNo">031</span><a id="line.31">     * @return esito dell'operazione</a>
+<span class="sourceLineNo">032</span><a id="line.32">     */</a>
+<span class="sourceLineNo">033</span><a id="line.33">    public boolean authenticate(String username, String password){</a>
+<span class="sourceLineNo">034</span><a id="line.34">        User user = userRepository.getByName(username);</a>
+<span class="sourceLineNo">035</span><a id="line.35">        if(user == null)</a>
+<span class="sourceLineNo">036</span><a id="line.36">            return false;</a>
+<span class="sourceLineNo">037</span><a id="line.37">        if (passwordHash.verify(password, user.getPassword(), user.getSalt())){</a>
+<span class="sourceLineNo">038</span><a id="line.38">            currentUserId = user.getId();</a>
+<span class="sourceLineNo">039</span><a id="line.39">            return true;</a>
+<span class="sourceLineNo">040</span><a id="line.40">        } else {</a>
+<span class="sourceLineNo">041</span><a id="line.41">            return false;</a>
+<span class="sourceLineNo">042</span><a id="line.42">        }</a>
+<span class="sourceLineNo">043</span><a id="line.43">    }</a>
+<span class="sourceLineNo">044</span><a id="line.44"></a>
+<span class="sourceLineNo">045</span><a id="line.45">    /**</a>
+<span class="sourceLineNo">046</span><a id="line.46">     * Ritorna l'utente in uso e ne rende accessibile i dati nelle jsp</a>
+<span class="sourceLineNo">047</span><a id="line.47">     * @return utente in uso</a>
+<span class="sourceLineNo">048</span><a id="line.48">     */</a>
+<span class="sourceLineNo">049</span><a id="line.49">    @Named("currentUser") //accessibile nelle jsp con ${currentUser}</a>
+<span class="sourceLineNo">050</span><a id="line.50">    @RequestScoped</a>
+<span class="sourceLineNo">051</span><a id="line.51">    @Produces</a>
+<span class="sourceLineNo">052</span><a id="line.52">    public CurrentUser getCurrentUser(){</a>
+<span class="sourceLineNo">053</span><a id="line.53">        if(currentUserId &lt;= 0)</a>
+<span class="sourceLineNo">054</span><a id="line.54">            return new CurrentUser();</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">        User user = genericRepository.findById(User.class,currentUserId);</a>
+<span class="sourceLineNo">057</span><a id="line.57">        if(user == null)</a>
+<span class="sourceLineNo">058</span><a id="line.58">            return new CurrentUser();</a>
+<span class="sourceLineNo">059</span><a id="line.59"></a>
+<span class="sourceLineNo">060</span><a id="line.60">        Instant longestCurrentBan = user.getBans().isEmpty() ? null : user.getBans().get(0).getEndTime();</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">        CurrentUser currentUser = CurrentUser.builder()</a>
+<span class="sourceLineNo">063</span><a id="line.63">                .username(user.getUsername())</a>
+<span class="sourceLineNo">064</span><a id="line.64">                .id(user.getId())</a>
+<span class="sourceLineNo">065</span><a id="line.65">                .isAdmin(user.getAdmin())</a>
+<span class="sourceLineNo">066</span><a id="line.66">                .picture(user.getPicture())</a>
+<span class="sourceLineNo">067</span><a id="line.67">                .banDuration(longestCurrentBan)</a>
+<span class="sourceLineNo">068</span><a id="line.68">                .isLoggedIn(true)</a>
+<span class="sourceLineNo">069</span><a id="line.69">                .build();</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">        System.out.println(currentUser);</a>
+<span class="sourceLineNo">072</span><a id="line.72">        return currentUser;</a>
+<span class="sourceLineNo">073</span><a id="line.73">    }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">}</a>
 
 
 
