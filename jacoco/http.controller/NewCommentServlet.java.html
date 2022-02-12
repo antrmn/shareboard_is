@@ -18,28 +18,27 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 
 @WebServlet(&quot;/newcomment&quot;)
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-@ServletSecurity(@HttpConstraint(rolesAllowed = {&quot;admin&quot;,&quot;user&quot;}))
-<span class="fc" id="L22">public class NewCommentServlet extends InterceptableServlet {</span>
+<span class="fc" id="L21">public class NewCommentServlet extends InterceptableServlet {</span>
     @Inject private CommentService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L27">        doPost(request,response);</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L26">        doPost(request,response);</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L32">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L33">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="fc" id="L34">        int parentId = converter.getIntParameter(&quot;parent&quot;).orElse(0);</span>
-<span class="fc" id="L35">        String text = request.getParameter(&quot;text&quot;);</span>
+<span class="fc" id="L31">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L32">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L33">        int parentId = converter.getIntParameter(&quot;parent&quot;).orElse(0);</span>
+<span class="fc" id="L34">        String text = request.getParameter(&quot;text&quot;);</span>
 
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if(postId &gt; 0){</span>
-<span class="nc" id="L38">            service.newComment(text,postId);</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        if(postId &gt; 0){</span>
+<span class="nc" id="L37">            service.newComment(text,postId);</span>
         }else{
-<span class="fc" id="L40">            service.newCommentReply(text,parentId,postId);</span>
+<span class="fc" id="L39">            service.newCommentReply(text,parentId,postId);</span>
         }
-<span class="fc" id="L42">        response.sendRedirect(request.getContextPath() + &quot;/post/&quot; + postId +&quot;#comment-container&quot;);</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L41">        response.sendRedirect(request.getContextPath() + &quot;/post/&quot; + postId +&quot;#comment-container&quot;);</span>
+<span class="fc" id="L42">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
