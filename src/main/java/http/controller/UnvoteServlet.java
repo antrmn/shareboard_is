@@ -27,9 +27,9 @@ public class UnvoteServlet extends InterceptableServlet {
         int id = converter.getIntParameter("id").orElse(0);
         String type = request.getParameter("type");
 
-        if(type!=null && type.equalsIgnoreCase("post")){
+        if("post".equalsIgnoreCase(type)){
             service.unvotePost(id);
-        }else if(type!=null && type.equalsIgnoreCase("comment")){
+        }else if("comment".equalsIgnoreCase(type)){
             service.unvoteComment(id);
         } else {
             throw new IllegalArgumentException();

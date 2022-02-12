@@ -86,4 +86,12 @@ public class UnvoteServletTest extends ServletTest{
         assertThrows(ConstraintViolationException.class,() -> unvoteServlet.doGet(request,response));
     }
 
+    @Test
+    void typeNotDefined() throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("type")).thenReturn("nope");
+
+        assertThrows(IllegalArgumentException.class,() -> unvoteServlet.doPost(request,response));
+    }
+
 }
