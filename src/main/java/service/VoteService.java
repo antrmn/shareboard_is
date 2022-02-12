@@ -17,16 +17,30 @@ public class VoteService {
     @Inject private GenericRepository genericRepository;
     @Inject private CurrentUser currentUser;
 
+    /**
+     * Aggiunge un voto positivo ad un commento
+     * @param id di un commento esistente
+     */
     @AuthenticationRequired
     public void upvoteComment(@CommentExists int id){
         voteComment(id, (short) +1);
     }
 
+    /**
+     * Aggiunge un voto negativo ad un commento
+     * @param id di un commento esistente
+     */
     @AuthenticationRequired
     public void downvoteComment(@CommentExists int id){
         voteComment(id, (short) -1);
     }
 
+
+    /**
+     * Aggiunge un voto ad un commento
+     * @param id di un commento
+     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
+     */
     private void voteComment(int id, short vote) {
         Comment comment = genericRepository.findById(Comment.class,id);
         User user = genericRepository.findById(User.class, currentUser.getId());
@@ -35,16 +49,29 @@ public class VoteService {
         genericRepository.merge(commentVote);
     }
 
+    /**
+     * Aggiunge un voto positivo ad un post
+     * @param id di un post esistente
+     */
     @AuthenticationRequired
     public void upvotePost(@PostExists int id){
         votePost(id, (short) +1);
     }
 
+    /**
+     * Aggiunge un voto negativo ad un post
+     * @param id di un post esistente
+     */
     @AuthenticationRequired
     public void downvotePost(@PostExists int id){
         votePost(id, (short) -1);
     }
 
+    /**
+     * Aggiunge un voto ad un post
+     * @param id di un post
+     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
+     */
     private void votePost(int id, short vote){
         Post post = genericRepository.findById(Post.class,id);
         User user = genericRepository.findById(User.class, currentUser.getId());
@@ -53,6 +80,10 @@ public class VoteService {
         genericRepository.merge(postVote);
     }
 
+    /**
+     * Rimuove il voto ad un commento
+     * @param id di un commento esistente
+     */
     @AuthenticationRequired
     public void unvoteComment(@CommentExists int id){
         Comment comment = genericRepository.findById(Comment.class, id);
@@ -62,6 +93,10 @@ public class VoteService {
             genericRepository.remove(commentVote);
     }
 
+    /**
+     * Rimuove il voto ad un post
+     * @param id di un post esistente
+     */
     @AuthenticationRequired
     public void unvotePost(@PostExists int id){
         Post post = genericRepository.findById(Post.class,id);

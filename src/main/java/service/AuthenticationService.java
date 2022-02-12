@@ -24,6 +24,12 @@ public class AuthenticationService implements Serializable {
 
     private int currentUserId = 0;
 
+    /**
+     * Autentica un utente
+     * @param username stringa con nome utente
+     * @param password stringa con password
+     * @return esito dell'operazione
+     */
     public boolean authenticate(String username, String password){
         User user = userRepository.getByName(username);
         if(user == null)
@@ -36,6 +42,10 @@ public class AuthenticationService implements Serializable {
         }
     }
 
+    /**
+     * Ritorna l'utente in uso e ne rende accessibile i dati nelle jsp
+     * @return utente in uso
+     */
     @Named("currentUser") //accessibile nelle jsp con ${currentUser}
     @RequestScoped
     @Produces

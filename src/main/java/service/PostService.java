@@ -38,6 +38,11 @@ public class PostService {
     @Inject private CurrentUser currentUser;
 
 
+    /**
+     * Converte post in PostPage.
+     * @param post post da convertire
+     * @return PostPage con i dati di post
+     */
     private PostPage mapPost(Post post){
         User user = null;
         if(currentUser.isLoggedIn())
@@ -73,6 +78,11 @@ public class PostService {
         return post;
     }
 
+    /**
+     * Ritorna una lista di post che rispettano determinati parametri
+     * @param form entità con i parametri di ricerca
+     * @return lista di PostPage
+     */
     @Transactional
     public List<PostPage> loadPosts(PostSearchForm form){
         final int elementsPerPage = 10;
@@ -177,7 +187,7 @@ public class PostService {
 
     /**
      * Aggiunge un post ad una sezione
-     * @param title titolo della sezione
+     * @param title titolo del post
      * @param body testo del post
      * @param sectionName nome della sezione
      * @return identificativo del nuovo post creato
@@ -201,6 +211,14 @@ public class PostService {
         return genericRepository.insert(post).getId();
     }
 
+    /**
+     * Aggiunge un post ad una sezione
+     * @param title titolo del post
+     * @param content file di tipo immagine
+     * @param size lunghezza in byte di content
+     * @param sectionName nome della sezione
+     * @return identificativo del nuovo post creato
+     */
     @AuthenticationRequired
     @DenyBannedUsers
     public int newPost(@NotBlank(message = "{post.title.blank}") String title,
