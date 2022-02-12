@@ -137,6 +137,21 @@ public class VoteServiceTest extends ServiceTest{
         assertThrows(ConstraintViolationException.class,() -> service.unvoteComment(id));
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void failUnvoteCommentVoteNotExists(int id){
+        Comment comment = spy(Comment.class);
+        comment.setId(id);
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        User user = new User();
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
+        doReturn(null).when(comment).getVote(any());
+        service.unvoteComment(id);
+        verify(genericRepository,never()).remove(any());
+    }
+
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
@@ -158,6 +173,21 @@ public class VoteServiceTest extends ServiceTest{
     void failUnvotePost(int id){
         when(genericRepository.findById(Post.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.unvotePost(id));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void failUnvotePostVoteNotExists(int id){
+        Post post = spy(Post.class);
+        post.setId(id);
+        when(genericRepository.findById(Post.class,id)).thenReturn(post);
+        User user = new User();
+        user.setId(2);
+        when(currentUser.getId()).thenReturn(2);
+        when(genericRepository.findById(User.class,2)).thenReturn(user);
+        doReturn(null).when(post).getVote(any());
+        service.upvotePost(id);
+        verify(genericRepository,never()).remove(any());
     }
 
 }
