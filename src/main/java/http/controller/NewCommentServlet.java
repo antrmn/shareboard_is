@@ -18,7 +18,6 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 
 @WebServlet("/newcomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-@ServletSecurity(@HttpConstraint(rolesAllowed = {"admin","user"}))
 public class NewCommentServlet extends InterceptableServlet {
     @Inject private CommentService service;
 
