@@ -10,13 +10,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
- * @see javax.persistence.EntityManager
- */
-<span class="fc" id="L19">public class SectionRepository implements Serializable {</span>
+
+<span class="fc" id="L14">public class SectionRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
@@ -27,7 +22,7 @@ import java.util.List;
      * @return entità Section
      */
     public Section getByName(String name){
-<span class="fc" id="L30">        return getByName(name, false);</span>
+<span class="fc" id="L25">        return getByName(name, false);</span>
     }
 
     /**
@@ -37,8 +32,8 @@ import java.util.List;
      * @return entità Section
      */
     public Section getByName(String name, boolean getReference){
-<span class="fc" id="L40">        SimpleNaturalIdLoadAccess&lt;Section&gt; section = em.unwrap(Session.class).bySimpleNaturalId(Section.class);</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">        return getReference ? section.getReference(name) : section.load(name);</span>
+<span class="fc" id="L35">        SimpleNaturalIdLoadAccess&lt;Section&gt; section = em.unwrap(Session.class).bySimpleNaturalId(Section.class);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        return getReference ? section.getReference(name) : section.load(name);</span>
     }
 
     /**
@@ -46,7 +41,7 @@ import java.util.List;
      * @return lista di entità Section delle sezioni con più follows
      */
     public List&lt;Section&gt; getMostFollowedSections(){
-<span class="fc" id="L49">        return em.createQuery(&quot;from Section s order by follows.size desc&quot;, Section.class).getResultList();</span>
+<span class="fc" id="L44">        return em.createQuery(&quot;from Section s order by follows.size desc&quot;, Section.class).getResultList();</span>
     }
 
     /**
@@ -55,11 +50,11 @@ import java.util.List;
      * @return lista di entità Section delle sezioni con più follows
      */
     public List&lt;Section&gt; getMostFollowedSections(Instant after){
-<span class="fc" id="L58">        return em.createQuery(</span>
+<span class="fc" id="L53">        return em.createQuery(</span>
                 &quot;select s from Section s left join s.follows f where f.followDate &gt;= :after &quot; +
                 &quot;group by s &quot; +
                 &quot;order by count(f) desc&quot;, Section.class)
-<span class="fc" id="L62">                .setParameter(&quot;after&quot;,after).getResultList();</span>
+<span class="fc" id="L57">                .setParameter(&quot;after&quot;,after).getResultList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

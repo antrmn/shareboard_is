@@ -8,16 +8,8 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
- * @param &lt;T&gt; La classe delle entità di persistenza gestite da classi che implementano questa interfaccia
- * @param &lt;ID&gt; La classe della chiave primaria delle entità di persistenza gestite da classi che implementano questa
- *            interfaccia
- * @see javax.persistence.EntityManager
- */
-<span class="fc" id="L20">public class CommentRepository implements Serializable {</span>
+
+<span class="fc" id="L12">public class CommentRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
@@ -29,12 +21,12 @@ import java.util.List;
      * @return Lista di commenti
      */
     public List&lt;Comment&gt; getByPost(Post post, int depth){
-<span class="fc" id="L32">        return em.createQuery(</span>
+<span class="fc" id="L24">        return em.createQuery(</span>
                         &quot;from Comment c where c.post = :post and length(c.path) &lt;= (7 * :depth) + 1 order by c.path&quot;,
                         Comment.class)
-<span class="fc" id="L35">                .setParameter(&quot;depth&quot;, depth)</span>
-<span class="fc" id="L36">                .setParameter(&quot;post&quot;, post)</span>
-<span class="fc" id="L37">                .getResultList();</span>
+<span class="fc" id="L27">                .setParameter(&quot;depth&quot;, depth)</span>
+<span class="fc" id="L28">                .setParameter(&quot;post&quot;, post)</span>
+<span class="fc" id="L29">                .getResultList();</span>
     }
 
     /**
@@ -44,12 +36,12 @@ import java.util.List;
      * @return Lista di commenti
      */
     public List&lt;Comment&gt; getReplies(Comment comment, int depth){
-<span class="fc" id="L47">        return em.createQuery(</span>
+<span class="fc" id="L39">        return em.createQuery(</span>
                     &quot;from Comment c where c.path like :path and length(c.path) &lt;= (7 * :depth) + 1 order by c.path&quot;,
                     Comment.class)
-<span class="fc" id="L50">                .setParameter(&quot;depth&quot;, depth)</span>
-<span class="fc" id="L51">                .setParameter(&quot;path&quot;, comment.getPath() + '%')</span>
-<span class="fc" id="L52">                .getResultList();</span>
+<span class="fc" id="L42">                .setParameter(&quot;depth&quot;, depth)</span>
+<span class="fc" id="L43">                .setParameter(&quot;path&quot;, comment.getPath() + '%')</span>
+<span class="fc" id="L44">                .getResultList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

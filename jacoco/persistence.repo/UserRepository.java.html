@@ -8,13 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 
-/**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
- * @see javax.persistence.EntityManager
- */
-<span class="fc" id="L17">public class UserRepository implements Serializable {</span>
+
+<span class="fc" id="L12">public class UserRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
@@ -25,7 +20,7 @@ import java.io.Serializable;
      * @return entità User
      */
     public User getByName(String name) {
-<span class="fc" id="L28">        return getByName(name, false);</span>
+<span class="fc" id="L23">        return getByName(name, false);</span>
     }
 
     /**
@@ -35,8 +30,8 @@ import java.io.Serializable;
      * @return entità User
      */
     public User getByName(String name, boolean getReference) {
-<span class="fc" id="L38">        SimpleNaturalIdLoadAccess&lt;User&gt; user = em.unwrap(Session.class).bySimpleNaturalId(User.class);</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        return getReference ? user.getReference(name) : user.load(name);</span>
+<span class="fc" id="L33">        SimpleNaturalIdLoadAccess&lt;User&gt; user = em.unwrap(Session.class).bySimpleNaturalId(User.class);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        return getReference ? user.getReference(name) : user.load(name);</span>
     }
 
     /**
@@ -45,7 +40,7 @@ import java.io.Serializable;
      * @return entità User
      */
     public User getByEmail(String email) {
-<span class="fc" id="L48">        return em.createQuery(&quot;from User u where u.email=:email&quot;, User.class).setParameter(&quot;email&quot;, email).getSingleResult();</span>
+<span class="fc" id="L43">        return em.createQuery(&quot;from User u where u.email=:email&quot;, User.class).setParameter(&quot;email&quot;, email).getSingleResult();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

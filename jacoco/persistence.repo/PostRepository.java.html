@@ -14,13 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
- * @see javax.persistence.EntityManager
- */
-<span class="fc" id="L23">public class PostRepository implements Serializable {</span>
+<span class="fc" id="L17">public class PostRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
@@ -30,10 +24,10 @@ import java.util.List;
      * @return nuova istanza di PostFinder
      */
     public PostFinder getFinder(){
-<span class="fc" id="L33">        return new PostFinder();</span>
+<span class="fc" id="L27">        return new PostFinder();</span>
     }
 
-<span class="fc" id="L36">    private enum SortCriteria {OLDEST, NEWEST, MOSTVOTED};</span>
+<span class="fc" id="L30">    private enum SortCriteria {OLDEST, NEWEST, MOSTVOTED};</span>
 
     /**
      *  Classe interna usata per specificare i parametri di ricerca di un post
@@ -43,14 +37,14 @@ import java.util.List;
         private List&lt;Section&gt; sections;
         private Instant before;
         private Instant after;
-<span class="fc" id="L46">        private int offset = 0;</span>
-<span class="fc" id="L47">        private int pageSize = 30;</span>
+<span class="fc" id="L40">        private int offset = 0;</span>
+<span class="fc" id="L41">        private int pageSize = 30;</span>
         private String content;
-<span class="fc" id="L49">        private boolean includeBody = false;</span>
+<span class="fc" id="L43">        private boolean includeBody = false;</span>
         private User joinUserFollows;
-<span class="fc" id="L51">        private SortCriteria sortCriteria = PostRepository.SortCriteria.NEWEST;</span>
+<span class="fc" id="L45">        private SortCriteria sortCriteria = PostRepository.SortCriteria.NEWEST;</span>
 
-<span class="fc" id="L53">        protected PostFinder(){ }</span>
+<span class="fc" id="L47">        protected PostFinder(){ }</span>
 
         /**
          * Setta il campo author e restituisce l'istanza passata di PostFinder
@@ -58,8 +52,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder byAuthor(User author){
-<span class="fc" id="L61">            this.author = author;</span>
-<span class="fc" id="L62">            return this;</span>
+<span class="fc" id="L55">            this.author = author;</span>
+<span class="fc" id="L56">            return this;</span>
         }
 
         /**
@@ -68,8 +62,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder byContent(String text){
-<span class="fc" id="L71">            this.content = text;</span>
-<span class="fc" id="L72">            return this;</span>
+<span class="fc" id="L65">            this.content = text;</span>
+<span class="fc" id="L66">            return this;</span>
         }
 
         /**
@@ -78,8 +72,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder bySections(List&lt;Section&gt; sections){
-<span class="fc" id="L81">            this.sections = sections;</span>
-<span class="fc" id="L82">            return this;</span>
+<span class="fc" id="L75">            this.sections = sections;</span>
+<span class="fc" id="L76">            return this;</span>
         }
 
         /**
@@ -88,8 +82,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder bySection(Section section){
-<span class="fc" id="L91">            this.sections = Collections.singletonList(section);</span>
-<span class="fc" id="L92">            return this;</span>
+<span class="fc" id="L85">            this.sections = Collections.singletonList(section);</span>
+<span class="fc" id="L86">            return this;</span>
         }
 
         /**
@@ -98,8 +92,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder postedAfter(Instant after){
-<span class="fc" id="L101">            this.after = after;</span>
-<span class="fc" id="L102">            return this;</span>
+<span class="fc" id="L95">            this.after = after;</span>
+<span class="fc" id="L96">            return this;</span>
         }
 
         /**
@@ -108,8 +102,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder postedBefore(Instant before){
-<span class="fc" id="L111">            this.before = before;</span>
-<span class="fc" id="L112">            return this;</span>
+<span class="fc" id="L105">            this.before = before;</span>
+<span class="fc" id="L106">            return this;</span>
         }
 
         /**
@@ -118,8 +112,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder offset(int n){
-<span class="fc" id="L121">            offset = n;</span>
-<span class="fc" id="L122">            return this;</span>
+<span class="fc" id="L115">            offset = n;</span>
+<span class="fc" id="L116">            return this;</span>
         }
 
         /**
@@ -128,8 +122,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder limit(int n){
-<span class="fc" id="L131">            pageSize = n;</span>
-<span class="fc" id="L132">            return this;</span>
+<span class="fc" id="L125">            pageSize = n;</span>
+<span class="fc" id="L126">            return this;</span>
         }
 
         /**
@@ -137,8 +131,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder getOldest(){
-<span class="fc" id="L140">            sortCriteria = SortCriteria.OLDEST;</span>
-<span class="fc" id="L141">            return this;</span>
+<span class="fc" id="L134">            sortCriteria = SortCriteria.OLDEST;</span>
+<span class="fc" id="L135">            return this;</span>
         }
 
         /**
@@ -146,8 +140,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder getNewest(){
-<span class="fc" id="L149">            sortCriteria = SortCriteria.NEWEST;</span>
-<span class="fc" id="L150">            return this;</span>
+<span class="fc" id="L143">            sortCriteria = SortCriteria.NEWEST;</span>
+<span class="fc" id="L144">            return this;</span>
         }
 
         /**
@@ -155,8 +149,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder getMostVoted(){
-<span class="fc" id="L158">            sortCriteria = SortCriteria.MOSTVOTED;</span>
-<span class="fc" id="L159">            return this;</span>
+<span class="fc" id="L152">            sortCriteria = SortCriteria.MOSTVOTED;</span>
+<span class="fc" id="L153">            return this;</span>
         }
 
         /**
@@ -164,8 +158,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder includeBody(){
-<span class="fc" id="L167">            includeBody = true;</span>
-<span class="fc" id="L168">            return this;</span>
+<span class="fc" id="L161">            includeBody = true;</span>
+<span class="fc" id="L162">            return this;</span>
         }
 
         /**
@@ -174,8 +168,8 @@ import java.util.List;
          * @return istanza passata di PostFinder
          */
         public PostFinder joinUserFollows(User user){
-<span class="fc" id="L177">            joinUserFollows = user;</span>
-<span class="fc" id="L178">            return this;</span>
+<span class="fc" id="L171">            joinUserFollows = user;</span>
+<span class="fc" id="L172">            return this;</span>
         }
 
         /**
@@ -183,70 +177,70 @@ import java.util.List;
          * @return lista di entità Post
          */
         public List&lt;Post&gt; getResults(){
-<span class="fc" id="L186">            CriteriaBuilder cb = em.getCriteriaBuilder();</span>
-<span class="fc" id="L187">            CriteriaQuery&lt;Post&gt; cq = cb.createQuery(Post.class);</span>
-<span class="fc" id="L188">            Root&lt;Post&gt; root = cq.from(Post.class);</span>
+<span class="fc" id="L180">            CriteriaBuilder cb = em.getCriteriaBuilder();</span>
+<span class="fc" id="L181">            CriteriaQuery&lt;Post&gt; cq = cb.createQuery(Post.class);</span>
+<span class="fc" id="L182">            Root&lt;Post&gt; root = cq.from(Post.class);</span>
 
-<span class="fc" id="L190">            List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L184">            List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L192" title="All 2 branches covered.">            if(author != null) {</span>
-<span class="fc" id="L193">                predicates.add(cb.equal(root.get(&quot;author&quot;), author));</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">            if(author != null) {</span>
+<span class="fc" id="L187">                predicates.add(cb.equal(root.get(&quot;author&quot;), author));</span>
             }
 
-<span class="pc bpc" id="L196" title="1 of 4 branches missed.">            if(sections != null &amp;&amp; !sections.isEmpty()) {</span>
-<span class="fc" id="L197">                predicates.add(root.get(&quot;section&quot;).in(sections));</span>
+<span class="pc bpc" id="L190" title="1 of 4 branches missed.">            if(sections != null &amp;&amp; !sections.isEmpty()) {</span>
+<span class="fc" id="L191">                predicates.add(root.get(&quot;section&quot;).in(sections));</span>
             }
 
-<span class="fc bfc" id="L200" title="All 2 branches covered.">            if(after != null) {</span>
-<span class="fc" id="L201">                predicates.add(cb.greaterThanOrEqualTo(root.get(&quot;creationDate&quot;), after));</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">            if(after != null) {</span>
+<span class="fc" id="L195">                predicates.add(cb.greaterThanOrEqualTo(root.get(&quot;creationDate&quot;), after));</span>
             }
 
-<span class="fc bfc" id="L204" title="All 2 branches covered.">            if(before != null) {</span>
-<span class="fc" id="L205">                predicates.add(cb.lessThanOrEqualTo(root.get(&quot;creationDate&quot;), before));</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if(before != null) {</span>
+<span class="fc" id="L199">                predicates.add(cb.lessThanOrEqualTo(root.get(&quot;creationDate&quot;), before));</span>
             }
 
-<span class="fc bfc" id="L208" title="All 2 branches covered.">            if(content != null) {</span>
-<span class="fc bfc" id="L209" title="All 2 branches covered.">                if(includeBody) {</span>
-<span class="fc" id="L210">                    predicates.add(</span>
-<span class="fc" id="L211">                            cb.or(</span>
-<span class="fc" id="L212">                                    cb.like(root.get(&quot;title&quot;), '%' + content + '%'),</span>
-<span class="fc" id="L213">                                    cb.and(</span>
-<span class="fc" id="L214">                                            cb.notEqual(root.get(&quot;type&quot;), Post.Type.IMG),</span>
-<span class="fc" id="L215">                                            cb.like(root.get(&quot;content&quot;), '%' + content + '%')</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">            if(content != null) {</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">                if(includeBody) {</span>
+<span class="fc" id="L204">                    predicates.add(</span>
+<span class="fc" id="L205">                            cb.or(</span>
+<span class="fc" id="L206">                                    cb.like(root.get(&quot;title&quot;), '%' + content + '%'),</span>
+<span class="fc" id="L207">                                    cb.and(</span>
+<span class="fc" id="L208">                                            cb.notEqual(root.get(&quot;type&quot;), Post.Type.IMG),</span>
+<span class="fc" id="L209">                                            cb.like(root.get(&quot;content&quot;), '%' + content + '%')</span>
                                     )));
                 } else {
-<span class="fc" id="L218">                    predicates.add(cb.like(root.get(&quot;title&quot;), '%' + content + '%'));</span>
+<span class="fc" id="L212">                    predicates.add(cb.like(root.get(&quot;title&quot;), '%' + content + '%'));</span>
                 }
             }
 
-<span class="fc bfc" id="L222" title="All 2 branches covered.">            if(joinUserFollows != null){</span>
-<span class="fc" id="L223">                Join&lt;Object, Object&gt; joinFollow = root.join(&quot;section&quot;).join(&quot;follows&quot;);</span>
-<span class="fc" id="L224">                predicates.add(cb.equal(joinFollow.get(&quot;user&quot;), joinUserFollows));</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">            if(joinUserFollows != null){</span>
+<span class="fc" id="L217">                Join&lt;Object, Object&gt; joinFollow = root.join(&quot;section&quot;).join(&quot;follows&quot;);</span>
+<span class="fc" id="L218">                predicates.add(cb.equal(joinFollow.get(&quot;user&quot;), joinUserFollows));</span>
             }
 
-<span class="fc" id="L227">            cq.where(cb.and(predicates.toArray(Predicate[]::new)));</span>
+<span class="fc" id="L221">            cq.where(cb.and(predicates.toArray(Predicate[]::new)));</span>
 
-<span class="fc bfc" id="L229" title="All 3 branches covered.">            switch (sortCriteria) {</span>
+<span class="fc bfc" id="L223" title="All 3 branches covered.">            switch (sortCriteria) {</span>
                 case MOSTVOTED:
-<span class="fc" id="L231">                    cq.orderBy(cb.desc(root.get(&quot;votesCount&quot;)));</span>
-<span class="fc" id="L232">                    break;</span>
+<span class="fc" id="L225">                    cq.orderBy(cb.desc(root.get(&quot;votesCount&quot;)));</span>
+<span class="fc" id="L226">                    break;</span>
                 case OLDEST:
-<span class="fc" id="L234">                    cq.orderBy(cb.asc(root.get(&quot;creationDate&quot;)));</span>
-<span class="fc" id="L235">                    break;</span>
+<span class="fc" id="L228">                    cq.orderBy(cb.asc(root.get(&quot;creationDate&quot;)));</span>
+<span class="fc" id="L229">                    break;</span>
                 case NEWEST:
                 default:
-<span class="fc" id="L238">                    cq.orderBy(cb.desc(root.get(&quot;creationDate&quot;)));</span>
+<span class="fc" id="L232">                    cq.orderBy(cb.desc(root.get(&quot;creationDate&quot;)));</span>
                     break;
             }
 
 
-<span class="fc" id="L243">            TypedQuery&lt;Post&gt; tq = em.createQuery(cq);</span>
-<span class="pc bpc" id="L244" title="1 of 2 branches missed.">            if(offset &gt;= 0)</span>
-<span class="fc" id="L245">                tq.setFirstResult(offset);</span>
-<span class="pc bpc" id="L246" title="1 of 2 branches missed.">            if(pageSize&gt;=0)</span>
-<span class="fc" id="L247">                tq.setMaxResults(pageSize);</span>
+<span class="fc" id="L237">            TypedQuery&lt;Post&gt; tq = em.createQuery(cq);</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">            if(offset &gt;= 0)</span>
+<span class="fc" id="L239">                tq.setFirstResult(offset);</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">            if(pageSize&gt;=0)</span>
+<span class="fc" id="L241">                tq.setMaxResults(pageSize);</span>
 
-<span class="fc" id="L249">            return tq.getResultList();</span>
+<span class="fc" id="L243">            return tq.getResultList();</span>
         }
     }
 }
