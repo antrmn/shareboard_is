@@ -68,6 +68,49 @@ public class NewPostServletTest extends ServletTest{
     }
 
     @Test
+    void successfulldoPostWithImage() throws ServletException, IOException{
+        when(request.getParameter("section")).thenReturn("1");
+        when(request.getParameter("title")).thenReturn("text");
+        when(request.getParameter("type")).thenReturn("image");
+        when(request.getParameter("content")).thenReturn("text");
+        when(sectionService.showSection(anyInt())).thenReturn(section);
+        when(section.getName()).thenReturn("section");
+        when(request.getPart(anyString())).thenReturn(part);
+        when(part.getName()).thenReturn("part");
+        when(part.getSize()).thenReturn(Long.valueOf(0));
+        when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
+
+        NewPostServlet spyServlet = spy(postServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        doReturn(servletContext).when(spyServlet).getServletContext();
+        spyServlet.doPost(request,response);
+        verify(response, times(1)).sendRedirect(any());
+    }
+
+    @Test
+    void faildoPostWithImageTooLarge() throws ServletException, IOException{
+        when(request.getParameter("section")).thenReturn("1");
+        when(request.getParameter("title")).thenReturn("text");
+        when(request.getParameter("type")).thenReturn("image");
+        when(request.getParameter("content")).thenReturn("text");
+        when(sectionService.showSection(anyInt())).thenReturn(section);
+        when(section.getName()).thenReturn("section");
+        when(request.getPart(anyString())).thenReturn(part);
+        when(part.getName()).thenReturn("part");
+        when(part.getSize()).thenReturn((long) (6*1024*1024));
+        when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
+
+        NewPostServlet spyServlet = spy(postServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        doReturn(servletContext).when(spyServlet).getServletContext();
+        assertThrows(IllegalArgumentException.class,() -> spyServlet.doPost(request,response));
+    }
+
+    @Test
     void faildoPost() throws ServletException, IOException{
         when(request.getParameter("section")).thenReturn("1");
         when(request.getParameter("title")).thenReturn("text");
