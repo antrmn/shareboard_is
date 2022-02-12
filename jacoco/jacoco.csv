@@ -59,7 +59,7 @@ shareboard_is,http.controller,LoadPostsServlet,15,116,4,2,1,32,4,4,1,4
 shareboard_is,http.controller,NewCommentServlet,7,45,1,1,1,11,1,3,0,3
 shareboard_is,http.controller,Logout,0,12,0,0,0,4,0,2,0,2
 shareboard_is,http.controller,ShowUsersServlet,0,18,0,0,0,5,0,2,0,2
-shareboard_is,http.controller,NewPostServlet,28,63,5,1,5,14,3,3,0,3
+shareboard_is,http.controller,NewPostServlet,0,91,1,5,0,19,1,5,0,3
 shareboard_is,http.controller,SearchServlet,9,119,2,2,1,33,3,4,1,4
 shareboard_is,http.controller,RegisterServlet,29,56,3,3,9,14,3,3,0,3
 shareboard_is,http.controller,NewSectionServlet,0,67,0,0,0,13,0,3,0,3

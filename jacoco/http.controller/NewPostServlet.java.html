@@ -46,14 +46,14 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 <span class="fc" id="L46">        Part picture = request.getPart(&quot;picture&quot;);</span>
 
         int newPostId;
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if(type.equalsIgnoreCase(&quot;text&quot;)){</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if(type.equalsIgnoreCase(&quot;text&quot;)){</span>
 <span class="fc" id="L50">            newPostId = service.newPost(title,content,sectionName);</span>
         }else{
-<span class="nc bnc" id="L52" title="All 4 branches missed.">            if(picture != null &amp;&amp; picture.getSize() &lt; 5 * 1024 * 1024) {</span>
-<span class="nc" id="L53">                BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());</span>
-<span class="nc" id="L54">                newPostId = service.newPost(title,buff, picture.getSize(), sectionName);</span>
-<span class="nc" id="L55">            }else{</span>
-<span class="nc" id="L56">                throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">            if(picture != null &amp;&amp; picture.getSize() &lt; 5 * 1024 * 1024) {</span>
+<span class="fc" id="L53">                BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());</span>
+<span class="fc" id="L54">                newPostId = service.newPost(title,buff, picture.getSize(), sectionName);</span>
+<span class="fc" id="L55">            }else{</span>
+<span class="fc" id="L56">                throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
             }
         }
 <span class="fc" id="L59">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + newPostId); //potrebbe mostrare postId = 0?</span>
