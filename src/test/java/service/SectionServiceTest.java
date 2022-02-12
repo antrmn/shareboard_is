@@ -33,7 +33,7 @@ public class SectionServiceTest extends ServiceTest{
     @Mock GenericRepository genericRepository;
     @Mock private SectionRepository sectionRepo;
     @Mock private BinaryContentRepository bcRepo;
-    @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
+    @Mock private CurrentUser currentUser;
     @Inject private SectionService service;
 
     @ParameterizedTest
@@ -105,6 +105,27 @@ public class SectionServiceTest extends ServiceTest{
         when(genericRepository.findById(User.class,1)).thenReturn(user);
         Follow follow = new Follow(user,section);
         doReturn(follow).when(section).getFollow(any());
+        when(genericRepository.findById(Section.class,id)).thenReturn(section);
+        SectionPage sectionPage = service.showSection(id);
+        assertNotNull(sectionPage);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void successfulShowSectionWithLoggedUserWithoutFollow(int id){
+        Section section = spy(Section.class);
+        section.setId(id);
+        section.setBanner("banner");
+        section.setDescription("description");
+        section.setPicture("picture");
+        section.setName("name");
+        doReturn(2).when(section).getFollowCount();
+        User user = spy(User.class);
+        user.setId(1);
+        when(currentUser.getId()).thenReturn(1);
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(genericRepository.findById(User.class,1)).thenReturn(user);
+        doReturn(null).when(section).getFollow(any());
         when(genericRepository.findById(Section.class,id)).thenReturn(section);
         SectionPage sectionPage = service.showSection(id);
         assertNotNull(sectionPage);
