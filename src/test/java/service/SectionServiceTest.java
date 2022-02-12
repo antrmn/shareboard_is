@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
+import persistence.model.Follow;
 import persistence.model.Section;
+import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.SectionRepository;
@@ -16,6 +18,7 @@ import service.dto.SectionPage;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -87,6 +90,28 @@ public class SectionServiceTest extends ServiceTest{
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
+    void successfulShowSectionWithLoggedUser(int id){
+        Section section = spy(Section.class);
+        section.setId(id);
+        section.setBanner("banner");
+        section.setDescription("description");
+        section.setPicture("picture");
+        section.setName("name");
+        doReturn(2).when(section).getFollowCount();
+        User user = spy(User.class);
+        user.setId(1);
+        when(currentUser.getId()).thenReturn(1);
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(genericRepository.findById(User.class,1)).thenReturn(user);
+        Follow follow = new Follow(user,section);
+        doReturn(follow).when(section).getFollow(any());
+        when(genericRepository.findById(Section.class,id)).thenReturn(section);
+        SectionPage sectionPage = service.showSection(id);
+        assertNotNull(sectionPage);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
     void failShowSectionWithWrongId(int id){
         when(genericRepository.findById(Section.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.showSection(id));
@@ -131,6 +156,18 @@ public class SectionServiceTest extends ServiceTest{
         SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
         when(genericRepository.findById(Section.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.editSection(sectionPage,id,null,null));
+    }
+
+    @Test
+    void getTrendingSections(){
+        List<SectionPage> list = service.getTrendingSections();
+        assertTrue(list != null);
+    }
+
+    @Test
+    void getTopSections(){
+        List<SectionPage> list = service.getTopSections();
+        assertTrue(list != null);
     }
 
 }
