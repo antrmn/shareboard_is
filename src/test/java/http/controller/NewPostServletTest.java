@@ -2,7 +2,6 @@ package http.controller;
 
 
 import org.apache.openejb.testing.Classes;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
@@ -159,5 +158,42 @@ public class NewPostServletTest extends ServletTest{
         assertThrows(ConstraintViolationException.class,() -> postServlet.doGet(request,response));
     }
 
+    @Test
+    void tooBigImage() throws ServletException,IOException{
+        when(request.getParameter("section")).thenReturn("1");
+        when(request.getParameter("title")).thenReturn("text");
+        when(request.getParameter("type")).thenReturn("img");
+        when(sectionService.showSection(anyInt())).thenReturn(section);
+        when(section.getName()).thenReturn("section");
+        when(request.getPart(anyString())).thenReturn(part);
+        when(part.getName()).thenReturn("part");
+        when(part.getSize()).thenReturn(Long.valueOf(6*1024*1024));
+        when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
+
+        assertThrows(IllegalArgumentException.class, () -> postServlet.doPost(request,response));
+    }
+
+    @Test
+    void successfulImage() throws ServletException,IOException{
+        when(request.getParameter("section")).thenReturn("1");
+        when(request.getParameter("title")).thenReturn("text");
+        when(request.getParameter("type")).thenReturn("img");
+        when(sectionService.showSection(anyInt())).thenReturn(section);
+        when(section.getName()).thenReturn("section");
+        when(request.getPart(anyString())).thenReturn(part);
+        when(part.getName()).thenReturn("part");
+        when(part.getSize()).thenReturn(Long.valueOf(1));
+        BufferedInputStream inputStream = new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8)));
+        when(part.getInputStream()).thenReturn(inputStream);
+
+        NewPostServlet spyServlet = spy(postServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        doReturn(servletContext).when(spyServlet).getServletContext();
+
+        spyServlet.doPost(request,response);
+        verify(service).newPost(anyString(),any(),anyLong(), anyString());
+    }
 
 }

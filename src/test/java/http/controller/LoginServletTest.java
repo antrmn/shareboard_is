@@ -82,5 +82,32 @@ public class LoginServletTest extends ServletTest{
         assertThrows(ConstraintViolationException.class,() -> loginServlet.doPost(request,response));
     }
 
+    @Test
+    void alreadyLoggedIdDoget() throws ServletException, IOException {
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(request.getContextPath()).thenReturn("cont");
+        loginServlet.doGet(request,response);
+        verify(response).sendRedirect("cont");
+    }
+
+    @Test
+    void alreadyLoggedIdDoPost() throws ServletException, IOException {
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(request.getContextPath()).thenReturn("cont");
+        loginServlet.doPost(request,response);
+        verify(response).sendRedirect("cont");
+    }
+
+    @Test
+    void successfulLogin() throws ServletException, IOException {
+        when(currentUser.isLoggedIn()).thenReturn(false);
+        when(request.getParameter("username")).thenReturn("username");
+        when(request.getParameter("pass")).thenReturn("pass");
+        when(authenticationService.authenticate("username", "pass")).thenReturn(true);
+
+        when(request.getContextPath()).thenReturn("cont");
+        loginServlet.doPost(request,response);
+        verify(response).sendRedirect("cont");
+    }
 
 }

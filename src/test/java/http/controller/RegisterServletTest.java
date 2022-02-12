@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
         cdiStereotypes = CdiMock.class)
 public class RegisterServletTest extends ServletTest{
 
-    @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
+    @Mock private CurrentUser currentUser;
     @Mock private AuthenticationService authenticationService;
     @Mock private UserService service;
     @Mock private PostService postservice;
@@ -90,5 +90,34 @@ public class RegisterServletTest extends ServletTest{
         assertThrows(ConstraintViolationException.class,() -> spyServlet.doGet(request,response));
     }
 
+    @Test
+    void userAlreadyLoggedin() throws ServletException, IOException{
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(request.getContextPath()).thenReturn("webapp");
+        registerServlet.doGet(request,response);
+        verify(response).sendRedirect(request.getContextPath());
+    }
+
+    @Test
+    void userAlreadyLoggedinDoPost() throws ServletException, IOException{
+        when(currentUser.isLoggedIn()).thenReturn(true);
+        when(request.getContextPath()).thenReturn("webapp");
+        registerServlet.doPost(request,response);
+        verify(response).sendRedirect(request.getContextPath());
+    }
+
+    @Test
+    void passDoNotMatchdoPost() throws ServletException, IOException{
+        when(request.getParameter("mail")).thenReturn("mail");
+        when(request.getParameter("username")).thenReturn("username");
+        when(request.getParameter("pass")).thenReturn("pass");
+        when(request.getParameter("pass2")).thenReturn("passdifferent");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+
+
+        registerServlet.doPost(request,response);
+        verify(request).setAttribute(anyString(),anyList());
+        verify(dispatcher).forward(request,response);
+    }
 
 }

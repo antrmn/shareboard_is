@@ -9,7 +9,6 @@ import service.PostService;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +37,10 @@ public class LoadPostsServletTest extends ServletTest{
         when(request.getParameter("content")).thenReturn("content");
         when(request.getParameter("section")).thenReturn("section");
         when(request.getParameter("author")).thenReturn("user");
-        when(request.getParameter("postedAfter")).thenReturn("date");
-        when(request.getParameter("postedBefore")).thenReturn("date");
+        when(request.getParameter("postedAfter")).thenReturn("2021-01-01");
+        when(request.getParameter("postedBefore")).thenReturn("2021-01-01");
         when(request.getParameter("orderby")).thenReturn("newest");
+        when(request.getParameter("includeBody")).thenReturn("yes");
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
         servlet.doGet(request,response);
         verify(dispatcher, times(1)).forward(any(), any());
