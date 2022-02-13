@@ -28,7 +28,7 @@
       </tr>
       <c:forEach items="${sections.values()}" var="section">
         <tr>
-          <td>${section.id}</td>
+          <td id = ${section.name}>${section.id}</td>
           <td>${section.name}</td>
           <td>${section.NFollowers}</td>
           <td>

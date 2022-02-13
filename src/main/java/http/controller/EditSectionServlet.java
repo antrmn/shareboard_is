@@ -26,6 +26,7 @@ public class EditSectionServlet extends InterceptableServlet {
     @Inject private SectionService service;
 
     private static final String EDIT_SECTION_PAGE = "/WEB-INF/views/crm/edit-section.jsp";
+    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,9 +46,23 @@ public class EditSectionServlet extends InterceptableServlet {
         Part picture = request.getPart("picture");
         Part banner = request.getPart("banner");
 
+        BufferedInputStream buffPicture = null;
+        BufferedInputStream buffBanner = null;
+        if(picture != null && picture.getSize() < MAX_FILE_SIZE) {
+            if (picture.getSize()>0)
+                buffPicture = new BufferedInputStream(picture.getInputStream());
+        }else{
+            throw new IllegalArgumentException("Il file non deve superare i 5MB");
+        }
+
+        if(banner != null && banner.getSize() < MAX_FILE_SIZE) {
+            if (banner.getSize()>0)
+                buffBanner = new BufferedInputStream(banner.getInputStream());
+        }else{
+            throw new IllegalArgumentException("Il file non deve superare i 5MB");
+        }
+
         SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?
-        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
-        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());
         service.editSection(sectionPage,sectionId,buffPicture,buffBanner);
         response.sendRedirect(request.getContextPath()+"/admin/showsections");
     }

@@ -8,6 +8,7 @@ import persistence.repo.SectionRepository;
 import service.auth.AdminsOnly;
 import service.dto.CurrentUser;
 import service.dto.SectionPage;
+import service.validation.Image;
 import service.validation.SectionExists;
 import service.validation.SectionExistsById;
 
@@ -72,15 +73,17 @@ public class SectionService {
      */
     @AdminsOnly
     public int newSection(SectionPage sectiondata,
-                          BufferedInputStream picture,
-                          BufferedInputStream banner) throws IOException {
+                          @Image BufferedInputStream picture,
+                          @Image BufferedInputStream banner) throws IOException {
         Section s = new Section();
         s.setName(sectiondata.getName());
-        s.setPicture(sectiondata.getPicture());
-        s.setBanner(sectiondata.getBanner());
         s.setDescription(sectiondata.getDescription());
-        bcRepo.insert(picture);
-        bcRepo.insert(banner);
+        if (picture != null){
+            s.setPicture(bcRepo.insert(picture));
+        }
+        if (banner != null) {
+            s.setBanner(bcRepo.insert(banner));
+        }
 
         return genericRepository.insert(s).getId();
     }
@@ -137,14 +140,18 @@ public class SectionService {
     @AdminsOnly
     public void editSection(SectionPage edit,
                             @SectionExistsById int id,
-                            BufferedInputStream picture,
-                            BufferedInputStream banner) throws IOException {
+                            @Image BufferedInputStream picture,
+                            @Image BufferedInputStream banner) throws IOException {
         Section s = genericRepository.findById(Section.class,id);
-        s.setBanner(edit.getBanner());
-        s.setPicture(edit.getPicture());
+//        s.setBanner(edit.getBanner());
+//        s.setPicture(edit.getPicture());
         s.setDescription(edit.getDescription());
-        bcRepo.insert(picture);
-        bcRepo.insert(banner);
+        if (picture != null){
+            s.setPicture(bcRepo.insert(picture));
+        }
+        if (banner != null) {
+            s.setBanner(bcRepo.insert(banner));
+        }
     }
 
     /**

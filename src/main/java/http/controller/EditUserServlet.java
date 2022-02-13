@@ -27,6 +27,7 @@ public class EditUserServlet extends InterceptableServlet {
     @Inject private UserService service;
 
     private static final String EDIT_USER_PAGE = "/WEB-INF/views/edit-user.jsp";
+    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,7 +52,16 @@ public class EditUserServlet extends InterceptableServlet {
         if((!pass.isEmpty() || !pass2.isEmpty()) && !pass.equals(pass2))
             throw new IllegalArgumentException("Le password devono coincidere");
 
-        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
+        BufferedInputStream buffPicture = null;
+        if(picture != null && picture.getSize() < MAX_FILE_SIZE) {
+            if (picture.getSize()>0)
+                buffPicture = new BufferedInputStream(picture.getInputStream());
+        }else{
+            throw new IllegalArgumentException("Il file non deve superare i 5MB");
+        }
+
+
+       // BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);
         service.edit(userEditPage,userId);
 
