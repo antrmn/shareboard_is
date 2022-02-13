@@ -211,6 +211,19 @@ function createEmptyElement(icon, text){
     return emptyElement;
 }
 
+function createEmptyElementWithId(icon, text, id){
+    let emptyElement = `
+    <div class = "grid-x-nw justify-center align-center">
+        <i class="${icon}" style = " color: rgb(215, 218, 220); font-size: 35px; margin-right: 15px;"></i>
+        <h2 id = "${id}" style = " color: rgb(215, 218, 220); font-size: 30px;">
+            ${text}
+        </h2>
+    </div>
+`
+    return emptyElement;
+}
+
+
 function validateTextAreaById(elementId, message){
     let textarea = document.getElementById(elementId);
     return validateTextArea(textarea, message)

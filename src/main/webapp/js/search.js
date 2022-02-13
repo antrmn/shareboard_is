@@ -42,5 +42,5 @@ $(() => {
     if(!isSearchFormBlank())
         $("#search-form").submit();
     else
-        $("#post-container").append(createEmptyElement("fas fa-search", "Cerca qualcosa"));
+        $("#post-container").append(createEmptyElementWithId("fas fa-search", "Cerca qualcosa", "no-results"));
 });
