@@ -26,30 +26,45 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
     @Inject private SectionService service;
 
     private static final String EDIT_SECTION_PAGE = &quot;/WEB-INF/views/crm/edit-section.jsp&quot;;
+    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L32">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L33">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
-<span class="fc" id="L34">        SectionPage section = service.showSection(sectionId);</span>
-<span class="fc" id="L35">        request.setAttribute(&quot;section&quot;, section);</span>
-<span class="fc" id="L36">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L33">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L34">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
+<span class="fc" id="L35">        SectionPage section = service.showSection(sectionId);</span>
+<span class="fc" id="L36">        request.setAttribute(&quot;section&quot;, section);</span>
+<span class="fc" id="L37">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</span>
+<span class="fc" id="L38">    }</span>
 
     @Override
     @ForwardOnError(EDIT_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L42">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L43">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
-<span class="fc" id="L44">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="fc" id="L45">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="fc" id="L46">        Part banner = request.getPart(&quot;banner&quot;);</span>
+<span class="fc" id="L43">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L44">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
+<span class="fc" id="L45">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L46">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L47">        Part banner = request.getPart(&quot;banner&quot;);</span>
 
-<span class="fc" id="L48">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</span>
-<span class="fc" id="L49">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
-<span class="fc" id="L50">        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());</span>
-<span class="fc" id="L51">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</span>
-<span class="fc" id="L52">        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L49">        BufferedInputStream buffPicture = null;</span>
+<span class="fc" id="L50">        BufferedInputStream buffBanner = null;</span>
+<span class="pc bpc" id="L51" title="2 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            if (picture.getSize()&gt;0)</span>
+<span class="nc" id="L53">                buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+        }else{
+<span class="nc" id="L55">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+        }
+
+<span class="pc bpc" id="L58" title="2 of 4 branches missed.">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            if (banner.getSize()&gt;0)</span>
+<span class="nc" id="L60">                buffBanner = new BufferedInputStream(banner.getInputStream());</span>
+        }else{
+<span class="nc" id="L62">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+        }
+
+<span class="fc" id="L65">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</span>
+<span class="fc" id="L66">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</span>
+<span class="fc" id="L67">        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);</span>
+<span class="fc" id="L68">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

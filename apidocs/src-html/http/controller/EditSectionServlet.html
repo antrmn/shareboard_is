@@ -35,32 +35,47 @@
 <span class="sourceLineNo">026</span><a id="line.26">    @Inject private SectionService service;</a>
 <span class="sourceLineNo">027</span><a id="line.27"></a>
 <span class="sourceLineNo">028</span><a id="line.28">    private static final String EDIT_SECTION_PAGE = "/WEB-INF/views/crm/edit-section.jsp";</a>
-<span class="sourceLineNo">029</span><a id="line.29"></a>
-<span class="sourceLineNo">030</span><a id="line.30">    @Override</a>
-<span class="sourceLineNo">031</span><a id="line.31">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
-<span class="sourceLineNo">032</span><a id="line.32">        ParameterConverter converter = new ParameterConverter(request);</a>
-<span class="sourceLineNo">033</span><a id="line.33">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</a>
-<span class="sourceLineNo">034</span><a id="line.34">        SectionPage section = service.showSection(sectionId);</a>
-<span class="sourceLineNo">035</span><a id="line.35">        request.setAttribute("section", section);</a>
-<span class="sourceLineNo">036</span><a id="line.36">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</a>
-<span class="sourceLineNo">037</span><a id="line.37">    }</a>
-<span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">    @Override</a>
-<span class="sourceLineNo">040</span><a id="line.40">    @ForwardOnError(EDIT_SECTION_PAGE)</a>
-<span class="sourceLineNo">041</span><a id="line.41">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
-<span class="sourceLineNo">042</span><a id="line.42">        ParameterConverter converter = new ParameterConverter(request);</a>
-<span class="sourceLineNo">043</span><a id="line.43">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</a>
-<span class="sourceLineNo">044</span><a id="line.44">        String description = request.getParameter("description");</a>
-<span class="sourceLineNo">045</span><a id="line.45">        Part picture = request.getPart("picture");</a>
-<span class="sourceLineNo">046</span><a id="line.46">        Part banner = request.getPart("banner");</a>
-<span class="sourceLineNo">047</span><a id="line.47"></a>
-<span class="sourceLineNo">048</span><a id="line.48">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</a>
-<span class="sourceLineNo">049</span><a id="line.49">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</a>
-<span class="sourceLineNo">050</span><a id="line.50">        BufferedInputStream buffBanner = new BufferedInputStream(banner.getInputStream());</a>
-<span class="sourceLineNo">051</span><a id="line.51">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</a>
-<span class="sourceLineNo">052</span><a id="line.52">        response.sendRedirect(request.getContextPath()+"/admin/showsections");</a>
-<span class="sourceLineNo">053</span><a id="line.53">    }</a>
-<span class="sourceLineNo">054</span><a id="line.54">}</a>
+<span class="sourceLineNo">029</span><a id="line.29">    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;</a>
+<span class="sourceLineNo">030</span><a id="line.30"></a>
+<span class="sourceLineNo">031</span><a id="line.31">    @Override</a>
+<span class="sourceLineNo">032</span><a id="line.32">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
+<span class="sourceLineNo">033</span><a id="line.33">        ParameterConverter converter = new ParameterConverter(request);</a>
+<span class="sourceLineNo">034</span><a id="line.34">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</a>
+<span class="sourceLineNo">035</span><a id="line.35">        SectionPage section = service.showSection(sectionId);</a>
+<span class="sourceLineNo">036</span><a id="line.36">        request.setAttribute("section", section);</a>
+<span class="sourceLineNo">037</span><a id="line.37">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</a>
+<span class="sourceLineNo">038</span><a id="line.38">    }</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">    @Override</a>
+<span class="sourceLineNo">041</span><a id="line.41">    @ForwardOnError(EDIT_SECTION_PAGE)</a>
+<span class="sourceLineNo">042</span><a id="line.42">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
+<span class="sourceLineNo">043</span><a id="line.43">        ParameterConverter converter = new ParameterConverter(request);</a>
+<span class="sourceLineNo">044</span><a id="line.44">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</a>
+<span class="sourceLineNo">045</span><a id="line.45">        String description = request.getParameter("description");</a>
+<span class="sourceLineNo">046</span><a id="line.46">        Part picture = request.getPart("picture");</a>
+<span class="sourceLineNo">047</span><a id="line.47">        Part banner = request.getPart("banner");</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">        BufferedInputStream buffPicture = null;</a>
+<span class="sourceLineNo">050</span><a id="line.50">        BufferedInputStream buffBanner = null;</a>
+<span class="sourceLineNo">051</span><a id="line.51">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</a>
+<span class="sourceLineNo">052</span><a id="line.52">            if (picture.getSize()&gt;0)</a>
+<span class="sourceLineNo">053</span><a id="line.53">                buffPicture = new BufferedInputStream(picture.getInputStream());</a>
+<span class="sourceLineNo">054</span><a id="line.54">        }else{</a>
+<span class="sourceLineNo">055</span><a id="line.55">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
+<span class="sourceLineNo">056</span><a id="line.56">        }</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</a>
+<span class="sourceLineNo">059</span><a id="line.59">            if (banner.getSize()&gt;0)</a>
+<span class="sourceLineNo">060</span><a id="line.60">                buffBanner = new BufferedInputStream(banner.getInputStream());</a>
+<span class="sourceLineNo">061</span><a id="line.61">        }else{</a>
+<span class="sourceLineNo">062</span><a id="line.62">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
+<span class="sourceLineNo">063</span><a id="line.63">        }</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</a>
+<span class="sourceLineNo">066</span><a id="line.66">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</a>
+<span class="sourceLineNo">067</span><a id="line.67">        response.sendRedirect(request.getContextPath()+"/admin/showsections");</a>
+<span class="sourceLineNo">068</span><a id="line.68">    }</a>
+<span class="sourceLineNo">069</span><a id="line.69">}</a>
 
 
 

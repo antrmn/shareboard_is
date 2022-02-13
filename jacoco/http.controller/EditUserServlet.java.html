@@ -27,35 +27,45 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
     @Inject private UserService service;
 
     private static final String EDIT_USER_PAGE = &quot;/WEB-INF/views/edit-user.jsp&quot;;
+    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L33">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L34">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="fc" id="L35">        UserProfile user = service.getUser(userId);</span>
-<span class="fc" id="L36">        request.setAttribute(&quot;user&quot;, user);</span>
-<span class="fc" id="L37">        request.getRequestDispatcher(&quot;/WEB-INF/views/edit-user.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L34">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L35">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L36">        UserProfile user = service.getUser(userId);</span>
+<span class="fc" id="L37">        request.setAttribute(&quot;user&quot;, user);</span>
+<span class="fc" id="L38">        request.getRequestDispatcher(&quot;/WEB-INF/views/edit-user.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L39">    }</span>
 
     @Override
     @ForwardOnError(EDIT_USER_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L43">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L44">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="fc" id="L45">        String email = request.getParameter(&quot;email&quot;);</span>
-<span class="fc" id="L46">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="fc" id="L47">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="fc" id="L48">        String pass = request.getParameter(&quot;pass&quot;);</span>
-<span class="fc" id="L49">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
+<span class="fc" id="L44">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L45">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L46">        String email = request.getParameter(&quot;email&quot;);</span>
+<span class="fc" id="L47">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L48">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L49">        String pass = request.getParameter(&quot;pass&quot;);</span>
+<span class="fc" id="L50">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
 
-<span class="pc bpc" id="L51" title="4 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
-<span class="nc" id="L52">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
+<span class="pc bpc" id="L52" title="4 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
+<span class="nc" id="L53">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
 
-<span class="fc" id="L54">        BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
-<span class="fc" id="L55">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
-<span class="fc" id="L56">        service.edit(userEditPage,userId);</span>
+<span class="fc" id="L55">        BufferedInputStream buffPicture = null;</span>
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (picture.getSize()&gt;0)</span>
+<span class="nc" id="L58">                buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+        }else{
+<span class="nc" id="L60">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+        }
 
-<span class="fc" id="L58">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
-<span class="fc" id="L59">    }</span>
+
+       // BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
+<span class="fc" id="L65">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
+<span class="fc" id="L66">        service.edit(userEditPage,userId);</span>
+
+<span class="fc" id="L68">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
+<span class="fc" id="L69">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

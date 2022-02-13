@@ -124,19 +124,21 @@ import java.util.List;
 <span class="fc" id="L124">            u.setEmail(edit.getEmail());</span>
         }
 
-<span class="fc" id="L127">        HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
-<span class="fc" id="L128">        u.setPassword(hashedPassword.getPassword());</span>
-<span class="fc" id="L129">        u.setSalt(hashedPassword.getSalt());</span>
-<span class="fc" id="L130">        u.setDescription(edit.getDescription());</span>
-
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if(edit.getPicture() != null){</span>
-            try {
-<span class="fc" id="L134">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
-<span class="nc" id="L135">            } catch (IOException e) {</span>
-<span class="nc" id="L136">                throw new RuntimeException(e); //todo: delet this</span>
-<span class="fc" id="L137">            }</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if(!edit.getPassword().isEmpty()){</span>
+<span class="fc" id="L128">            HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
+<span class="fc" id="L129">            u.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L130">            u.setSalt(hashedPassword.getSalt());</span>
         }
-<span class="fc" id="L139">    }</span>
+<span class="fc" id="L132">        u.setDescription(edit.getDescription());</span>
+
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        if(edit.getPicture() != null){</span>
+            try {
+<span class="fc" id="L136">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
+<span class="nc" id="L137">            } catch (IOException e) {</span>
+<span class="nc" id="L138">                throw new RuntimeException(e); //todo: delet this</span>
+<span class="fc" id="L139">            }</span>
+        }
+<span class="fc" id="L141">    }</span>
 
     /**
      * Crea un nuovo utente e ne restituisce l'id
@@ -149,16 +151,16 @@ import java.util.List;
     public int newUser(@NotBlank @EmailFormat @UniqueEmail String email,
                        @NotBlank @UsernameFormat @UniqueUsername String username,
                        @NotEmpty @Size(min = 3,max = 255) String password){
-<span class="fc" id="L152">        User user = new User();</span>
-<span class="fc" id="L153">        user.setUsername(username);</span>
-<span class="fc" id="L154">        user.setEmail(email);</span>
-<span class="fc" id="L155">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
-<span class="fc" id="L156">        user.setPassword(hashedPassword.getPassword());</span>
-<span class="fc" id="L157">        user.setSalt(hashedPassword.getSalt());</span>
-<span class="fc" id="L158">        user.setAdmin(false);</span>
+<span class="fc" id="L154">        User user = new User();</span>
+<span class="fc" id="L155">        user.setUsername(username);</span>
+<span class="fc" id="L156">        user.setEmail(email);</span>
+<span class="fc" id="L157">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
+<span class="fc" id="L158">        user.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L159">        user.setSalt(hashedPassword.getSalt());</span>
+<span class="fc" id="L160">        user.setAdmin(false);</span>
 
-<span class="fc" id="L160">        user = genericRepository.insert(user);</span>
-<span class="fc" id="L161">        return user.getId();</span>
+<span class="fc" id="L162">        user = genericRepository.insert(user);</span>
+<span class="fc" id="L163">        return user.getId();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

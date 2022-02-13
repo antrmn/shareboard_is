@@ -27,7 +27,7 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
     @Inject private SectionService sectionService;
 
     private static final String NEW_POST_PAGE = &quot;/WEB-INF/views/section/create-post.jsp&quot;;
-
+    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 <span class="fc" id="L33">        request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);</span>
@@ -49,14 +49,18 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 <span class="fc bfc" id="L49" title="All 2 branches covered.">        if(type.equalsIgnoreCase(&quot;text&quot;)){</span>
 <span class="fc" id="L50">            newPostId = service.newPost(title,content,sectionName);</span>
         }else{
-<span class="pc bpc" id="L52" title="1 of 4 branches missed.">            if(picture != null &amp;&amp; picture.getSize() &lt; 5 * 1024 * 1024) {</span>
-<span class="fc" id="L53">                BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());</span>
-<span class="fc" id="L54">                newPostId = service.newPost(title,buff, picture.getSize(), sectionName);</span>
-<span class="fc" id="L55">            }else{</span>
-<span class="fc" id="L56">                throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">            if(picture != null &amp;&amp; picture.getSize() &gt; MAX_FILE_SIZE) {</span>
+<span class="fc" id="L53">                throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
             }
+
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">            if(picture != null &amp;&amp; picture.getSize() == 0) {</span>
+<span class="nc" id="L57">                throw new IllegalArgumentException(&quot;Immagine mancante&quot;);</span>
+            }
+<span class="fc" id="L59">            BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+<span class="fc" id="L60">            newPostId = service.newPost(title,buffPicture, picture.getSize(), sectionName);</span>
+
         }
-<span class="fc" id="L59">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + newPostId); //potrebbe mostrare postId = 0?</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L63">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + newPostId); //potrebbe mostrare postId = 0?</span>
+<span class="fc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

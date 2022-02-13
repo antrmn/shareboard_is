@@ -2,27 +2,30 @@
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
-<span class="fc" id="L9">public class ImageValidator implements ConstraintValidator&lt;Image, InputStream&gt; {</span>
+<span class="fc" id="L10">public class ImageValidator implements ConstraintValidator&lt;Image, InputStream&gt; {</span>
 
     @Override
     public void initialize(Image constraintAnnotation) {
 
-<span class="fc" id="L14">    }</span>
+<span class="fc" id="L15">    }</span>
 
     @Override
     public boolean isValid(InputStream value, ConstraintValidatorContext context) {
         String mime;
-        try {
-<span class="fc" id="L20">            mime = URLConnection.guessContentTypeFromStream(value);</span>
-<span class="nc" id="L21">        } catch (IOException e) {</span>
-<span class="nc" id="L22">            throw new RuntimeException(e);</span>
-<span class="fc" id="L23">        }</span>
 
-<span class="pc bpc" id="L25" title="1 of 4 branches missed.">        return  mime != null &amp;&amp; mime.startsWith(&quot;image/&quot;);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (value == null) return true;</span>
+        try {
+<span class="fc" id="L23">            mime = URLConnection.guessContentTypeFromStream(value);</span>
+<span class="nc" id="L24">        } catch (IOException e) {</span>
+<span class="nc" id="L25">            throw new RuntimeException(e);</span>
+<span class="fc" id="L26">        }</span>
+
+<span class="pc bpc" id="L28" title="1 of 4 branches missed.">        return mime != null &amp;&amp; mime.startsWith(&quot;image/&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

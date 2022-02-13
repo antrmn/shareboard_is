@@ -36,7 +36,7 @@
 <span class="sourceLineNo">027</span><a id="line.27">    @Inject private SectionService sectionService;</a>
 <span class="sourceLineNo">028</span><a id="line.28"></a>
 <span class="sourceLineNo">029</span><a id="line.29">    private static final String NEW_POST_PAGE = "/WEB-INF/views/section/create-post.jsp";</a>
-<span class="sourceLineNo">030</span><a id="line.30"></a>
+<span class="sourceLineNo">030</span><a id="line.30">    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;</a>
 <span class="sourceLineNo">031</span><a id="line.31">    @Override</a>
 <span class="sourceLineNo">032</span><a id="line.32">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
 <span class="sourceLineNo">033</span><a id="line.33">        request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);</a>
@@ -58,16 +58,20 @@
 <span class="sourceLineNo">049</span><a id="line.49">        if(type.equalsIgnoreCase("text")){</a>
 <span class="sourceLineNo">050</span><a id="line.50">            newPostId = service.newPost(title,content,sectionName);</a>
 <span class="sourceLineNo">051</span><a id="line.51">        }else{</a>
-<span class="sourceLineNo">052</span><a id="line.52">            if(picture != null &amp;&amp; picture.getSize() &lt; 5 * 1024 * 1024) {</a>
-<span class="sourceLineNo">053</span><a id="line.53">                BufferedInputStream buff = new BufferedInputStream(picture.getInputStream());</a>
-<span class="sourceLineNo">054</span><a id="line.54">                newPostId = service.newPost(title,buff, picture.getSize(), sectionName);</a>
-<span class="sourceLineNo">055</span><a id="line.55">            }else{</a>
-<span class="sourceLineNo">056</span><a id="line.56">                throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
-<span class="sourceLineNo">057</span><a id="line.57">            }</a>
-<span class="sourceLineNo">058</span><a id="line.58">        }</a>
-<span class="sourceLineNo">059</span><a id="line.59">        response.sendRedirect(getServletContext().getContextPath() + "/post/" + newPostId); //potrebbe mostrare postId = 0?</a>
-<span class="sourceLineNo">060</span><a id="line.60">    }</a>
-<span class="sourceLineNo">061</span><a id="line.61">}</a>
+<span class="sourceLineNo">052</span><a id="line.52">            if(picture != null &amp;&amp; picture.getSize() &gt; MAX_FILE_SIZE) {</a>
+<span class="sourceLineNo">053</span><a id="line.53">                throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
+<span class="sourceLineNo">054</span><a id="line.54">            }</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">            if(picture != null &amp;&amp; picture.getSize() == 0) {</a>
+<span class="sourceLineNo">057</span><a id="line.57">                throw new IllegalArgumentException("Immagine mancante");</a>
+<span class="sourceLineNo">058</span><a id="line.58">            }</a>
+<span class="sourceLineNo">059</span><a id="line.59">            BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</a>
+<span class="sourceLineNo">060</span><a id="line.60">            newPostId = service.newPost(title,buffPicture, picture.getSize(), sectionName);</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">        }</a>
+<span class="sourceLineNo">063</span><a id="line.63">        response.sendRedirect(getServletContext().getContextPath() + "/post/" + newPostId); //potrebbe mostrare postId = 0?</a>
+<span class="sourceLineNo">064</span><a id="line.64">    }</a>
+<span class="sourceLineNo">065</span><a id="line.65">}</a>
 
 
 
