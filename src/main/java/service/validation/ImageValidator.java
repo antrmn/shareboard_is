@@ -18,7 +18,6 @@ public class ImageValidator implements ConstraintValidator<Image, InputStream> {
     public boolean isValid(InputStream value, ConstraintValidatorContext context) {
         String mime;
 
-        System.out.println(value);
         if (value == null) return true;
         try {
             mime = URLConnection.guessContentTypeFromStream(value);

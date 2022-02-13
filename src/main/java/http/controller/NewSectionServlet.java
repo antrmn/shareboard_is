@@ -44,7 +44,6 @@ public class NewSectionServlet extends InterceptableServlet {
         BufferedInputStream buffBanner = null;
         if(picture != null && picture.getSize() < MAX_FILE_SIZE) {
             if (picture.getSize()>0) {
-                System.out.println("HERE");
                 buffPicture = new BufferedInputStream(picture.getInputStream());
             }
         }else{
