@@ -124,9 +124,11 @@ public class UserService {
             u.setEmail(edit.getEmail());
         }
 
-        HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());
-        u.setPassword(hashedPassword.getPassword());
-        u.setSalt(hashedPassword.getSalt());
+        if(!edit.getPassword().isEmpty()){
+            HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());
+            u.setPassword(hashedPassword.getPassword());
+            u.setSalt(hashedPassword.getSalt());
+        }
         u.setDescription(edit.getDescription());
 
         if(edit.getPicture() != null){

@@ -76,7 +76,7 @@ public class NewPostServletTest extends ServletTest{
         when(section.getName()).thenReturn("section");
         when(request.getPart(anyString())).thenReturn(part);
         when(part.getName()).thenReturn("part");
-        when(part.getSize()).thenReturn(Long.valueOf(0));
+        when(part.getSize()).thenReturn(Long.valueOf(1));
         when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
 
         NewPostServlet spyServlet = spy(postServlet);

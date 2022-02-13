@@ -33,7 +33,7 @@
     <span>
       <c:choose>
         <c:when test="${not empty user.picture}">
-          <img id="header-icon" src= "${pageContext.request.contextPath}/images/${user.picture}" >
+          <img id="header-icon" src= "${pageContext.request.contextPath}/image/${user.picture}" >
         </c:when>
         <c:otherwise>
           <img id = "header-icon" src="${pageContext.request.contextPath}/images/default-user-icon.webp">
