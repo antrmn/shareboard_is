@@ -21,7 +21,7 @@
 <div class = "grid-y-nw" style = "height:324px; left:0; right:0; position:relative; top:30px;">
   <div id = "header-image"
        <c:if test="${not empty section.banner}">
-         style ='background-image: url("${applicationScope.picsLocation}/${section.banner}")'
+         style ='background-image: url("${pageContext.request.contextPath}/image/${section.banner}")'
        </c:if> >
 
     <a href="${pageContext.request.contextPath}" style = "height:inherit; width:100%; display: inline-block;"></a>
@@ -30,7 +30,7 @@
     <span>
       <c:choose>
         <c:when test="${not empty section.picture}">
-          <img id="header-icon" src= "${applicationScope.picsLocation}/${section.picture}" >
+          <img id="header-icon" src= "${pageContext.request.contextPath}/image/${section.picture}" >
         </c:when>
         <c:otherwise>
           <img id = "header-icon" src="${pageContext.request.contextPath}/images/default-logo.png">

@@ -34,7 +34,7 @@
                                      <img class = "small-round-image-borderless" src="${pageContext.request.contextPath}/images/default-logo.png">
                                  </c:when>
                                  <c:otherwise>
-                                     <img class = "small-round-image-borderless" src= "${pageContext.request.contextPath}/images/${section.picture}">
+                                     <img class = "small-round-image-borderless" src= "${pageContext.request.contextPath}/image/${section.picture}">
                                  </c:otherwise>
                              </c:choose>
                             <a class = "dropdown-section-link" href="${context}/s/${section.name}">${section.name}</a>
@@ -68,7 +68,7 @@
                             <i id = "nav-profile-photo" class="fas fa-user-circle"></i>
                         </c:when>
                         <c:otherwise>
-                            <img id="nav-profile-photo-logged" src="${context}/pics/${currentUser.picture}">
+                            <img id="nav-profile-photo-logged" src="${context}/image/${currentUser.picture}">
                         </c:otherwise>
                     </c:choose>
 

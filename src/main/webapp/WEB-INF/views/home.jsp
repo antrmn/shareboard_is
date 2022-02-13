@@ -51,7 +51,7 @@
                                     <img class = "small-round-image" src="${pageContext.request.contextPath}/images/default-logo.png">
                                 </c:when>
                                 <c:otherwise>
-                                    <img class = "small-round-image" src= "${pageContext.request.contextPath}/images/${section.picture}">
+                                    <img class = "small-round-image" src= "${pageContext.request.contextPath}/image/${section.picture}">
                                 </c:otherwise>
                             </c:choose>
                             <p style = "margin-left: 10px;">${section.name}</p>
@@ -76,7 +76,7 @@
                                         <img class = "small-round-image" src="${pageContext.request.contextPath}/images/default-logo.png">
                                     </c:when>
                                     <c:otherwise>
-                                        <img class = "small-round-image" src= "${pageContext.request.contextPath}/images/${section.picture}">
+                                        <img class = "small-round-image" src= "${pageContext.request.contextPath}/image/${section.picture}">
                                     </c:otherwise>
                                 </c:choose>
                                 <p style = "margin-left: 10px;">${section.name}</p>
