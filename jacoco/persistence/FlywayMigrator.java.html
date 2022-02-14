@@ -25,10 +25,11 @@ import javax.sql.DataSource;
 <span class="nc" id="L25">                .baselineOnMigrate(true)</span>
 <span class="nc" id="L26">                .dataSource(dataSource)</span>
 <span class="nc" id="L27">                .createSchemas(true)</span>
-<span class="nc" id="L28">                .locations(&quot;classpath:db/migration&quot;);</span>
-<span class="nc" id="L29">        Flyway flyway = new Flyway(config);</span>
-<span class="nc" id="L30">        flyway.migrate();</span>
-<span class="nc" id="L31">    }</span>
+<span class="nc" id="L28">                .validateOnMigrate(false)</span>
+<span class="nc" id="L29">                .locations(&quot;classpath:db/migration&quot;);</span>
+<span class="nc" id="L30">        Flyway flyway = new Flyway(config);</span>
+<span class="nc" id="L31">        flyway.migrate();</span>
+<span class="nc" id="L32">    }</span>
 
 
 
