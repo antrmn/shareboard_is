@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2022</copyright>
     <item>
-      <title>File: 122,
+      <title>File: 123,
              Errors: 0,
-             Warnings: 3301,
+             Warnings: 3316,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -529,6 +529,20 @@ under the License.
                 </td>
                 <td>
                   2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#persistence.FlywayMigrator.java">persistence/FlywayMigrator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
                 </td>
                 <td>
                   0

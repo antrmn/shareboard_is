@@ -3,6 +3,7 @@ http.controller.filter
 http.controller.interceptor
 http.util
 http.util.interceptor
+persistence
 persistence.model
 persistence.repo
 service
