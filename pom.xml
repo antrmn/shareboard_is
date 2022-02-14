@@ -18,9 +18,20 @@
         <mockito.version>4.3.1</mockito.version>
         <tomee.version>8.0.8</tomee.version>
         <jacoco.version>0.8.5</jacoco.version>
+        <flyway.version>8.4.4</flyway.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
