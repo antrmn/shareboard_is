@@ -57,7 +57,7 @@
 <%--            <td>MAI</td>--%>
 <%--          </c:otherwise>--%>
 <%--        </c:choose>--%>
-        <td>MAI</td>
+<%--        <td>MAI</td>--%>
 <%--        <td>${ban.admin.username} (${ban.admin.id})</td>--%>
         <td>
           <a href = "${context}/admin/deleteban?banId=${ban.banId}&userId=${ban.userId}" onclick="return confirm('Cancellare il ban?')">
