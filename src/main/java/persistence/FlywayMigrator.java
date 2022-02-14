@@ -25,6 +25,7 @@ public class FlywayMigrator {
                 .baselineOnMigrate(true)
                 .dataSource(dataSource)
                 .createSchemas(true)
+                .validateOnMigrate(false)
                 .locations("classpath:db/migration");
         Flyway flyway = new Flyway(config);
         flyway.migrate();
