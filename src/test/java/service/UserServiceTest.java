@@ -194,6 +194,17 @@ public class UserServiceTest extends ServiceTest {
     }
 
     @ParameterizedTest
+    @ValueSource(ints = {1, 3, 40})
+    void successfulEditWithNullString(int id) throws IOException {
+        UserEditPage userEditPage = new UserEditPage(1,null,null,null,"");
+        User user = new User();
+        user.setId(1);
+        when(genericRepository.findById(User.class,id)).thenReturn(user);
+        when(binaryContentRepository.insert(any())).thenReturn("pictureName");
+        assertDoesNotThrow(() -> service.edit(userEditPage,id));
+    }
+
+    @ParameterizedTest
     @ValueSource(ints = {-1, -3, -40})
     void failEditWithWrongID(int id) throws IOException {
         BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
