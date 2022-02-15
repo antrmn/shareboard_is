@@ -100,5 +100,41 @@ public class EditUserServletTest extends ServletTest{
         assertThrows(ConstraintViolationException.class,() -> spyServlet.doPost(request,response));
     }
 
+    @Test
+    void faildoPostWrongPassw() throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("email")).thenReturn("email");
+        when(request.getParameter("description")).thenReturn("description");
+        when(request.getParameter("pass")).thenReturn("pass");
+        when(request.getParameter("pass2")).thenReturn("wrong");
+        when(request.getPart(anyString())).thenReturn(part);
+        when(part.getName()).thenReturn("part");
+        when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
+
+        EditUserServlet spyServlet = spy(editUserServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        doReturn(servletContext).when(spyServlet).getServletContext();
+
+        assertThrows(IllegalArgumentException.class,() -> spyServlet.doPost(request,response));
+    }
+
+    @Test
+    void faildoPostNotPicture() throws ServletException, IOException{
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("email")).thenReturn("email");
+        when(request.getParameter("description")).thenReturn("description");
+        when(request.getParameter("pass")).thenReturn("pass");
+        when(request.getParameter("pass2")).thenReturn("pass");
+        when(request.getPart(anyString())).thenReturn(null);
+
+        EditUserServlet spyServlet = spy(editUserServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        doReturn(servletContext).when(spyServlet).getServletContext();
+
+        assertThrows(IllegalArgumentException.class,() -> spyServlet.doPost(request,response));
+    }
+
 
 }

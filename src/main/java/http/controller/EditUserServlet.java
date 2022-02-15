@@ -60,8 +60,6 @@ public class EditUserServlet extends InterceptableServlet {
             throw new IllegalArgumentException("Il file non deve superare i 5MB");
         }
 
-
-       // BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
         UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);
         service.edit(userEditPage,userId);
 
