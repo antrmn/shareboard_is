@@ -54,7 +54,7 @@ shareboard_is,http.controller,ShowSectionServlet,1,10,0,0,1,3,1,2,1,2
 shareboard_is,http.controller,DeleteCommentServlet,5,32,0,0,2,7,1,2,1,2
 shareboard_is,http.controller,ImageServlet,2,46,1,5,0,16,1,4,0,2
 shareboard_is,http.controller,FollowServlet,0,25,0,0,0,7,0,3,0,3
-shareboard_is,http.controller,EditUserServlet,20,106,7,5,3,22,6,3,0,3
+shareboard_is,http.controller,EditUserServlet,10,116,5,7,1,24,4,5,0,3
 shareboard_is,http.controller,LoadPostsServlet,0,123,0,2,0,33,0,6,0,5
 shareboard_is,http.controller,NewCommentServlet,7,45,1,1,1,11,1,3,0,3
 shareboard_is,http.controller,Logout,0,12,0,0,0,4,0,2,0,2

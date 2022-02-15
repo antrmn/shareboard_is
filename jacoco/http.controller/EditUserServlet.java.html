@@ -49,23 +49,21 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 <span class="fc" id="L49">        String pass = request.getParameter(&quot;pass&quot;);</span>
 <span class="fc" id="L50">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
 
-<span class="pc bpc" id="L52" title="4 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
-<span class="nc" id="L53">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
+<span class="pc bpc" id="L52" title="3 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
+<span class="fc" id="L53">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
 
 <span class="fc" id="L55">        BufferedInputStream buffPicture = null;</span>
-<span class="pc bpc" id="L56" title="2 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
 <span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (picture.getSize()&gt;0)</span>
 <span class="nc" id="L58">                buffPicture = new BufferedInputStream(picture.getInputStream());</span>
         }else{
-<span class="nc" id="L60">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
         }
 
+<span class="fc" id="L63">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
+<span class="fc" id="L64">        service.edit(userEditPage,userId);</span>
 
-       // BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
-<span class="fc" id="L65">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
-<span class="fc" id="L66">        service.edit(userEditPage,userId);</span>
-
-<span class="fc" id="L68">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L66">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
+<span class="fc" id="L67">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

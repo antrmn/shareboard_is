@@ -69,14 +69,12 @@
 <span class="sourceLineNo">060</span><a id="line.60">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
 <span class="sourceLineNo">061</span><a id="line.61">        }</a>
 <span class="sourceLineNo">062</span><a id="line.62"></a>
-<span class="sourceLineNo">063</span><a id="line.63"></a>
-<span class="sourceLineNo">064</span><a id="line.64">       // BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());</a>
-<span class="sourceLineNo">065</span><a id="line.65">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</a>
-<span class="sourceLineNo">066</span><a id="line.66">        service.edit(userEditPage,userId);</a>
-<span class="sourceLineNo">067</span><a id="line.67"></a>
-<span class="sourceLineNo">068</span><a id="line.68">        response.sendRedirect(request.getContextPath() + "/u/" + service.getUsernameById(userId));</a>
-<span class="sourceLineNo">069</span><a id="line.69">    }</a>
-<span class="sourceLineNo">070</span><a id="line.70">}</a>
+<span class="sourceLineNo">063</span><a id="line.63">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</a>
+<span class="sourceLineNo">064</span><a id="line.64">        service.edit(userEditPage,userId);</a>
+<span class="sourceLineNo">065</span><a id="line.65"></a>
+<span class="sourceLineNo">066</span><a id="line.66">        response.sendRedirect(request.getContextPath() + "/u/" + service.getUsernameById(userId));</a>
+<span class="sourceLineNo">067</span><a id="line.67">    }</a>
+<span class="sourceLineNo">068</span><a id="line.68">}</a>
 
 
 
