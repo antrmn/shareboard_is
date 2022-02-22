@@ -18,6 +18,7 @@ public class PostExistsValidator implements ConstraintValidator<PostExists, Inte
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
+        if(value==null) return true;
         return (genericRepository.findById(Post.class, value) != null);
     }
 }

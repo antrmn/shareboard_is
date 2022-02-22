@@ -12,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,13 @@ import java.util.List;
 @ApplicationScoped
 @Transactional
 public class BanService {
+    private final GenericRepository genericRepository;
 
-    @Inject private GenericRepository genericRepository;
+    @Inject
+    protected BanService(GenericRepository genericRepository){
+        this.genericRepository = genericRepository;
+    }
+
 
     /**
      * Aggiunge un ban dato l'id di un utente.
@@ -29,13 +35,13 @@ public class BanService {
      * @return entità ban aggiunta
      */
     @AdminsOnly
-    public Ban addBan(@Future Instant date, @UserExists int userId) {
+    public int addBan(@NotNull @Future Instant date, @UserExists int userId) {
         Ban ban = new Ban();
         ban.setEndTime(date);
         User user = new User();
         user.setId(userId);
         ban.setUser(user);
-        return genericRepository.insert(ban);
+        return genericRepository.insert(ban).getId();
     }
 
     /**

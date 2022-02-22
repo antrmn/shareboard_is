@@ -18,11 +18,19 @@ import java.time.Instant;
 @SessionScoped
 @Transactional
 public class AuthenticationService implements Serializable {
-    @Inject UserRepository userRepository;
-    @Inject GenericRepository genericRepository;
-    @Inject Pbkdf2PasswordHashImpl passwordHash;
-
+    private final UserRepository userRepository;
+    private final GenericRepository genericRepository;
+    private final Pbkdf2PasswordHashImpl passwordHash;
     private int currentUserId = 0;
+
+    @Inject
+    protected AuthenticationService(UserRepository userRepository, GenericRepository genericRepository,
+                                    Pbkdf2PasswordHashImpl passwordHash){
+        this.userRepository = userRepository;
+        this.genericRepository = genericRepository;
+        this.passwordHash = passwordHash;
+    }
+
 
     /**
      * Autentica un utente

@@ -1,36 +1,60 @@
 package service;
 
+import com.sun.istack.NotNull;
 import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.UserRepository;
 import service.auth.AdminsOnly;
 import service.auth.AuthenticationRequired;
+import service.auth.AuthorizationException;
+import service.dto.CurrentUser;
 import service.dto.UserEditPage;
-import service.dto.UserIdentityDTO;
 import service.dto.UserProfile;
 import service.validation.*;
 import util.Pbkdf2PasswordHashImpl;
 import util.Pbkdf2PasswordHashImpl.HashedPassword;
+import util.ReadLimitExceededException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.constraints.Email;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Transactional
 public class UserService {
-    @Inject private UserRepository userRepo;
-    @Inject private GenericRepository genericRepository;
-    @Inject private BinaryContentRepository bcRepo;
-    @Inject private Pbkdf2PasswordHashImpl passwordHash;
+    private final UserRepository userRepo;
+    private final GenericRepository genericRepository;
+    private final BinaryContentRepository bcRepo;
+    private final CurrentUser currentUser;
+    private final Pbkdf2PasswordHashImpl passwordHash;
+
+    @Inject
+    protected UserService(GenericRepository genericRepository, UserRepository userRepo,
+                          BinaryContentRepository binaryContentRepository, Pbkdf2PasswordHashImpl passwordHash,
+                          CurrentUser currentUser){
+        this.genericRepository = genericRepository;
+        this.userRepo = userRepo;
+        this.bcRepo = binaryContentRepository;
+        this.passwordHash = passwordHash;
+        this.currentUser = currentUser;
+    }
+
+    private UserProfile map(User user){
+        return UserProfile.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .creationDate(user.getCreationDate())
+                .description(user.getDescription())
+                .picture(user.getPicture())
+                .username(user.getUsername())
+                .isAdmin(user.getAdmin()).build();
+    }
 
     /**
      * Inverte lo stato di admin di un utente dato un id
@@ -44,13 +68,12 @@ public class UserService {
 
     /**
      * Ritorna un entita UserProfile dato un nome
-     * @param nome di un utente esistente
+     * @param name di un utente esistente
      * @return entita UserProfile
      */
-    public UserProfile getUser(@UserExistsByName String name){
+    public UserProfile getUser(@NotBlank @UserExists String name){
         User u = userRepo.getByName(name);
-        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());
-        return user;
+        return map(u);
     }
 
     /**
@@ -60,18 +83,7 @@ public class UserService {
      */
     public UserProfile getUser(@UserExists int id){
         User u = genericRepository.findById(User.class,id);
-        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());
-        return user;
-    }
-
-    /**
-     * Ritorna un entita UserIdentityDTO dato un id
-     * @param id di un utente esistente
-     * @return entita UserIdentityDTO
-     */
-    public UserIdentityDTO get(@UserExists int id){
-        User u = genericRepository.findById(User.class,id);
-        return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
+        return map(u);
     }
 
     /**
@@ -87,15 +99,9 @@ public class UserService {
      * Ritorna un lista di tutte le gli utenti
      * @return lista di entita UserIdentityDTO
      */
-    public List<UserIdentityDTO> showUsers(){
+    public List<UserProfile> showUsers(){
         List<User> users = genericRepository.findAll(User.class);
-        List<UserIdentityDTO> usersDTO = new ArrayList<>();
-
-        for(User u : users){
-            UserIdentityDTO userDTO = new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());
-            usersDTO.add(userDTO);
-        }
-        return usersDTO;
+        return users.stream().map(this::map).collect(Collectors.toList());
     }
 
     /**
@@ -113,8 +119,11 @@ public class UserService {
      * @param id di un utente esistente
      */
     @AuthenticationRequired
-    public void edit(UserEditPage edit,
+    public void edit(@Valid UserEditPage edit,
                      @UserExists int id){
+        if(currentUser.getId() != id && !currentUser.isAdmin())
+            throw new AuthorizationException();
+
         User u = genericRepository.findById(User.class,id);
 
         if(edit.getDescription() != null){
@@ -123,17 +132,16 @@ public class UserService {
         if(edit.getEmail() != null){
             u.setEmail(edit.getEmail());
         }
-
-        if(!edit.getPassword().isEmpty()){
+        if(edit.getPassword() != null){
             HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());
             u.setPassword(hashedPassword.getPassword());
             u.setSalt(hashedPassword.getSalt());
         }
-        u.setDescription(edit.getDescription());
-
         if(edit.getPicture() != null){
             try {
                 u.setPicture(bcRepo.insert(edit.getPicture()));
+            } catch(ReadLimitExceededException e){
+                throw new IllegalArgumentException("Il file non deve superare i 5MB");
             } catch (IOException e) {
                 throw new RuntimeException(e); //todo: delet this
             }
@@ -147,10 +155,9 @@ public class UserService {
      * @param password Stringa non vuota con minimo: 3 e massimo: 255 caratteri
      * @return identificativo dell'utente creato
      */
-    // unique email unique username length email username password
-    public int newUser(@NotBlank @EmailFormat @UniqueEmail String email,
-                       @NotBlank @UsernameFormat @UniqueUsername String username,
-                       @NotEmpty @Size(min = 3,max = 255) String password){
+    public int newUser(@NotNull @EmailFormat @UniqueEmail String email,
+                       @NotNull @UsernameFormat @UniqueUsername String username,
+                       @NotNull @PasswordFormat String password){
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);

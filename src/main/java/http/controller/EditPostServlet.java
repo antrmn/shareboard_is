@@ -1,22 +1,13 @@
 package http.controller;
 
 import http.controller.interceptor.AuthorizationConstraints;
-import http.controller.interceptor.ForwardOnError;
-import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
-import persistence.model.Post;
-import service.PostService;
-import service.dto.PostEditDTO;
-import service.dto.PostPage;
 
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
@@ -25,7 +16,15 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 public class EditPostServlet extends InterceptableServlet {
-    @Inject private PostService service;
+    //Funzionalità disabilitata
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Funzionalità disabilitata temporaneamente");
+    }
+
+
+    /*@Inject private PostService service;
 
     private static final String EDIT_POST_PAGE = "/WEB-INF/views/section/edit-post.jsp";
 
@@ -61,4 +60,5 @@ public class EditPostServlet extends InterceptableServlet {
         }
         response.sendRedirect(getServletContext().getContextPath() + "/post/" + postId);
     }
+    */
 }

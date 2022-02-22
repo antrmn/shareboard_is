@@ -1,15 +1,11 @@
 package service.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 import java.time.Instant;
 
-@Builder
-@AllArgsConstructor
-@Getter
-@Setter
+@Data @Builder
 public class UserProfile {
 
     private Integer id;
@@ -18,4 +14,5 @@ public class UserProfile {
     private Instant creationDate;
     private String picture;
     private String description;
+    private boolean isAdmin;
 }

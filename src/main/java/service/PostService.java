@@ -6,15 +6,21 @@ import persistence.model.User;
 import persistence.repo.*;
 import service.auth.AuthenticationRequired;
 import service.auth.DenyBannedUsers;
-import service.dto.*;
+import service.dto.CurrentUser;
+import service.dto.PostPage;
+import service.dto.PostSearchForm;
+import service.dto.PostType;
 import service.validation.Image;
 import service.validation.PostExists;
 import service.validation.SectionExists;
+import util.ReadLimitExceededException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.time.Instant;
@@ -30,13 +36,23 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
 @Transactional
 public class PostService {
 
-    @Inject private GenericRepository genericRepository;
-    @Inject private PostRepository postRepo;
-    @Inject private UserRepository userRepo;
-    @Inject private SectionRepository sectionRepo;
-    @Inject private BinaryContentRepository bcRepo;
-    @Inject private CurrentUser currentUser;
+    private final GenericRepository genericRepository;
+    private final PostRepository postRepo;
+    private final UserRepository userRepo;
+    private final SectionRepository sectionRepo;
+    private final BinaryContentRepository bcRepo;
+    private final CurrentUser currentUser;
 
+    @Inject
+    protected PostService(GenericRepository genericRepository, PostRepository postRepo, UserRepository userRepo,
+                          SectionRepository sectionRepository, BinaryContentRepository bcRepo, CurrentUser currentUser){
+        this.genericRepository = genericRepository;
+        this.postRepo = postRepo;
+        this.userRepo = userRepo;
+        this.sectionRepo = sectionRepository;
+        this.bcRepo = bcRepo;
+        this.currentUser = currentUser;
+    }
 
     /**
      * Converte post in PostPage.
@@ -74,8 +90,7 @@ public class PostService {
      */
     public PostPage getPost(@PostExists int id){
         Post p = genericRepository.findById(Post.class,id);
-        PostPage post = mapPost(p);
-        return post;
+        return mapPost(p);
     }
 
     /**
@@ -150,42 +165,6 @@ public class PostService {
     }
 
     /**
-     * Permette la modifica di un post
-     * @param edit oggetto DTO con i dati modificati del post
-     * @param id identificativo del post
-     */
-    @AuthenticationRequired
-    @DenyBannedUsers
-    public void editPost(PostEditDTO edit, @PostExists int id){
-        Post post = genericRepository.findById(Post.class, id);
-        post.setTitle(edit.getTitle());
-        post.setContent(edit.getContent());
-        post.setType(edit.getType());
-    }
-
-    /**
-     * Permette di modificare un post, compresa l'immagine
-     * @param edit oggetto DTO con i dati modificati del post
-     * @param id identificativo del post
-     * @param content stream relativo all'immagine
-     */
-    @AuthenticationRequired
-    public void editPost(PostEditDTO edit,
-                         @PostExists int id,
-                         @Image BufferedInputStream content){
-        Post post = genericRepository.findById(Post.class, id);
-        post.setTitle(edit.getTitle());
-        String fileName;
-        try {
-            fileName = bcRepo.insert(content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        post.setContent(fileName);
-        post.setType(edit.getType());
-    }
-
-    /**
      * Aggiunge un post ad una sezione
      * @param title titolo del post
      * @param body testo del post
@@ -194,9 +173,9 @@ public class PostService {
      */
     @AuthenticationRequired
     @DenyBannedUsers
-    public int newPost(@NotBlank(message="{post.title.blank}") String title,
-                       String body,
-                       @SectionExists String sectionName){
+    public int newPost(@NotBlank String title,
+                       @Size(max=65535) String body,
+                       @NotNull @SectionExists String sectionName){
         User user = userRepo.getByName(currentUser.getUsername());
         Section section = sectionRepo.getByName(sectionName);
 
@@ -215,22 +194,22 @@ public class PostService {
      * Aggiunge un post ad una sezione
      * @param title titolo del post
      * @param content file di tipo immagine
-     * @param size lunghezza in byte di content
      * @param sectionName nome della sezione
      * @return identificativo del nuovo post creato
      */
     @AuthenticationRequired
     @DenyBannedUsers
-    public int newPost(@NotBlank(message = "{post.title.blank}") String title,
-                       @Image BufferedInputStream content,
-                       long size, //todo range
-                       @SectionExists String sectionName){
+    public int newPost(@NotBlank @Size(max=255) String title,
+                       @NotNull @Image BufferedInputStream content,
+                       @NotNull @SectionExists String sectionName){
         User user = userRepo.getByName(currentUser.getUsername());
         Section section = sectionRepo.getByName(sectionName);
 
         String fileName;
         try {
             fileName = bcRepo.insert(content);
+        } catch (ReadLimitExceededException e){
+            throw new IllegalArgumentException("Il file non deve superare i 5MB");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -5,6 +5,7 @@ import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
+
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -20,22 +21,23 @@ import static org.mockito.Mockito.*;
 
 
 @Classes(cdi = true,
-        value={Logout.class},
+        value={LogoutServlet.class},
         cdiStereotypes = CdiMock.class)
-public class LogoutServletTest extends ServletTest{
+public class LogoutServletServletTest extends ServletTest{
 
     @Mock private HttpServletRequest request;
     @Mock private HttpSession session;
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
-    @Inject Logout logoutServlet;
+    @Inject
+    LogoutServlet logoutServlet;
 
 
     @Test
     void successfulldoGet() throws ServletException, IOException{
         when(request.getSession(true)).thenReturn(session);
         when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
-        Logout spyServlet = spy(logoutServlet);
+        LogoutServlet spyServlet = spy(logoutServlet);
         ServletContext servletContext = mock(ServletContext.class);
         when(servletContext.getContextPath()).thenReturn("path");
         doReturn(servletContext).when(spyServlet).getServletContext();

@@ -7,8 +7,6 @@ import service.CommentService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +34,7 @@ public class NewCommentServlet extends InterceptableServlet {
         if(postId > 0){
             service.newComment(text,postId);
         }else{
-            service.newCommentReply(text,parentId,postId);
+            service.newCommentReply(text,parentId);
         }
         response.sendRedirect(request.getContextPath() + "/post/" + postId +"#comment-container");
     }

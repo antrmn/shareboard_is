@@ -1,6 +1,8 @@
 package persistence.repo;
 
 
+import util.LimitedInputStream;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +11,7 @@ import java.util.UUID;
 public class BinaryContentRepository implements Serializable{
 
     private Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");
+    private final long sizeLimit = 5*1024*1024; //todo: parametrizza nel metodo insert
 
     /**
      *  Costruttore vuoto
@@ -29,12 +32,14 @@ public class BinaryContentRepository implements Serializable{
      *  Salva un file nel filesystem e ne restituisce il nome
      * @param stream stream di dati
      * @param filename nome del file da salvare
+     * @throws util.ReadLimitExceededException se il file supera i 5MB
      * @throws IOException
      * @return nuova istanza di BinaryContentRepository
      */
     public String insert(InputStream stream, String filename) throws IOException {
+        Files.createDirectories(uploadRoot);
         File file = new File(uploadRoot.toFile(), filename);
-        Files.copy(stream, file.toPath());
+        Files.copy(new LimitedInputStream(stream,sizeLimit), file.toPath());
         return filename;
     }
 

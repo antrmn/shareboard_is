@@ -7,6 +7,7 @@ import persistence.model.User;
 import persistence.repo.CommentRepository;
 import persistence.repo.GenericRepository;
 import service.auth.AuthenticationRequired;
+import service.auth.AuthorizationException;
 import service.auth.DenyBannedUsers;
 import service.dto.CommentDTO;
 import service.dto.CurrentUser;
@@ -29,11 +30,19 @@ import static java.util.stream.Collectors.toList;
 @ApplicationScoped
 @Transactional
 public class CommentService {
-    @Inject private GenericRepository genericRepository;
-    @Inject private CommentRepository commentRepo;
-    @Inject private CurrentUser currentUser;
+    private final GenericRepository genericRepository;
+    private final CommentRepository commentRepo;
+    private final CurrentUser currentUser;
 
     private static final int MAX_COMMENT_DEPTH = 4;
+
+    @Inject
+    protected CommentService(GenericRepository genericRepository, CommentRepository commentRepository,
+                                            CurrentUser currentUser){
+        this.genericRepository = genericRepository;
+        this.commentRepo = commentRepository;
+        this.currentUser = currentUser;
+    }
 
     /**
      * Converte Comment in CommentDTO.
@@ -106,20 +115,23 @@ public class CommentService {
      * @param text stringa con testo da sostituire
      */
     @AuthenticationRequired
-    public void editComment(@CommentExists int id, String text){
-        genericRepository.findById(Comment.class, id).setContent(text);
+    public void editComment(@CommentExists int id, @NotBlank @Size(max=65535) String text){
+        Comment comment = genericRepository.findById(Comment.class, id);
+        if(currentUser.getId() != comment.getAuthor().getId() && !currentUser.isAdmin())
+            throw new AuthorizationException();
+        comment.setContent(text);
     }
 
     /**
      * Crea un nuovo commento e ne restituisce l'id
-     * @param text una stringa non vuota di massimo 1000 caratteri
+     * @param text una stringa non vuota di massimo 65535 caratteri
      * @param postId id di un post esistente
      * @return id del commento creato
      */
     @AuthenticationRequired
     @DenyBannedUsers
-    public int newComment(@NotBlank @Size String text,
-                       @PostExists int postId){
+    public int newComment(@NotBlank @Size(max=65535) String text,
+                          @PostExists int postId){
         User user = genericRepository.findById(User.class, currentUser.getId());
 
         Comment comment = new Comment();
@@ -132,21 +144,19 @@ public class CommentService {
     /**
      * Crea una risposta a un commento e ne restituisce l'id
      * @param text una stringa non vuota di massimo 1000 caratteri
-     * @param parentId id di un commento esistente
-     * @param postId id di un post esistente
+     * @param parentCommentId id di un commento esistente
      * @return id del commento creato
      */
     @AuthenticationRequired
-    public int newCommentReply(@NotBlank @Size String text,
-                               @CommentExists int parentId,
-                               @PostExists int postId){
+    public int newCommentReply(@NotBlank @Size(max=65535) String text,
+                               @CommentExists int parentCommentId){
         User user = genericRepository.findById(User.class, currentUser.getId());
-        Comment parent = genericRepository.findById(Comment.class, parentId);
+        Comment parent = genericRepository.findById(Comment.class, parentCommentId);
 
         Comment comment = new Comment();
         comment.setAuthor(user);
         comment.setContent(text);
-        comment.setPost(genericRepository.findById(Post.class, postId));
+        comment.setPost(parent.getPost());
         comment.setParentComment(parent);
         return genericRepository.insert(comment).getId();
     }

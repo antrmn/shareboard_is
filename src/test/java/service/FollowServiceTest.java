@@ -11,10 +11,12 @@ import persistence.model.User;
 import persistence.repo.GenericRepository;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.CurrentUser;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -41,8 +43,6 @@ public class FollowServiceTest extends ServiceTest{
         Follow follow = new Follow(user,section);
         when(genericRepository.insert(any())).thenReturn(follow);
         assertDoesNotThrow(() -> service.follow(sectionId));
-        Follow follow1 = service.follow(sectionId);
-        assertEquals(follow,follow1);
     }
 
     @ParameterizedTest

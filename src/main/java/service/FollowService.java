@@ -6,7 +6,7 @@ import persistence.model.User;
 import persistence.repo.GenericRepository;
 import service.auth.AuthenticationRequired;
 import service.dto.CurrentUser;
-import service.validation.SectionExistsById;
+import service.validation.SectionExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,8 +15,14 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 @Transactional
 public class FollowService {
-    @Inject private GenericRepository genericRepository;
-    @Inject private CurrentUser currentUser;
+    private final GenericRepository genericRepository;
+    private final CurrentUser currentUser;
+
+    @Inject
+    protected FollowService(GenericRepository genericRepository, CurrentUser currentUser){
+        this.genericRepository = genericRepository;
+        this.currentUser = currentUser;
+    }
 
     /**
      * Permette di seguire una sezione
@@ -24,10 +30,10 @@ public class FollowService {
      * @return entità follow inserita nel database
      */
     @AuthenticationRequired
-    public Follow follow(@SectionExistsById int sectionId){
+    public void follow(@SectionExists int sectionId){
         User user = genericRepository.findById(User.class, currentUser.getId());
         Section section = genericRepository.findById(Section.class,sectionId);
-        return genericRepository.insert(new Follow(user,section));
+        genericRepository.insert(new Follow(user,section));
     }
 
     /**
@@ -35,7 +41,7 @@ public class FollowService {
      * @param sectionId identificativo sezione
      */
     @AuthenticationRequired
-    public void unFollow(@SectionExistsById int sectionId){
+    public void unFollow(@SectionExists int sectionId){
         User user = genericRepository.findById(User.class, currentUser.getId());
         Section section = genericRepository.findById(Section.class,sectionId);
         Follow follow = section.getFollow(user);

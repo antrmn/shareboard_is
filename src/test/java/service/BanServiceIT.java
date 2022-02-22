@@ -4,10 +4,10 @@ import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import persistence.model.Ban;
 import persistence.model.User;
 import persistence.repo.*;
 import service.dto.BanDTO;
+
 import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @Classes(cdi = true,
@@ -59,9 +58,9 @@ public class BanServiceIT extends PersistenceIT {
             int year = LocalDate.now().getYear()+1;
             Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
 
-            Ban ban2 = service.addBan(data,users.get(0).getId());
+            int ban2 = service.addBan(data,users.get(0).getId());
             List<BanDTO> bans = service.retrieveUserBan(users.get(0).getId());
-            assertEquals(bans.get(0).getBanId(),ban2.getId());
+            assertEquals(bans.get(0).getBanId(),ban2);
         });
     }
 
@@ -71,14 +70,14 @@ public class BanServiceIT extends PersistenceIT {
             int year = LocalDate.now().getYear()+1;
             Instant data = LocalDate.of(year, 2, 8).atStartOfDay().toInstant(ZoneOffset.UTC);
 
-            Ban ban2 = service.addBan(data,users.get(2).getId());
+            int ban2 = service.addBan(data,users.get(2).getId());
             em.flush();
             em.clear();
-            service.removeBan(ban2.getId());
+            service.removeBan(ban2);
             em.flush();
             em.clear();
             List<BanDTO> bans = service.retrieveUserBan(users.get(2).getId());
-            assertTrue(bans.size() == 0);
+            assertEquals(0, bans.size());
         });
     }
 

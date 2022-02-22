@@ -2,7 +2,6 @@ package http.controller;
 
 
 import org.apache.openejb.testing.Classes;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
@@ -62,7 +61,7 @@ public class NewCommentServletTest extends ServletTest{
         doReturn(servletContext).when(spyServlet).getServletContext();
 
         doThrow(ConstraintViolationException.class).when(service).newComment(anyString(),anyInt());
-        doThrow(ConstraintViolationException.class).when(service).newCommentReply(anyString(), anyInt(),anyInt());
+        doThrow(ConstraintViolationException.class).when(service).newCommentReply(anyString(), anyInt());
         assertThrows(ConstraintViolationException.class,() -> commentServlet.doPost(request,response));
     }
 
@@ -95,7 +94,7 @@ public class NewCommentServletTest extends ServletTest{
         doReturn(servletContext).when(spyServlet).getServletContext();
 
         doThrow(ConstraintViolationException.class).when(service).newComment(anyString(),anyInt());
-        doThrow(ConstraintViolationException.class).when(service).newCommentReply(anyString(), anyInt(),anyInt());
+        doThrow(ConstraintViolationException.class).when(service).newCommentReply(anyString(), anyInt());
         assertThrows(ConstraintViolationException.class,() -> commentServlet.doGet(request,response));
     }
 

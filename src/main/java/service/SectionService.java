@@ -10,7 +10,8 @@ import service.dto.CurrentUser;
 import service.dto.SectionPage;
 import service.validation.Image;
 import service.validation.SectionExists;
-import service.validation.SectionExistsById;
+import service.validation.UniqueSection;
+import util.ReadLimitExceededException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -18,6 +19,9 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.time.Instant;
@@ -29,11 +33,19 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 @Transactional
 public class SectionService {
+    private final SectionRepository sectionRepo;
+    private final GenericRepository genericRepository;
+    private final BinaryContentRepository bcRepo;
+    private final CurrentUser currentUser;
 
-    @Inject private SectionRepository sectionRepo;
-    @Inject private GenericRepository genericRepository;
-    @Inject private BinaryContentRepository bcRepo;
-    @Inject private CurrentUser currentUser;
+    @Inject
+    protected SectionService(GenericRepository genericRepository, SectionRepository sectionRepository,
+                             BinaryContentRepository bcRepo, CurrentUser currentUser){
+        this.genericRepository = genericRepository;
+        this.sectionRepo = sectionRepository;
+        this.bcRepo = bcRepo;
+        this.currentUser = currentUser;
+    }
 
     /**
      * Converte section in SectionPage.
@@ -59,32 +71,37 @@ public class SectionService {
      * @param id l'id di una sezione esistente
      */
     @AdminsOnly
-    public void delete(@SectionExistsById int id){
+    public void delete(@SectionExists int id){
         genericRepository.remove(genericRepository.findById(Section.class, id));
     }
 
     /**
      * Crea una nuova sezione e ne restituisce l'id
-     * @param sectiondata entità contenente i dati della sezione
+     * @param name Nome della sezione
+     * @param description descrizione della sezione
      * @param picture stream relativo alla foto della sezione
      * @param banner stream relativo al banner della sezione
      * @throws IOException
      * @return id della sezione creata
      */
     @AdminsOnly
-    public int newSection(SectionPage sectiondata,
+    public int newSection(@NotBlank @Size(max=50) @UniqueSection String name,
+                          @Size(max=255) String description,
                           @Image BufferedInputStream picture,
-                          @Image BufferedInputStream banner) throws IOException {
+                          @Image BufferedInputStream banner) {
         Section s = new Section();
-        s.setName(sectiondata.getName());
-        s.setDescription(sectiondata.getDescription());
-        if (picture != null){
-            s.setPicture(bcRepo.insert(picture));
+        s.setName(name);
+        s.setDescription(description);
+        try {
+            if (picture != null)
+                s.setPicture(bcRepo.insert(picture));
+            if (banner != null)
+                s.setBanner(bcRepo.insert(banner));
+        } catch (ReadLimitExceededException e) {
+            throw new IllegalArgumentException("Il file non deve superare i 5MB");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        if (banner != null) {
-            s.setBanner(bcRepo.insert(banner));
-        }
-
         return genericRepository.insert(s).getId();
     }
 
@@ -113,7 +130,7 @@ public class SectionService {
      * @param id id di una sezione esistente
      * @return entita SectionPage che contiene i dati della sezione
      */
-    public SectionPage showSection(@SectionExistsById int id){
+    public SectionPage showSection(@SectionExists int id){
        Section s =  genericRepository.findById(Section.class, id);
        return map(s);
     }
@@ -123,35 +140,9 @@ public class SectionService {
      * @param sectionName nome di una sezione esistente
      * @return entita SectionPage che contiene i dati della sezione
      */
-    public SectionPage getSection(@SectionExists String sectionName){
+    public SectionPage getSection(@NotNull @SectionExists String sectionName){
         Section s = sectionRepo.getByName(sectionName);
         return map(s);
-    }
-
-    /**
-     * Modifica i dati di un entità sezione con un id specifico
-     * @param edit nuovi dati della sezione
-     * @param id id di una sezione esistente
-     * @param picture stream contenente i dati della foto di sezione
-     * @param banner stream contenente i dati del banner di sezione
-     * @throws IOException
-     * @return entita SectionPage che contiene i dati della sezione
-     */
-    @AdminsOnly
-    public void editSection(SectionPage edit,
-                            @SectionExistsById int id,
-                            @Image BufferedInputStream picture,
-                            @Image BufferedInputStream banner) throws IOException {
-        Section s = genericRepository.findById(Section.class,id);
-//        s.setBanner(edit.getBanner());
-//        s.setPicture(edit.getPicture());
-        s.setDescription(edit.getDescription());
-        if (picture != null){
-            s.setPicture(bcRepo.insert(picture));
-        }
-        if (banner != null) {
-            s.setBanner(bcRepo.insert(banner));
-        }
     }
 
     /**

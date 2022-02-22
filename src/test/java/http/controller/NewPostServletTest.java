@@ -98,9 +98,9 @@ public class NewPostServletTest extends ServletTest{
         when(section.getName()).thenReturn("section");
         when(request.getPart(anyString())).thenReturn(part);
         when(part.getName()).thenReturn("part");
-        when(part.getSize()).thenReturn((long) (6*1024*1024));
         when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
 
+        when(service.newPost(any(),nullable(BufferedInputStream.class),any())).thenThrow(IllegalArgumentException.class);
         NewPostServlet spyServlet = spy(postServlet);
         ServletContext servletContext = mock(ServletContext.class);
         when(servletContext.getContextPath()).thenReturn("path");
@@ -129,7 +129,7 @@ public class NewPostServletTest extends ServletTest{
         doReturn(servletContext).when(spyServlet).getServletContext();
 
         doThrow(ConstraintViolationException.class).when(service).newPost(anyString(),anyString(), anyString());
-        doThrow(ConstraintViolationException.class).when(service).newPost(anyString(), any(),anyLong(), anyString());
+        doThrow(ConstraintViolationException.class).when(service).newPost(anyString(), any(BufferedInputStream.class), anyString());
         assertThrows(ConstraintViolationException.class,() -> postServlet.doPost(request,response));
     }
 
@@ -159,21 +159,6 @@ public class NewPostServletTest extends ServletTest{
     }
 
     @Test
-    void tooBigImage() throws ServletException,IOException{
-        when(request.getParameter("section")).thenReturn("1");
-        when(request.getParameter("title")).thenReturn("text");
-        when(request.getParameter("type")).thenReturn("img");
-        when(sectionService.showSection(anyInt())).thenReturn(section);
-        when(section.getName()).thenReturn("section");
-        when(request.getPart(anyString())).thenReturn(part);
-        when(part.getName()).thenReturn("part");
-        when(part.getSize()).thenReturn(Long.valueOf(6*1024*1024));
-        when(part.getInputStream()).thenReturn(new BufferedInputStream(new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8))));
-
-        assertThrows(IllegalArgumentException.class, () -> postServlet.doPost(request,response));
-    }
-
-    @Test
     void successfulImage() throws ServletException,IOException{
         when(request.getParameter("section")).thenReturn("1");
         when(request.getParameter("title")).thenReturn("text");
@@ -193,7 +178,7 @@ public class NewPostServletTest extends ServletTest{
         doReturn(servletContext).when(spyServlet).getServletContext();
 
         spyServlet.doPost(request,response);
-        verify(service).newPost(anyString(),any(),anyLong(), anyString());
+        verify(service).newPost(anyString(),any(BufferedInputStream.class), anyString());
     }
 
 }

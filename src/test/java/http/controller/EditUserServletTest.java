@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import rocks.limburg.cdimock.CdiMock;
 import service.UserService;
+import service.auth.AuthorizationException;
+import service.dto.CurrentUser;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -33,10 +35,13 @@ public class EditUserServletTest extends ServletTest{
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
     @Mock private Part part;
+    @Mock private CurrentUser currentUser;
     @Inject EditUserServlet editUserServlet;
 
     @Test
-    void successfulldoGet() throws ServletException, IOException{
+    void successfulldoGetAsAdmin() throws ServletException, IOException{
+        when(currentUser.isAdmin()).thenReturn(true);
+        when(currentUser.getId()).thenReturn(2);
         when(request.getParameter("id")).thenReturn("1");
         EditUserServlet spyServlet = spy(editUserServlet);
         ServletContext servletContext = mock(ServletContext.class);
@@ -45,6 +50,36 @@ public class EditUserServletTest extends ServletTest{
         doReturn(servletContext).when(spyServlet).getServletContext();
         spyServlet.doGet(request,response);
         verify(dispatcher, times(1)).forward(any(), any());
+    }
+
+    @Test
+    void successfulldoGetAsSelf() throws ServletException, IOException{
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(currentUser.getId()).thenReturn(1);
+        when(request.getParameter("id")).thenReturn("1");
+        EditUserServlet spyServlet = spy(editUserServlet);
+        ServletContext servletContext = mock(ServletContext.class);
+        when(servletContext.getContextPath()).thenReturn("path");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+        doReturn(servletContext).when(spyServlet).getServletContext();
+        spyServlet.doGet(request,response);
+        verify(dispatcher, times(1)).forward(any(), any());
+    }
+
+    @Test
+    void unauthorizedDoGetAsNotAdmin() throws ServletException, IOException{
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(currentUser.getId()).thenReturn(2);
+        when(request.getParameter("id")).thenReturn("1");
+        assertThrows(AuthorizationException.class, () -> editUserServlet.doGet(request,response));
+    }
+
+    @Test
+    void unauthorizedDoGetAsNotSelf() throws ServletException, IOException{
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(currentUser.getId()).thenReturn(2);
+        when(request.getParameter("id")).thenReturn("1");
+        assertThrows(AuthorizationException.class, () -> editUserServlet.doGet(request,response));
     }
 
     @Test

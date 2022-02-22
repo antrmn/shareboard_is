@@ -14,15 +14,19 @@ import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.UserRepository;
 import rocks.limburg.cdimock.CdiMock;
+import service.auth.AuthorizationException;
+import service.dto.CurrentUser;
 import service.dto.UserEditPage;
-import service.dto.UserIdentityDTO;
+import service.dto.UserProfile;
 import util.Pbkdf2PasswordHashImpl;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -42,6 +46,7 @@ public class UserServiceTest extends ServiceTest {
     @Mock BinaryContentRepository binaryContentRepository;
     @Mock UserRepository userRepository;
     @Mock GenericRepository genericRepository;
+    @Mock CurrentUser currentUser;
     @Inject UserService service;
 
     @BeforeEach
@@ -84,6 +89,8 @@ public class UserServiceTest extends ServiceTest {
     void successfulGetUserById(int id){
         User user = new User();
         user.setId(1);
+        user.setUsername("username");
+        user.setAdmin(true);
         when(genericRepository.findById(User.class,id)).thenReturn(user);
         assertDoesNotThrow(() -> service.getUser(id));
     }
@@ -100,6 +107,8 @@ public class UserServiceTest extends ServiceTest {
     void successfulGetUserByName(String name){
         User user = new User();
         user.setId(1);
+        user.setUsername("username");
+        user.setAdmin(true);
         when(userRepository.getByName(name)).thenReturn(user);
         assertDoesNotThrow(() -> service.getUser(name));
     }
@@ -109,24 +118,6 @@ public class UserServiceTest extends ServiceTest {
     void failGetUserWithWrongName(String name){
         when(userRepository.getByName(name)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.getUser(name));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 3, 40})
-    void successfulGetDTOById(int id){
-        User user = new User();
-        user.setId(1);
-        user.setUsername("username");
-        user.setAdmin(false);
-        when(genericRepository.findById(User.class,id)).thenReturn(user);
-        assertDoesNotThrow(() -> service.get(id));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {-1, -3, -40})
-    void failGetDTOWithWrongId(int id){
-        when(genericRepository.findById(User.class,id)).thenReturn(null);
-        assertThrows(ConstraintViolationException.class,() -> service.get(id));
     }
 
     @ParameterizedTest
@@ -157,8 +148,15 @@ public class UserServiceTest extends ServiceTest {
             return user;
         }).collect(Collectors.toList());
 
-        List<UserIdentityDTO> usersDto =
-                users.stream().map(u -> new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin()))
+        List<UserProfile> usersDto =
+                users.stream().map(user -> UserProfile.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .creationDate(user.getCreationDate())
+                        .description(user.getDescription())
+                        .picture(user.getPicture())
+                        .username(user.getUsername())
+                        .isAdmin(user.getAdmin()).build())
                 .collect(Collectors.toList());
 
         when(genericRepository.findAll(User.class)).thenReturn(users);
@@ -183,9 +181,10 @@ public class UserServiceTest extends ServiceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 40})
-    void successfulEdit(int id) throws IOException {
-        BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
-        UserEditPage userEditPage = new UserEditPage(1,"description","email",stream,"password");
+    void successfulEditAsAdmin(int id) throws IOException {
+        when(currentUser.isAdmin()).thenReturn(true);
+        BufferedInputStream stream = new BufferedInputStream(new ByteArrayInputStream("GIF8".getBytes(StandardCharsets.UTF_8)));
+        UserEditPage userEditPage = new UserEditPage("description","email@email.email",stream,"password");
         User user = new User();
         user.setId(1);
         when(genericRepository.findById(User.class,id)).thenReturn(user);
@@ -195,20 +194,37 @@ public class UserServiceTest extends ServiceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 3, 40})
-    void successfulEditWithNullString(int id) throws IOException {
-        UserEditPage userEditPage = new UserEditPage(1,null,null,null,"");
+    void successfulEditAsSelf(int id) throws IOException {
+        when(currentUser.getId()).thenReturn(id);
+
+        BufferedInputStream stream = new BufferedInputStream(new ByteArrayInputStream("GIF8".getBytes(StandardCharsets.UTF_8)));
+        UserEditPage userEditPage = new UserEditPage("description","email@email.email",stream,"password");
         User user = new User();
-        user.setId(1);
+        user.setId(id);
         when(genericRepository.findById(User.class,id)).thenReturn(user);
         when(binaryContentRepository.insert(any())).thenReturn("pictureName");
         assertDoesNotThrow(() -> service.edit(userEditPage,id));
     }
 
     @ParameterizedTest
+    @ValueSource(ints = {1, 3, 40})
+    void failEditNotAuthorized(int id) throws IOException {
+        when(currentUser.getId()).thenReturn(id);
+        BufferedInputStream stream = new BufferedInputStream(new ByteArrayInputStream("GIF8".getBytes(StandardCharsets.UTF_8)));
+        UserEditPage userEditPage = new UserEditPage("description","email@email.email",stream,"password");
+        User user = new User();
+        user.setId(id+1);
+        when(genericRepository.findById(User.class,id+1)).thenReturn(user);
+        when(binaryContentRepository.insert(any())).thenReturn("pictureName");
+        assertThrows(AuthorizationException.class, () -> service.edit(userEditPage,id+1));
+    }
+
+
+    @ParameterizedTest
     @ValueSource(ints = {-1, -3, -40})
     void failEditWithWrongID(int id) throws IOException {
         BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
-        UserEditPage userEditPage = new UserEditPage(1,"description","email",stream,"password");
+        UserEditPage userEditPage = new UserEditPage("description","email",stream,"password");
         when(genericRepository.findById(User.class,id)).thenReturn(null);
         when(binaryContentRepository.insert(any())).thenReturn("pictureName");
         assertThrows(ConstraintViolationException.class,() -> service.edit(userEditPage,id));

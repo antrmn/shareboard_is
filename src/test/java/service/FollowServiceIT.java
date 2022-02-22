@@ -11,13 +11,14 @@ import persistence.model.User;
 import persistence.repo.*;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.CurrentUser;
+
 import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -70,12 +71,12 @@ public class FollowServiceIT extends PersistenceIT {
         doThenRollback((em) -> {
             when(currentUser.getId()).thenReturn(users.get(0).getId());
 
-            Follow follow = followService.follow(section.getId());
+            followService.follow(section.getId());
             em.flush();
             em.clear();
             Section section2 = repository.findById(Section.class,section.getId());
             Follow follow1 = section2.getFollow(users.get(0));
-            assertEquals(follow.getId(),follow1.getId());
+            assertNotNull(follow1);
         });
     }
 

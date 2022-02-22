@@ -14,8 +14,14 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 @Transactional
 public class VoteService {
-    @Inject private GenericRepository genericRepository;
-    @Inject private CurrentUser currentUser;
+    private final GenericRepository genericRepository;
+    private final CurrentUser currentUser;
+
+    @Inject
+    protected VoteService(GenericRepository genericRepository, CurrentUser currentUser){
+        this.genericRepository = genericRepository;
+        this.currentUser = currentUser;
+    }
 
     /**
      * Aggiunge un voto positivo ad un commento
@@ -35,20 +41,6 @@ public class VoteService {
         voteComment(id, (short) -1);
     }
 
-
-    /**
-     * Aggiunge un voto ad un commento
-     * @param id di un commento
-     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
-     */
-    private void voteComment(int id, short vote) {
-        Comment comment = genericRepository.findById(Comment.class,id);
-        User user = genericRepository.findById(User.class, currentUser.getId());
-
-        CommentVote commentVote = new CommentVote(user,comment, vote);
-        genericRepository.merge(commentVote);
-    }
-
     /**
      * Aggiunge un voto positivo ad un post
      * @param id di un post esistente
@@ -65,19 +57,6 @@ public class VoteService {
     @AuthenticationRequired
     public void downvotePost(@PostExists int id){
         votePost(id, (short) -1);
-    }
-
-    /**
-     * Aggiunge un voto ad un post
-     * @param id di un post
-     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
-     */
-    private void votePost(int id, short vote){
-        Post post = genericRepository.findById(Post.class,id);
-        User user = genericRepository.findById(User.class, currentUser.getId());
-
-        PostVote postVote = new PostVote(user,post,vote);
-        genericRepository.merge(postVote);
     }
 
     /**
@@ -107,4 +86,29 @@ public class VoteService {
             genericRepository.remove(vote);
     }
 
+    /**
+     * Aggiunge un voto ad un post
+     * @param id di un post
+     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
+     */
+    private void votePost(int id, short vote){
+        Post post = genericRepository.findById(Post.class,id);
+        User user = genericRepository.findById(User.class, currentUser.getId());
+
+        PostVote postVote = new PostVote(user,post,vote);
+        genericRepository.merge(postVote);
+    }
+
+    /**
+     * Aggiunge un voto ad un commento
+     * @param id di un commento
+     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo
+     */
+    private void voteComment(int id, short vote) {
+        Comment comment = genericRepository.findById(Comment.class,id);
+        User user = genericRepository.findById(User.class, currentUser.getId());
+
+        CommentVote commentVote = new CommentVote(user,comment, vote);
+        genericRepository.merge(commentVote);
+    }
 }

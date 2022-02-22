@@ -13,10 +13,13 @@ import persistence.repo.BinaryContentRepository;
 import persistence.repo.CommentRepository;
 import persistence.repo.GenericRepository;
 import rocks.limburg.cdimock.CdiMock;
+import service.auth.AuthorizationException;
 import service.dto.CommentDTO;
 import service.dto.CurrentUser;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
@@ -31,7 +34,7 @@ public class CommentServiceTest extends ServiceTest{
     @Mock GenericRepository genericRepository;
     @Mock private CommentRepository commentRepo;
     @Mock private BinaryContentRepository bcRepo;
-    @Mock private CurrentUser currentUser; //Mock necessario anche se inutilizzato
+    @Mock private CurrentUser currentUser;
     @Inject private CommentService service;
 
 
@@ -107,7 +110,7 @@ public class CommentServiceTest extends ServiceTest{
         when(genericRepository.findById(Post.class, 1)).thenReturn(post);
         when(genericRepository.findById(User.class, 1)).thenReturn(user);
         when(genericRepository.findById(Comment.class, 2)).thenReturn(parent);
-        int id = service.newCommentReply("reply", parent.getId(), post.getId());
+        int id = service.newCommentReply("reply", parent.getId());
         assertEquals(1, id);
     }
 
@@ -123,7 +126,7 @@ public class CommentServiceTest extends ServiceTest{
         parent.setPost(post);
         when(genericRepository.insert(any())).thenReturn(comment);
         when(genericRepository.findById(Post.class, 1)).thenReturn(post);
-        assertThrows(ConstraintViolationException.class,() -> service.newCommentReply("reply", parent.getId(), post.getId()));
+        assertThrows(ConstraintViolationException.class,() -> service.newCommentReply("reply", parent.getId()));
     }
 
     @ParameterizedTest
@@ -153,12 +156,46 @@ public class CommentServiceTest extends ServiceTest{
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
-    void successfulEditComment(int id) {
+    void successfulEditCommentAsAdmin(int id) {
+        when(currentUser.isAdmin()).thenReturn(true);
+        User user = new User();
+        user.setId(2);
         Comment comment = new Comment();
         comment.setId(id);
         comment.setContent("test");
+        comment.setAuthor(user);
         when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
         assertDoesNotThrow(() -> service.editComment(id, "new text"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void successfulEditCommentAsAuthor(int id) {
+        when(currentUser.getId()).thenReturn(4);
+        User user = new User();
+        user.setId(4);
+
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setContent("test");
+        comment.setAuthor(user);
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        assertDoesNotThrow(() -> service.editComment(id, "new text"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void failEditCommentAsNotAuthor(int id) {
+        when(currentUser.getId()).thenReturn(4);
+        User user = new User();
+        user.setId(21);
+
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setContent("test");
+        comment.setAuthor(user);
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        assertThrows(AuthorizationException.class,() -> service.editComment(id, "new text"));
     }
 
     @ParameterizedTest

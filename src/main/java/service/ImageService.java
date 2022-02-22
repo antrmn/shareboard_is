@@ -12,7 +12,12 @@ import java.net.URLConnection;
 
 @ApplicationScoped
 public class ImageService {
-    @Inject private BinaryContentRepository binaryContentRepository;
+    private final BinaryContentRepository binaryContentRepository;
+
+    @Inject
+    protected ImageService(BinaryContentRepository binaryContentRepository){
+        this.binaryContentRepository = binaryContentRepository;
+    }
 
     /**
      * Ritorna l'input stream di un immagine

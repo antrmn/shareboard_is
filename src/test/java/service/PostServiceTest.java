@@ -12,7 +12,6 @@ import persistence.model.User;
 import persistence.repo.*;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.CurrentUser;
-import service.dto.PostEditDTO;
 import service.dto.PostPage;
 import service.dto.PostSearchForm;
 
@@ -89,7 +88,7 @@ public class PostServiceTest extends ServiceTest{
         when(genericRepository.insert(any())).thenReturn(post);
         when(genericRepository.findById(User.class, 1)).thenReturn(user);
         when(sectionRepo.getByName("section1")).thenReturn(section);
-        int id = service.newPost("title", stream, 1, "section1");
+        int id = service.newPost("title", stream, "section1");
         assertEquals(1, id);
     }
 
@@ -123,7 +122,7 @@ public class PostServiceTest extends ServiceTest{
         when(bcRepo.insert(any())).thenReturn("pictureName");
         when(sectionRepo.getByName("section")).thenReturn(section);
         when(genericRepository.insert(any())).thenReturn(null);
-        assertThrows(java.lang.NullPointerException.class,() -> service.newPost("title", stream, 0, "section"));
+        assertThrows(java.lang.NullPointerException.class,() -> service.newPost("title", stream, "section"));
     }
 
     @Test
@@ -137,7 +136,7 @@ public class PostServiceTest extends ServiceTest{
         when(bcRepo.insert(any())).thenReturn("pictureName");
         when(sectionRepo.getByName("section")).thenReturn(section);
         when(genericRepository.insert(any())).thenReturn(post);
-        assertThrows(ConstraintViolationException.class,() -> service.newPost("title", stream, 0, "section"));
+        assertThrows(ConstraintViolationException.class,() -> service.newPost("title", stream, "section"));
     }
 
     @ParameterizedTest
@@ -180,36 +179,6 @@ public class PostServiceTest extends ServiceTest{
         when(genericRepository.findById(Post.class,id)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.getPost(id));
     }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 5, 30})
-    void successfulEditTextPost(int id) {
-        Post post = new Post();
-        post.setId(id);
-        post.setContent("test");
-        when(genericRepository.findById(Post.class,id)).thenReturn(post);
-        PostEditDTO postEdit = new PostEditDTO("title", "content", Post.Type.TEXT);
-        assertDoesNotThrow(() -> service.editPost(postEdit, id));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {-1, -5, -30})
-    void failEditTextPostWithWrongID(int id){
-        when(genericRepository.findById(Post.class,id)).thenReturn(null);
-        PostEditDTO postEdit = new PostEditDTO("title", "content", Post.Type.TEXT);
-        assertThrows(ConstraintViolationException.class,() -> service.editPost(postEdit, id));
-    }
-
-//    @ParameterizedTest
-//    @ValueSource(ints = {1, 5, 30})
-//    void successfulEditImagePost(int id) {
-//        Post post = new Post();
-//        post.setId(id);
-//        when(bcRepo.insert(any())).thenReturn("pictureName");
-//        when(genericRepository.findById(Post.class,id)).thenReturn(post);
-//        PostEditDTO postEdit = new PostEditDTO("title", "content", Post.Type.IMG);
-//        assertDoesNotThrow(() -> service.editPost(postEdit, id));
-//    }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})

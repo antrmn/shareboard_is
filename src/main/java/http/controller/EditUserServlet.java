@@ -5,6 +5,8 @@ import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
 import service.UserService;
+import service.auth.AuthorizationException;
+import service.dto.CurrentUser;
 import service.dto.UserEditPage;
 import service.dto.UserProfile;
 
@@ -25,14 +27,16 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 public class EditUserServlet extends InterceptableServlet {
     @Inject private UserService service;
+    @Inject private CurrentUser currentUser;
 
     private static final String EDIT_USER_PAGE = "/WEB-INF/views/edit-user.jsp";
-    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ParameterConverter converter = new ParameterConverter(request);
         int userId = converter.getIntParameter("id").orElse(0);
+        if(!currentUser.isAdmin() && currentUser.getId() != userId)
+            throw new AuthorizationException();
         UserProfile user = service.getUser(userId);
         request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/views/edit-user.jsp").forward(request, response);
@@ -52,15 +56,8 @@ public class EditUserServlet extends InterceptableServlet {
         if((!pass.isEmpty() || !pass2.isEmpty()) && !pass.equals(pass2))
             throw new IllegalArgumentException("Le password devono coincidere");
 
-        BufferedInputStream buffPicture = null;
-        if(picture != null && picture.getSize() < MAX_FILE_SIZE) {
-            if (picture.getSize()>0)
-                buffPicture = new BufferedInputStream(picture.getInputStream());
-        }else{
-            throw new IllegalArgumentException("Il file non deve superare i 5MB");
-        }
-
-        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);
+        BufferedInputStream stream = picture.getSize() > 0 ? new BufferedInputStream(picture.getInputStream()) : null;
+        UserEditPage userEditPage = new UserEditPage(description,email,stream ,pass);
         service.edit(userEditPage,userId);
 
         response.sendRedirect(request.getContextPath() + "/u/" + service.getUsernameById(userId));

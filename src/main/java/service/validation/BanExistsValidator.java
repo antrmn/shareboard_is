@@ -18,6 +18,7 @@ public class BanExistsValidator implements ConstraintValidator<BanExists, Intege
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
+        if(value==null) return true;
         return (genericRepository.findById(Ban.class, value) != null);
     }
 }

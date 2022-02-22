@@ -17,6 +17,7 @@ public class CommentExistsValidator implements ConstraintValidator<CommentExists
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
+        if(value==null) return true;
         return (genericRepository.findById(Comment.class, value) != null);
     }
 }

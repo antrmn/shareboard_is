@@ -2,17 +2,17 @@ package service.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
-@NotNull
+@Size(min=3, max=255)
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UserExistsByNameValidator.class)
+@Constraint(validatedBy = {})
 @Documented
-public @interface UserExistsByName {
-    String message() default "User must exist";
+public @interface PasswordFormat {
+    String message() default "Formato password non valido";
 
     Class<?>[] groups() default {};
 

@@ -15,6 +15,7 @@ import persistence.repo.SectionRepository;
 import rocks.limburg.cdimock.CdiMock;
 import service.dto.CurrentUser;
 import service.dto.SectionPage;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
@@ -58,8 +59,7 @@ public class SectionServiceTest extends ServiceTest{
         Section section = new Section();
         section.setId(1);
         when(genericRepository.insert(any())).thenReturn(section);
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
-        int id = service.newSection(sectionPage, null, null);
+        int id = service.newSection("name","desc", null, null);
         assertDoesNotThrow(() -> bcRepo.insert(any()));
         assertEquals(1,id);
     }
@@ -68,8 +68,7 @@ public class SectionServiceTest extends ServiceTest{
     void failNewSection() throws IOException {
         when(bcRepo.insert(any())).thenReturn("fileName");
         when(genericRepository.insert(any())).thenReturn(null);
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
-        assertThrows(NullPointerException.class,() -> service.newSection(sectionPage, null, null));
+        assertThrows(NullPointerException.class,() -> service.newSection("name", "description", null, null));
     }
 
 
@@ -160,24 +159,6 @@ public class SectionServiceTest extends ServiceTest{
         assertThrows(ConstraintViolationException.class,() -> service.getSection(wrongName));
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {1, 5, 30})
-    void successfulEditSection(int id) throws IOException {
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
-        Section section = new Section();
-        section.setId(id);
-        when(genericRepository.findById(Section.class,id)).thenReturn(section);
-        when(bcRepo.insert(any())).thenReturn("fileName");
-        assertDoesNotThrow(() -> service.editSection(sectionPage,id,null,null));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {-1, -5, -30})
-    void failEditSectionWithWrongID(int id) throws IOException {
-        SectionPage sectionPage = new SectionPage(1,"name","description","picture","banner",2,false);
-        when(genericRepository.findById(Section.class,id)).thenReturn(null);
-        assertThrows(ConstraintViolationException.class,() -> service.editSection(sectionPage,id,null,null));
-    }
 
     @Test
     void getTrendingSections(){

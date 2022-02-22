@@ -2,7 +2,6 @@ package persistence.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -16,7 +15,6 @@ import java.util.Map;
 
 @Entity
 @DynamicUpdate
-@ToString
 public class Post implements Serializable {
     public enum Type {TEXT, IMG}
 

@@ -2,17 +2,15 @@ package service.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
 import java.lang.annotation.*;
 
-@NotNull
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SectionExistsByIdValidator.class)
+@Constraint(validatedBy = UniqueSectionNameValidator.class)
 @Documented
-public @interface SectionExistsById {
-    String message() default "Section must exist";
+public @interface UniqueSection {
+    String message() default "Section already exists";
 
     Class<?>[] groups() default {};
 

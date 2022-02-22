@@ -22,7 +22,6 @@ public class FlywayMigrator {
             throw new EJBException("Cannot migrate, no datasource configured!");
         }
         FluentConfiguration config = Flyway.configure()
-                .baselineOnMigrate(true)
                 .dataSource(dataSource)
                 .createSchemas(true)
                 .validateOnMigrate(false)

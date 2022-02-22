@@ -1,20 +1,13 @@
 package http.controller;
 
 import http.controller.interceptor.AuthorizationConstraints;
-import http.controller.interceptor.ForwardOnError;
-import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
-import service.SectionService;
-import service.dto.SectionPage;
 
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;
@@ -23,7 +16,16 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
 public class EditSectionServlet extends InterceptableServlet {
-    @Inject private SectionService service;
+    //Funzionalità disabilitata
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendError(HttpServletResponse.SC_FORBIDDEN,"Funzionalità disabilitata temporaneamente");
+    }
+
+
+
+    /*@Inject private SectionService service;
 
     private static final String EDIT_SECTION_PAGE = "/WEB-INF/views/crm/edit-section.jsp";
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -66,4 +68,5 @@ public class EditSectionServlet extends InterceptableServlet {
         service.editSection(sectionPage,sectionId,buffPicture,buffBanner);
         response.sendRedirect(request.getContextPath()+"/admin/showsections");
     }
+    */
 }

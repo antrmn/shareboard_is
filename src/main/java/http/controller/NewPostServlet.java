@@ -27,7 +27,7 @@ public class NewPostServlet extends InterceptableServlet {
     @Inject private SectionService sectionService;
 
     private static final String NEW_POST_PAGE = "/WEB-INF/views/section/create-post.jsp";
-    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);
@@ -49,17 +49,9 @@ public class NewPostServlet extends InterceptableServlet {
         if(type.equalsIgnoreCase("text")){
             newPostId = service.newPost(title,content,sectionName);
         }else{
-            if(picture != null && picture.getSize() > MAX_FILE_SIZE) {
-                throw new IllegalArgumentException("Il file non deve superare i 5MB");
-            }
-
-            if(picture != null && picture.getSize() == 0) {
-                throw new IllegalArgumentException("Immagine mancante");
-            }
-            BufferedInputStream buffPicture = new BufferedInputStream(picture.getInputStream());
-            newPostId = service.newPost(title,buffPicture, picture.getSize(), sectionName);
-
+            BufferedInputStream stream = picture.getSize() > 0 ? new BufferedInputStream(picture.getInputStream()) : null;
+            newPostId = service.newPost(title,stream, sectionName);
         }
-        response.sendRedirect(getServletContext().getContextPath() + "/post/" + newPostId); //potrebbe mostrare postId = 0?
+        response.sendRedirect(getServletContext().getContextPath() + "/post/" + newPostId);
     }
 }

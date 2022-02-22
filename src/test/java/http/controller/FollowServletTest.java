@@ -38,7 +38,7 @@ public class FollowServletTest extends ServletTest{
     @Test
     void faildoPost() throws ServletException, IOException{
         when(request.getParameter("section")).thenReturn("1");
-        when(service.follow(anyInt())).thenThrow(ConstraintViolationException.class);
+        doThrow(ConstraintViolationException.class).when(service).follow(anyInt());
         assertThrows(ConstraintViolationException.class,() -> followServlet.doPost(request,response));
     }
 
@@ -53,7 +53,7 @@ public class FollowServletTest extends ServletTest{
     @Test
     void faildoGet() throws ServletException, IOException{
         when(request.getParameter("section")).thenReturn("1");
-        when(service.follow(anyInt())).thenThrow(ConstraintViolationException.class);
+        doThrow(ConstraintViolationException.class).when(service).follow(anyInt());
         assertThrows(ConstraintViolationException.class,() -> followServlet.doGet(request,response));
     }
 

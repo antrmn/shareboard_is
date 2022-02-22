@@ -3,7 +3,6 @@ package http.controller.filter;
 import service.dto.CurrentUser;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
@@ -14,7 +13,7 @@ import java.io.IOException;
 
 @WebFilter("*")
 public class CheckCurrentUserFilter extends HttpFilter {
-    @Inject @Named("currentUser") CurrentUser currentUser;
+    @Inject CurrentUser currentUser;
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class SectionExistsValidator implements ConstraintValidator<SectionExists, String> {
+public class SectionExistsByNameValidator implements ConstraintValidator<SectionExists, String> {
     @Inject SectionRepository sectionRepo;
 
     @Override
@@ -16,6 +16,7 @@ public class SectionExistsValidator implements ConstraintValidator<SectionExists
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if(value==null) return true;
         return (sectionRepo.getByName(value) != null);
     }
 }

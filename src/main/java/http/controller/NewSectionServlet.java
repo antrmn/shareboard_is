@@ -4,7 +4,6 @@ import http.controller.interceptor.AuthorizationConstraints;
 import http.controller.interceptor.ForwardOnError;
 import http.util.interceptor.InterceptableServlet;
 import service.SectionService;
-import service.dto.SectionPage;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -25,7 +24,7 @@ public class NewSectionServlet extends InterceptableServlet {
     @Inject private SectionService service;
 
     private static final String NEW_SECTION_PAGE = "/WEB-INF/views/crm/create-section.jsp";
-    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/crm/create-section.jsp").forward(request, response);
@@ -39,27 +38,10 @@ public class NewSectionServlet extends InterceptableServlet {
         Part picture = request.getPart("picture");
         Part banner = request.getPart("banner");
 
-        //gestire errore immagine
-        BufferedInputStream buffPicture = null;
-        BufferedInputStream buffBanner = null;
-        if(picture != null && picture.getSize() < MAX_FILE_SIZE) {
-            if (picture.getSize()>0) {
-                buffPicture = new BufferedInputStream(picture.getInputStream());
-            }
-        }else{
-            throw new IllegalArgumentException("Il file non deve superare i 5MB");
-        }
+        BufferedInputStream streamPicture = picture.getSize() > 0 ? new BufferedInputStream(picture.getInputStream()) : null;
+        BufferedInputStream streamBanner = banner.getSize() > 0 ? new BufferedInputStream(picture.getInputStream()) : null;
 
-        if(banner != null && banner.getSize() < MAX_FILE_SIZE) {
-            if (banner.getSize()>0)
-                buffBanner = new BufferedInputStream(picture.getInputStream());
-        }else{
-            throw new IllegalArgumentException("Il file non deve superare i 5MB");
-        }
-
-
-        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0,false);
-        service.newSection(sectionPage,buffPicture,buffBanner);
+        service.newSection(name, description ,streamPicture,streamBanner);
         response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");
     }
 }

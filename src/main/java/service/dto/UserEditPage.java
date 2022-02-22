@@ -4,18 +4,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import service.validation.EmailFormat;
 import service.validation.Image;
+import service.validation.PasswordFormat;
+import service.validation.UniqueEmail;
 
-import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.io.BufferedInputStream;
 
 @Builder @Getter @Data @AllArgsConstructor
 public class UserEditPage {
-    //todo: validation annotations
 
-    private int userId;
+    @Size(max=255)
     private String description;
-    @Email private String email;
-    @Image private BufferedInputStream picture;
+
+    @EmailFormat @UniqueEmail
+    private String email;
+
+    @Image
+    private BufferedInputStream picture;
+
+    @PasswordFormat
     private String password;
 }
