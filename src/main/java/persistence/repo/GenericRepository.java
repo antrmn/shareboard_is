@@ -1,5 +1,8 @@
 package persistence.repo;
 
+import org.hibernate.Session;
+import org.hibernate.SimpleNaturalIdLoadAccess;
+
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
@@ -11,9 +14,6 @@ import java.util.List;
  * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
  * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
  * essenziali (CRUD) per una specifica entità di persistenza
- * @param <T> La classe delle entità di persistenza gestite da classi che implementano questa interfaccia
- * @param <ID> La classe della chiave primaria delle entità di persistenza gestite da classi che implementano questa
- *            interfaccia
  * @see javax.persistence.EntityManager
  */
 public class GenericRepository implements Serializable {
@@ -23,7 +23,6 @@ public class GenericRepository implements Serializable {
 
     /**
      *  Trova per chiave primaria
-     * @param id La chiave primaria dell'oggetto da cercare
      * @return L'entità trovata o null se l'entità non esiste
      * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare
      * @see javax.persistence.EntityManager#find(Class, Object)
@@ -37,7 +36,6 @@ public class GenericRepository implements Serializable {
      * Trova per chiave primaria, restituendo un'entità caricata pigramente (lazy-loaded). L'entità restituita viene
      * caricata al primo accesso effettuato. Se l'istanza non esiste, viene lanciato {@link javax.persistence.EntityNotFoundException}
      * quando l'istanza viene acceduta per la prima volta.
-     * @param id La chiave primaria dell'oggetto da cercare
      * @return L'entità caricata pigramente
      * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare
      * @throws javax.persistence.EntityNotFoundException se l'entità non può essere acceduta
@@ -45,6 +43,15 @@ public class GenericRepository implements Serializable {
      */
     public <T> T findById(Class<T> entityClass, Object primaryKey){
         return findById(entityClass,primaryKey,false);
+    }
+
+    public <T> T findByNaturalId(Class<T> entityClass, Object naturalKey) {
+        return findByNaturalId(entityClass,naturalKey,false);
+    }
+
+    public <T> T findByNaturalId(Class<T> entityClass, Object naturalKey, boolean getReference) {
+        SimpleNaturalIdLoadAccess<T> entity = em.unwrap(Session.class).bySimpleNaturalId(entityClass);
+        return getReference ? entity.getReference(naturalKey) : entity.load(naturalKey);
     }
 
     /**

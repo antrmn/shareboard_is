@@ -14,8 +14,10 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 @Transactional
 public class VoteService {
-    private final GenericRepository genericRepository;
-    private final CurrentUser currentUser;
+    private GenericRepository genericRepository;
+    private CurrentUser currentUser;
+
+    protected VoteService(){}
 
     @Inject
     protected VoteService(GenericRepository genericRepository, CurrentUser currentUser){

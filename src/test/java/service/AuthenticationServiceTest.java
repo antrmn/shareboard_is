@@ -3,6 +3,7 @@ package service;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import persistence.model.Ban;
 import persistence.model.User;
@@ -31,7 +32,7 @@ class AuthenticationServiceTest extends ServiceTest {
 
     @Test
     void authenticateUserDoesntExist(){
-        when(userRepo.getByName(any())).thenReturn(null);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(null);
         assertFalse(authenticationService.authenticate("user", "pass"));
     }
 
@@ -44,7 +45,7 @@ class AuthenticationServiceTest extends ServiceTest {
         user.setPassword(expected.getPassword());
         user.setSalt(expected.getSalt());
 
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(user);
         assertTrue(authenticationService.authenticate("user", "password"));
     }
 
@@ -59,7 +60,7 @@ class AuthenticationServiceTest extends ServiceTest {
         user.setPassword(expected.getPassword());
         user.setSalt(expected.getSalt());
 
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(user);
         assertFalse(authenticationService.authenticate("user", "notpassword"));
     }
 
@@ -71,7 +72,7 @@ class AuthenticationServiceTest extends ServiceTest {
         Pbkdf2PasswordHashImpl.HashedPassword expected = passwordHash.generate("password");
         user.setPassword(expected.getPassword());
         user.setSalt(expected.getSalt());
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(user);
         assertTrue(authenticationService.authenticate("user", "password"));
 
         assertFalse(authenticationService.getCurrentUser().isLoggedIn());
@@ -85,7 +86,7 @@ class AuthenticationServiceTest extends ServiceTest {
         Pbkdf2PasswordHashImpl.HashedPassword expected = passwordHash.generate("password");
         user.setPassword(expected.getPassword());
         user.setSalt(expected.getSalt());
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(user);
         assertTrue(authenticationService.authenticate("user", "password"));
 
 
@@ -105,7 +106,7 @@ class AuthenticationServiceTest extends ServiceTest {
         Pbkdf2PasswordHashImpl.HashedPassword expected = passwordHash.generate("password");
         user.setPassword(expected.getPassword());
         user.setSalt(expected.getSalt());
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(user);
         assertTrue(authenticationService.authenticate("user", "password"));
 
 
@@ -127,7 +128,7 @@ class AuthenticationServiceTest extends ServiceTest {
         Pbkdf2PasswordHashImpl.HashedPassword expected = passwordHash.generate("password");
         user.setPassword(expected.getPassword());
         user.setSalt(expected.getSalt());
-        when(userRepo.getByName(any())).thenReturn(user);
+        when(genericRepo.findByNaturalId(ArgumentMatchers.<Class<User>>any(),any())).thenReturn(user);
         assertTrue(authenticationService.authenticate("user", "password"));
 
 

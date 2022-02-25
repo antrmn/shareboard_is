@@ -4,7 +4,6 @@ import com.sun.istack.NotNull;
 import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
-import persistence.repo.UserRepository;
 import service.auth.AdminsOnly;
 import service.auth.AuthenticationRequired;
 import service.auth.AuthorizationException;
@@ -28,18 +27,18 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 @Transactional
 public class UserService {
-    private final UserRepository userRepo;
-    private final GenericRepository genericRepository;
-    private final BinaryContentRepository bcRepo;
-    private final CurrentUser currentUser;
-    private final Pbkdf2PasswordHashImpl passwordHash;
+    private GenericRepository genericRepository;
+    private BinaryContentRepository bcRepo;
+    private CurrentUser currentUser;
+    private Pbkdf2PasswordHashImpl passwordHash;
+
+    protected UserService(){}
 
     @Inject
-    protected UserService(GenericRepository genericRepository, UserRepository userRepo,
+    protected UserService(GenericRepository genericRepository,
                           BinaryContentRepository binaryContentRepository, Pbkdf2PasswordHashImpl passwordHash,
                           CurrentUser currentUser){
         this.genericRepository = genericRepository;
-        this.userRepo = userRepo;
         this.bcRepo = binaryContentRepository;
         this.passwordHash = passwordHash;
         this.currentUser = currentUser;
@@ -72,7 +71,7 @@ public class UserService {
      * @return entita UserProfile
      */
     public UserProfile getUser(@NotBlank @UserExists String name){
-        User u = userRepo.getByName(name);
+        User u = genericRepository.findByNaturalId(User.class,name);
         return map(u);
     }
 

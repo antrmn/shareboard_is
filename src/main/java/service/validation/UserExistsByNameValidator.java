@@ -1,14 +1,14 @@
 package service.validation;
 
-import persistence.repo.UserRepository;
+import persistence.model.User;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class UserExistsByNameValidator implements ConstraintValidator<UserExists, String> {
-    @Inject
-    UserRepository userRepository;
+    @Inject GenericRepository genericRepository;
 
 
     @Override
@@ -18,6 +18,7 @@ public class UserExistsByNameValidator implements ConstraintValidator<UserExists
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
-        return userRepository.getByName(name) != null;
+        if(name == null) return true;
+        return genericRepository.findByNaturalId(User.class,name) != null;
     }
 }

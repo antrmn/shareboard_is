@@ -49,7 +49,7 @@ public class SectionRepositoryIT extends PersistenceIT{
     @Test
     public void testRetrieve() throws Exception {
         doThenRollback(() -> {
-            Section section = sectionRepository.getByName(sections.get(0).getName());
+            Section section = genericRepository.findByNaturalId(Section.class,sections.get(0).getName());
             Assertions.assertEquals(section.getId(),sections.get(0).getId());
             Assertions.assertEquals(section.getName(),sections.get(0).getName());
             Assertions.assertEquals(section.getBanner(),sections.get(0).getBanner());
@@ -58,7 +58,7 @@ public class SectionRepositoryIT extends PersistenceIT{
         });
 
         doThenRollback(() -> {
-            Section section = sectionRepository.getByName(sections.get(1).getName(),false);
+            Section section = genericRepository.findByNaturalId(Section.class,sections.get(1).getName(),false);
             Assertions.assertEquals(section.getId(),sections.get(1).getId());
             Assertions.assertEquals(section.getName(),sections.get(1).getName());
             Assertions.assertEquals(section.getBanner(),sections.get(1).getBanner());
@@ -67,7 +67,7 @@ public class SectionRepositoryIT extends PersistenceIT{
         });
 
         doThenRollback(() -> {
-            Section section = sectionRepository.getByName(sections.get(2).getName(),true);
+            Section section = genericRepository.findByNaturalId(Section.class,sections.get(2).getName(),true);
             Assertions.assertEquals(section.getId(),sections.get(2).getId());
             Assertions.assertEquals(section.getName(),sections.get(2).getName());
             Assertions.assertEquals(section.getBanner(),sections.get(2).getBanner());
@@ -125,12 +125,11 @@ public class SectionRepositoryIT extends PersistenceIT{
             Instant twoDaysAgo = Instant.now().minus(2, ChronoUnit.DAYS);
             Instant aMonthAgo = Instant.now().minus(30,ChronoUnit.DAYS);
 
-            TriConsumer saveFollow = (user, section, date) -> {
-                em.createNativeQuery("insert into follow(user_id, section_id, follow_date) values (?1,?2,?3)")
-                        .setParameter(1,user)
-                        .setParameter(2,section)
-                        .setParameter(3,Date.from(date)).executeUpdate();
-            };
+            TriConsumer saveFollow = (user, section, date) ->
+                    em.createNativeQuery("insert into follow(user_id, section_id, follow_date) values (?1,?2,?3)")
+                    .setParameter(1,user)
+                    .setParameter(2,section)
+                    .setParameter(3,Date.from(date)).executeUpdate();
 
             users.stream().map(User::getId).forEach((id) -> saveFollow.accept(id, sections.get(0).getId(), twoDaysAgo));
             users.stream().map(User::getId).forEach((id) -> saveFollow.accept(id, sections.get(1).getId(), aMonthAgo));

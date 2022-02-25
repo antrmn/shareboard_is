@@ -30,11 +30,13 @@ import static java.util.stream.Collectors.toList;
 @ApplicationScoped
 @Transactional
 public class CommentService {
-    private final GenericRepository genericRepository;
-    private final CommentRepository commentRepo;
-    private final CurrentUser currentUser;
+    private GenericRepository genericRepository;
+    private CommentRepository commentRepo;
+    private CurrentUser currentUser;
 
     private static final int MAX_COMMENT_DEPTH = 4;
+
+    protected CommentService(){}
 
     @Inject
     protected CommentService(GenericRepository genericRepository, CommentRepository commentRepository,

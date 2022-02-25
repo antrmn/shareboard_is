@@ -20,7 +20,9 @@ import java.util.List;
 @ApplicationScoped
 @Transactional
 public class BanService {
-    private final GenericRepository genericRepository;
+    private GenericRepository genericRepository;
+
+    protected BanService(){}
 
     @Inject
     protected BanService(GenericRepository genericRepository){

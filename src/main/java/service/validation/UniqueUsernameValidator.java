@@ -1,6 +1,7 @@
 package service.validation;
 
-import persistence.repo.UserRepository;
+import persistence.model.User;
+import persistence.repo.GenericRepository;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
@@ -8,8 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
-    @Inject
-    UserRepository userRepository;
+    @Inject GenericRepository genericRepository;
 
     @Override
     public void initialize(UniqueUsername userExists) {
@@ -19,6 +19,6 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
         if(username == null) return true;
-        return userRepository.getByName(username) == null;
+        return genericRepository.findByNaturalId(User.class, username) == null;
     }
 }

@@ -27,9 +27,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Classes(cdi = true,
         value={PostService.class},
@@ -67,7 +65,7 @@ public class PostServiceTest extends ServiceTest{
         post.setContent("text");
         when(genericRepository.insert(any())).thenReturn(post);
         when(genericRepository.findById(User.class, 1)).thenReturn(user);
-        when(sectionRepo.getByName("section1")).thenReturn(section);
+        when(genericRepository.findByNaturalId(Section.class,"section1")).thenReturn(section);
         int id = service.newPost("title", "text", "section1");
         assertEquals(1, id);
     }
@@ -87,7 +85,7 @@ public class PostServiceTest extends ServiceTest{
         when(bcRepo.insert(any())).thenReturn("pictureName");
         when(genericRepository.insert(any())).thenReturn(post);
         when(genericRepository.findById(User.class, 1)).thenReturn(user);
-        when(sectionRepo.getByName("section1")).thenReturn(section);
+        when(genericRepository.findByNaturalId(Section.class,"section1")).thenReturn(section);
         int id = service.newPost("title", stream, "section1");
         assertEquals(1, id);
     }
@@ -108,7 +106,7 @@ public class PostServiceTest extends ServiceTest{
         Section section = new Section();
         section.setId(1);
         section.setName("section");
-        when(sectionRepo.getByName("section")).thenReturn(section);
+        when(genericRepository.findByNaturalId(Section.class,"section")).thenReturn(section);
         when(genericRepository.insert(any())).thenReturn(null);
         assertThrows(java.lang.NullPointerException.class,() -> service.newPost("title", "text", "section"));
     }
@@ -120,7 +118,7 @@ public class PostServiceTest extends ServiceTest{
         section.setName("section");
         BufferedInputStream stream = createFakeImageStream();
         when(bcRepo.insert(any())).thenReturn("pictureName");
-        when(sectionRepo.getByName("section")).thenReturn(section);
+        when(genericRepository.findByNaturalId(Section.class,"section")).thenReturn(section);
         when(genericRepository.insert(any())).thenReturn(null);
         assertThrows(java.lang.NullPointerException.class,() -> service.newPost("title", stream, "section"));
     }
@@ -134,7 +132,7 @@ public class PostServiceTest extends ServiceTest{
         section.setName("section");
         BufferedInputStream stream = new BufferedInputStream(InputStream.nullInputStream());
         when(bcRepo.insert(any())).thenReturn("pictureName");
-        when(sectionRepo.getByName("section")).thenReturn(section);
+        when(genericRepository.findByNaturalId(Section.class,"section")).thenReturn(section);
         when(genericRepository.insert(any())).thenReturn(post);
         assertThrows(ConstraintViolationException.class,() -> service.newPost("title", stream, "section"));
     }
@@ -204,8 +202,8 @@ public class PostServiceTest extends ServiceTest{
         when(postRepo.getFinder().getResults()).thenReturn(posts);
         when(currentUser.isLoggedIn()).thenReturn(true);
         when(currentUser.getId()).thenReturn(1);
-        when(sectionRepo.getByName(anyString())).thenReturn(new Section());
-        when(userRepo.getByName(anyString())).thenReturn(new User());
+        doReturn(new Section()).when(genericRepository).findByNaturalId(eq(Section.class),any());
+        doReturn(new User()).when(genericRepository).findByNaturalId(eq(User.class),any());
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
                 .onlyFollow(true)
@@ -232,8 +230,8 @@ public class PostServiceTest extends ServiceTest{
         when(postRepo.getFinder().getResults()).thenReturn(null);
         when(currentUser.isLoggedIn()).thenReturn(true);
         when(currentUser.getId()).thenReturn(1);
-        when(sectionRepo.getByName(anyString())).thenReturn(new Section());
-        when(userRepo.getByName(anyString())).thenReturn(new User());
+        doReturn(new Section()).when(genericRepository).findByNaturalId(eq(Section.class),any());
+        doReturn(new User()).when(genericRepository).findByNaturalId(eq(User.class),any());
         PostSearchForm postSearchForm = PostSearchForm.builder()
                 .content("content")
                 .onlyFollow(true)

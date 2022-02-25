@@ -12,7 +12,9 @@ import java.net.URLConnection;
 
 @ApplicationScoped
 public class ImageService {
-    private final BinaryContentRepository binaryContentRepository;
+    private BinaryContentRepository binaryContentRepository;
+
+    protected ImageService(){}
 
     @Inject
     protected ImageService(BinaryContentRepository binaryContentRepository){

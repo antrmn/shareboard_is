@@ -43,7 +43,7 @@ public class UserRepositoryIT extends PersistenceIT{
     @Test
     public void testRetrieve() throws Exception {
         doThenRollback(() -> {
-            User user = userRepository.getByName(users.get(0).getUsername());
+            User user = genericRepository.findByNaturalId(User.class,users.get(0).getUsername(),true);
             Assertions.assertEquals(user.getId(),users.get(0).getId());
         });
 
@@ -53,7 +53,7 @@ public class UserRepositoryIT extends PersistenceIT{
         });
 
         doThenRollback(() -> {
-            User user = userRepository.getByName(users.get(0).getUsername(), true);
+            User user = genericRepository.findByNaturalId(User.class,users.get(0).getUsername(), true);
             Assertions.assertEquals(user.getId(),users.get(0).getId());
             Assertions.assertEquals(user.getUsername(),users.get(0).getUsername());
         });

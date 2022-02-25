@@ -33,6 +33,8 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 
@@ -109,14 +111,14 @@ public class UserServiceTest extends ServiceTest {
         user.setId(1);
         user.setUsername("username");
         user.setAdmin(true);
-        when(userRepository.getByName(name)).thenReturn(user);
+        when(genericRepository.findByNaturalId(User.class,name)).thenReturn(user);
         assertDoesNotThrow(() -> service.getUser(name));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"wrong1", "wrong2", "wrong3"})
     void failGetUserWithWrongName(String name){
-        when(userRepository.getByName(name)).thenReturn(null);
+        when(genericRepository.findByNaturalId(User.class,name)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.getUser(name));
     }
 
@@ -264,7 +266,7 @@ public class UserServiceTest extends ServiceTest {
     void failNewUserBlankUsername() {
         User user = new User();
         user.setId(1);
-        when(userRepository.getByName(any())).thenReturn(user);
+        doReturn(user).when(genericRepository).findByNaturalId(eq(User.class),any());
         when(genericRepository.insert(any())).thenReturn(user);
         assertThrows(ConstraintViolationException.class, () -> {
             service.newUser("email@email.email"," \n\t","mypassword123");

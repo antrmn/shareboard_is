@@ -3,7 +3,9 @@ package service;
 import persistence.model.Post;
 import persistence.model.Section;
 import persistence.model.User;
-import persistence.repo.*;
+import persistence.repo.BinaryContentRepository;
+import persistence.repo.GenericRepository;
+import persistence.repo.PostRepository;
 import service.auth.AuthenticationRequired;
 import service.auth.DenyBannedUsers;
 import service.dto.CurrentUser;
@@ -35,21 +37,18 @@ import static service.dto.PostSearchForm.SortCriteria.NEWEST;
 @ApplicationScoped
 @Transactional
 public class PostService {
+    private GenericRepository genericRepository;
+    private PostRepository postRepo;
+    private BinaryContentRepository bcRepo;
+    private CurrentUser currentUser;
 
-    private final GenericRepository genericRepository;
-    private final PostRepository postRepo;
-    private final UserRepository userRepo;
-    private final SectionRepository sectionRepo;
-    private final BinaryContentRepository bcRepo;
-    private final CurrentUser currentUser;
+    protected PostService(){}
 
     @Inject
-    protected PostService(GenericRepository genericRepository, PostRepository postRepo, UserRepository userRepo,
-                          SectionRepository sectionRepository, BinaryContentRepository bcRepo, CurrentUser currentUser){
+    protected PostService(GenericRepository genericRepository, PostRepository postRepo,
+                          BinaryContentRepository bcRepo, CurrentUser currentUser){
         this.genericRepository = genericRepository;
         this.postRepo = postRepo;
-        this.userRepo = userRepo;
-        this.sectionRepo = sectionRepository;
         this.bcRepo = bcRepo;
         this.currentUser = currentUser;
     }
@@ -115,13 +114,13 @@ public class PostService {
             finder.includeBody();
         }
         if(form.getSectionName() != null){
-            Section section = sectionRepo.getByName(form.getSectionName());
+            Section section = genericRepository.findByNaturalId(Section.class, form.getSectionName());
             if(section != null){
                 finder.bySection(section);
             }
         }
         if(form.getAuthorName() != null){
-            User user = userRepo.getByName(form.getAuthorName());
+            User user = genericRepository.findByNaturalId(User.class, form.getAuthorName());
             if(user != null){
                 finder.byAuthor(user);
             }
@@ -176,8 +175,8 @@ public class PostService {
     public int newPost(@NotBlank String title,
                        @Size(max=65535) String body,
                        @NotNull @SectionExists String sectionName){
-        User user = userRepo.getByName(currentUser.getUsername());
-        Section section = sectionRepo.getByName(sectionName);
+        User user = genericRepository.findByNaturalId(User.class, currentUser.getUsername());
+        Section section = genericRepository.findByNaturalId(Section.class,sectionName);
 
 
         Post post = new Post();
@@ -202,8 +201,8 @@ public class PostService {
     public int newPost(@NotBlank @Size(max=255) String title,
                        @NotNull @Image BufferedInputStream content,
                        @NotNull @SectionExists String sectionName){
-        User user = userRepo.getByName(currentUser.getUsername());
-        Section section = sectionRepo.getByName(sectionName);
+        User user = genericRepository.findByNaturalId(User.class,currentUser.getUsername());
+        Section section = genericRepository.findByNaturalId(Section.class,sectionName);
 
         String fileName;
         try {

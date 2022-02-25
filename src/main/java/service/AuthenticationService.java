@@ -2,7 +2,6 @@ package service;
 
 import persistence.model.User;
 import persistence.repo.GenericRepository;
-import persistence.repo.UserRepository;
 import service.dto.CurrentUser;
 import util.Pbkdf2PasswordHashImpl;
 
@@ -18,15 +17,15 @@ import java.time.Instant;
 @SessionScoped
 @Transactional
 public class AuthenticationService implements Serializable {
-    private final UserRepository userRepository;
-    private final GenericRepository genericRepository;
-    private final Pbkdf2PasswordHashImpl passwordHash;
+    private GenericRepository genericRepository;
+    private Pbkdf2PasswordHashImpl passwordHash;
     private int currentUserId = 0;
 
+    protected AuthenticationService(){}
+
     @Inject
-    protected AuthenticationService(UserRepository userRepository, GenericRepository genericRepository,
+    protected AuthenticationService(GenericRepository genericRepository,
                                     Pbkdf2PasswordHashImpl passwordHash){
-        this.userRepository = userRepository;
         this.genericRepository = genericRepository;
         this.passwordHash = passwordHash;
     }
@@ -39,7 +38,7 @@ public class AuthenticationService implements Serializable {
      * @return esito dell'operazione
      */
     public boolean authenticate(String username, String password){
-        User user = userRepository.getByName(username);
+        User user = genericRepository.findByNaturalId(User.class,username);
         if(user == null)
             return false;
         if (passwordHash.verify(password, user.getPassword(), user.getSalt())){

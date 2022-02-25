@@ -33,10 +33,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 @Transactional
 public class SectionService {
-    private final SectionRepository sectionRepo;
-    private final GenericRepository genericRepository;
-    private final BinaryContentRepository bcRepo;
-    private final CurrentUser currentUser;
+    private SectionRepository sectionRepo;
+    private GenericRepository genericRepository;
+    private BinaryContentRepository bcRepo;
+    private CurrentUser currentUser;
+
+    protected SectionService(){}
 
     @Inject
     protected SectionService(GenericRepository genericRepository, SectionRepository sectionRepository,
@@ -81,7 +83,6 @@ public class SectionService {
      * @param description descrizione della sezione
      * @param picture stream relativo alla foto della sezione
      * @param banner stream relativo al banner della sezione
-     * @throws IOException
      * @return id della sezione creata
      */
     @AdminsOnly
@@ -141,7 +142,7 @@ public class SectionService {
      * @return entita SectionPage che contiene i dati della sezione
      */
     public SectionPage getSection(@NotNull @SectionExists String sectionName){
-        Section s = sectionRepo.getByName(sectionName);
+        Section s = genericRepository.findByNaturalId(Section.class,sectionName);
         return map(s);
     }
 

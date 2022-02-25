@@ -147,7 +147,7 @@ public class SectionServiceTest extends ServiceTest{
         section.setPicture("picture");
         section.setName(sectionName);
         doReturn(2).when(section).getFollowCount();
-        when(sectionRepo.getByName(sectionName)).thenReturn(section);
+        when(genericRepository.findByNaturalId(Section.class,sectionName)).thenReturn(section);
         SectionPage sectionPage = service.getSection(sectionName);
         assertNotNull(sectionPage);
     }
@@ -155,7 +155,7 @@ public class SectionServiceTest extends ServiceTest{
     @ParameterizedTest
     @ValueSource(strings = {"notSection1", "notSection2", "notSection3"})
     void failGetSectionWithWrongName(String wrongName){
-        when(sectionRepo.getByName(wrongName)).thenReturn(null);
+        when(genericRepository.findByNaturalId(Section.class,wrongName)).thenReturn(null);
         assertThrows(ConstraintViolationException.class,() -> service.getSection(wrongName));
     }
 

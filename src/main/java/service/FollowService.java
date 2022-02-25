@@ -15,8 +15,10 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 @Transactional
 public class FollowService {
-    private final GenericRepository genericRepository;
-    private final CurrentUser currentUser;
+    private GenericRepository genericRepository;
+    private CurrentUser currentUser;
+
+    protected FollowService(){}
 
     @Inject
     protected FollowService(GenericRepository genericRepository, CurrentUser currentUser){
@@ -27,7 +29,6 @@ public class FollowService {
     /**
      * Permette di seguire una sezione
      * @param sectionId identificativo sezione
-     * @return entità follow inserita nel database
      */
     @AuthenticationRequired
     public void follow(@SectionExists int sectionId){

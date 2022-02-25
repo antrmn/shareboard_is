@@ -22,6 +22,8 @@ import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 
@@ -72,9 +74,7 @@ class AuthorizationInterceptorTest extends ServiceTest {
         user.setAdmin(true);
         when(genericRepository.findById(User.class,4)).thenReturn(user);
 
-        assertDoesNotThrow(() -> {
-            userService.toggleAdmin(4);
-        });
+        assertDoesNotThrow(() -> userService.toggleAdmin(4));
     }
 
     @Test
@@ -105,8 +105,8 @@ class AuthorizationInterceptorTest extends ServiceTest {
         Section section = new Section();
         Post post = new Post();
         post.setId(5);
-        when(userRepository.getByName(currentUser.getUsername())).thenReturn(user);
-        when(sectionRepository.getByName(any())).thenReturn(section);
+        doReturn(section).when(genericRepository).findByNaturalId(eq(Section.class),any());
+        doReturn(new User()).when(genericRepository).findByNaturalId(eq(User.class),any());
         when(genericRepository.insert((any(Post.class)))).thenReturn(post);
 
         assertDoesNotThrow(() -> postService.newPost("a","b","c"));
