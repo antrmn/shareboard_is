@@ -40,11 +40,44 @@ public class CommentServiceTest extends ServiceTest{
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
-    void successfulDeleteComment(int id){
+    void successfulDeleteCommentAsAdmin(int id){
         Comment comment = new Comment();
         comment.setId(id);
+        User user = new User();
+        user.setId(id+1);
+        comment.setAuthor(user);
+        when(currentUser.getId()).thenReturn(88);
+        when(currentUser.isAdmin()).thenReturn(true);
         when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
         assertDoesNotThrow(() -> service.delete(id));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void successfulDeleteCommentAsAuthor(int id){
+        Comment comment = new Comment();
+        comment.setId(id);
+        User user = new User();
+        user.setId(id);
+        comment.setAuthor(user);
+        when(currentUser.getId()).thenReturn(id);
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        assertDoesNotThrow(() -> service.delete(id));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void failDeleteComment(int id){
+        Comment comment = new Comment();
+        comment.setId(id);
+        User user = new User();
+        user.setId(id+1);
+        comment.setAuthor(user);
+        when(currentUser.getId()).thenReturn(id);
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(genericRepository.findById(Comment.class,id)).thenReturn(comment);
+        assertThrows(AuthorizationException.class, () -> service.delete(id));
     }
 
     @ParameterizedTest

@@ -108,6 +108,9 @@ public class CommentService {
      */
     @AuthenticationRequired
     public void delete(@CommentExists int id){
+        Comment comment = genericRepository.findById(Comment.class, id);
+        if(currentUser.getId() != comment.getAuthor().getId() && !currentUser.isAdmin())
+            throw new AuthorizationException();
         genericRepository.remove(genericRepository.findById(Comment.class, id));
     }
 

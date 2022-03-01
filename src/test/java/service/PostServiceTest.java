@@ -11,6 +11,7 @@ import persistence.model.Section;
 import persistence.model.User;
 import persistence.repo.*;
 import rocks.limburg.cdimock.CdiMock;
+import service.auth.AuthorizationException;
 import service.dto.CurrentUser;
 import service.dto.PostPage;
 import service.dto.PostSearchForm;
@@ -139,11 +140,43 @@ public class PostServiceTest extends ServiceTest{
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, 30})
-    void successfulDeletePost(int id){
+    void successfulDeletePostAsAdmin(int id){
         Post post = new Post();
         post.setId(id);
+        User user = new User();
+        user.setId(id+1);
+        post.setAuthor(user);
+        when(currentUser.getId()).thenReturn(5);
+        when(currentUser.isAdmin()).thenReturn(true);
         when(genericRepository.findById(Post.class,id)).thenReturn(post);
         assertDoesNotThrow(() -> service.delete(id));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 30})
+    void successfulDeletePostAsAuthor(int id){
+        Post post = new Post();
+        post.setId(id);
+        User user = new User();
+        user.setId(id);
+        post.setAuthor(user);
+        when(currentUser.getId()).thenReturn(id);
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(genericRepository.findById(Post.class,id)).thenReturn(post);
+        assertDoesNotThrow(() -> service.delete(id));
+    }
+
+    @Test
+    void failDeletePost(){
+        Post post = new Post();
+        post.setId(1);
+        User user = new User();
+        user.setId(1);
+        post.setAuthor(user);
+        when(currentUser.getId()).thenReturn(2);
+        when(currentUser.isAdmin()).thenReturn(false);
+        when(genericRepository.findById(Post.class,1)).thenReturn(post);
+        assertThrows(AuthorizationException.class, () -> service.delete(1));
     }
 
     @ParameterizedTest

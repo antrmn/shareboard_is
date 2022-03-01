@@ -7,6 +7,7 @@ import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
 import persistence.repo.PostRepository;
 import service.auth.AuthenticationRequired;
+import service.auth.AuthorizationException;
 import service.auth.DenyBannedUsers;
 import service.dto.CurrentUser;
 import service.dto.PostPage;
@@ -160,6 +161,9 @@ public class PostService {
     @AuthenticationRequired //TODO: check autore post?
     @DenyBannedUsers
     public void delete(@PostExists int id){
+        Post post = genericRepository.findById(Post.class,id);
+        if(currentUser.getId() != post.getAuthor().getId() && !currentUser.isAdmin())
+            throw new AuthorizationException();
         genericRepository.remove(genericRepository.findById(User.class,id));
     }
 
