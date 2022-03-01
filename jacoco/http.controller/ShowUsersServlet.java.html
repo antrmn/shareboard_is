@@ -3,7 +3,7 @@
 import http.controller.interceptor.AuthorizationConstraints;
 import http.util.interceptor.InterceptableServlet;
 import service.UserService;
-import service.dto.UserIdentityDTO;
+import service.dto.UserProfile;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L26">        List&lt;UserIdentityDTO&gt; usersDto = service.showUsers();</span>
+<span class="fc" id="L26">        List&lt;UserProfile&gt; usersDto = service.showUsers();</span>
 <span class="fc" id="L27">        request.setAttribute(&quot;users&quot;, usersDto);</span>
 <span class="fc" id="L28">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/show-users.jsp&quot;).forward(request,response);</span>
 <span class="fc" id="L29">    }</span>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">persistence.repo</a> &gt; <span class="el_source">GenericRepository.java</span></div><h1>GenericRepository.java</h1><pre class="source lang-java linenums">package persistence.repo;
 
+import org.hibernate.Session;
+import org.hibernate.SimpleNaturalIdLoadAccess;
+
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
@@ -11,9 +14,6 @@ import java.util.List;
  * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
  * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
  * essenziali (CRUD) per una specifica entità di persistenza
- * @param &lt;T&gt; La classe delle entità di persistenza gestite da classi che implementano questa interfaccia
- * @param &lt;ID&gt; La classe della chiave primaria delle entità di persistenza gestite da classi che implementano questa
- *            interfaccia
  * @see javax.persistence.EntityManager
  */
 <span class="fc" id="L19">public class GenericRepository implements Serializable {</span>
@@ -23,28 +23,35 @@ import java.util.List;
 
     /**
      *  Trova per chiave primaria
-     * @param id La chiave primaria dell'oggetto da cercare
      * @return L'entità trovata o null se l'entità non esiste
      * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare
      * @see javax.persistence.EntityManager#find(Class, Object)
      */
     public &lt;T&gt; T findById(Class&lt;T&gt; entityClass, Object primaryKey, boolean loadLazily) {
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        return loadLazily ? em.getReference(entityClass, primaryKey) :</span>
-<span class="fc" id="L33">                            em.find(entityClass, primaryKey, LockModeType.NONE);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        return loadLazily ? em.getReference(entityClass, primaryKey) :</span>
+<span class="fc" id="L32">                            em.find(entityClass, primaryKey, LockModeType.NONE);</span>
     }
 
     /**
      * Trova per chiave primaria, restituendo un'entità caricata pigramente (lazy-loaded). L'entità restituita viene
      * caricata al primo accesso effettuato. Se l'istanza non esiste, viene lanciato {@link javax.persistence.EntityNotFoundException}
      * quando l'istanza viene acceduta per la prima volta.
-     * @param id La chiave primaria dell'oggetto da cercare
      * @return L'entità caricata pigramente
      * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare
      * @throws javax.persistence.EntityNotFoundException se l'entità non può essere acceduta
      * @see javax.persistence.EntityManager#getReference(Class, Object)
      */
     public &lt;T&gt; T findById(Class&lt;T&gt; entityClass, Object primaryKey){
-<span class="fc" id="L47">        return findById(entityClass,primaryKey,false);</span>
+<span class="fc" id="L45">        return findById(entityClass,primaryKey,false);</span>
+    }
+
+    public &lt;T&gt; T findByNaturalId(Class&lt;T&gt; entityClass, Object naturalKey) {
+<span class="fc" id="L49">        return findByNaturalId(entityClass,naturalKey,false);</span>
+    }
+
+    public &lt;T&gt; T findByNaturalId(Class&lt;T&gt; entityClass, Object naturalKey, boolean getReference) {
+<span class="fc" id="L53">        SimpleNaturalIdLoadAccess&lt;T&gt; entity = em.unwrap(Session.class).bySimpleNaturalId(entityClass);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        return getReference ? entity.getReference(naturalKey) : entity.load(naturalKey);</span>
     }
 
     /**
@@ -54,9 +61,9 @@ import java.util.List;
      * @throws javax.persistence.PersistenceException
      */
     public &lt;T&gt; List&lt;T&gt; findAll(Class&lt;T&gt; entityClass) {
-<span class="fc" id="L57">        CriteriaQuery&lt;T&gt; c = em.getCriteriaBuilder().createQuery(entityClass);</span>
-<span class="fc" id="L58">        c.select(c.from(entityClass));</span>
-<span class="fc" id="L59">        return em.createQuery(c).getResultList();</span>
+<span class="fc" id="L64">        CriteriaQuery&lt;T&gt; c = em.getCriteriaBuilder().createQuery(entityClass);</span>
+<span class="fc" id="L65">        c.select(c.from(entityClass));</span>
+<span class="fc" id="L66">        return em.createQuery(c).getResultList();</span>
     }
 
     /**
@@ -66,10 +73,10 @@ import java.util.List;
      * @throws javax.persistence.PersistenceException
      */
     public &lt;T&gt; Long getCount(Class&lt;T&gt; entityClass) {
-<span class="fc" id="L69">        CriteriaQuery&lt;Long&gt; c =</span>
-<span class="fc" id="L70">                em.getCriteriaBuilder().createQuery(Long.class);</span>
-<span class="fc" id="L71">        c.select(em.getCriteriaBuilder().count(c.from(entityClass)));</span>
-<span class="fc" id="L72">        return em.createQuery(c).getSingleResult();</span>
+<span class="fc" id="L76">        CriteriaQuery&lt;Long&gt; c =</span>
+<span class="fc" id="L77">                em.getCriteriaBuilder().createQuery(Long.class);</span>
+<span class="fc" id="L78">        c.select(em.getCriteriaBuilder().count(c.from(entityClass)));</span>
+<span class="fc" id="L79">        return em.createQuery(c).getSingleResult();</span>
     }
 
     /**
@@ -80,9 +87,9 @@ import java.util.List;
      * @see javax.persistence.EntityManager#persist(Object)
      */
     public &lt;T&gt; T insert(T entity) {
-<span class="fc" id="L83">        em.persist(entity);</span>
-<span class="fc" id="L84">        em.flush();</span>
-<span class="fc" id="L85">        return entity;</span>
+<span class="fc" id="L90">        em.persist(entity);</span>
+<span class="fc" id="L91">        em.flush();</span>
+<span class="fc" id="L92">        return entity;</span>
     }
 
     /**
@@ -92,7 +99,7 @@ import java.util.List;
      * @see javax.persistence.EntityManager#merge(Object)
      */
     public &lt;T&gt; T merge(T entity) {
-<span class="fc" id="L95">        return em.merge(entity);</span>
+<span class="fc" id="L102">        return em.merge(entity);</span>
     }
 
     /**
@@ -101,7 +108,7 @@ import java.util.List;
      * @throws IllegalArgumentException se l'entità passata non è managed
      */
     public &lt;T&gt; void remove(T entity) {
-<span class="fc" id="L104">        em.remove(entity);</span>
-<span class="fc" id="L105">    }</span>
+<span class="fc" id="L111">        em.remove(entity);</span>
+<span class="fc" id="L112">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

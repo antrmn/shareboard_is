@@ -11,7 +11,7 @@
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> http.controller.interceptor.AuthorizationConstraints;
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> http.util.interceptor.InterceptableServlet;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> service.UserService;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> service.dto.UserIdentityDTO;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> service.dto.UserProfile;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> javax.inject.Inject;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> javax.servlet.ServletException;
@@ -31,7 +31,7 @@
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>      @Override
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doGet(HttpServletRequest request, HttpServletResponse response) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>          List&lt;UserIdentityDTO&gt; usersDto = service.showUsers();
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          List&lt;UserProfile&gt; usersDto = service.showUsers();
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>          request.setAttribute(<span class="jxr_string">"users"</span>, usersDto);
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>          request.getRequestDispatcher(<span class="jxr_string">"/WEB-INF/views/crm/show-users.jsp"</span>).forward(request,response);
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>      }

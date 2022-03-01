@@ -57,7 +57,7 @@
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>      @Test
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRetrieve() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>          doThenRollback(() -&gt; {
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>              Section section = sectionRepository.getByName(sections.get(0).getName());
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              Section section = genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,sections.get(0).getName());
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>              Assertions.assertEquals(section.getId(),sections.get(0).getId());
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>              Assertions.assertEquals(section.getName(),sections.get(0).getName());
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>              Assertions.assertEquals(section.getBanner(),sections.get(0).getBanner());
@@ -66,7 +66,7 @@
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>          });
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>          doThenRollback(() -&gt; {
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>              Section section = sectionRepository.getByName(sections.get(1).getName(),false);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              Section section = genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,sections.get(1).getName(),false);
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>              Assertions.assertEquals(section.getId(),sections.get(1).getId());
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>              Assertions.assertEquals(section.getName(),sections.get(1).getName());
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>              Assertions.assertEquals(section.getBanner(),sections.get(1).getBanner());
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>          });
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          doThenRollback(() -&gt; {
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>              Section section = sectionRepository.getByName(sections.get(2).getName(),<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>              Section section = genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,sections.get(2).getName(),<strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>              Assertions.assertEquals(section.getId(),sections.get(2).getId());
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>              Assertions.assertEquals(section.getName(),sections.get(2).getName());
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>              Assertions.assertEquals(section.getBanner(),sections.get(2).getBanner());
@@ -133,32 +133,31 @@
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>             Instant twoDaysAgo = Instant.now().minus(2, ChronoUnit.DAYS);
 <a class="jxr_linenumber" name="L126" href="#L126">126</a>             Instant aMonthAgo = Instant.now().minus(30,ChronoUnit.DAYS);
 <a class="jxr_linenumber" name="L127" href="#L127">127</a> 
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>             TriConsumer saveFollow = (user, section, date) -&gt; {
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>                 em.createNativeQuery(<span class="jxr_string">"insert into follow(user_id, section_id, follow_date) values (?1,?2,?3)"</span>)
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>                         .setParameter(1,user)
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>                         .setParameter(2,section)
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>                         .setParameter(3,Date.from(date)).executeUpdate();
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>             };
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>             users.stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(0).getId(), twoDaysAgo));
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>             users.stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(1).getId(), aMonthAgo));
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>             users.subList(0,4).stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(2).getId(), twoDaysAgo));
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>             users.subList(4,9).stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(2).getId(), aMonthAgo));
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>             em.clear();
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 
-<a class="jxr_linenumber" name="L142" href="#L142">142</a>             List&lt;Integer&gt; result = sectionRepository.getMostFollowedSections(twoDaysAgo).stream().map(Section::getId).collect(Collectors.toList()).subList(0,2);
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>             List&lt;Integer&gt; expected = IntStream.of(0,2).mapToObj(sections::get).map(Section::getId).collect(Collectors.toList());
-<a class="jxr_linenumber" name="L144" href="#L144">144</a> 
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>             Assertions.assertEquals(result,expected);
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> 
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>             System.out.println(sectionRepository.getMostFollowedSections(twoDaysAgo).size());
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>             System.out.println(sections.size());
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>         });
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>     }
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>             TriConsumer saveFollow = (user, section, date) -&gt;
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                     em.createNativeQuery(<span class="jxr_string">"insert into follow(user_id, section_id, follow_date) values (?1,?2,?3)"</span>)
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>                     .setParameter(1,user)
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>                     .setParameter(2,section)
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>                     .setParameter(3,Date.from(date)).executeUpdate();
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>             users.stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(0).getId(), twoDaysAgo));
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>             users.stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(1).getId(), aMonthAgo));
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>             users.subList(0,4).stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(2).getId(), twoDaysAgo));
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>             users.subList(4,9).stream().map(User::getId).forEach((id) -&gt; saveFollow.accept(id, sections.get(2).getId(), aMonthAgo));
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>             em.clear();
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>             List&lt;Integer&gt; result = sectionRepository.getMostFollowedSections(twoDaysAgo).stream().map(Section::getId).collect(Collectors.toList()).subList(0,2);
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>             List&lt;Integer&gt; expected = IntStream.of(0,2).mapToObj(sections::get).map(Section::getId).collect(Collectors.toList());
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>             Assertions.assertEquals(result,expected);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>             System.out.println(sectionRepository.getMostFollowedSections(twoDaysAgo).size());
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>             System.out.println(sections.size());
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>         });
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>     }
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> 
-<a class="jxr_linenumber" name="L152" href="#L152">152</a> 
-<a class="jxr_linenumber" name="L153" href="#L153">153</a> }
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

@@ -4,7 +4,6 @@ import http.controller.interceptor.AuthorizationConstraints;
 import http.controller.interceptor.ForwardOnError;
 import http.util.interceptor.InterceptableServlet;
 import service.SectionService;
-import service.dto.SectionPage;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -21,46 +20,29 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 @WebServlet(&quot;/admin/newsection&quot;)
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="fc" id="L24">public class NewSectionServlet extends InterceptableServlet {</span>
+<span class="fc" id="L23">public class NewSectionServlet extends InterceptableServlet {</span>
     @Inject private SectionService service;
 
     private static final String NEW_SECTION_PAGE = &quot;/WEB-INF/views/crm/create-section.jsp&quot;;
-    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L31">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/create-section.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L30">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/create-section.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L31">    }</span>
 
     @Override
     @ForwardOnError(NEW_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L37">        String name = request.getParameter(&quot;name&quot;);</span>
-<span class="fc" id="L38">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="fc" id="L39">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="fc" id="L40">        Part banner = request.getPart(&quot;banner&quot;);</span>
+<span class="fc" id="L36">        String name = request.getParameter(&quot;name&quot;);</span>
+<span class="fc" id="L37">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L38">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L39">        Part banner = request.getPart(&quot;banner&quot;);</span>
 
-        //gestire errore immagine
-<span class="fc" id="L43">        BufferedInputStream buffPicture = null;</span>
-<span class="fc" id="L44">        BufferedInputStream buffBanner = null;</span>
-<span class="pc bpc" id="L45" title="2 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
-<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (picture.getSize()&gt;0) {</span>
-<span class="nc" id="L47">                buffPicture = new BufferedInputStream(picture.getInputStream());</span>
-            }
-        }else{
-<span class="nc" id="L50">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
-        }
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        BufferedInputStream streamPicture = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
 
-<span class="pc bpc" id="L53" title="2 of 4 branches missed.">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</span>
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">            if (banner.getSize()&gt;0)</span>
-<span class="nc" id="L55">                buffBanner = new BufferedInputStream(picture.getInputStream());</span>
-        }else{
-<span class="nc" id="L57">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
-        }
-
-
-<span class="fc" id="L61">        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0,false);</span>
-<span class="fc" id="L62">        service.newSection(sectionPage,buffPicture,buffBanner);</span>
-<span class="fc" id="L63">        response.sendRedirect(getServletContext().getContextPath()+&quot;/admin/showsections&quot;);</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L44">        service.newSection(name, description ,streamPicture,streamBanner);</span>
+<span class="fc" id="L45">        response.sendRedirect(getServletContext().getContextPath()+&quot;/admin/showsections&quot;);</span>
+<span class="fc" id="L46">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

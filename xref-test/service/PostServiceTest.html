@@ -19,8 +19,8 @@
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> persistence.model.User;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> persistence.repo.*;
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> rocks.limburg.cdimock.CdiMock;
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> service.dto.CurrentUser;
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> service.dto.PostEditDTO;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> service.auth.AuthorizationException;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> service.dto.CurrentUser;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> service.dto.PostPage;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> service.dto.PostSearchForm;
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
@@ -36,188 +36,188 @@
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.*;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.ArgumentMatchers.any;
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.ArgumentMatchers.anyString;
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.spy;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.when;
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  @Classes(cdi = <strong class="jxr_keyword">true</strong>,
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>          value={PostService.<strong class="jxr_keyword">class</strong>},
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>          cdiInterceptors = BValInterceptor.<strong class="jxr_keyword">class</strong>,
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>          cdiStereotypes = CdiMock.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> PostServiceTest <strong class="jxr_keyword">extends</strong> ServiceTest{
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>      @Mock GenericRepository genericRepository;
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>      @Mock <strong class="jxr_keyword">private</strong> BinaryContentRepository bcRepo;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      @Mock <strong class="jxr_keyword">private</strong> SectionRepository sectionRepo;
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>      @Mock <strong class="jxr_keyword">private</strong> UserRepository userRepo;
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>      @Mock <strong class="jxr_keyword">private</strong> PostRepository postRepo;
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>      @Mock <strong class="jxr_keyword">private</strong> PostRepository.PostFinder postFinder;
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>      @Mock <strong class="jxr_keyword">private</strong> CurrentUser currentUser; <em class="jxr_comment">//Mock necessario anche se inutilizzato</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>      @Inject <strong class="jxr_keyword">private</strong> PostService service;
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> BufferedInputStream createFakeImageStream(){
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>          byte[] ar = {(byte)0xFF , (byte)0xD8, (byte)0xFF, (byte)0xE0};
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>          ByteArrayInputStream bai = <strong class="jxr_keyword">new</strong> ByteArrayInputStream(ar);
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>          BufferedInputStream stream = <strong class="jxr_keyword">new</strong> BufferedInputStream(bai);
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>          <strong class="jxr_keyword">return</strong> stream;
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>      }
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>      @Test
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">void</strong> succesfulNewTextPost(){
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>          Post post = <strong class="jxr_keyword">new</strong> Post();
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>          post.setId(1);
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>          User user = <strong class="jxr_keyword">new</strong> User();
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>          user.setId(1);
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>          Section section = <strong class="jxr_keyword">new</strong> Section();
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>          section.setName(<span class="jxr_string">"section1"</span>);
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>          section.setId(1);
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>          post.setAuthor(user);
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>          post.setSection(section);
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>          post.setContent(<span class="jxr_string">"text"</span>);
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>          when(genericRepository.insert(any())).thenReturn(post);
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>          when(genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, 1)).thenReturn(user);
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>          when(sectionRepo.getByName(<span class="jxr_string">"section1"</span>)).thenReturn(section);
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">int</strong> id = service.newPost(<span class="jxr_string">"title"</span>, <span class="jxr_string">"text"</span>, <span class="jxr_string">"section1"</span>);
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>          assertEquals(1, id);
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      }
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      @Test
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">void</strong> succesfulNewImagePost() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>          Post post = <strong class="jxr_keyword">new</strong> Post();
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>          post.setId(1);
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>          User user = <strong class="jxr_keyword">new</strong> User();
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>          user.setId(1);
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>          Section section = <strong class="jxr_keyword">new</strong> Section();
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>          section.setName(<span class="jxr_string">"section1"</span>);
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>          section.setId(1);
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>          post.setAuthor(user);
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>          post.setSection(section);
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>          BufferedInputStream stream = createFakeImageStream();
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>          when(bcRepo.insert(any())).thenReturn(<span class="jxr_string">"pictureName"</span>);
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>          when(genericRepository.insert(any())).thenReturn(post);
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>          when(genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, 1)).thenReturn(user);
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>          when(sectionRepo.getByName(<span class="jxr_string">"section1"</span>)).thenReturn(section);
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>          <strong class="jxr_keyword">int</strong> id = service.newPost(<span class="jxr_string">"title"</span>, stream, 1, <span class="jxr_string">"section1"</span>);
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>          assertEquals(1, id);
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>      }
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      @Test
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">void</strong> failNewPostWithWrongSectionName(){
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>          Post post = <strong class="jxr_keyword">new</strong> Post();
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>          post.setId(1);
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>         section.setName(<span class="jxr_string">"wrongname"</span>);
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>         post.setSection(section);
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>         when(genericRepository.insert(any())).thenReturn(post);
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, <span class="jxr_string">"text"</span>, <span class="jxr_string">"wrongname"</span>));
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>     }
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>     @Test
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>     <strong class="jxr_keyword">void</strong> failNewTextPost(){
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>         section.setId(1);
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>         section.setName(<span class="jxr_string">"section"</span>);
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>         when(sectionRepo.getByName(<span class="jxr_string">"section"</span>)).thenReturn(section);
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>         when(genericRepository.insert(any())).thenReturn(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>         assertThrows(java.lang.NullPointerException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, <span class="jxr_string">"text"</span>, <span class="jxr_string">"section"</span>));
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>     }
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>     @Test
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>     <strong class="jxr_keyword">void</strong> failNewImagePost() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>         section.setId(1);
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>         section.setName(<span class="jxr_string">"section"</span>);
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>         BufferedInputStream stream = createFakeImageStream();
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>         when(bcRepo.insert(any())).thenReturn(<span class="jxr_string">"pictureName"</span>);
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>         when(sectionRepo.getByName(<span class="jxr_string">"section"</span>)).thenReturn(section);
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>         when(genericRepository.insert(any())).thenReturn(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>         assertThrows(java.lang.NullPointerException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, stream, 0, <span class="jxr_string">"section"</span>));
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>     }
-<a class="jxr_linenumber" name="L128" href="#L128">128</a> 
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>     @Test
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>     <strong class="jxr_keyword">void</strong> failNewImagePostWithWrongStreamType() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>         post.setId(1);
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>         section.setId(1);
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>         section.setName(<span class="jxr_string">"section"</span>);
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>         BufferedInputStream stream = <strong class="jxr_keyword">new</strong> BufferedInputStream(InputStream.nullInputStream());
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>         when(bcRepo.insert(any())).thenReturn(<span class="jxr_string">"pictureName"</span>);
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>         when(sectionRepo.getByName(<span class="jxr_string">"section"</span>)).thenReturn(section);
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>         when(genericRepository.insert(any())).thenReturn(post);
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, stream, 0, <span class="jxr_string">"section"</span>));
-<a class="jxr_linenumber" name="L141" href="#L141">141</a>     }
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>     @ParameterizedTest
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>     @ValueSource(ints = {1, 5, 30})
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>     <strong class="jxr_keyword">void</strong> successfulDeletePost(<strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>         post.setId(id);
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(post);
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>         assertDoesNotThrow(() -&gt; service.delete(id));
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>     }
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> 
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>     @ParameterizedTest
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>     @ValueSource(ints = {-1, -5, -30})
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>     <strong class="jxr_keyword">void</strong> failDeletePostWithWrongId(<strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>, () -&gt; service.delete(id));
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>     }
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>     @ParameterizedTest
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>     @ValueSource(ints = {1, 5, 30})
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>     <strong class="jxr_keyword">void</strong> successfulShowPost(<strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         Post post = spy(Post.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>         User author = spy(User.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>         Section section = spy(Section.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>         post.setId(1);
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>         post.setSection(section);
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>         post.setAuthor(author);
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>         author.setId(1);
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>         author.setUsername(<span class="jxr_string">"author"</span>);
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>         section.setId(id);
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         section.setName(<span class="jxr_string">"section"</span>);
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(post);
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>         PostPage postPage = service.getPost(id);
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>         assertNotNull(postPage);
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>     }
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>     @ParameterizedTest
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>     @ValueSource(ints = {1, 5, 30})
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>     <strong class="jxr_keyword">void</strong> failShowPostWithWrongId(<strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.getPost(id));
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>     }
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> 
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>     @ParameterizedTest
-<a class="jxr_linenumber" name="L185" href="#L185">185</a>     @ValueSource(ints = {1, 5, 30})
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <strong class="jxr_keyword">void</strong> successfulEditTextPost(<strong class="jxr_keyword">int</strong> id) {
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>         post.setId(id);
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>         post.setContent(<span class="jxr_string">"test"</span>);
-<a class="jxr_linenumber" name="L190" href="#L190">190</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(post);
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>         PostEditDTO postEdit = <strong class="jxr_keyword">new</strong> PostEditDTO(<span class="jxr_string">"title"</span>, <span class="jxr_string">"content"</span>, Post.Type.TEXT);
-<a class="jxr_linenumber" name="L192" href="#L192">192</a>         assertDoesNotThrow(() -&gt; service.editPost(postEdit, id));
-<a class="jxr_linenumber" name="L193" href="#L193">193</a>     }
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> 
-<a class="jxr_linenumber" name="L195" href="#L195">195</a>     @ParameterizedTest
-<a class="jxr_linenumber" name="L196" href="#L196">196</a>     @ValueSource(ints = {-1, -5, -30})
-<a class="jxr_linenumber" name="L197" href="#L197">197</a>     <strong class="jxr_keyword">void</strong> failEditTextPostWithWrongID(<strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L199" href="#L199">199</a>         PostEditDTO postEdit = <strong class="jxr_keyword">new</strong> PostEditDTO(<span class="jxr_string">"title"</span>, <span class="jxr_string">"content"</span>, Post.Type.TEXT);
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.editPost(postEdit, id));
-<a class="jxr_linenumber" name="L201" href="#L201">201</a>     }
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> 
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_comment">//    @ParameterizedTest</em>
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_comment">//    @ValueSource(ints = {1, 5, 30})</em>
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> <em class="jxr_comment">//    void successfulEditImagePost(int id) {</em>
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_comment">//        Post post = new Post();</em>
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_comment">//        post.setId(id);</em>
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> <em class="jxr_comment">//        when(bcRepo.insert(any())).thenReturn("pictureName");</em>
-<a class="jxr_linenumber" name="L209" href="#L209">209</a> <em class="jxr_comment">//        when(genericRepository.findById(Post.class,id)).thenReturn(post);</em>
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> <em class="jxr_comment">//        PostEditDTO postEdit = new PostEditDTO("title", "content", Post.Type.IMG);</em>
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_comment">//        assertDoesNotThrow(() -&gt; service.editPost(postEdit, id));</em>
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_comment">//    }</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.*;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  @Classes(cdi = <strong class="jxr_keyword">true</strong>,
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>          value={PostService.<strong class="jxr_keyword">class</strong>},
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          cdiInterceptors = BValInterceptor.<strong class="jxr_keyword">class</strong>,
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          cdiStereotypes = CdiMock.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> PostServiceTest <strong class="jxr_keyword">extends</strong> ServiceTest{
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      @Mock GenericRepository genericRepository;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      @Mock <strong class="jxr_keyword">private</strong> BinaryContentRepository bcRepo;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      @Mock <strong class="jxr_keyword">private</strong> SectionRepository sectionRepo;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      @Mock <strong class="jxr_keyword">private</strong> UserRepository userRepo;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      @Mock <strong class="jxr_keyword">private</strong> PostRepository postRepo;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      @Mock <strong class="jxr_keyword">private</strong> PostRepository.PostFinder postFinder;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      @Mock <strong class="jxr_keyword">private</strong> CurrentUser currentUser; <em class="jxr_comment">//Mock necessario anche se inutilizzato</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      @Inject <strong class="jxr_keyword">private</strong> PostService service;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> BufferedInputStream createFakeImageStream(){
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          byte[] ar = {(byte)0xFF , (byte)0xD8, (byte)0xFF, (byte)0xE0};
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          ByteArrayInputStream bai = <strong class="jxr_keyword">new</strong> ByteArrayInputStream(ar);
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>          BufferedInputStream stream = <strong class="jxr_keyword">new</strong> BufferedInputStream(bai);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>          <strong class="jxr_keyword">return</strong> stream;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      }
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      @Test
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">void</strong> succesfulNewTextPost(){
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          post.setId(1);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          User user = <strong class="jxr_keyword">new</strong> User();
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          user.setId(1);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>          Section section = <strong class="jxr_keyword">new</strong> Section();
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>          section.setName(<span class="jxr_string">"section1"</span>);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>          section.setId(1);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>          post.setAuthor(user);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>          post.setSection(section);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          post.setContent(<span class="jxr_string">"text"</span>);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          when(genericRepository.insert(any())).thenReturn(post);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          when(genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, 1)).thenReturn(user);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          when(genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,<span class="jxr_string">"section1"</span>)).thenReturn(section);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">int</strong> id = service.newPost(<span class="jxr_string">"title"</span>, <span class="jxr_string">"text"</span>, <span class="jxr_string">"section1"</span>);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          assertEquals(1, id);
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      @Test
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <strong class="jxr_keyword">void</strong> succesfulNewImagePost() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>          Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          post.setId(1);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>          User user = <strong class="jxr_keyword">new</strong> User();
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          user.setId(1);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          Section section = <strong class="jxr_keyword">new</strong> Section();
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          section.setName(<span class="jxr_string">"section1"</span>);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          section.setId(1);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          post.setAuthor(user);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          post.setSection(section);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>          BufferedInputStream stream = createFakeImageStream();
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          when(bcRepo.insert(any())).thenReturn(<span class="jxr_string">"pictureName"</span>);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          when(genericRepository.insert(any())).thenReturn(post);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          when(genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, 1)).thenReturn(user);
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>          when(genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,<span class="jxr_string">"section1"</span>)).thenReturn(section);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">int</strong> id = service.newPost(<span class="jxr_string">"title"</span>, stream, <span class="jxr_string">"section1"</span>);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>          assertEquals(1, id);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      }
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      @Test
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">void</strong> failNewPostWithWrongSectionName(){
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>          Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>          post.setId(1);
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          Section section = <strong class="jxr_keyword">new</strong> Section();
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>          section.setName(<span class="jxr_string">"wrongname"</span>);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         post.setSection(section);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         when(genericRepository.insert(any())).thenReturn(post);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, <span class="jxr_string">"text"</span>, <span class="jxr_string">"wrongname"</span>));
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>     }
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>     @Test
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     <strong class="jxr_keyword">void</strong> failNewTextPost(){
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         section.setId(1);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>         section.setName(<span class="jxr_string">"section"</span>);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         when(genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,<span class="jxr_string">"section"</span>)).thenReturn(section);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>         when(genericRepository.insert(any())).thenReturn(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         assertThrows(java.lang.NullPointerException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, <span class="jxr_string">"text"</span>, <span class="jxr_string">"section"</span>));
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     }
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>     @Test
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     <strong class="jxr_keyword">void</strong> failNewImagePost() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         section.setId(1);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>         section.setName(<span class="jxr_string">"section"</span>);
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>         BufferedInputStream stream = createFakeImageStream();
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>         when(bcRepo.insert(any())).thenReturn(<span class="jxr_string">"pictureName"</span>);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>         when(genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,<span class="jxr_string">"section"</span>)).thenReturn(section);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         when(genericRepository.insert(any())).thenReturn(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>         assertThrows(java.lang.NullPointerException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, stream, <span class="jxr_string">"section"</span>));
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>     }
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     @Test
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>     <strong class="jxr_keyword">void</strong> failNewImagePostWithWrongStreamType() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>         post.setId(1);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>         Section section = <strong class="jxr_keyword">new</strong> Section();
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>         section.setId(1);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>         section.setName(<span class="jxr_string">"section"</span>);
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>         BufferedInputStream stream = <strong class="jxr_keyword">new</strong> BufferedInputStream(InputStream.nullInputStream());
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>         when(bcRepo.insert(any())).thenReturn(<span class="jxr_string">"pictureName"</span>);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>         when(genericRepository.findByNaturalId(Section.<strong class="jxr_keyword">class</strong>,<span class="jxr_string">"section"</span>)).thenReturn(section);
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>         when(genericRepository.insert(any())).thenReturn(post);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.newPost(<span class="jxr_string">"title"</span>, stream, <span class="jxr_string">"section"</span>));
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>     }
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     @ParameterizedTest
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>     @ValueSource(ints = {1, 5, 30})
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>     <strong class="jxr_keyword">void</strong> successfulDeletePostAsAdmin(<strong class="jxr_keyword">int</strong> id){
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         post.setId(id);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         User user = <strong class="jxr_keyword">new</strong> User();
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>         user.setId(id+1);
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>         post.setAuthor(user);
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         when(currentUser.getId()).thenReturn(5);
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         when(currentUser.isAdmin()).thenReturn(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(post);
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         assertDoesNotThrow(() -&gt; service.delete(id));
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>     }
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>     @ParameterizedTest
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     @ValueSource(ints = {1, 5, 30})
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>     <strong class="jxr_keyword">void</strong> successfulDeletePostAsAuthor(<strong class="jxr_keyword">int</strong> id){
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>         post.setId(id);
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         User user = <strong class="jxr_keyword">new</strong> User();
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>         user.setId(id);
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>         post.setAuthor(user);
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>         when(currentUser.getId()).thenReturn(id);
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>         when(currentUser.isAdmin()).thenReturn(false);
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(post);
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         assertDoesNotThrow(() -&gt; service.delete(id));
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>     }
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     @Test
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">void</strong> failDeletePost(){
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         Post post = <strong class="jxr_keyword">new</strong> Post();
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>         post.setId(1);
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>         User user = <strong class="jxr_keyword">new</strong> User();
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         user.setId(1);
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>         post.setAuthor(user);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>         when(currentUser.getId()).thenReturn(2);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>         when(currentUser.isAdmin()).thenReturn(false);
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,1)).thenReturn(post);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>         assertThrows(AuthorizationException.<strong class="jxr_keyword">class</strong>, () -&gt; service.delete(1));
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>     }
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>     @ParameterizedTest
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>     @ValueSource(ints = {-1, -5, -30})
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>     <strong class="jxr_keyword">void</strong> failDeletePostWithWrongId(<strong class="jxr_keyword">int</strong> id){
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>, () -&gt; service.delete(id));
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>     }
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>     @ParameterizedTest
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     @ValueSource(ints = {1, 5, 30})
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>     <strong class="jxr_keyword">void</strong> successfulShowPost(<strong class="jxr_keyword">int</strong> id){
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>         Post post = spy(Post.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         User author = spy(User.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>         Section section = spy(Section.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>         post.setId(1);
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>         post.setSection(section);
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>         post.setAuthor(author);
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>         author.setId(1);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>         author.setUsername(<span class="jxr_string">"author"</span>);
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>         section.setId(id);
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>         section.setName(<span class="jxr_string">"section"</span>);
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(post);
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>         PostPage postPage = service.getPost(id);
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>         assertNotNull(postPage);
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>     }
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>     @ParameterizedTest
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>     @ValueSource(ints = {1, 5, 30})
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>     <strong class="jxr_keyword">void</strong> failShowPostWithWrongId(<strong class="jxr_keyword">int</strong> id){
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>         when(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id)).thenReturn(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>         assertThrows(ConstraintViolationException.<strong class="jxr_keyword">class</strong>,() -&gt; service.getPost(id));
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>     }
 <a class="jxr_linenumber" name="L213" href="#L213">213</a> 
 <a class="jxr_linenumber" name="L214" href="#L214">214</a>     @ParameterizedTest
 <a class="jxr_linenumber" name="L215" href="#L215">215</a>     @ValueSource(ints = {1, 2, 3})
@@ -243,8 +243,8 @@
 <a class="jxr_linenumber" name="L235" href="#L235">235</a>         when(postRepo.getFinder().getResults()).thenReturn(posts);
 <a class="jxr_linenumber" name="L236" href="#L236">236</a>         when(currentUser.isLoggedIn()).thenReturn(<strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L237" href="#L237">237</a>         when(currentUser.getId()).thenReturn(1);
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>         when(sectionRepo.getByName(anyString())).thenReturn(<strong class="jxr_keyword">new</strong> Section());
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>         when(userRepo.getByName(anyString())).thenReturn(<strong class="jxr_keyword">new</strong> User());
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>         doReturn(<strong class="jxr_keyword">new</strong> Section()).when(genericRepository).findByNaturalId(eq(Section.<strong class="jxr_keyword">class</strong>),any());
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>         doReturn(<strong class="jxr_keyword">new</strong> User()).when(genericRepository).findByNaturalId(eq(User.<strong class="jxr_keyword">class</strong>),any());
 <a class="jxr_linenumber" name="L240" href="#L240">240</a>         PostSearchForm postSearchForm = PostSearchForm.builder()
 <a class="jxr_linenumber" name="L241" href="#L241">241</a>                 .content(<span class="jxr_string">"content"</span>)
 <a class="jxr_linenumber" name="L242" href="#L242">242</a>                 .onlyFollow(<strong class="jxr_keyword">true</strong>)
@@ -271,8 +271,8 @@
 <a class="jxr_linenumber" name="L263" href="#L263">263</a>         when(postRepo.getFinder().getResults()).thenReturn(<strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L264" href="#L264">264</a>         when(currentUser.isLoggedIn()).thenReturn(<strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L265" href="#L265">265</a>         when(currentUser.getId()).thenReturn(1);
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>         when(sectionRepo.getByName(anyString())).thenReturn(<strong class="jxr_keyword">new</strong> Section());
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>         when(userRepo.getByName(anyString())).thenReturn(<strong class="jxr_keyword">new</strong> User());
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         doReturn(<strong class="jxr_keyword">new</strong> Section()).when(genericRepository).findByNaturalId(eq(Section.<strong class="jxr_keyword">class</strong>),any());
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         doReturn(<strong class="jxr_keyword">new</strong> User()).when(genericRepository).findByNaturalId(eq(User.<strong class="jxr_keyword">class</strong>),any());
 <a class="jxr_linenumber" name="L268" href="#L268">268</a>         PostSearchForm postSearchForm = PostSearchForm.builder()
 <a class="jxr_linenumber" name="L269" href="#L269">269</a>                 .content(<span class="jxr_string">"content"</span>)
 <a class="jxr_linenumber" name="L270" href="#L270">270</a>                 .onlyFollow(<strong class="jxr_keyword">true</strong>)

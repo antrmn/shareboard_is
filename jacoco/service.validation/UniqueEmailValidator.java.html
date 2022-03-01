@@ -3,12 +3,10 @@
 import persistence.repo.UserRepository;
 
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.ValidationException;
 
-<span class="fc" id="L11">public class UniqueEmailValidator implements ConstraintValidator&lt;UniqueEmail, String&gt; {</span>
+<span class="fc" id="L9">public class UniqueEmailValidator implements ConstraintValidator&lt;UniqueEmail, String&gt; {</span>
     @Inject
     UserRepository userRepository;
 
@@ -16,17 +14,12 @@ import javax.validation.ValidationException;
     @Override
     public void initialize(UniqueEmail userExists) {
 
-<span class="fc" id="L19">    }</span>
+<span class="fc" id="L17">    }</span>
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-        boolean check;
-        try{
-<span class="fc bfc" id="L25" title="All 2 branches covered.">            check = userRepository.getByEmail(email) == null;</span>
-<span class="fc" id="L26">        }catch (NoResultException e){</span>
-<span class="fc" id="L27">            check = true;</span>
-<span class="fc" id="L28">        }</span>
-<span class="fc" id="L29">        return check;</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if(email==null) return true;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        return userRepository.getByEmail(email) == null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

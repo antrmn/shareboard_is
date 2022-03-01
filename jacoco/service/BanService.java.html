@@ -12,15 +12,23 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 @Transactional
-<span class="fc" id="L21">public class BanService {</span>
+public class BanService {
+    private GenericRepository genericRepository;
 
-    @Inject private GenericRepository genericRepository;
+<span class="nc" id="L25">    protected BanService(){}</span>
+
+    @Inject
+<span class="fc" id="L28">    protected BanService(GenericRepository genericRepository){</span>
+<span class="fc" id="L29">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L30">    }</span>
+
 
     /**
      * Aggiunge un ban dato l'id di un utente.
@@ -29,13 +37,13 @@ import java.util.List;
      * @return entità ban aggiunta
      */
     @AdminsOnly
-    public Ban addBan(@Future Instant date, @UserExists int userId) {
-<span class="fc" id="L33">        Ban ban = new Ban();</span>
-<span class="fc" id="L34">        ban.setEndTime(date);</span>
-<span class="fc" id="L35">        User user = new User();</span>
-<span class="fc" id="L36">        user.setId(userId);</span>
-<span class="fc" id="L37">        ban.setUser(user);</span>
-<span class="fc" id="L38">        return genericRepository.insert(ban);</span>
+    public int addBan(@NotNull @Future Instant date, @UserExists int userId) {
+<span class="fc" id="L41">        Ban ban = new Ban();</span>
+<span class="fc" id="L42">        ban.setEndTime(date);</span>
+<span class="fc" id="L43">        User user = new User();</span>
+<span class="fc" id="L44">        user.setId(userId);</span>
+<span class="fc" id="L45">        ban.setUser(user);</span>
+<span class="fc" id="L46">        return genericRepository.insert(ban).getId();</span>
     }
 
     /**
@@ -44,8 +52,8 @@ import java.util.List;
      */
     @AdminsOnly
     public void removeBan(@BanExists int banId){
-<span class="fc" id="L47">        genericRepository.remove(genericRepository.findById(Ban.class, banId));</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L55">        genericRepository.remove(genericRepository.findById(Ban.class, banId));</span>
+<span class="fc" id="L56">    }</span>
 
     /**
      * Ritorna la lista dei ban di un utente
@@ -54,15 +62,15 @@ import java.util.List;
      */
     @AdminsOnly
     public List&lt;BanDTO&gt; retrieveUserBan(@UserExists int userId){
-<span class="fc" id="L57">        User user = genericRepository.findById(User.class, userId);</span>
-<span class="fc" id="L58">        List&lt;BanDTO&gt; bans = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L59">        List&lt;Ban&gt; temp = user.getBans();</span>
+<span class="fc" id="L65">        User user = genericRepository.findById(User.class, userId);</span>
+<span class="fc" id="L66">        List&lt;BanDTO&gt; bans = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L67">        List&lt;Ban&gt; temp = user.getBans();</span>
 
-<span class="fc bfc" id="L61" title="All 2 branches covered.">        for(Ban b : temp){</span>
-<span class="fc" id="L62">            BanDTO ban = new BanDTO(b.getId(), b.getEndTime(), b.getUser().getId());</span>
-<span class="fc" id="L63">            bans.add(ban);</span>
-<span class="fc" id="L64">        }</span>
-<span class="fc" id="L65">        return bans;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for(Ban b : temp){</span>
+<span class="fc" id="L70">            BanDTO ban = new BanDTO(b.getId(), b.getEndTime(), b.getUser().getId());</span>
+<span class="fc" id="L71">            bans.add(ban);</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">        return bans;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

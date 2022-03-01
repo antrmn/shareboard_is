@@ -11,8 +11,15 @@ import java.io.InputStream;
 import java.net.URLConnection;
 
 @ApplicationScoped
-<span class="fc" id="L14">public class ImageService {</span>
-    @Inject private BinaryContentRepository binaryContentRepository;
+public class ImageService {
+    private BinaryContentRepository binaryContentRepository;
+
+<span class="nc" id="L17">    protected ImageService(){}</span>
+
+    @Inject
+<span class="fc" id="L20">    protected ImageService(BinaryContentRepository binaryContentRepository){</span>
+<span class="fc" id="L21">        this.binaryContentRepository = binaryContentRepository;</span>
+<span class="fc" id="L22">    }</span>
 
     /**
      * Ritorna l'input stream di un immagine
@@ -21,16 +28,16 @@ import java.net.URLConnection;
      * @throws IOException
      */
     public InputStream getImage(@NotBlank String filename) throws IOException {
-<span class="fc" id="L24">        InputStream inputStream = binaryContentRepository.get(filename);</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(inputStream == null)</span>
-<span class="fc" id="L26">            return null;</span>
+<span class="fc" id="L31">        InputStream inputStream = binaryContentRepository.get(filename);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if(inputStream == null)</span>
+<span class="fc" id="L33">            return null;</span>
 
-<span class="fc" id="L28">        inputStream = new BufferedInputStream(inputStream);</span>
-<span class="fc" id="L29">        String mimetype = URLConnection.guessContentTypeFromStream(inputStream);</span>
-<span class="fc bfc" id="L30" title="All 4 branches covered.">        if(mimetype == null || !mimetype.startsWith(&quot;image/&quot;))</span>
-<span class="fc" id="L31">            return  null;</span>
+<span class="fc" id="L35">        inputStream = new BufferedInputStream(inputStream);</span>
+<span class="fc" id="L36">        String mimetype = URLConnection.guessContentTypeFromStream(inputStream);</span>
+<span class="fc bfc" id="L37" title="All 4 branches covered.">        if(mimetype == null || !mimetype.startsWith(&quot;image/&quot;))</span>
+<span class="fc" id="L38">            return  null;</span>
 
-<span class="fc" id="L33">        return inputStream;</span>
+<span class="fc" id="L40">        return inputStream;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

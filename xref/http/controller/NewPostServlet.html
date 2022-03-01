@@ -35,7 +35,7 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>      @Inject <strong class="jxr_keyword">private</strong> <a name="SectionService" href="../../service/SectionService.html#SectionService">SectionService</a> sectionService;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String NEW_POST_PAGE = <span class="jxr_string">"/WEB-INF/views/section/create-post.jsp"</span>;
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> MAX_FILE_SIZE = 5 * 1024 * 1024;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>      @Override
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doGet(HttpServletRequest request, HttpServletResponse response) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>          request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);
@@ -57,20 +57,12 @@
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>          <strong class="jxr_keyword">if</strong>(type.equalsIgnoreCase(<span class="jxr_string">"text"</span>)){
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>              newPostId = service.newPost(title,content,sectionName);
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>          }<strong class="jxr_keyword">else</strong>{
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>              <strong class="jxr_keyword">if</strong>(picture != <strong class="jxr_keyword">null</strong> &amp;&amp; picture.getSize() &gt; MAX_FILE_SIZE) {
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>                  <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Il file non deve superare i 5MB"</span>);
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>              }
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>              <strong class="jxr_keyword">if</strong>(picture != <strong class="jxr_keyword">null</strong> &amp;&amp; picture.getSize() == 0) {
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>                  <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Immagine mancante"</span>);
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>              }
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>              BufferedInputStream buffPicture = <strong class="jxr_keyword">new</strong> BufferedInputStream(picture.getInputStream());
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>              newPostId = service.newPost(title,buffPicture, picture.getSize(), sectionName);
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>          }
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>          response.sendRedirect(getServletContext().getContextPath() + <span class="jxr_string">"/post/"</span> + newPostId); <em class="jxr_comment">//potrebbe mostrare postId = 0?</em>
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>      }
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  }
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              BufferedInputStream stream = picture.getSize() &gt; 0 ? <strong class="jxr_keyword">new</strong> BufferedInputStream(picture.getInputStream()) : <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>              newPostId = service.newPost(title,stream, sectionName);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>          }
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>          response.sendRedirect(getServletContext().getContextPath() + <span class="jxr_string">"/post/"</span> + newPostId);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      }
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

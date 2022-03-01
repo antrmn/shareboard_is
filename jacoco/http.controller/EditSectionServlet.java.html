@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditSectionServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">http.controller</a> &gt; <span class="el_source">EditSectionServlet.java</span></div><h1>EditSectionServlet.java</h1><pre class="source lang-java linenums">package http.controller;
 
 import http.controller.interceptor.AuthorizationConstraints;
-import http.controller.interceptor.ForwardOnError;
-import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
-import service.SectionService;
-import service.dto.SectionPage;
 
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;
@@ -22,49 +15,59 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_
 @WebServlet(&quot;/admin/editsection&quot;)
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="fc" id="L25">public class EditSectionServlet extends InterceptableServlet {</span>
-    @Inject private SectionService service;
+<span class="nc" id="L18">public class EditSectionServlet extends InterceptableServlet {</span>
+    //Funzionalità disabilitata
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+<span class="nc" id="L23">        resp.sendError(HttpServletResponse.SC_FORBIDDEN,&quot;Funzionalità disabilitata temporaneamente&quot;);</span>
+<span class="nc" id="L24">    }</span>
+
+
+
+    /*@Inject private SectionService service;
 
     private static final String EDIT_SECTION_PAGE = &quot;/WEB-INF/views/crm/edit-section.jsp&quot;;
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L33">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L34">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
-<span class="fc" id="L35">        SectionPage section = service.showSection(sectionId);</span>
-<span class="fc" id="L36">        request.setAttribute(&quot;section&quot;, section);</span>
-<span class="fc" id="L37">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</span>
-<span class="fc" id="L38">    }</span>
+        ParameterConverter converter = new ParameterConverter(request);
+        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);
+        SectionPage section = service.showSection(sectionId);
+        request.setAttribute(&quot;section&quot;, section);
+        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);
+    }
 
     @Override
     @ForwardOnError(EDIT_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L43">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L44">        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);</span>
-<span class="fc" id="L45">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="fc" id="L46">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="fc" id="L47">        Part banner = request.getPart(&quot;banner&quot;);</span>
+        ParameterConverter converter = new ParameterConverter(request);
+        int sectionId = converter.getIntParameter(&quot;sectionId&quot;).orElse(0);
+        String description = request.getParameter(&quot;description&quot;);
+        Part picture = request.getPart(&quot;picture&quot;);
+        Part banner = request.getPart(&quot;banner&quot;);
 
-<span class="fc" id="L49">        BufferedInputStream buffPicture = null;</span>
-<span class="fc" id="L50">        BufferedInputStream buffBanner = null;</span>
-<span class="pc bpc" id="L51" title="2 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            if (picture.getSize()&gt;0)</span>
-<span class="nc" id="L53">                buffPicture = new BufferedInputStream(picture.getInputStream());</span>
+        BufferedInputStream buffPicture = null;
+        BufferedInputStream buffBanner = null;
+        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {
+            if (picture.getSize()&gt;0)
+                buffPicture = new BufferedInputStream(picture.getInputStream());
         }else{
-<span class="nc" id="L55">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);
         }
 
-<span class="pc bpc" id="L58" title="2 of 4 branches missed.">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            if (banner.getSize()&gt;0)</span>
-<span class="nc" id="L60">                buffBanner = new BufferedInputStream(banner.getInputStream());</span>
+        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {
+            if (banner.getSize()&gt;0)
+                buffBanner = new BufferedInputStream(banner.getInputStream());
         }else{
-<span class="nc" id="L62">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);
         }
 
-<span class="fc" id="L65">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</span>
-<span class="fc" id="L66">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</span>
-<span class="fc" id="L67">        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);</span>
-<span class="fc" id="L68">    }</span>
+        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?
+        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);
+        response.sendRedirect(request.getContextPath()+&quot;/admin/showsections&quot;);
+    }
+    */
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

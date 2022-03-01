@@ -7,17 +7,18 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-<span class="fc" id="L10">public class SectionExistsByIdValidator implements ConstraintValidator&lt;SectionExistsById, Integer&gt; {</span>
+<span class="fc" id="L10">public class SectionExistsByIdValidator implements ConstraintValidator&lt;SectionExists, Integer&gt; {</span>
     @Inject GenericRepository genericRepository;
 
     @Override
-    public void initialize(SectionExistsById constraintAnnotation) {
+    public void initialize(SectionExists constraintAnnotation) {
 
 <span class="fc" id="L16">    }</span>
 
     @Override
     public boolean isValid(Integer id, ConstraintValidatorContext context) {
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        return (genericRepository.findById(Section.class, id) != null);</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if(id==null) return true;</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        return (genericRepository.findById(Section.class, id) != null);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

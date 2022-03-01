@@ -3,7 +3,6 @@
 import service.dto.CurrentUser;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
@@ -13,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(&quot;*&quot;)
-<span class="nc" id="L16">public class CheckCurrentUserFilter extends HttpFilter {</span>
-    @Inject @Named(&quot;currentUser&quot;) CurrentUser currentUser;
+<span class="nc" id="L15">public class CheckCurrentUserFilter extends HttpFilter {</span>
+    @Inject CurrentUser currentUser;
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-<span class="nc" id="L21">        request.setAttribute(&quot;currentUser&quot;,currentUser);</span>
-<span class="nc" id="L22">        super.doFilter(request, response, chain);</span>
-<span class="nc" id="L23">    }</span>
+<span class="nc" id="L20">        request.setAttribute(&quot;currentUser&quot;,currentUser);</span>
+<span class="nc" id="L21">        super.doFilter(request, response, chain);</span>
+<span class="nc" id="L22">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

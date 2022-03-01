@@ -6,7 +6,7 @@ import persistence.model.User;
 import persistence.repo.GenericRepository;
 import service.auth.AuthenticationRequired;
 import service.dto.CurrentUser;
-import service.validation.SectionExistsById;
+import service.validation.SectionExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,35 +14,42 @@ import javax.transaction.Transactional;
 
 @ApplicationScoped
 @Transactional
-<span class="fc" id="L17">public class FollowService {</span>
-    @Inject private GenericRepository genericRepository;
-    @Inject private CurrentUser currentUser;
+public class FollowService {
+    private GenericRepository genericRepository;
+    private CurrentUser currentUser;
+
+<span class="nc" id="L21">    protected FollowService(){}</span>
+
+    @Inject
+<span class="fc" id="L24">    protected FollowService(GenericRepository genericRepository, CurrentUser currentUser){</span>
+<span class="fc" id="L25">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L26">        this.currentUser = currentUser;</span>
+<span class="fc" id="L27">    }</span>
 
     /**
      * Permette di seguire una sezione
      * @param sectionId identificativo sezione
-     * @return entità follow inserita nel database
      */
     @AuthenticationRequired
-    public Follow follow(@SectionExistsById int sectionId){
-<span class="fc" id="L28">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="fc" id="L29">        Section section = genericRepository.findById(Section.class,sectionId);</span>
-<span class="fc" id="L30">        return genericRepository.insert(new Follow(user,section));</span>
-    }
+    public void follow(@SectionExists int sectionId){
+<span class="fc" id="L35">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L36">        Section section = genericRepository.findById(Section.class,sectionId);</span>
+<span class="fc" id="L37">        genericRepository.insert(new Follow(user,section));</span>
+<span class="fc" id="L38">    }</span>
 
     /**
      * Permette di togliere il follow ad una sezione
      * @param sectionId identificativo sezione
      */
     @AuthenticationRequired
-    public void unFollow(@SectionExistsById int sectionId){
-<span class="fc" id="L39">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="fc" id="L40">        Section section = genericRepository.findById(Section.class,sectionId);</span>
-<span class="fc" id="L41">        Follow follow = section.getFollow(user);</span>
+    public void unFollow(@SectionExists int sectionId){
+<span class="fc" id="L46">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L47">        Section section = genericRepository.findById(Section.class,sectionId);</span>
+<span class="fc" id="L48">        Follow follow = section.getFollow(user);</span>
 
-<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(follow != null)</span>
-<span class="fc" id="L44">            genericRepository.remove(follow);</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if(follow != null)</span>
+<span class="fc" id="L51">            genericRepository.remove(follow);</span>
+<span class="fc" id="L52">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

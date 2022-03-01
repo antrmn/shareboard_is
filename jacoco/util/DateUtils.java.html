@@ -9,20 +9,20 @@ import java.time.temporal.ChronoUnit;
     public static String printTimeSince(Instant then){
         long n;
 <span class="fc bfc" id="L11" title="All 2 branches covered.">        if ((n = Math.abs(Instant.now().until(then, ChronoUnit.SECONDS))) &lt; 60){</span>
-<span class="pc bpc" id="L12" title="1 of 2 branches missed.">            return n == 1 ? n + &quot; secondo&quot; : n + &quot; secondi&quot;;</span>
+<span class="fc bfc" id="L12" title="All 2 branches covered.">            return n == 1 ? n + &quot; secondo&quot; : n + &quot; secondi&quot;;</span>
 <span class="fc bfc" id="L13" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.MINUTES))) &lt; 60){</span>
-<span class="pc bpc" id="L14" title="1 of 2 branches missed.">            return n == 1 ? n + &quot; minuto&quot; : n + &quot; minuti&quot;;</span>
+<span class="fc bfc" id="L14" title="All 2 branches covered.">            return n == 1 ? n + &quot; minuto&quot; : n + &quot; minuti&quot;;</span>
 <span class="fc bfc" id="L15" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.HOURS))) &lt; 24){</span>
-<span class="pc bpc" id="L16" title="1 of 2 branches missed.">            return n == 1 ? n + &quot; ora&quot; : n + &quot; ore&quot;;</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">            return n == 1 ? n + &quot; ora&quot; : n + &quot; ore&quot;;</span>
 <span class="fc bfc" id="L17" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 30) {</span>
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">            return n == 1 ? n + &quot; giorno&quot; : n + &quot; giorni&quot;;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">            return n == 1 ? n + &quot; giorno&quot; : n + &quot; giorni&quot;;</span>
 <span class="fc bfc" id="L19" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 365) {</span>
 <span class="fc" id="L20">            n /= 30;</span>
-<span class="pc bpc" id="L21" title="1 of 2 branches missed.">            return n == 1 ? n + &quot; mese&quot; : n + &quot; mesi&quot;;</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            return n == 1 ? n + &quot; mese&quot; : n + &quot; mesi&quot;;</span>
         } else {
 <span class="fc" id="L23">            int thenYear = then.atZone(ZoneId.systemDefault()).toLocalDate().getYear();</span>
 <span class="fc" id="L24">            n = Math.abs(thenYear - LocalDate.now().getYear());</span>
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">            return n == 1 ? n + &quot; anno&quot; : n + &quot; anni&quot;;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            return n == 1 ? n + &quot; anno&quot; : n + &quot; anni&quot;;</span>
         }
     }
 }

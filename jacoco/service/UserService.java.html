@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package service;
 
+import com.sun.istack.NotNull;
 import persistence.model.User;
 import persistence.repo.BinaryContentRepository;
 import persistence.repo.GenericRepository;
-import persistence.repo.UserRepository;
 import service.auth.AdminsOnly;
 import service.auth.AuthenticationRequired;
+import service.auth.AuthorizationException;
+import service.dto.CurrentUser;
 import service.dto.UserEditPage;
-import service.dto.UserIdentityDTO;
 import service.dto.UserProfile;
 import service.validation.*;
 import util.Pbkdf2PasswordHashImpl;
 import util.Pbkdf2PasswordHashImpl.HashedPassword;
+import util.ReadLimitExceededException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.constraints.Email;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Transactional
-<span class="fc" id="L29">public class UserService {</span>
-    @Inject private UserRepository userRepo;
-    @Inject private GenericRepository genericRepository;
-    @Inject private BinaryContentRepository bcRepo;
-    @Inject private Pbkdf2PasswordHashImpl passwordHash;
+public class UserService {
+    private GenericRepository genericRepository;
+    private BinaryContentRepository bcRepo;
+    private CurrentUser currentUser;
+    private Pbkdf2PasswordHashImpl passwordHash;
+
+<span class="nc" id="L35">    protected UserService(){}</span>
+
+    @Inject
+    protected UserService(GenericRepository genericRepository,
+                          BinaryContentRepository binaryContentRepository, Pbkdf2PasswordHashImpl passwordHash,
+<span class="fc" id="L40">                          CurrentUser currentUser){</span>
+<span class="fc" id="L41">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L42">        this.bcRepo = binaryContentRepository;</span>
+<span class="fc" id="L43">        this.passwordHash = passwordHash;</span>
+<span class="fc" id="L44">        this.currentUser = currentUser;</span>
+<span class="fc" id="L45">    }</span>
+
+    private UserProfile map(User user){
+<span class="fc" id="L48">        return UserProfile.builder()</span>
+<span class="fc" id="L49">                .id(user.getId())</span>
+<span class="fc" id="L50">                .email(user.getEmail())</span>
+<span class="fc" id="L51">                .creationDate(user.getCreationDate())</span>
+<span class="fc" id="L52">                .description(user.getDescription())</span>
+<span class="fc" id="L53">                .picture(user.getPicture())</span>
+<span class="fc" id="L54">                .username(user.getUsername())</span>
+<span class="fc" id="L55">                .isAdmin(user.getAdmin()).build();</span>
+    }
 
     /**
      * Inverte lo stato di admin di un utente dato un id
@@ -38,19 +61,18 @@ import java.util.List;
      */
     @AdminsOnly
     public void toggleAdmin(@UserExists int id){
-<span class="fc" id="L41">        User u = genericRepository.findById(User.class,id);</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        u.setAdmin(!u.getAdmin());</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L64">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        u.setAdmin(!u.getAdmin());</span>
+<span class="fc" id="L66">    }</span>
 
     /**
      * Ritorna un entita UserProfile dato un nome
-     * @param nome di un utente esistente
+     * @param name di un utente esistente
      * @return entita UserProfile
      */
-    public UserProfile getUser(@UserExistsByName String name){
-<span class="fc" id="L51">        User u = userRepo.getByName(name);</span>
-<span class="fc" id="L52">        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());</span>
-<span class="fc" id="L53">        return user;</span>
+    public UserProfile getUser(@NotBlank @UserExists String name){
+<span class="fc" id="L74">        User u = genericRepository.findByNaturalId(User.class,name);</span>
+<span class="fc" id="L75">        return map(u);</span>
     }
 
     /**
@@ -59,19 +81,8 @@ import java.util.List;
      * @return entita UserProfile
      */
     public UserProfile getUser(@UserExists int id){
-<span class="fc" id="L62">        User u = genericRepository.findById(User.class,id);</span>
-<span class="fc" id="L63">        UserProfile user = new UserProfile(u.getId(), u.getUsername(), u.getEmail(), u.getCreationDate(), u.getPicture(), u.getDescription());</span>
-<span class="fc" id="L64">        return user;</span>
-    }
-
-    /**
-     * Ritorna un entita UserIdentityDTO dato un id
-     * @param id di un utente esistente
-     * @return entita UserIdentityDTO
-     */
-    public UserIdentityDTO get(@UserExists int id){
-<span class="fc" id="L73">        User u = genericRepository.findById(User.class,id);</span>
-<span class="fc" id="L74">        return new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());</span>
+<span class="fc" id="L84">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc" id="L85">        return map(u);</span>
     }
 
     /**
@@ -80,22 +91,16 @@ import java.util.List;
      * @return nome dell'utente
      */
     public String getUsernameById(@UserExists int id){
-<span class="fc" id="L83">        return genericRepository.findById(User.class,id).getUsername();</span>
+<span class="fc" id="L94">        return genericRepository.findById(User.class,id).getUsername();</span>
     }
 
     /**
      * Ritorna un lista di tutte le gli utenti
      * @return lista di entita UserIdentityDTO
      */
-    public List&lt;UserIdentityDTO&gt; showUsers(){
-<span class="fc" id="L91">        List&lt;User&gt; users = genericRepository.findAll(User.class);</span>
-<span class="fc" id="L92">        List&lt;UserIdentityDTO&gt; usersDTO = new ArrayList&lt;&gt;();</span>
-
-<span class="fc bfc" id="L94" title="All 2 branches covered.">        for(User u : users){</span>
-<span class="fc" id="L95">            UserIdentityDTO userDTO = new UserIdentityDTO(u.getId(), u.getUsername(), u.getAdmin());</span>
-<span class="fc" id="L96">            usersDTO.add(userDTO);</span>
-<span class="fc" id="L97">        }</span>
-<span class="fc" id="L98">        return usersDTO;</span>
+    public List&lt;UserProfile&gt; showUsers(){
+<span class="fc" id="L102">        List&lt;User&gt; users = genericRepository.findAll(User.class);</span>
+<span class="fc" id="L103">        return users.stream().map(this::map).collect(Collectors.toList());</span>
     }
 
     /**
@@ -104,8 +109,8 @@ import java.util.List;
      */
     @AdminsOnly
     public void delete(@UserExists int id){
-<span class="fc" id="L107">        genericRepository.remove(genericRepository.findById(User.class, id));</span>
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L112">        genericRepository.remove(genericRepository.findById(User.class, id));</span>
+<span class="fc" id="L113">    }</span>
 
     /**
      * Modifica i dati di un utente dato un id
@@ -113,32 +118,34 @@ import java.util.List;
      * @param id di un utente esistente
      */
     @AuthenticationRequired
-    public void edit(UserEditPage edit,
+    public void edit(@Valid UserEditPage edit,
                      @UserExists int id){
-<span class="fc" id="L118">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc bfc" id="L123" title="All 4 branches covered.">        if(currentUser.getId() != id &amp;&amp; !currentUser.isAdmin())</span>
+<span class="fc" id="L124">            throw new AuthorizationException();</span>
 
-<span class="fc bfc" id="L120" title="All 2 branches covered.">        if(edit.getDescription() != null){</span>
-<span class="fc" id="L121">            u.setDescription(edit.getDescription());</span>
-        }
-<span class="fc bfc" id="L123" title="All 2 branches covered.">        if(edit.getEmail() != null){</span>
-<span class="fc" id="L124">            u.setEmail(edit.getEmail());</span>
-        }
+<span class="fc" id="L126">        User u = genericRepository.findById(User.class,id);</span>
 
-<span class="fc bfc" id="L127" title="All 2 branches covered.">        if(!edit.getPassword().isEmpty()){</span>
-<span class="fc" id="L128">            HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
-<span class="fc" id="L129">            u.setPassword(hashedPassword.getPassword());</span>
-<span class="fc" id="L130">            u.setSalt(hashedPassword.getSalt());</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if(edit.getDescription() != null){</span>
+<span class="fc" id="L129">            u.setDescription(edit.getDescription());</span>
         }
-<span class="fc" id="L132">        u.setDescription(edit.getDescription());</span>
-
-<span class="fc bfc" id="L134" title="All 2 branches covered.">        if(edit.getPicture() != null){</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        if(edit.getEmail() != null){</span>
+<span class="fc" id="L132">            u.setEmail(edit.getEmail());</span>
+        }
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        if(edit.getPassword() != null){</span>
+<span class="fc" id="L135">            HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
+<span class="fc" id="L136">            u.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L137">            u.setSalt(hashedPassword.getSalt());</span>
+        }
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if(edit.getPicture() != null){</span>
             try {
-<span class="fc" id="L136">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
-<span class="nc" id="L137">            } catch (IOException e) {</span>
-<span class="nc" id="L138">                throw new RuntimeException(e); //todo: delet this</span>
-<span class="fc" id="L139">            }</span>
+<span class="fc" id="L141">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
+<span class="nc" id="L142">            } catch(ReadLimitExceededException e){</span>
+<span class="nc" id="L143">                throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+<span class="nc" id="L144">            } catch (IOException e) {</span>
+<span class="nc" id="L145">                throw new RuntimeException(e); //todo: delet this</span>
+<span class="fc" id="L146">            }</span>
         }
-<span class="fc" id="L141">    }</span>
+<span class="fc" id="L148">    }</span>
 
     /**
      * Crea un nuovo utente e ne restituisce l'id
@@ -147,20 +154,19 @@ import java.util.List;
      * @param password Stringa non vuota con minimo: 3 e massimo: 255 caratteri
      * @return identificativo dell'utente creato
      */
-    // unique email unique username length email username password
-    public int newUser(@NotBlank @EmailFormat @UniqueEmail String email,
-                       @NotBlank @UsernameFormat @UniqueUsername String username,
-                       @NotEmpty @Size(min = 3,max = 255) String password){
-<span class="fc" id="L154">        User user = new User();</span>
-<span class="fc" id="L155">        user.setUsername(username);</span>
-<span class="fc" id="L156">        user.setEmail(email);</span>
-<span class="fc" id="L157">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
-<span class="fc" id="L158">        user.setPassword(hashedPassword.getPassword());</span>
-<span class="fc" id="L159">        user.setSalt(hashedPassword.getSalt());</span>
-<span class="fc" id="L160">        user.setAdmin(false);</span>
+    public int newUser(@NotNull @EmailFormat @UniqueEmail String email,
+                       @NotNull @UsernameFormat @UniqueUsername String username,
+                       @NotNull @PasswordFormat String password){
+<span class="fc" id="L160">        User user = new User();</span>
+<span class="fc" id="L161">        user.setUsername(username);</span>
+<span class="fc" id="L162">        user.setEmail(email);</span>
+<span class="fc" id="L163">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
+<span class="fc" id="L164">        user.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L165">        user.setSalt(hashedPassword.getSalt());</span>
+<span class="fc" id="L166">        user.setAdmin(false);</span>
 
-<span class="fc" id="L162">        user = genericRepository.insert(user);</span>
-<span class="fc" id="L163">        return user.getId();</span>
+<span class="fc" id="L168">        user = genericRepository.insert(user);</span>
+<span class="fc" id="L169">        return user.getId();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

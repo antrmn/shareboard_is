@@ -13,65 +13,47 @@
 <span class="sourceLineNo">004</span><a id="line.4">import http.controller.interceptor.ForwardOnError;</a>
 <span class="sourceLineNo">005</span><a id="line.5">import http.util.interceptor.InterceptableServlet;</a>
 <span class="sourceLineNo">006</span><a id="line.6">import service.SectionService;</a>
-<span class="sourceLineNo">007</span><a id="line.7">import service.dto.SectionPage;</a>
-<span class="sourceLineNo">008</span><a id="line.8"></a>
-<span class="sourceLineNo">009</span><a id="line.9">import javax.inject.Inject;</a>
-<span class="sourceLineNo">010</span><a id="line.10">import javax.servlet.ServletException;</a>
-<span class="sourceLineNo">011</span><a id="line.11">import javax.servlet.annotation.MultipartConfig;</a>
-<span class="sourceLineNo">012</span><a id="line.12">import javax.servlet.annotation.WebServlet;</a>
-<span class="sourceLineNo">013</span><a id="line.13">import javax.servlet.http.HttpServletRequest;</a>
-<span class="sourceLineNo">014</span><a id="line.14">import javax.servlet.http.HttpServletResponse;</a>
-<span class="sourceLineNo">015</span><a id="line.15">import javax.servlet.http.Part;</a>
-<span class="sourceLineNo">016</span><a id="line.16">import java.io.BufferedInputStream;</a>
-<span class="sourceLineNo">017</span><a id="line.17">import java.io.IOException;</a>
-<span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;</a>
-<span class="sourceLineNo">020</span><a id="line.20"></a>
-<span class="sourceLineNo">021</span><a id="line.21">@WebServlet("/admin/newsection")</a>
-<span class="sourceLineNo">022</span><a id="line.22">@MultipartConfig</a>
-<span class="sourceLineNo">023</span><a id="line.23">@AuthorizationConstraints(ADMINS_ONLY)</a>
-<span class="sourceLineNo">024</span><a id="line.24">public class NewSectionServlet extends InterceptableServlet {</a>
-<span class="sourceLineNo">025</span><a id="line.25">    @Inject private SectionService service;</a>
-<span class="sourceLineNo">026</span><a id="line.26"></a>
-<span class="sourceLineNo">027</span><a id="line.27">    private static final String NEW_SECTION_PAGE = "/WEB-INF/views/crm/create-section.jsp";</a>
-<span class="sourceLineNo">028</span><a id="line.28">    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;</a>
-<span class="sourceLineNo">029</span><a id="line.29">    @Override</a>
-<span class="sourceLineNo">030</span><a id="line.30">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
-<span class="sourceLineNo">031</span><a id="line.31">        request.getRequestDispatcher("/WEB-INF/views/crm/create-section.jsp").forward(request, response);</a>
-<span class="sourceLineNo">032</span><a id="line.32">    }</a>
-<span class="sourceLineNo">033</span><a id="line.33"></a>
-<span class="sourceLineNo">034</span><a id="line.34">    @Override</a>
-<span class="sourceLineNo">035</span><a id="line.35">    @ForwardOnError(NEW_SECTION_PAGE)</a>
-<span class="sourceLineNo">036</span><a id="line.36">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
-<span class="sourceLineNo">037</span><a id="line.37">        String name = request.getParameter("name");</a>
-<span class="sourceLineNo">038</span><a id="line.38">        String description = request.getParameter("description");</a>
-<span class="sourceLineNo">039</span><a id="line.39">        Part picture = request.getPart("picture");</a>
-<span class="sourceLineNo">040</span><a id="line.40">        Part banner = request.getPart("banner");</a>
-<span class="sourceLineNo">041</span><a id="line.41"></a>
-<span class="sourceLineNo">042</span><a id="line.42">        //gestire errore immagine</a>
-<span class="sourceLineNo">043</span><a id="line.43">        BufferedInputStream buffPicture = null;</a>
-<span class="sourceLineNo">044</span><a id="line.44">        BufferedInputStream buffBanner = null;</a>
-<span class="sourceLineNo">045</span><a id="line.45">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</a>
-<span class="sourceLineNo">046</span><a id="line.46">            if (picture.getSize()&gt;0) {</a>
-<span class="sourceLineNo">047</span><a id="line.47">                buffPicture = new BufferedInputStream(picture.getInputStream());</a>
-<span class="sourceLineNo">048</span><a id="line.48">            }</a>
-<span class="sourceLineNo">049</span><a id="line.49">        }else{</a>
-<span class="sourceLineNo">050</span><a id="line.50">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
-<span class="sourceLineNo">051</span><a id="line.51">        }</a>
-<span class="sourceLineNo">052</span><a id="line.52"></a>
-<span class="sourceLineNo">053</span><a id="line.53">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</a>
-<span class="sourceLineNo">054</span><a id="line.54">            if (banner.getSize()&gt;0)</a>
-<span class="sourceLineNo">055</span><a id="line.55">                buffBanner = new BufferedInputStream(picture.getInputStream());</a>
-<span class="sourceLineNo">056</span><a id="line.56">        }else{</a>
-<span class="sourceLineNo">057</span><a id="line.57">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</a>
-<span class="sourceLineNo">058</span><a id="line.58">        }</a>
-<span class="sourceLineNo">059</span><a id="line.59"></a>
-<span class="sourceLineNo">060</span><a id="line.60"></a>
-<span class="sourceLineNo">061</span><a id="line.61">        SectionPage sectionPage = new SectionPage(0,name,description,picture.getName(),banner.getName(),0,false);</a>
-<span class="sourceLineNo">062</span><a id="line.62">        service.newSection(sectionPage,buffPicture,buffBanner);</a>
-<span class="sourceLineNo">063</span><a id="line.63">        response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");</a>
-<span class="sourceLineNo">064</span><a id="line.64">    }</a>
-<span class="sourceLineNo">065</span><a id="line.65">}</a>
+<span class="sourceLineNo">007</span><a id="line.7"></a>
+<span class="sourceLineNo">008</span><a id="line.8">import javax.inject.Inject;</a>
+<span class="sourceLineNo">009</span><a id="line.9">import javax.servlet.ServletException;</a>
+<span class="sourceLineNo">010</span><a id="line.10">import javax.servlet.annotation.MultipartConfig;</a>
+<span class="sourceLineNo">011</span><a id="line.11">import javax.servlet.annotation.WebServlet;</a>
+<span class="sourceLineNo">012</span><a id="line.12">import javax.servlet.http.HttpServletRequest;</a>
+<span class="sourceLineNo">013</span><a id="line.13">import javax.servlet.http.HttpServletResponse;</a>
+<span class="sourceLineNo">014</span><a id="line.14">import javax.servlet.http.Part;</a>
+<span class="sourceLineNo">015</span><a id="line.15">import java.io.BufferedInputStream;</a>
+<span class="sourceLineNo">016</span><a id="line.16">import java.io.IOException;</a>
+<span class="sourceLineNo">017</span><a id="line.17"></a>
+<span class="sourceLineNo">018</span><a id="line.18">import static http.controller.interceptor.AuthorizationConstraints.Types.ADMINS_ONLY;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">@WebServlet("/admin/newsection")</a>
+<span class="sourceLineNo">021</span><a id="line.21">@MultipartConfig</a>
+<span class="sourceLineNo">022</span><a id="line.22">@AuthorizationConstraints(ADMINS_ONLY)</a>
+<span class="sourceLineNo">023</span><a id="line.23">public class NewSectionServlet extends InterceptableServlet {</a>
+<span class="sourceLineNo">024</span><a id="line.24">    @Inject private SectionService service;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">    private static final String NEW_SECTION_PAGE = "/WEB-INF/views/crm/create-section.jsp";</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">    @Override</a>
+<span class="sourceLineNo">029</span><a id="line.29">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
+<span class="sourceLineNo">030</span><a id="line.30">        request.getRequestDispatcher("/WEB-INF/views/crm/create-section.jsp").forward(request, response);</a>
+<span class="sourceLineNo">031</span><a id="line.31">    }</a>
+<span class="sourceLineNo">032</span><a id="line.32"></a>
+<span class="sourceLineNo">033</span><a id="line.33">    @Override</a>
+<span class="sourceLineNo">034</span><a id="line.34">    @ForwardOnError(NEW_SECTION_PAGE)</a>
+<span class="sourceLineNo">035</span><a id="line.35">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</a>
+<span class="sourceLineNo">036</span><a id="line.36">        String name = request.getParameter("name");</a>
+<span class="sourceLineNo">037</span><a id="line.37">        String description = request.getParameter("description");</a>
+<span class="sourceLineNo">038</span><a id="line.38">        Part picture = request.getPart("picture");</a>
+<span class="sourceLineNo">039</span><a id="line.39">        Part banner = request.getPart("banner");</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">        BufferedInputStream streamPicture = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</a>
+<span class="sourceLineNo">042</span><a id="line.42">        BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">        service.newSection(name, description ,streamPicture,streamBanner);</a>
+<span class="sourceLineNo">045</span><a id="line.45">        response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");</a>
+<span class="sourceLineNo">046</span><a id="line.46">    }</a>
+<span class="sourceLineNo">047</span><a id="line.47">}</a>
 
 
 

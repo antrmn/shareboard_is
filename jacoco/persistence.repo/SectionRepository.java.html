@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SectionRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">persistence.repo</a> &gt; <span class="el_source">SectionRepository.java</span></div><h1>SectionRepository.java</h1><pre class="source lang-java linenums">package persistence.repo;
 
-import org.hibernate.Session;
-import org.hibernate.SimpleNaturalIdLoadAccess;
 import persistence.model.Section;
 
 import javax.persistence.EntityManager;
@@ -11,37 +9,17 @@ import java.time.Instant;
 import java.util.List;
 
 
-<span class="fc" id="L14">public class SectionRepository implements Serializable {</span>
+<span class="fc" id="L12">public class SectionRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
-
-    /**
-     * Restituisce i dati di una sezione dato un nome
-     * @param name nome della sezione
-     * @return entità Section
-     */
-    public Section getByName(String name){
-<span class="fc" id="L25">        return getByName(name, false);</span>
-    }
-
-    /**
-     * Restituisce i dati di una sezione dato un nome
-     * @param name nome della sezione
-     * @param getReference booleano per attivare lazy loading
-     * @return entità Section
-     */
-    public Section getByName(String name, boolean getReference){
-<span class="fc" id="L35">        SimpleNaturalIdLoadAccess&lt;Section&gt; section = em.unwrap(Session.class).bySimpleNaturalId(Section.class);</span>
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        return getReference ? section.getReference(name) : section.load(name);</span>
-    }
 
     /**
      * Restituisce una lista con i dati delle sezioni con più follows
      * @return lista di entità Section delle sezioni con più follows
      */
     public List&lt;Section&gt; getMostFollowedSections(){
-<span class="fc" id="L44">        return em.createQuery(&quot;from Section s order by follows.size desc&quot;, Section.class).getResultList();</span>
+<span class="fc" id="L22">        return em.createQuery(&quot;from Section s order by follows.size desc&quot;, Section.class).getResultList();</span>
     }
 
     /**
@@ -50,11 +28,11 @@ import java.util.List;
      * @return lista di entità Section delle sezioni con più follows
      */
     public List&lt;Section&gt; getMostFollowedSections(Instant after){
-<span class="fc" id="L53">        return em.createQuery(</span>
-                &quot;select s from Section s left join s.follows f where f.followDate &gt;= :after &quot; +
+<span class="fc" id="L31">        return em.createQuery(</span>
+                &quot;select s from Section s right join s.follows f where f.followDate &gt;= :after &quot; +
                 &quot;group by s &quot; +
                 &quot;order by count(f) desc&quot;, Section.class)
-<span class="fc" id="L57">                .setParameter(&quot;after&quot;,after).getResultList();</span>
+<span class="fc" id="L35">                .setParameter(&quot;after&quot;,after).getResultList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

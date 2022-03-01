@@ -5,6 +5,8 @@ import http.controller.interceptor.ForwardOnError;
 import http.util.ParameterConverter;
 import http.util.interceptor.InterceptableServlet;
 import service.UserService;
+import service.auth.AuthorizationException;
+import service.dto.CurrentUser;
 import service.dto.UserEditPage;
 import service.dto.UserProfile;
 
@@ -23,47 +25,42 @@ import static http.controller.interceptor.AuthorizationConstraints.Types.REQUIRE
 @WebServlet(&quot;/edituser&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L26">public class EditUserServlet extends InterceptableServlet {</span>
+<span class="fc" id="L28">public class EditUserServlet extends InterceptableServlet {</span>
     @Inject private UserService service;
+    @Inject private CurrentUser currentUser;
 
     private static final String EDIT_USER_PAGE = &quot;/WEB-INF/views/edit-user.jsp&quot;;
-    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L34">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L35">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="fc" id="L36">        UserProfile user = service.getUser(userId);</span>
-<span class="fc" id="L37">        request.setAttribute(&quot;user&quot;, user);</span>
-<span class="fc" id="L38">        request.getRequestDispatcher(&quot;/WEB-INF/views/edit-user.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L36">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L37">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc bfc" id="L38" title="All 4 branches covered.">        if(!currentUser.isAdmin() &amp;&amp; currentUser.getId() != userId)</span>
+<span class="fc" id="L39">            throw new AuthorizationException();</span>
+<span class="fc" id="L40">        UserProfile user = service.getUser(userId);</span>
+<span class="fc" id="L41">        request.setAttribute(&quot;user&quot;, user);</span>
+<span class="fc" id="L42">        request.getRequestDispatcher(&quot;/WEB-INF/views/edit-user.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L43">    }</span>
 
     @Override
     @ForwardOnError(EDIT_USER_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L44">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L45">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="fc" id="L46">        String email = request.getParameter(&quot;email&quot;);</span>
-<span class="fc" id="L47">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="fc" id="L48">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="fc" id="L49">        String pass = request.getParameter(&quot;pass&quot;);</span>
-<span class="fc" id="L50">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
+<span class="fc" id="L48">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L49">        int userId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L50">        String email = request.getParameter(&quot;email&quot;);</span>
+<span class="fc" id="L51">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L52">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L53">        String pass = request.getParameter(&quot;pass&quot;);</span>
+<span class="fc" id="L54">        String pass2 = request.getParameter(&quot;pass2&quot;);</span>
 
-<span class="pc bpc" id="L52" title="3 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
-<span class="fc" id="L53">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
+<span class="pc bpc" id="L56" title="3 of 6 branches missed.">        if((!pass.isEmpty() || !pass2.isEmpty()) &amp;&amp; !pass.equals(pass2))</span>
+<span class="fc" id="L57">            throw new IllegalArgumentException(&quot;Le password devono coincidere&quot;);</span>
 
-<span class="fc" id="L55">        BufferedInputStream buffPicture = null;</span>
-<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (picture.getSize()&gt;0)</span>
-<span class="nc" id="L58">                buffPicture = new BufferedInputStream(picture.getInputStream());</span>
-        }else{
-<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
-        }
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        BufferedInputStream stream = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
+<span class="fc" id="L60">        UserEditPage userEditPage = new UserEditPage(description,email,stream ,pass);</span>
+<span class="fc" id="L61">        service.edit(userEditPage,userId);</span>
 
-<span class="fc" id="L63">        UserEditPage userEditPage = new UserEditPage(userId,description,email,buffPicture,pass);</span>
-<span class="fc" id="L64">        service.edit(userEditPage,userId);</span>
-
-<span class="fc" id="L66">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L63">        response.sendRedirect(request.getContextPath() + &quot;/u/&quot; + service.getUsernameById(userId));</span>
+<span class="fc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
