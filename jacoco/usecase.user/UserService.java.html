@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">usecase.user</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package usecase.user;
+
+import com.sun.istack.NotNull;
+import domain.entity.User;
+import domain.repository.GenericRepository;
+import media.MediaRepository;
+import media.ReadLimitExceededException;
+import usecase.auth.*;
+import usecase.auth.Pbkdf2PasswordHash.HashedPassword;
+import usecase.user.validator.*;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@ApplicationScoped
+@Transactional
+public class UserService {
+    private GenericRepository genericRepository;
+    private MediaRepository bcRepo;
+    private CurrentUser currentUser;
+    private Pbkdf2PasswordHash passwordHash;
+
+<span class="nc" id="L29">    protected UserService(){}</span>
+
+    @Inject
+    protected UserService(GenericRepository genericRepository,
+                          MediaRepository mediaRepository, Pbkdf2PasswordHash passwordHash,
+<span class="fc" id="L34">                          CurrentUser currentUser){</span>
+<span class="fc" id="L35">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L36">        this.bcRepo = mediaRepository;</span>
+<span class="fc" id="L37">        this.passwordHash = passwordHash;</span>
+<span class="fc" id="L38">        this.currentUser = currentUser;</span>
+<span class="fc" id="L39">    }</span>
+
+    private UserProfile map(User user){
+<span class="fc" id="L42">        return UserProfile.builder()</span>
+<span class="fc" id="L43">                .id(user.getId())</span>
+<span class="fc" id="L44">                .email(user.getEmail())</span>
+<span class="fc" id="L45">                .creationDate(user.getCreationDate())</span>
+<span class="fc" id="L46">                .description(user.getDescription())</span>
+<span class="fc" id="L47">                .picture(user.getPicture())</span>
+<span class="fc" id="L48">                .username(user.getUsername())</span>
+<span class="fc" id="L49">                .isAdmin(user.getAdmin()).build();</span>
+    }
+
+    /**
+     * Inverte lo stato di admin di un utente dato un id
+     * @param id id di un utente esistente
+     */
+    @AdminsOnly
+    public void toggleAdmin(@UserExists int id){
+<span class="fc" id="L58">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        u.setAdmin(!u.getAdmin());</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * Ritorna un entita UserProfile dato un nome
+     * @param name di un utente esistente
+     * @return entita UserProfile
+     */
+    public UserProfile getUser(@NotBlank @UserExists String name){
+<span class="fc" id="L68">        User u = genericRepository.findByNaturalId(User.class,name);</span>
+<span class="fc" id="L69">        return map(u);</span>
+    }
+
+    /**
+     * Ritorna un entita UserProfile dato un id
+     * @param id di un utente esistente
+     * @return entita UserProfile
+     */
+    public UserProfile getUser(@UserExists int id){
+<span class="fc" id="L78">        User u = genericRepository.findById(User.class,id);</span>
+<span class="fc" id="L79">        return map(u);</span>
+    }
+
+    /**
+     * Ritorna un lo username di un utente dato un id
+     * @param id di un utente esistente
+     * @return nome dell'utente
+     */
+    public String getUsernameById(@UserExists int id){
+<span class="fc" id="L88">        return genericRepository.findById(User.class,id).getUsername();</span>
+    }
+
+    /**
+     * Ritorna un lista di tutte le gli utenti
+     * @return lista di entita UserIdentityDTO
+     */
+    public List&lt;UserProfile&gt; showUsers(){
+<span class="fc" id="L96">        List&lt;User&gt; users = genericRepository.findAll(User.class);</span>
+<span class="fc" id="L97">        return users.stream().map(this::map).collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Elimina un utente dato un id
+     * @param id di un utente esistente
+     */
+    @AdminsOnly
+    public void delete(@UserExists int id){
+<span class="fc" id="L106">        genericRepository.remove(genericRepository.findById(User.class, id));</span>
+<span class="fc" id="L107">    }</span>
+
+    /**
+     * Modifica i dati di un utente dato un id
+     * @param edit nuovi dati dell'utente
+     * @param id di un utente esistente
+     */
+    @AuthenticationRequired
+    public void edit(@Valid UserEditPage edit,
+                     @UserExists int id){
+<span class="fc bfc" id="L117" title="All 4 branches covered.">        if(currentUser.getId() != id &amp;&amp; !currentUser.isAdmin())</span>
+<span class="fc" id="L118">            throw new AuthorizationException();</span>
+
+<span class="fc" id="L120">        User u = genericRepository.findById(User.class,id);</span>
+
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        if(edit.getDescription() != null){</span>
+<span class="fc" id="L123">            u.setDescription(edit.getDescription());</span>
+        }
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        if(edit.getEmail() != null){</span>
+<span class="fc" id="L126">            u.setEmail(edit.getEmail());</span>
+        }
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if(edit.getPassword() != null){</span>
+<span class="fc" id="L129">            HashedPassword hashedPassword = passwordHash.generate(edit.getPassword());</span>
+<span class="fc" id="L130">            u.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L131">            u.setSalt(hashedPassword.getSalt());</span>
+        }
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if(edit.getPicture() != null){</span>
+            try {
+<span class="fc" id="L135">                u.setPicture(bcRepo.insert(edit.getPicture()));</span>
+<span class="nc" id="L136">            } catch(ReadLimitExceededException e){</span>
+<span class="nc" id="L137">                throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+<span class="nc" id="L138">            } catch (IOException e) {</span>
+<span class="nc" id="L139">                throw new RuntimeException(e); //todo: delet this</span>
+<span class="fc" id="L140">            }</span>
+        }
+<span class="fc" id="L142">    }</span>
+
+    /**
+     * Crea un nuovo utente e ne restituisce l'id
+     * @param email stringa non vuota, unica e in formato email
+     * @param username stringa non vuota e unica
+     * @param password Stringa non vuota con minimo: 3 e massimo: 255 caratteri
+     * @return identificativo dell'utente creato
+     */
+    public int newUser(@NotNull @EmailFormat @UniqueEmail String email,
+                       @NotNull @UsernameFormat @UniqueUsername String username,
+                       @NotNull @PasswordFormat String password){
+<span class="fc" id="L154">        User user = new User();</span>
+<span class="fc" id="L155">        user.setUsername(username);</span>
+<span class="fc" id="L156">        user.setEmail(email);</span>
+<span class="fc" id="L157">        HashedPassword hashedPassword = passwordHash.generate(password);</span>
+<span class="fc" id="L158">        user.setPassword(hashedPassword.getPassword());</span>
+<span class="fc" id="L159">        user.setSalt(hashedPassword.getSalt());</span>
+<span class="fc" id="L160">        user.setAdmin(false);</span>
+
+<span class="fc" id="L162">        user = genericRepository.insert(user);</span>
+<span class="fc" id="L163">        return user.getId();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

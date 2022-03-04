@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">package media;</a>
+<span class="sourceLineNo">002</span><a id="line.2"></a>
+<span class="sourceLineNo">003</span><a id="line.3"></a>
+<span class="sourceLineNo">004</span><a id="line.4">import java.io.*;</a>
+<span class="sourceLineNo">005</span><a id="line.5">import java.nio.file.Files;</a>
+<span class="sourceLineNo">006</span><a id="line.6">import java.nio.file.Path;</a>
+<span class="sourceLineNo">007</span><a id="line.7">import java.util.UUID;</a>
+<span class="sourceLineNo">008</span><a id="line.8"></a>
+<span class="sourceLineNo">009</span><a id="line.9">public class MediaRepository implements Serializable{</a>
+<span class="sourceLineNo">010</span><a id="line.10"></a>
+<span class="sourceLineNo">011</span><a id="line.11">    private Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");</a>
+<span class="sourceLineNo">012</span><a id="line.12">    private final long sizeLimit = 5*1024*1024; //todo: parametrizza nel metodo insert</a>
+<span class="sourceLineNo">013</span><a id="line.13"></a>
+<span class="sourceLineNo">014</span><a id="line.14">    /**</a>
+<span class="sourceLineNo">015</span><a id="line.15">     *  Costruttore vuoto</a>
+<span class="sourceLineNo">016</span><a id="line.16">     * @return nuova istanza di MediaRepository</a>
+<span class="sourceLineNo">017</span><a id="line.17">     */</a>
+<span class="sourceLineNo">018</span><a id="line.18">    public MediaRepository(){}</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">    /**</a>
+<span class="sourceLineNo">021</span><a id="line.21">     *  Costruttore con parametro per settare uploadRoot</a>
+<span class="sourceLineNo">022</span><a id="line.22">     * @param uploadRoot oggetto Path per settare uploadRoot</a>
+<span class="sourceLineNo">023</span><a id="line.23">     * @return nuova istanza di MediaRepository</a>
+<span class="sourceLineNo">024</span><a id="line.24">     */</a>
+<span class="sourceLineNo">025</span><a id="line.25">    public MediaRepository(Path uploadRoot){</a>
+<span class="sourceLineNo">026</span><a id="line.26">        this.uploadRoot = uploadRoot;</a>
+<span class="sourceLineNo">027</span><a id="line.27">    }</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">    /**</a>
+<span class="sourceLineNo">030</span><a id="line.30">     *  Salva un file nel filesystem e ne restituisce il nome</a>
+<span class="sourceLineNo">031</span><a id="line.31">     * @param stream stream di dati</a>
+<span class="sourceLineNo">032</span><a id="line.32">     * @param filename nome del file da salvare</a>
+<span class="sourceLineNo">033</span><a id="line.33">     * @throws ReadLimitExceededException se il file supera i 5MB</a>
+<span class="sourceLineNo">034</span><a id="line.34">     * @throws IOException</a>
+<span class="sourceLineNo">035</span><a id="line.35">     * @return nuova istanza di MediaRepository</a>
+<span class="sourceLineNo">036</span><a id="line.36">     */</a>
+<span class="sourceLineNo">037</span><a id="line.37">    public String insert(InputStream stream, String filename) throws IOException {</a>
+<span class="sourceLineNo">038</span><a id="line.38">        Files.createDirectories(uploadRoot);</a>
+<span class="sourceLineNo">039</span><a id="line.39">        File file = new File(uploadRoot.toFile(), filename);</a>
+<span class="sourceLineNo">040</span><a id="line.40">        Files.copy(new LimitedInputStream(stream,sizeLimit), file.toPath());</a>
+<span class="sourceLineNo">041</span><a id="line.41">        return filename;</a>
+<span class="sourceLineNo">042</span><a id="line.42">    }</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">    /**</a>
+<span class="sourceLineNo">045</span><a id="line.45">     *  Salva un file nel filesystem e ne restituisce un nome univoco generato in maniera casuale</a>
+<span class="sourceLineNo">046</span><a id="line.46">     * @param stream stream di dati</a>
+<span class="sourceLineNo">047</span><a id="line.47">     * @throws IOException</a>
+<span class="sourceLineNo">048</span><a id="line.48">     * @return nuova istanza di MediaRepository</a>
+<span class="sourceLineNo">049</span><a id="line.49">     */</a>
+<span class="sourceLineNo">050</span><a id="line.50">    public String insert(InputStream stream) throws IOException {</a>
+<span class="sourceLineNo">051</span><a id="line.51">        return insert(stream, UUID.randomUUID().toString());</a>
+<span class="sourceLineNo">052</span><a id="line.52">    }</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">    /**</a>
+<span class="sourceLineNo">055</span><a id="line.55">     *  Rimuove un file dal filesystem dato un nome se esiste</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * @param filename nome del file</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * @throws IOException</a>
+<span class="sourceLineNo">058</span><a id="line.58">     */</a>
+<span class="sourceLineNo">059</span><a id="line.59">    public void remove(String filename) throws IOException {</a>
+<span class="sourceLineNo">060</span><a id="line.60">        boolean successful = Files.deleteIfExists(uploadRoot.resolve(filename));</a>
+<span class="sourceLineNo">061</span><a id="line.61">        // if (!successful) { ???? }</a>
+<span class="sourceLineNo">062</span><a id="line.62">    }</a>
+<span class="sourceLineNo">063</span><a id="line.63"></a>
+<span class="sourceLineNo">064</span><a id="line.64">    /**</a>
+<span class="sourceLineNo">065</span><a id="line.65">     *  Restituisce un file dal filesystem dato un nome se esiste altrimenti restituisce null</a>
+<span class="sourceLineNo">066</span><a id="line.66">     * @param filename nome del file</a>
+<span class="sourceLineNo">067</span><a id="line.67">     * @return stream di dati del file o null</a>
+<span class="sourceLineNo">068</span><a id="line.68">     */</a>
+<span class="sourceLineNo">069</span><a id="line.69">    public InputStream get(String filename){</a>
+<span class="sourceLineNo">070</span><a id="line.70">        File file = new File(uploadRoot.toFile(), filename);</a>
+<span class="sourceLineNo">071</span><a id="line.71">        if (!file.exists() || !file.isFile())</a>
+<span class="sourceLineNo">072</span><a id="line.72">            return null;</a>
+<span class="sourceLineNo">073</span><a id="line.73">        try {</a>
+<span class="sourceLineNo">074</span><a id="line.74">            return new FileInputStream(file);</a>
+<span class="sourceLineNo">075</span><a id="line.75">        } catch (FileNotFoundException e) {</a>
+<span class="sourceLineNo">076</span><a id="line.76">            return null;</a>
+<span class="sourceLineNo">077</span><a id="line.77">        }</a>
+<span class="sourceLineNo">078</span><a id="line.78">    }</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

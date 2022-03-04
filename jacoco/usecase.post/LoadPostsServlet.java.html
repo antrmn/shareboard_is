@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoadPostsServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">usecase.post</a> &gt; <span class="el_source">LoadPostsServlet.java</span></div><h1>LoadPostsServlet.java</h1><pre class="source lang-java linenums">package usecase.post;
+
+import common.http.ParameterConverter;
+import common.http.interceptor.InterceptableServlet;
+
+import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import static usecase.post.PostSearchForm.SortCriteria.*;
+
+@WebServlet(&quot;/loadposts&quot;)
+<span class="fc" id="L22">class LoadPostsServlet extends InterceptableServlet {</span>
+    @Inject private PostService postService;
+
+<span class="fc" id="L25">    private static final Function&lt;LocalDate, Instant&gt; LOCALDATE_TO_INSTANT =</span>
+<span class="fc" id="L26">            x -&gt; x.atStartOfDay().toInstant(ZoneOffset.UTC);</span>
+
+<span class="fc" id="L28">    private static final Map&lt;String, PostSearchForm.SortCriteria&gt; SORT_CRITERIA = Map.of(</span>
+            &quot;oldest&quot;, OLDEST,
+            &quot;newest&quot;, NEWEST,
+            &quot;mostvoted&quot;, MOSTVOTED);
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+<span class="fc" id="L35">        ParameterConverter converter = new ParameterConverter(req);</span>
+<span class="fc" id="L36">        String content = req.getParameter(&quot;content&quot;);</span>
+<span class="fc" id="L37">        String section = req.getParameter(&quot;section&quot;);</span>
+<span class="fc" id="L38">        String author = req.getParameter(&quot;author&quot;);</span>
+<span class="fc" id="L39">        Instant postedAfter = converter.getDateParameter(&quot;postedAfter&quot;)</span>
+<span class="fc" id="L40">                .map(LOCALDATE_TO_INSTANT).orElse(null);</span>
+<span class="fc" id="L41">        Instant postedBefore = converter.getDateParameter(&quot;postedBefore&quot;)</span>
+<span class="fc" id="L42">                .map(LOCALDATE_TO_INSTANT).orElse(null);</span>
+<span class="fc" id="L43">        PostSearchForm.SortCriteria orderBy = SORT_CRITERIA.get(req.getParameter(&quot;orderby&quot;));</span>
+<span class="fc" id="L44">        int page = converter.getIntParameter(&quot;page&quot;).orElse(1);</span>
+<span class="fc" id="L45">        boolean onlyFollow = &quot;on&quot;.equals(req.getParameter(&quot;onlyfollow&quot;));</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        boolean includeBody = req.getParameter(&quot;includeBody&quot;) != null;</span>
+
+<span class="fc" id="L48">        PostSearchForm postSearchForm = PostSearchForm.builder()</span>
+<span class="fc" id="L49">                .content(content)</span>
+<span class="fc" id="L50">                .onlyFollow(onlyFollow)</span>
+<span class="fc" id="L51">                .includeBody(includeBody)</span>
+<span class="fc" id="L52">                .sectionName(section)</span>
+<span class="fc" id="L53">                .authorName(author)</span>
+<span class="fc" id="L54">                .orderBy(orderBy)</span>
+<span class="fc" id="L55">                .postedAfter(postedAfter)</span>
+<span class="fc" id="L56">                .postedBefore(postedBefore)</span>
+<span class="fc" id="L57">                .page(page)</span>
+<span class="fc" id="L58">                .build();</span>
+
+<span class="fc" id="L60">        List&lt;PostPage&gt; posts = postService.loadPosts(postSearchForm);</span>
+<span class="fc" id="L61">        req.setAttribute(&quot;posts&quot;,posts);</span>
+<span class="fc" id="L62">        req.getRequestDispatcher(&quot;/WEB-INF/views/partials/post-previews.jsp&quot;).forward(req,resp);</span>
+<span class="fc" id="L63">    }</span>
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+<span class="fc" id="L67">        doGet(req, resp);</span>
+<span class="fc" id="L68">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

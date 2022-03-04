@@ -27,7 +27,7 @@ under the License.
     <item>
       <title>File: 120,
              Errors: 0,
-             Warnings: 3254,
+             Warnings: 3169,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -46,49 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UsersExistsByIdValidator.java">service/validation/UsersExistsByIdValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#util.LimitedInputStream.java">util/LimitedInputStream.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  26
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.util.interceptor.package-info.java">http/util/interceptor/package-info.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.EditPostServlet.java">http/controller/EditPostServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueEmailValidator.java">usecase/user/validator/UniqueEmailValidator.java</a>
                 </td>
                 <td>
                   0
@@ -102,133 +60,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.SectionExistsByIdValidator.java">service/validation/SectionExistsByIdValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.AdminServlet.java">http/controller/AdminServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.PostVote.java">persistence/model/PostVote.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  62
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.HomeServlet.java">http/controller/HomeServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.repo.SectionRepository.java">persistence/repo/SectionRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  19
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.BannedUserException.java">service/auth/BannedUserException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.interceptor.AuthorizationConstraints.java">http/controller/interceptor/AuthorizationConstraints.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.interceptor.ForwardOnErrorInterceptor.java">http/controller/interceptor/ForwardOnErrorInterceptor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  37
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.PostPage.java">service/dto/PostPage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  15
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.PostServlet.java">http/controller/PostServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.post.PostServlet.java">usecase/post/PostServlet.java</a>
                 </td>
                 <td>
                   0
@@ -242,287 +74,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.util.interceptor.ServletInterceptorFactory.java">http/util/interceptor/ServletInterceptorFactory.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  53
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.PostService.java">service/PostService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  168
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.AdminsOnly.java">service/auth/AdminsOnly.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.ImageServlet.java">http/controller/ImageServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  36
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.PostType.java">service/dto/PostType.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.LogoutServlet.java">http/controller/LogoutServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.ImageService.java">service/ImageService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  27
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.interceptor.JSONErrorInterceptor.java">http/controller/interceptor/JSONErrorInterceptor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  74
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.BanExists.java">service/validation/BanExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.PostExists.java">service/validation/PostExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.UnvoteServlet.java">http/controller/UnvoteServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  31
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.PostExistsValidator.java">service/validation/PostExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.interceptor.AuthorizationConstraintsInterceptor.java">http/controller/interceptor/AuthorizationConstraintsInterceptor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  50
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.PostEditDTO.java">service/dto/PostEditDTO.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.UserProfile.java">service/dto/UserProfile.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.RegisterServlet.java">http/controller/RegisterServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  51
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.AuthenticationRequiredInterceptor.java">service/auth/AuthenticationRequiredInterceptor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.SectionPage.java">service/dto/SectionPage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.User.java">persistence/model/User.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  34
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.CommentVote.java">persistence/model/CommentVote.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  62
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.NewPostServlet.java">http/controller/NewPostServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthenticationService.java">usecase/auth/AuthenticationService.java</a>
                 </td>
                 <td>
                   0
@@ -536,175 +88,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.UserEditPage.java">service/dto/UserEditPage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.FlywayMigrator.java">persistence/FlywayMigrator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  15
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.FollowService.java">service/FollowService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  28
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.filter.CheckCurrentUserFilter.java">http/controller/filter/CheckCurrentUserFilter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.DeleteSectionServlet.java">http/controller/DeleteSectionServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  19
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.LoginServlet.java">http/controller/LoginServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  34
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.BanExistsValidator.java">service/validation/BanExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  15
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UniqueUsername.java">service/validation/UniqueUsername.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.repo.UserRepository.java">persistence/repo/UserRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.PasswordFormat.java">service/validation/PasswordFormat.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.NewCommentServlet.java">http/controller/NewCommentServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  32
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.Section.java">persistence/model/Section.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  36
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UniqueUsernameValidator.java">service/validation/UniqueUsernameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.DenyBannedUsersInterceptor.java">usecase/auth/DenyBannedUsersInterceptor.java</a>
                 </td>
                 <td>
                   0
@@ -718,27 +102,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.NewSectionServlet.java">http/controller/NewSectionServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#media.ImageServlet.java">media/ImageServlet.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  33
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.repo.GenericRepository.java">persistence/repo/GenericRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  60
+                  29
                 </td>
                 <td>
                   0
@@ -746,497 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.Follow.java">persistence/model/Follow.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  64
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UserExistsByNameValidator.java">service/validation/UserExistsByNameValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.DeleteCommentServlet.java">http/controller/DeleteCommentServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.EditCommentServlet.java">http/controller/EditCommentServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  22
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.EditSectionServlet.java">http/controller/EditSectionServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.SectionServlet.java">http/controller/SectionServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  19
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.UnfollowServlet.java">http/controller/UnfollowServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.util.interceptor.InterceptableServlet.java">http/util/interceptor/InterceptableServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  61
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.repo.CommentRepository.java">persistence/repo/CommentRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  17
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.DenyBannedUsers.java">service/auth/DenyBannedUsers.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.CommentExists.java">service/validation/CommentExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.Image.java">service/validation/Image.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.util.interceptor.ServletInterceptor.java">http/util/interceptor/ServletInterceptor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  25
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.repo.PostRepository.java">persistence/repo/PostRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  176
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UserExists.java">service/validation/UserExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.util.interceptor.ServletContainerInitializer.java">http/util/interceptor/ServletContainerInitializer.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#util.ReadLimitExceededException.java">util/ReadLimitExceededException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.EditUserServlet.java">http/controller/EditUserServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  43
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.AuthenticationRequiredException.java">service/auth/AuthenticationRequiredException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UniqueEmailValidator.java">service/validation/UniqueEmailValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UsernameFormat.java">service/validation/UsernameFormat.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.UserServlet.java">http/controller/UserServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.DeletePostServlet.java">http/controller/DeletePostServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#util.Pbkdf2PasswordHashImpl.java">util/Pbkdf2PasswordHashImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  60
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.ShowSectionServlet.java">http/controller/ShowSectionServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.LoadPostsServlet.java">http/controller/LoadPostsServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  39
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.SectionExists.java">service/validation/SectionExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.filter.EncodingFilter.java">http/controller/filter/EncodingFilter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.util.interceptor.HttpServletBiConsumer.java">http/util/interceptor/HttpServletBiConsumer.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.EmailFormat.java">service/validation/EmailFormat.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  17
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.ShowBansServlet.java">http/controller/ShowBansServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  22
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.filter.FallbackExceptionHandlerFilter.java">http/controller/filter/FallbackExceptionHandlerFilter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  40
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.interceptor.JSONError.java">http/controller/interceptor/JSONError.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.PostSearchForm.java">service/dto/PostSearchForm.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UniqueEmail.java">service/validation/UniqueEmail.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.VoteServlet.java">http/controller/VoteServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.vote.VoteServlet.java">usecase/vote/VoteServlet.java</a>
                 </td>
                 <td>
                   0
@@ -1250,27 +130,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UniqueSectionNameValidator.java">service/validation/UniqueSectionNameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#common.http.error.JSONError.java">common/http/error/JSONError.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.BanService.java">service/BanService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  41
+                  1
                 </td>
                 <td>
                   0
@@ -1278,27 +144,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#util.DateUtils.java">util/DateUtils.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.repository.SectionRepository.java">domain/repository/SectionRepository.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  24
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.FollowServlet.java">http/controller/FollowServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
+                  17
                 </td>
                 <td>
                   0
@@ -1306,63 +158,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.AdminsOnlyInterceptor.java">service/auth/AdminsOnlyInterceptor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.Ban.java">persistence/model/Ban.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.BanDTO.java">service/dto/BanDTO.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.CurrentUser.java">service/dto/CurrentUser.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.AuthenticationRequired.java">service/auth/AuthenticationRequired.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.section.validator.SectionExists.java">usecase/section/validator/SectionExists.java</a>
                 </td>
                 <td>
                   0
@@ -1376,13 +172,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.VoteService.java">service/VoteService.java</a>
+                  <a href="${project.url}/checkstyle.html#media.LimitedInputStream.java">media/LimitedInputStream.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  67
+                  26
                 </td>
                 <td>
                   0
@@ -1390,7 +186,105 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.DenyBannedUsersInterceptor.java">service/auth/DenyBannedUsersInterceptor.java</a>
+                  <a href="${project.url}/checkstyle.html#common.http.error.FallbackExceptionHandlerFilter.java">common/http/error/FallbackExceptionHandlerFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  40
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.interceptor.HttpServletBiConsumer.java">common/http/interceptor/HttpServletBiConsumer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.validator.CommentExistsValidator.java">usecase/comment/validator/CommentExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.PostSearchForm.java">usecase/post/PostSearchForm.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.CommentDTO.java">usecase/comment/CommentDTO.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UserExistsByNameValidator.java">usecase/user/validator/UserExistsByNameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthenticationRequired.java">usecase/auth/AuthenticationRequired.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.follow.UnfollowServlet.java">usecase/follow/UnfollowServlet.java</a>
                 </td>
                 <td>
                   0
@@ -1404,7 +298,959 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.CommentService.java">service/CommentService.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.validator.BanExistsValidator.java">usecase/ban/validator/BanExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.PostPage.java">usecase/post/PostPage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthorizationConstraintsInterceptor.java">usecase/auth/AuthorizationConstraintsInterceptor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  47
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.follow.FollowService.java">usecase/follow/FollowService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  28
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UserExists.java">usecase/user/validator/UserExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.AdminServlet.java">usecase/AdminServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.PostType.java">usecase/post/PostType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.LoadPostsServlet.java">usecase/post/LoadPostsServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  34
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.validator.BanExists.java">usecase/ban/validator/BanExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.CheckCurrentUserFilter.java">common/http/CheckCurrentUserFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.SectionServlet.java">usecase/section/SectionServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.validator.SectionExistsByNameValidator.java">usecase/section/validator/SectionExistsByNameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.Comment.java">domain/entity/Comment.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  37
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.NewSectionServlet.java">usecase/section/NewSectionServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  33
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.EncodingFilter.java">common/http/EncodingFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.interceptor.package-info.java">common/http/interceptor/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthorizationConstraints.java">usecase/auth/AuthorizationConstraints.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.PostVote.java">domain/entity/PostVote.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  62
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.repository.GenericRepository.java">domain/repository/GenericRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  60
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.MediaRepository.java">media/MediaRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  50
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.validator.Image.java">media/validator/Image.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.UserServlet.java">usecase/user/UserServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.DeleteUserServlet.java">usecase/user/DeleteUserServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.NewCommentServlet.java">usecase/comment/NewCommentServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  32
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.LoginServlet.java">usecase/auth/LoginServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.validator.UniqueSectionNameValidator.java">usecase/section/validator/UniqueSectionNameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.interceptor.InterceptableServlet.java">common/http/interceptor/InterceptableServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  61
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.interceptor.ServletContainerInitializer.java">common/http/interceptor/ServletContainerInitializer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.ShowUsersServlet.java">usecase/user/ShowUsersServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.error.ForwardOnError.java">common/http/error/ForwardOnError.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.Follow.java">domain/entity/Follow.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  63
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.repository.PostRepository.java">domain/repository/PostRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  172
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AdminsOnly.java">usecase/auth/AdminsOnly.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.DeleteCommentServlet.java">usecase/comment/DeleteCommentServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.Ban.java">domain/entity/Ban.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.DeleteBanServlet.java">usecase/ban/DeleteBanServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.error.ForwardOnErrorInterceptor.java">common/http/error/ForwardOnErrorInterceptor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  37
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.EmailFormat.java">usecase/user/validator/EmailFormat.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.vote.UnvoteServlet.java">usecase/vote/UnvoteServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  31
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.validator.PostExistsValidator.java">usecase/post/validator/PostExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.ToggleAdminServlet.java">usecase/user/ToggleAdminServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.BanService.java">usecase/ban/BanService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  41
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.ShowBansServlet.java">usecase/ban/ShowBansServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.DeletePostServlet.java">usecase/post/DeletePostServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.UserEditPage.java">usecase/user/UserEditPage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.BanDTO.java">usecase/ban/BanDTO.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.EditPostServlet.java">usecase/post/EditPostServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.EditSectionServlet.java">usecase/section/EditSectionServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UsernameFormat.java">usecase/user/validator/UsernameFormat.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.NewPostServlet.java">usecase/post/NewPostServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  42
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.validator.PostExists.java">usecase/post/validator/PostExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.EditUserServlet.java">usecase/user/EditUserServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  43
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.Post.java">domain/entity/Post.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  48
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.vote.VoteService.java">usecase/vote/VoteService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  67
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.BannedUserException.java">usecase/auth/BannedUserException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.ReadLimitExceededException.java">media/ReadLimitExceededException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.validator.CommentExists.java">usecase/comment/validator/CommentExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.repository.UserRepository.java">domain/repository/UserRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.ImageService.java">media/ImageService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  24
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.ShowSectionServlet.java">usecase/section/ShowSectionServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.repository.CommentRepository.java">domain/repository/CommentRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.User.java">domain/entity/User.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  34
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.follow.FollowServlet.java">usecase/follow/FollowServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueUsernameValidator.java">usecase/user/validator/UniqueUsernameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.LogoutServlet.java">usecase/auth/LogoutServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.CommentVote.java">domain/entity/CommentVote.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  62
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.SectionService.java">usecase/section/SectionService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  100
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.DenyBannedUsers.java">usecase/auth/DenyBannedUsers.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.CommentService.java">usecase/comment/CommentService.java</a>
                 </td>
                 <td>
                   0
@@ -1418,13 +1264,125 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.SectionService.java">service/SectionService.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueEmail.java">usecase/user/validator/UniqueEmail.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  100
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.ParameterConverter.java">common/http/ParameterConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  76
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.AddBanServlet.java">usecase/ban/AddBanServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthenticationRequiredInterceptor.java">usecase/auth/AuthenticationRequiredInterceptor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueUsername.java">usecase/user/validator/UniqueUsername.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.Pbkdf2PasswordHash.java">usecase/auth/Pbkdf2PasswordHash.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  60
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.validator.SectionExistsByIdValidator.java">usecase/section/validator/SectionExistsByIdValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.RegisterServlet.java">usecase/user/RegisterServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  50
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.error.JSONErrorInterceptor.java">common/http/error/JSONErrorInterceptor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  74
                 </td>
                 <td>
                   0
@@ -1446,119 +1404,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.util.ParameterConverter.java">http/util/ParameterConverter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  76
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.repo.BinaryContentRepository.java">persistence/repo/BinaryContentRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  54
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.UserService.java">service/UserService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  111
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.ImageValidator.java">service/validation/ImageValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  17
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.CommentExistsValidator.java">service/validation/CommentExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.Comment.java">persistence/model/Comment.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  37
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.AddBanServlet.java">http/controller/AddBanServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  22
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.SectionExistsByNameValidator.java">service/validation/SectionExistsByNameValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.SearchServlet.java">http/controller/SearchServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.post.SearchPostServlet.java">usecase/post/SearchPostServlet.java</a>
                 </td>
                 <td>
                   0
@@ -1572,27 +1418,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#persistence.model.Post.java">persistence/model/Post.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.EditCommentServlet.java">usecase/comment/EditCommentServlet.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  48
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#service.AuthenticationService.java">service/AuthenticationService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  48
+                  23
                 </td>
                 <td>
                   0
@@ -1600,27 +1432,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.validation.UniqueSection.java">service/validation/UniqueSection.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.user.UserProfile.java">usecase/user/UserProfile.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.interceptor.ForwardOnError.java">http/controller/interceptor/ForwardOnError.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
+                  9
                 </td>
                 <td>
                   0
@@ -1628,13 +1446,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.ShowUsersServlet.java">http/controller/ShowUsersServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.section.SectionPage.java">usecase/section/SectionPage.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  15
+                  8
                 </td>
                 <td>
                   0
@@ -1642,7 +1460,147 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.filter.AliasFilter.java">http/controller/filter/AliasFilter.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AdminsOnlyInterceptor.java">usecase/auth/AdminsOnlyInterceptor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.UserService.java">usecase/user/UserService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  111
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.interceptor.ServletInterceptor.java">common/http/interceptor/ServletInterceptor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthorizationException.java">usecase/auth/AuthorizationException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.PostEditDTO.java">usecase/post/PostEditDTO.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.DateUtils.java">common/DateUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  24
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.validator.ImageValidator.java">media/validator/ImageValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.AuthenticationRequiredException.java">usecase/auth/AuthenticationRequiredException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.PostService.java">usecase/post/PostService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  168
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.PasswordFormat.java">usecase/user/validator/PasswordFormat.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.AliasFilter.java">common/http/AliasFilter.java</a>
                 </td>
                 <td>
                   0
@@ -1656,13 +1614,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.dto.CommentDTO.java">service/dto/CommentDTO.java</a>
+                  <a href="${project.url}/checkstyle.html#common.http.interceptor.ServletInterceptorFactory.java">common/http/interceptor/ServletInterceptorFactory.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  12
+                  53
                 </td>
                 <td>
                   0
@@ -1670,7 +1628,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.DeleteUserServlet.java">http/controller/DeleteUserServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.section.DeleteSectionServlet.java">usecase/section/DeleteSectionServlet.java</a>
                 </td>
                 <td>
                   0
@@ -1684,27 +1642,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.ToggleAdminServlet.java">http/controller/ToggleAdminServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.CurrentUser.java">usecase/auth/CurrentUser.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#http.controller.DeleteBanServlet.java">http/controller/DeleteBanServlet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
+                  9
                 </td>
                 <td>
                   0
@@ -1712,13 +1656,69 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#service.auth.AuthorizationException.java">service/auth/AuthorizationException.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.HomeServlet.java">usecase/HomeServlet.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  12
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.validator.UniqueSection.java">usecase/section/validator/UniqueSection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.entity.Section.java">domain/entity/Section.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  36
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.FlywayMigrator.java">common/FlywayMigrator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UsersExistsByIdValidator.java">usecase/user/validator/UsersExistsByIdValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
                 </td>
                 <td>
                   0
