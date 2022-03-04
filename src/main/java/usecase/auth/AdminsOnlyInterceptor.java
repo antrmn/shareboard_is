@@ -9,7 +9,7 @@ import javax.interceptor.InvocationContext;
 @Interceptor
 @AdminsOnly
 @Priority(Interceptor.Priority.APPLICATION+3)
-class AdminsOnlyInterceptor {
+public class AdminsOnlyInterceptor {
     @Inject private CurrentUser currentUser;
 
     @AroundInvoke

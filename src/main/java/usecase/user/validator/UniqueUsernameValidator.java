@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
+public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
     @Inject GenericRepository genericRepository;
 

@@ -19,7 +19,7 @@ import java.util.function.Function;
 import static usecase.post.PostSearchForm.SortCriteria.*;
 
 @WebServlet("/loadposts")
-class LoadPostsServlet extends InterceptableServlet {
+public class LoadPostsServlet extends InterceptableServlet {
     @Inject private PostService postService;
 
     private static final Function<LocalDate, Instant> LOCALDATE_TO_INSTANT =

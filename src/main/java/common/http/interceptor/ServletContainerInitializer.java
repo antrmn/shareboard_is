@@ -9,7 +9,7 @@ import java.util.Set;
  * @see ServletContainerInitializer
  */
 @HandlesTypes(ServletInterceptor.class)
-class ServletContainerInitializer implements javax.servlet.ServletContainerInitializer {
+public class ServletContainerInitializer implements javax.servlet.ServletContainerInitializer {
     /**
      * @param set L'insieme delle classi che rispettano i criteri imposti dall'annotazione {@link HandlesTypes}
      * @param servletContext Il servlet context della webapp

@@ -16,8 +16,7 @@ import java.util.Objects;
 
 
 @WebServlet("/register")
-public
-class RegisterServlet extends InterceptableServlet {
+public class RegisterServlet extends InterceptableServlet {
     @Inject private UserService userService;
     @Inject private CurrentUser currentUser;
     @Inject private AuthenticationService authenticationService;

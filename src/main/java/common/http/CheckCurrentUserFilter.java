@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter("*")
-class CheckCurrentUserFilter extends HttpFilter {
+public class CheckCurrentUserFilter extends HttpFilter {
     @Inject CurrentUser currentUser;
 
     @Override

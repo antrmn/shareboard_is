@@ -6,7 +6,7 @@
         ignoreDefaultValues = false
         initialSize = 0
         jdbcDriver = com.mysql.cj.jdbc.Driver
-        jdbcUrl = jdbc:mysql://localhost:3306/shareboard_db
+        jdbcUrl = jdbc:mysql://localhost:3306/shareboard_is
         jtaManaged = true
         maxActive = 100
         maxIdle = 30
@@ -15,7 +15,7 @@
         minEvictableIdleTime = 30 minutes
         minIdle = 0
         numTestsPerEvictionRun = 3
-        password = 1234
+        password = informatica
         passwordCipher = PlainText
         poolPreparedStatements = false
         userName = root

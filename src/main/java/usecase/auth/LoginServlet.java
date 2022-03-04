@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet("/login")
-class LoginServlet extends InterceptableServlet {
+public class LoginServlet extends InterceptableServlet {
     @Inject AuthenticationService authenticationService;
     @Inject CurrentUser currentUser;
 

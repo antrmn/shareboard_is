@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 @Singleton
 @Startup
 @TransactionManagement(TransactionManagementType.BEAN)
-class FlywayMigrator {
+public class FlywayMigrator {
 
     @Resource(name = "jdbc/shareboardDB")
     private DataSource dataSource;

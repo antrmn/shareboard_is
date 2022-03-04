@@ -9,7 +9,7 @@ import javax.interceptor.InvocationContext;
 @Interceptor
 @DenyBannedUsers
 @Priority(Interceptor.Priority.APPLICATION+2)
-class DenyBannedUsersInterceptor {
+public class DenyBannedUsersInterceptor {
     @Inject private CurrentUser currentUser;
 
     @AroundInvoke

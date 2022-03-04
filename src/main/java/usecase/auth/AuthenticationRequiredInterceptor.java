@@ -9,7 +9,7 @@ import javax.interceptor.InvocationContext;
 @Interceptor
 @AuthenticationRequired
 @Priority(Interceptor.Priority.APPLICATION+1)
-class AuthenticationRequiredInterceptor {
+public class AuthenticationRequiredInterceptor {
     @Inject private CurrentUser currentUser;
 
     @AroundInvoke

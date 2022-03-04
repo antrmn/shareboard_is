@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 @WebServlet("/editpost")
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-class EditPostServlet extends InterceptableServlet {
+public class EditPostServlet extends InterceptableServlet {
     //Funzionalità disabilitata
 
     @Override

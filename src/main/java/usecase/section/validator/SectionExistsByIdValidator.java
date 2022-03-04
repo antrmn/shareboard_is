@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class SectionExistsByIdValidator implements ConstraintValidator<SectionExists, Integer> {
+public class SectionExistsByIdValidator implements ConstraintValidator<SectionExists, Integer> {
     @Inject GenericRepository genericRepository;
 
     @Override

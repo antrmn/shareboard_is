@@ -18,7 +18,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet("/admin/addban")
 @AuthorizationConstraints(ADMINS_ONLY)
-class AddBanServlet extends InterceptableServlet {
+public class AddBanServlet extends InterceptableServlet {
     @Inject private BanService service;
 
     @Override

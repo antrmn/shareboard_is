@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class BanExistsValidator implements ConstraintValidator<BanExists, Integer> {
+public class BanExistsValidator implements ConstraintValidator<BanExists, Integer> {
     @Inject GenericRepository genericRepository;
 
     @Override

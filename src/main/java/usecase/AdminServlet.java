@@ -13,7 +13,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet("/admin")
 @AuthorizationConstraints(ADMINS_ONLY)
-class AdminServlet extends InterceptableServlet {
+public class AdminServlet extends InterceptableServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/views/crm/admin.jsp").forward(req,resp);

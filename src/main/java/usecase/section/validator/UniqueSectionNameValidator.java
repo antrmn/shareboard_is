@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class UniqueSectionNameValidator implements ConstraintValidator<UniqueSection, String> {
+public class UniqueSectionNameValidator implements ConstraintValidator<UniqueSection, String> {
     @Inject GenericRepository genericRepository;
 
 

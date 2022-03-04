@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
 @WebServlet(name = "DeletePostServlet", value = "/DeletePostServlet")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-class DeletePostServlet extends InterceptableServlet {
+public class DeletePostServlet extends InterceptableServlet {
     @Inject private PostService service;
 
     @Override

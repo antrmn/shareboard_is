@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
-class ImageValidator implements ConstraintValidator<Image, InputStream> {
+public class ImageValidator implements ConstraintValidator<Image, InputStream> {
 
     @Override
     public void initialize(Image constraintAnnotation) {

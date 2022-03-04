@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class PostExistsValidator implements ConstraintValidator<PostExists, Integer> {
+public class PostExistsValidator implements ConstraintValidator<PostExists, Integer> {
     @Inject
     GenericRepository genericRepository;
 

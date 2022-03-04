@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-class UsersExistsByIdValidator implements ConstraintValidator<UserExists, Integer> {
+public class UsersExistsByIdValidator implements ConstraintValidator<UserExists, Integer> {
     @Inject GenericRepository genericRepository;
 
 

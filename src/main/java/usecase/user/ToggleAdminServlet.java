@@ -16,7 +16,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet("/admin/toggleAdmin")
 @AuthorizationConstraints(ADMINS_ONLY)
-class ToggleAdminServlet extends InterceptableServlet {
+public class ToggleAdminServlet extends InterceptableServlet {
 
     @Inject private UserService service;
 
