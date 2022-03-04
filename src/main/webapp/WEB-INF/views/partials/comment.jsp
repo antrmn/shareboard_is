@@ -1,6 +1,6 @@
 <%@ taglib prefix="sbfn" uri="/WEB-INF/tlds/tagUtils.tld" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%--@elvariable id="comment" type="service.dto.CommentDTO"--%>
+<%--@elvariable id="comment" type="usecase.comment.CommentDTO"--%>
 <%-- Quello sopra è un commento di IntelliJ che permette di ignorare l'errore "cannot resolve variable" e
      fornisce l'auto-complete anche se l'oggetto non è presente (Ancora) in nessuno scope --%>
 

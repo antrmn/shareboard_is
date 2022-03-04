@@ -173,7 +173,7 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/persistence/FlywayMigrator*</exclude>
+                        <exclude>**/common/FlywayMigrator*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -235,7 +235,7 @@
                         </reports>
                         <configuration>
                             <excludes>
-                                <exclude>**/persistence/FlywayMigrator*</exclude>
+                                <exclude>**/domain/FlywayMigrator*</exclude>
                             </excludes>
                             <dataFile>${project.build.directory}/jacoco-merge.exec</dataFile>
                         </configuration>

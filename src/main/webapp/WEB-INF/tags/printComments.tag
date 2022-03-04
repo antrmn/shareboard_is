@@ -7,7 +7,7 @@
 <%@ attribute name="depth" type="java.lang.Integer" required="true" %>
 <%@ attribute name="isUserBanned" required="true" %>
 <%@ attribute name="commentFragment" fragment="true"%>
-<%@ variable name-given="comment" variable-class="service.dto.CommentDTO" scope="NESTED" %>
+<%@ variable name-given="comment" variable-class="usecase.comment.CommentDTO" scope="NESTED" %>
 <%@ variable name-given="childComments" variable-class="java.lang.String" scope="NESTED"%>
 
 <c:forEach items="${comments[idParent]}" var="comment">

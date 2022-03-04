@@ -23,7 +23,7 @@ http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
     </function>
     <function>
         <name>printTimeSince</name>
-        <function-class>util.DateUtils</function-class>
+        <function-class>common.DateUtils</function-class>
         <function-signature>java.lang.String printTimeSince(java.time.Instant)</function-signature>
     </function>
 </taglib>
