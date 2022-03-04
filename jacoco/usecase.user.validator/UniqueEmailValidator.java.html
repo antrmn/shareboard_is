@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-<span class="fc" id="L9">class UniqueEmailValidator implements ConstraintValidator&lt;UniqueEmail, String&gt; {</span>
+<span class="fc" id="L9">public class UniqueEmailValidator implements ConstraintValidator&lt;UniqueEmail, String&gt; {</span>
     @Inject
     UserRepository userRepository;
 

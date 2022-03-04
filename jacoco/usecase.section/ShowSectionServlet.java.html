@@ -13,7 +13,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet(&quot;/admin/showsections&quot;)
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="fc" id="L16">class ShowSectionServlet extends InterceptableServlet {</span>
+<span class="fc" id="L16">public class ShowSectionServlet extends InterceptableServlet {</span>
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 <span class="fc" id="L19">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/show-sections.jsp&quot;).forward(request,response);</span>

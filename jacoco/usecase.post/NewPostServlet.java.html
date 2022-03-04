@@ -21,7 +21,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 @WebServlet(&quot;/newpost&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L24">class NewPostServlet extends InterceptableServlet {</span>
+<span class="fc" id="L24">public class NewPostServlet extends InterceptableServlet {</span>
     @Inject private PostService service;
     @Inject private SectionService sectionService;
 

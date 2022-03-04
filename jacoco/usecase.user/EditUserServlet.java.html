@@ -22,7 +22,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 @WebServlet(&quot;/edituser&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L25">class EditUserServlet extends InterceptableServlet {</span>
+<span class="fc" id="L25">public class EditUserServlet extends InterceptableServlet {</span>
     @Inject private UserService service;
     @Inject private CurrentUser currentUser;
 
