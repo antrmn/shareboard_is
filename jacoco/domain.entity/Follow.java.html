@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+/**
+ * Entità rappresentate una relazione &quot;segui&quot; tra un utente e una sezione
+ */
 @Entity
 public class Follow implements Serializable {
 
@@ -21,28 +24,28 @@ public class Follow implements Serializable {
         @Column(name = &quot;section_id&quot;, nullable = false)
         protected int sectionId;
 
-<span class="fc" id="L24">        protected Id(){}</span>
+<span class="fc" id="L27">        protected Id(){}</span>
 
-<span class="fc" id="L26">        public Id(int userId, int sectionId){</span>
-<span class="fc" id="L27">            this.userId = userId;</span>
-<span class="fc" id="L28">            this.sectionId = sectionId;</span>
-<span class="fc" id="L29">        }</span>
+<span class="fc" id="L29">        public Id(int userId, int sectionId){</span>
+<span class="fc" id="L30">            this.userId = userId;</span>
+<span class="fc" id="L31">            this.sectionId = sectionId;</span>
+<span class="fc" id="L32">        }</span>
 
         @Override
         public boolean equals(Object o) {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">            if (this == o) return true;</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">            if (!(o instanceof Id)) return false;</span>
-<span class="fc" id="L35">            Id id = (Id) o;</span>
-<span class="fc bfc" id="L36" title="All 4 branches covered.">            return userId == id.userId &amp;&amp; sectionId == id.sectionId;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (this == o) return true;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (!(o instanceof Id)) return false;</span>
+<span class="fc" id="L38">            Id id = (Id) o;</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">            return userId == id.userId &amp;&amp; sectionId == id.sectionId;</span>
         }
 
         @Override
         public int hashCode() {
-<span class="fc" id="L41">            return Objects.hash(userId, sectionId);</span>
+<span class="fc" id="L44">            return Objects.hash(userId, sectionId);</span>
         }
     }
 
-<span class="fc" id="L45">    @Getter</span>
+<span class="fc" id="L48">    @Getter</span>
     @EmbeddedId
     protected Id id = new Id();
 
@@ -50,42 +53,42 @@ public class Follow implements Serializable {
     @ManyToOne(optional = false) @MapsId(&quot;userId&quot;)
     protected User user;
     public void setUser(User user){
-<span class="fc" id="L53">        this.user = user;</span>
-<span class="fc" id="L54">        this.id.userId = user.getId();</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L56">        this.user = user;</span>
+<span class="fc" id="L57">        this.id.userId = user.getId();</span>
+<span class="fc" id="L58">    }</span>
 
     @Getter
     @ManyToOne(optional = false) @MapsId(&quot;sectionId&quot;)
     protected Section section;
     public void setSection(Section section){
-<span class="fc" id="L61">        this.section = section;</span>
-<span class="fc" id="L62">        this.id.sectionId = section.getId();</span>
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L64">        this.section = section;</span>
+<span class="fc" id="L65">        this.id.sectionId = section.getId();</span>
+<span class="fc" id="L66">    }</span>
 
     @Getter
     @Column(nullable = false, updatable = false, insertable = false)
     protected Instant followDate;
 
-<span class="fc" id="L69">    protected Follow(){}</span>
+<span class="fc" id="L72">    protected Follow(){}</span>
 
-<span class="fc" id="L71">    public Follow(User user, Section section){</span>
-<span class="fc" id="L72">        this.user = user;</span>
-<span class="fc" id="L73">        this.section = section;</span>
-<span class="fc" id="L74">        this.id = new Id(user.getId(), section.getId());</span>
-<span class="fc" id="L75">    }</span>
+<span class="fc" id="L74">    public Follow(User user, Section section){</span>
+<span class="fc" id="L75">        this.user = user;</span>
+<span class="fc" id="L76">        this.section = section;</span>
+<span class="fc" id="L77">        this.id = new Id(user.getId(), section.getId());</span>
+<span class="fc" id="L78">    }</span>
 
 
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (!(o instanceof Follow)) return false;</span>
-<span class="fc" id="L82">        Follow follow = (Follow) o;</span>
-<span class="fc" id="L83">        return id.equals(follow.id);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (!(o instanceof Follow)) return false;</span>
+<span class="fc" id="L85">        Follow follow = (Follow) o;</span>
+<span class="fc" id="L86">        return id.equals(follow.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L88">        return Objects.hash(id);</span>
+<span class="fc" id="L91">        return Objects.hash(id);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

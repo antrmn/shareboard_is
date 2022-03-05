@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Entità rappresentate un utente della community
+ */
 @Entity
 public class User implements Serializable {
 
@@ -50,26 +53,26 @@ public class User implements Serializable {
     @Column(nullable = false)
     protected Boolean admin;
 
-<span class="fc" id="L53">    @OneToMany(mappedBy = &quot;user&quot;)</span>
+<span class="fc" id="L56">    @OneToMany(mappedBy = &quot;user&quot;)</span>
     @OrderBy(&quot;endTime desc&quot;)
     protected List&lt;Ban&gt; bans = new ArrayList&lt;&gt;();
     public List&lt;Ban&gt; getBans(){
-<span class="fc" id="L57">        return Collections.unmodifiableList(bans);</span>
+<span class="fc" id="L60">        return Collections.unmodifiableList(bans);</span>
     }
 
-<span class="fc" id="L60">    public User(){}</span>
+<span class="fc" id="L63">    public User(){}</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (!(o instanceof User)) return false;</span>
-<span class="fc" id="L66">        User user = (User) o;</span>
-<span class="fc" id="L67">        return id.equals(user.id);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (!(o instanceof User)) return false;</span>
+<span class="fc" id="L69">        User user = (User) o;</span>
+<span class="fc" id="L70">        return id.equals(user.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L72">        return getClass().hashCode();</span>
+<span class="fc" id="L75">        return getClass().hashCode();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

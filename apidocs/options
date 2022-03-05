@@ -17,11 +17,19 @@
 'UTF-8'
 -doctitle
 'shareboard_is 1.0 API'
+-group
+'Common' 'common:common.*'
+-group
+'Domain and data access' 'domain:domain.*:media:media.*'
+-group
+'Business' 'usecase:usecase.*'
 -link
 'https://javaee.github.io/javaee-spec/javadocs'
 -linkoffline
 'https://docs.oracle.com/en/java/javase/11/docs/api' 'D:/a/shareboard_is/shareboard_is/target/javadoc-bundle-options'
 -linksource
+-stylesheetfile
+'D:/a/shareboard_is/shareboard_is/maven_site/javadocstyle.css'
 -use
 -version
 -windowtitle

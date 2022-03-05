@@ -16,7 +16,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
 @WebServlet(&quot;/vote&quot;)
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L19">public class VoteServlet extends InterceptableServlet {</span>
+<span class="fc" id="L19">class VoteServlet extends InterceptableServlet {</span>
     @Inject private VoteService service;
 
     @Override

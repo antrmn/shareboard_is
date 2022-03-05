@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * Entità rappresentate il ban di un utente
+ */
 @Entity
 public class Ban implements Serializable {
 
@@ -26,19 +29,19 @@ public class Ban implements Serializable {
     @Column(nullable = true)
     protected Instant endTime;
 
-<span class="fc" id="L29">    public Ban(){}</span>
+<span class="fc" id="L32">    public Ban(){}</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (!(o instanceof Ban)) return false;</span>
-<span class="fc" id="L35">        Ban ban = (Ban) o;</span>
-<span class="fc" id="L36">        return id.equals(ban.id);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (!(o instanceof Ban)) return false;</span>
+<span class="fc" id="L38">        Ban ban = (Ban) o;</span>
+<span class="fc" id="L39">        return id.equals(ban.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L41">        return getClass().hashCode();</span>
+<span class="fc" id="L44">        return getClass().hashCode();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

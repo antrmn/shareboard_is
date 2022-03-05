@@ -13,11 +13,44 @@
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> java.lang.annotation.RetentionPolicy;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.lang.annotation.Target;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   @Target({ElementType.METHOD,ElementType.TYPE})
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   @Retention(RetentionPolicy.RUNTIME)
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">public</strong> @<strong class="jxr_keyword">interface</strong> ForwardOnError {
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>      String value();
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  }
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * &lt;p&gt;L'annotazione consente di impostare in modo dichiarativo il percorso su cui una servlet effettua</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * il dispatch in caso di errore.&lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;Affinché funzioni, è necessario che la servlet su cui applicare l'annotazione estenda {@link common.http.interceptor.InterceptableServlet}&lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;È possibile applicare l'annotazione ai singoli metodi "doX" implementati (es. doGet). Applicare l'annotazione</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * direttamente alla classe equivale ad applicarla su tutti i metodi "doX" implementati.&lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;Quando un metodo "doX" annotato con {@link ForwardOnError} lancia una particolare eccezione</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * (elencate in basso), si verificano le seguenti azioni: &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * &lt;ul&gt;</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> *     &lt;li&gt;Viene catturata l'eccezione allo scopo di recuperare i messaggi di errore rilevanti</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> *     per inserirli nell'attributo di richiesta &lt;pre&gt;errors&lt;/pre&gt;&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> *     &lt;li&gt;Viene impostato lo status code 400 BAD REQUEST&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> *     &lt;li&gt;Viene passato il controllo (mediante metodo &lt;pre&gt;forward&lt;/pre&gt; alla servlet al percorso specificato)&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * &lt;/ul&gt;</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;Le eccezioni catturate sono le seguenti:  &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> * &lt;table&gt;</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> *     &lt;tr&gt;</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> *         &lt;td&gt;Eccezione&lt;/td&gt;&lt;td&gt;Messaggi di errore&lt;/td&gt;</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> *     &lt;/tr&gt;</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> *     &lt;tr&gt;</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> *         &lt;td&gt;{@link javax.validation.ConstraintViolationException}&lt;/td&gt;&lt;td&gt;I messaggi degli oggetti {@link javax.validation.ConstraintViolation}&lt;/td&gt;</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> *     &lt;/tr&gt;</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> *     &lt;tr&gt;</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> *         &lt;td&gt;{@link IllegalArgumentException}&lt;/td&gt;&lt;td&gt;{@link IllegalArgumentException#getMessage()}&lt;/td&gt;</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> *     &lt;/tr&gt;</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment"> * &lt;/table&gt;</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> * @see ForwardOnErrorInterceptor</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment"> * @see common.http.interceptor.InterceptableServlet</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment"> * @see common.http.interceptor.ServletInterceptor</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  @Target({ElementType.METHOD,ElementType.TYPE})
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  @Retention(RetentionPolicy.RUNTIME)
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">public</strong> @<strong class="jxr_keyword">interface</strong> ForwardOnError {
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">     * @return L'URL pattern dove effettuare il forward della richiesta</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      String value();
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

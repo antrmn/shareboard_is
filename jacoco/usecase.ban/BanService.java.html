@@ -3,9 +3,9 @@
 import domain.entity.Ban;
 import domain.entity.User;
 import domain.repository.GenericRepository;
+import domain.validation.BanExists;
+import domain.validation.UserExists;
 import usecase.auth.AdminsOnly;
-import usecase.ban.validator.BanExists;
-import usecase.user.validator.UserExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

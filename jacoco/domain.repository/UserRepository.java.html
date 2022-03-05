@@ -7,7 +7,10 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 
 
-<span class="fc" id="L10">public class UserRepository implements Serializable {</span>
+/**
+ * Classe che incapsula la logica per il recupero di entità di tipo {@link User}
+ */
+<span class="fc" id="L13">public class UserRepository implements Serializable {</span>
 
     @PersistenceContext
     protected EntityManager em;
@@ -18,8 +21,8 @@ import java.io.Serializable;
      * @return entità User
      */
     public User getByEmail(String email) {
-<span class="fc" id="L21">        return em.createQuery(&quot;from User u where u.email=:email&quot;, User.class).setParameter(&quot;email&quot;, email)</span>
-<span class="fc" id="L22">                .getResultList().stream().findFirst().orElse(null);</span>
+<span class="fc" id="L24">        return em.createQuery(&quot;from User u where u.email=:email&quot;, User.class).setParameter(&quot;email&quot;, email)</span>
+<span class="fc" id="L25">                .getResultList().stream().findFirst().orElse(null);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

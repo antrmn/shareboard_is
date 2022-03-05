@@ -13,10 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Entità rappresentante un post
+ */
 @Entity
 @DynamicUpdate
 public class Post implements Serializable {
-<span class="fc" id="L19">    public enum Type {TEXT, IMG}</span>
+<span class="fc" id="L22">    public enum Type {TEXT, IMG}</span>
 
     @Getter @Setter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +49,7 @@ public class Post implements Serializable {
     @LazyCollection(LazyCollectionOption.EXTRA)
     protected List&lt;Comment&gt; comments;
     public int getCommentCount(){
-<span class="fc bfc" id="L49" title="All 2 branches covered.">        return comments == null ? 0 : comments.size();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        return comments == null ? 0 : comments.size();</span>
     }
 
     @Getter @Setter
@@ -57,26 +60,32 @@ public class Post implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     protected User author;
 
-<span class="fc" id="L60">    @OneToMany(mappedBy=&quot;post&quot;)</span>
+<span class="fc" id="L63">    @OneToMany(mappedBy=&quot;post&quot;)</span>
     @MapKeyJoinColumn(name=&quot;user_id&quot;, updatable = false, insertable = false)
     protected Map&lt;User, PostVote&gt; votes = new HashMap&lt;&gt;();
+
+    /**
+     * Ottieni il voto di un utente al post in questione (o &lt;pre&gt;null&lt;/pre&gt; se il voto non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link PostVote}
+     */
     public PostVote getVote(User user){
-<span class="fc" id="L64">        return votes.get(user);</span>
+<span class="fc" id="L73">        return votes.get(user);</span>
     }
 
-<span class="fc" id="L67">    public Post(){}</span>
+<span class="fc" id="L76">    public Post(){}</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (!(o instanceof Post)) return false;</span>
-<span class="fc" id="L73">        Post post = (Post) o;</span>
-<span class="fc bfc" id="L74" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(post.id);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (!(o instanceof Post)) return false;</span>
+<span class="fc" id="L82">        Post post = (Post) o;</span>
+<span class="fc bfc" id="L83" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(post.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L79">        return getClass().hashCode();</span>
+<span class="fc" id="L88">        return getClass().hashCode();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Source code</title>
-<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../javadocstyle.css" title="Style">
 </head>
 <body>
 <main role="main">
@@ -16,87 +16,90 @@
 <span class="sourceLineNo">007</span><a id="line.7">import java.time.Instant;</a>
 <span class="sourceLineNo">008</span><a id="line.8">import java.util.Objects;</a>
 <span class="sourceLineNo">009</span><a id="line.9"></a>
-<span class="sourceLineNo">010</span><a id="line.10">@Entity</a>
-<span class="sourceLineNo">011</span><a id="line.11">public class Follow implements Serializable {</a>
-<span class="sourceLineNo">012</span><a id="line.12"></a>
-<span class="sourceLineNo">013</span><a id="line.13">    @Embeddable</a>
-<span class="sourceLineNo">014</span><a id="line.14">    public static class Id implements Serializable{</a>
+<span class="sourceLineNo">010</span><a id="line.10">/**</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * Entità rappresentate una relazione "segui" tra un utente e una sezione</a>
+<span class="sourceLineNo">012</span><a id="line.12"> */</a>
+<span class="sourceLineNo">013</span><a id="line.13">@Entity</a>
+<span class="sourceLineNo">014</span><a id="line.14">public class Follow implements Serializable {</a>
 <span class="sourceLineNo">015</span><a id="line.15"></a>
-<span class="sourceLineNo">016</span><a id="line.16">        @Getter</a>
-<span class="sourceLineNo">017</span><a id="line.17">        @Column(name = "user_id", nullable = false)</a>
-<span class="sourceLineNo">018</span><a id="line.18">        protected int userId;</a>
-<span class="sourceLineNo">019</span><a id="line.19"></a>
-<span class="sourceLineNo">020</span><a id="line.20">        @Getter</a>
-<span class="sourceLineNo">021</span><a id="line.21">        @Column(name = "section_id", nullable = false)</a>
-<span class="sourceLineNo">022</span><a id="line.22">        protected int sectionId;</a>
-<span class="sourceLineNo">023</span><a id="line.23"></a>
-<span class="sourceLineNo">024</span><a id="line.24">        protected Id(){}</a>
-<span class="sourceLineNo">025</span><a id="line.25"></a>
-<span class="sourceLineNo">026</span><a id="line.26">        public Id(int userId, int sectionId){</a>
-<span class="sourceLineNo">027</span><a id="line.27">            this.userId = userId;</a>
-<span class="sourceLineNo">028</span><a id="line.28">            this.sectionId = sectionId;</a>
-<span class="sourceLineNo">029</span><a id="line.29">        }</a>
-<span class="sourceLineNo">030</span><a id="line.30"></a>
-<span class="sourceLineNo">031</span><a id="line.31">        @Override</a>
-<span class="sourceLineNo">032</span><a id="line.32">        public boolean equals(Object o) {</a>
-<span class="sourceLineNo">033</span><a id="line.33">            if (this == o) return true;</a>
-<span class="sourceLineNo">034</span><a id="line.34">            if (!(o instanceof Id)) return false;</a>
-<span class="sourceLineNo">035</span><a id="line.35">            Id id = (Id) o;</a>
-<span class="sourceLineNo">036</span><a id="line.36">            return userId == id.userId &amp;&amp; sectionId == id.sectionId;</a>
-<span class="sourceLineNo">037</span><a id="line.37">        }</a>
-<span class="sourceLineNo">038</span><a id="line.38"></a>
-<span class="sourceLineNo">039</span><a id="line.39">        @Override</a>
-<span class="sourceLineNo">040</span><a id="line.40">        public int hashCode() {</a>
-<span class="sourceLineNo">041</span><a id="line.41">            return Objects.hash(userId, sectionId);</a>
-<span class="sourceLineNo">042</span><a id="line.42">        }</a>
-<span class="sourceLineNo">043</span><a id="line.43">    }</a>
-<span class="sourceLineNo">044</span><a id="line.44"></a>
-<span class="sourceLineNo">045</span><a id="line.45">    @Getter</a>
-<span class="sourceLineNo">046</span><a id="line.46">    @EmbeddedId</a>
-<span class="sourceLineNo">047</span><a id="line.47">    protected Id id = new Id();</a>
-<span class="sourceLineNo">048</span><a id="line.48"></a>
-<span class="sourceLineNo">049</span><a id="line.49">    @Getter</a>
-<span class="sourceLineNo">050</span><a id="line.50">    @ManyToOne(optional = false) @MapsId("userId")</a>
-<span class="sourceLineNo">051</span><a id="line.51">    protected User user;</a>
-<span class="sourceLineNo">052</span><a id="line.52">    public void setUser(User user){</a>
-<span class="sourceLineNo">053</span><a id="line.53">        this.user = user;</a>
-<span class="sourceLineNo">054</span><a id="line.54">        this.id.userId = user.getId();</a>
-<span class="sourceLineNo">055</span><a id="line.55">    }</a>
-<span class="sourceLineNo">056</span><a id="line.56"></a>
-<span class="sourceLineNo">057</span><a id="line.57">    @Getter</a>
-<span class="sourceLineNo">058</span><a id="line.58">    @ManyToOne(optional = false) @MapsId("sectionId")</a>
-<span class="sourceLineNo">059</span><a id="line.59">    protected Section section;</a>
-<span class="sourceLineNo">060</span><a id="line.60">    public void setSection(Section section){</a>
-<span class="sourceLineNo">061</span><a id="line.61">        this.section = section;</a>
-<span class="sourceLineNo">062</span><a id="line.62">        this.id.sectionId = section.getId();</a>
-<span class="sourceLineNo">063</span><a id="line.63">    }</a>
-<span class="sourceLineNo">064</span><a id="line.64"></a>
-<span class="sourceLineNo">065</span><a id="line.65">    @Getter</a>
-<span class="sourceLineNo">066</span><a id="line.66">    @Column(nullable = false, updatable = false, insertable = false)</a>
-<span class="sourceLineNo">067</span><a id="line.67">    protected Instant followDate;</a>
-<span class="sourceLineNo">068</span><a id="line.68"></a>
-<span class="sourceLineNo">069</span><a id="line.69">    protected Follow(){}</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">    public Follow(User user, Section section){</a>
-<span class="sourceLineNo">072</span><a id="line.72">        this.user = user;</a>
-<span class="sourceLineNo">073</span><a id="line.73">        this.section = section;</a>
-<span class="sourceLineNo">074</span><a id="line.74">        this.id = new Id(user.getId(), section.getId());</a>
-<span class="sourceLineNo">075</span><a id="line.75">    }</a>
-<span class="sourceLineNo">076</span><a id="line.76"></a>
-<span class="sourceLineNo">077</span><a id="line.77"></a>
-<span class="sourceLineNo">078</span><a id="line.78">    @Override</a>
-<span class="sourceLineNo">079</span><a id="line.79">    public boolean equals(Object o) {</a>
-<span class="sourceLineNo">080</span><a id="line.80">        if (this == o) return true;</a>
-<span class="sourceLineNo">081</span><a id="line.81">        if (!(o instanceof Follow)) return false;</a>
-<span class="sourceLineNo">082</span><a id="line.82">        Follow follow = (Follow) o;</a>
-<span class="sourceLineNo">083</span><a id="line.83">        return id.equals(follow.id);</a>
-<span class="sourceLineNo">084</span><a id="line.84">    }</a>
-<span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">    @Override</a>
-<span class="sourceLineNo">087</span><a id="line.87">    public int hashCode() {</a>
-<span class="sourceLineNo">088</span><a id="line.88">        return Objects.hash(id);</a>
-<span class="sourceLineNo">089</span><a id="line.89">    }</a>
-<span class="sourceLineNo">090</span><a id="line.90">}</a>
+<span class="sourceLineNo">016</span><a id="line.16">    @Embeddable</a>
+<span class="sourceLineNo">017</span><a id="line.17">    public static class Id implements Serializable{</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">        @Getter</a>
+<span class="sourceLineNo">020</span><a id="line.20">        @Column(name = "user_id", nullable = false)</a>
+<span class="sourceLineNo">021</span><a id="line.21">        protected int userId;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">        @Getter</a>
+<span class="sourceLineNo">024</span><a id="line.24">        @Column(name = "section_id", nullable = false)</a>
+<span class="sourceLineNo">025</span><a id="line.25">        protected int sectionId;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">        protected Id(){}</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">        public Id(int userId, int sectionId){</a>
+<span class="sourceLineNo">030</span><a id="line.30">            this.userId = userId;</a>
+<span class="sourceLineNo">031</span><a id="line.31">            this.sectionId = sectionId;</a>
+<span class="sourceLineNo">032</span><a id="line.32">        }</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">        @Override</a>
+<span class="sourceLineNo">035</span><a id="line.35">        public boolean equals(Object o) {</a>
+<span class="sourceLineNo">036</span><a id="line.36">            if (this == o) return true;</a>
+<span class="sourceLineNo">037</span><a id="line.37">            if (!(o instanceof Id)) return false;</a>
+<span class="sourceLineNo">038</span><a id="line.38">            Id id = (Id) o;</a>
+<span class="sourceLineNo">039</span><a id="line.39">            return userId == id.userId &amp;&amp; sectionId == id.sectionId;</a>
+<span class="sourceLineNo">040</span><a id="line.40">        }</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">        @Override</a>
+<span class="sourceLineNo">043</span><a id="line.43">        public int hashCode() {</a>
+<span class="sourceLineNo">044</span><a id="line.44">            return Objects.hash(userId, sectionId);</a>
+<span class="sourceLineNo">045</span><a id="line.45">        }</a>
+<span class="sourceLineNo">046</span><a id="line.46">    }</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">    @Getter</a>
+<span class="sourceLineNo">049</span><a id="line.49">    @EmbeddedId</a>
+<span class="sourceLineNo">050</span><a id="line.50">    protected Id id = new Id();</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">    @Getter</a>
+<span class="sourceLineNo">053</span><a id="line.53">    @ManyToOne(optional = false) @MapsId("userId")</a>
+<span class="sourceLineNo">054</span><a id="line.54">    protected User user;</a>
+<span class="sourceLineNo">055</span><a id="line.55">    public void setUser(User user){</a>
+<span class="sourceLineNo">056</span><a id="line.56">        this.user = user;</a>
+<span class="sourceLineNo">057</span><a id="line.57">        this.id.userId = user.getId();</a>
+<span class="sourceLineNo">058</span><a id="line.58">    }</a>
+<span class="sourceLineNo">059</span><a id="line.59"></a>
+<span class="sourceLineNo">060</span><a id="line.60">    @Getter</a>
+<span class="sourceLineNo">061</span><a id="line.61">    @ManyToOne(optional = false) @MapsId("sectionId")</a>
+<span class="sourceLineNo">062</span><a id="line.62">    protected Section section;</a>
+<span class="sourceLineNo">063</span><a id="line.63">    public void setSection(Section section){</a>
+<span class="sourceLineNo">064</span><a id="line.64">        this.section = section;</a>
+<span class="sourceLineNo">065</span><a id="line.65">        this.id.sectionId = section.getId();</a>
+<span class="sourceLineNo">066</span><a id="line.66">    }</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">    @Getter</a>
+<span class="sourceLineNo">069</span><a id="line.69">    @Column(nullable = false, updatable = false, insertable = false)</a>
+<span class="sourceLineNo">070</span><a id="line.70">    protected Instant followDate;</a>
+<span class="sourceLineNo">071</span><a id="line.71"></a>
+<span class="sourceLineNo">072</span><a id="line.72">    protected Follow(){}</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">    public Follow(User user, Section section){</a>
+<span class="sourceLineNo">075</span><a id="line.75">        this.user = user;</a>
+<span class="sourceLineNo">076</span><a id="line.76">        this.section = section;</a>
+<span class="sourceLineNo">077</span><a id="line.77">        this.id = new Id(user.getId(), section.getId());</a>
+<span class="sourceLineNo">078</span><a id="line.78">    }</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">    @Override</a>
+<span class="sourceLineNo">082</span><a id="line.82">    public boolean equals(Object o) {</a>
+<span class="sourceLineNo">083</span><a id="line.83">        if (this == o) return true;</a>
+<span class="sourceLineNo">084</span><a id="line.84">        if (!(o instanceof Follow)) return false;</a>
+<span class="sourceLineNo">085</span><a id="line.85">        Follow follow = (Follow) o;</a>
+<span class="sourceLineNo">086</span><a id="line.86">        return id.equals(follow.id);</a>
+<span class="sourceLineNo">087</span><a id="line.87">    }</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">    @Override</a>
+<span class="sourceLineNo">090</span><a id="line.90">    public int hashCode() {</a>
+<span class="sourceLineNo">091</span><a id="line.91">        return Objects.hash(id);</a>
+<span class="sourceLineNo">092</span><a id="line.92">    }</a>
+<span class="sourceLineNo">093</span><a id="line.93">}</a>
 
 
 

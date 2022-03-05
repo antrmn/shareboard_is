@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(&quot;*&quot;)
-<span class="nc" id="L12">public class EncodingFilter extends HttpFilter {</span>
+<span class="nc" id="L12">class EncodingFilter extends HttpFilter {</span>
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
 <span class="nc" id="L15">        req.setCharacterEncoding(&quot;UTF-8&quot;);</span>

@@ -5,24 +5,35 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
-<span class="nc" id="L8">public final class DateUtils {</span>
+/**
+ * Classe di utilità contenente funzioni per la stampa di date nella view
+ */
+<span class="nc" id="L11">public final class DateUtils {</span>
+    /**
+     * &lt;p&gt;Questa funzione restituisce un messaggio indicante il tempo trascorso tra il tempo di invocazione del metodo al tempo
+     * passato come parametro.&lt;/p&gt;
+     * &lt;p&gt;Ad esempio, se il tempo passato come parametro corrisponde al 05/03/2022 16:00:00Z e il metodo è stato invocato alle
+     * 16:00:05 dello stesso giorno, il metodo restituirà una stringa contenente &quot;5 secondi fa&quot;&lt;/p&gt;.
+     * @param then Il tempo di riferimento
+     * @return Il messaggio &quot;x secondi/minuti/ore/giorni/mesi/anni fa&quot;
+     */
     public static String printTimeSince(Instant then){
         long n;
-<span class="fc bfc" id="L11" title="All 2 branches covered.">        if ((n = Math.abs(Instant.now().until(then, ChronoUnit.SECONDS))) &lt; 60){</span>
-<span class="fc bfc" id="L12" title="All 2 branches covered.">            return n == 1 ? n + &quot; secondo&quot; : n + &quot; secondi&quot;;</span>
-<span class="fc bfc" id="L13" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.MINUTES))) &lt; 60){</span>
-<span class="fc bfc" id="L14" title="All 2 branches covered.">            return n == 1 ? n + &quot; minuto&quot; : n + &quot; minuti&quot;;</span>
-<span class="fc bfc" id="L15" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.HOURS))) &lt; 24){</span>
-<span class="fc bfc" id="L16" title="All 2 branches covered.">            return n == 1 ? n + &quot; ora&quot; : n + &quot; ore&quot;;</span>
-<span class="fc bfc" id="L17" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 30) {</span>
-<span class="fc bfc" id="L18" title="All 2 branches covered.">            return n == 1 ? n + &quot; giorno&quot; : n + &quot; giorni&quot;;</span>
-<span class="fc bfc" id="L19" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 365) {</span>
-<span class="fc" id="L20">            n /= 30;</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">            return n == 1 ? n + &quot; mese&quot; : n + &quot; mesi&quot;;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if ((n = Math.abs(Instant.now().until(then, ChronoUnit.SECONDS))) &lt; 60){</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            return n == 1 ? n + &quot; secondo&quot; : n + &quot; secondi&quot;;</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.MINUTES))) &lt; 60){</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            return n == 1 ? n + &quot; minuto&quot; : n + &quot; minuti&quot;;</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.HOURS))) &lt; 24){</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            return n == 1 ? n + &quot; ora&quot; : n + &quot; ore&quot;;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 30) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            return n == 1 ? n + &quot; giorno&quot; : n + &quot; giorni&quot;;</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        } else if ((n = Math.abs(Instant.now().until(then, ChronoUnit.DAYS))) &lt; 365) {</span>
+<span class="fc" id="L31">            n /= 30;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            return n == 1 ? n + &quot; mese&quot; : n + &quot; mesi&quot;;</span>
         } else {
-<span class="fc" id="L23">            int thenYear = then.atZone(ZoneId.systemDefault()).toLocalDate().getYear();</span>
-<span class="fc" id="L24">            n = Math.abs(thenYear - LocalDate.now().getYear());</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">            return n == 1 ? n + &quot; anno&quot; : n + &quot; anni&quot;;</span>
+<span class="fc" id="L34">            int thenYear = then.atZone(ZoneId.systemDefault()).toLocalDate().getYear();</span>
+<span class="fc" id="L35">            n = Math.abs(thenYear - LocalDate.now().getYear());</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            return n == 1 ? n + &quot; anno&quot; : n + &quot; anni&quot;;</span>
         }
     }
 }

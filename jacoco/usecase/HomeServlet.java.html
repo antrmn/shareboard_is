@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(&quot;/home&quot;)
-<span class="fc" id="L12">public class HomeServlet extends InterceptableServlet {</span>
+<span class="fc" id="L12">class HomeServlet extends InterceptableServlet {</span>
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 <span class="fc" id="L15">        req.getRequestDispatcher(&quot;/WEB-INF/views/home.jsp&quot;).forward(req,resp);</span>

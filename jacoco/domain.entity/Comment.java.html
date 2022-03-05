@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Map;
 
+/**
+ * Entità rappresentante il commento ad un post
+ */
 @Entity
 public class Comment implements Serializable {
 
@@ -23,6 +26,9 @@ public class Comment implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     protected User author;
 
+    /**
+     * &lt;p&gt;Riferimento al commento padre (o &lt;pre&gt;null&lt;/pre&gt; se il commento in questione è un commento radice&lt;/p&gt;
+     */
     @Setter @Getter
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     protected Comment parentComment;
@@ -39,6 +45,10 @@ public class Comment implements Serializable {
     @Column(name=&quot;votes&quot;, insertable = false, updatable = false)
     protected Integer votesCount;
 
+    /**
+     * &lt;p&gt;Il percorso materializzato del commento, contenente tutti gli ID (in base 36) dei commenti che, da
+     * sinistra verso destra, costituiscono il percorso per arrivare al commento in questione a partire dalla radice.&lt;/p&gt;
+     */
     @Getter
     @Column(insertable = false, updatable = false)
     protected String path;
@@ -46,23 +56,29 @@ public class Comment implements Serializable {
     @OneToMany(mappedBy=&quot;comment&quot;)
     @MapKeyJoinColumn(name=&quot;user_id&quot;, updatable = false, insertable = false)
     protected Map&lt;User, CommentVote&gt; votes;
+
+    /**
+     * Ottieni il voto di un utente al commento in questione (o &lt;pre&gt;null&lt;/pre&gt; se il voto non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link CommentVote}
+     */
     public CommentVote getVote(User user){
-<span class="fc" id="L50">        return votes.get(user);</span>
+<span class="fc" id="L66">        return votes.get(user);</span>
     }
 
-<span class="fc" id="L53">    public Comment(){}</span>
+<span class="fc" id="L69">    public Comment(){}</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (this == o) return true;</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (!(o instanceof Comment)) return false;</span>
-<span class="fc" id="L59">        Comment comment = (Comment) o;</span>
-<span class="fc" id="L60">        return id.equals(comment.id);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (!(o instanceof Comment)) return false;</span>
+<span class="fc" id="L75">        Comment comment = (Comment) o;</span>
+<span class="fc" id="L76">        return id.equals(comment.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L65">        return getClass().hashCode();</span>
+<span class="fc" id="L81">        return getClass().hashCode();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

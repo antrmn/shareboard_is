@@ -5,15 +5,15 @@ import domain.entity.Section;
 import domain.entity.User;
 import domain.repository.GenericRepository;
 import domain.repository.PostRepository;
+import domain.validation.PostExists;
+import domain.validation.SectionExists;
 import media.MediaRepository;
 import media.ReadLimitExceededException;
-import media.validator.Image;
+import media.validation.Image;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.AuthorizationException;
 import usecase.auth.CurrentUser;
 import usecase.auth.DenyBannedUsers;
-import usecase.post.validator.PostExists;
-import usecase.section.validator.SectionExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

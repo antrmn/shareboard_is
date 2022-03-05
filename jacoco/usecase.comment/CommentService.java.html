@@ -6,12 +6,12 @@ import domain.entity.Post;
 import domain.entity.User;
 import domain.repository.CommentRepository;
 import domain.repository.GenericRepository;
+import domain.validation.CommentExists;
+import domain.validation.PostExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.AuthorizationException;
 import usecase.auth.CurrentUser;
 import usecase.auth.DenyBannedUsers;
-import usecase.comment.validator.CommentExists;
-import usecase.post.validator.PostExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

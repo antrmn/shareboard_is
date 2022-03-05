@@ -16,7 +16,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
 @WebServlet(&quot;/unfollow&quot;)
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L19">public class UnfollowServlet extends InterceptableServlet {</span>
+<span class="fc" id="L19">class UnfollowServlet extends InterceptableServlet {</span>
     @Inject private FollowService service;
 
     @Override

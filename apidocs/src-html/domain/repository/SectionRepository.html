@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Source code</title>
-<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../javadocstyle.css" title="Style">
 </head>
 <body>
 <main role="main">
@@ -18,32 +18,35 @@
 <span class="sourceLineNo">009</span><a id="line.9">import java.util.List;</a>
 <span class="sourceLineNo">010</span><a id="line.10"></a>
 <span class="sourceLineNo">011</span><a id="line.11"></a>
-<span class="sourceLineNo">012</span><a id="line.12">public class SectionRepository implements Serializable {</a>
-<span class="sourceLineNo">013</span><a id="line.13"></a>
-<span class="sourceLineNo">014</span><a id="line.14">    @PersistenceContext</a>
-<span class="sourceLineNo">015</span><a id="line.15">    protected EntityManager em;</a>
+<span class="sourceLineNo">012</span><a id="line.12">/**</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * Classe che incapsula la logica per il recupero di entità di tipo {@link Section}</a>
+<span class="sourceLineNo">014</span><a id="line.14"> */</a>
+<span class="sourceLineNo">015</span><a id="line.15">public class SectionRepository implements Serializable {</a>
 <span class="sourceLineNo">016</span><a id="line.16"></a>
-<span class="sourceLineNo">017</span><a id="line.17">    /**</a>
-<span class="sourceLineNo">018</span><a id="line.18">     * Restituisce una lista con i dati delle sezioni con più follows</a>
-<span class="sourceLineNo">019</span><a id="line.19">     * @return lista di entità Section delle sezioni con più follows</a>
-<span class="sourceLineNo">020</span><a id="line.20">     */</a>
-<span class="sourceLineNo">021</span><a id="line.21">    public List&lt;Section&gt; getMostFollowedSections(){</a>
-<span class="sourceLineNo">022</span><a id="line.22">        return em.createQuery("from Section s order by follows.size desc", Section.class).getResultList();</a>
-<span class="sourceLineNo">023</span><a id="line.23">    }</a>
-<span class="sourceLineNo">024</span><a id="line.24"></a>
-<span class="sourceLineNo">025</span><a id="line.25">    /**</a>
-<span class="sourceLineNo">026</span><a id="line.26">     * Restituisce una lista con i dati delle sezioni con più follows in un dato arco di tempo</a>
-<span class="sourceLineNo">027</span><a id="line.27">     * @param after data dopo la quale contare i follows delle sezioni</a>
-<span class="sourceLineNo">028</span><a id="line.28">     * @return lista di entità Section delle sezioni con più follows</a>
-<span class="sourceLineNo">029</span><a id="line.29">     */</a>
-<span class="sourceLineNo">030</span><a id="line.30">    public List&lt;Section&gt; getMostFollowedSections(Instant after){</a>
-<span class="sourceLineNo">031</span><a id="line.31">        return em.createQuery(</a>
-<span class="sourceLineNo">032</span><a id="line.32">                "select s from Section s right join s.follows f where f.followDate &gt;= :after " +</a>
-<span class="sourceLineNo">033</span><a id="line.33">                "group by s " +</a>
-<span class="sourceLineNo">034</span><a id="line.34">                "order by count(f) desc", Section.class)</a>
-<span class="sourceLineNo">035</span><a id="line.35">                .setParameter("after",after).getResultList();</a>
-<span class="sourceLineNo">036</span><a id="line.36">    }</a>
-<span class="sourceLineNo">037</span><a id="line.37">}</a>
+<span class="sourceLineNo">017</span><a id="line.17">    @PersistenceContext</a>
+<span class="sourceLineNo">018</span><a id="line.18">    protected EntityManager em;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">    /**</a>
+<span class="sourceLineNo">021</span><a id="line.21">     * Restituisce una lista con i dati delle sezioni con più follows</a>
+<span class="sourceLineNo">022</span><a id="line.22">     * @return lista di entità Section delle sezioni con più follows</a>
+<span class="sourceLineNo">023</span><a id="line.23">     */</a>
+<span class="sourceLineNo">024</span><a id="line.24">    public List&lt;Section&gt; getMostFollowedSections(){</a>
+<span class="sourceLineNo">025</span><a id="line.25">        return em.createQuery("from Section s order by follows.size desc", Section.class).getResultList();</a>
+<span class="sourceLineNo">026</span><a id="line.26">    }</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">    /**</a>
+<span class="sourceLineNo">029</span><a id="line.29">     * Restituisce una lista con i dati delle sezioni con più follows in un dato arco di tempo</a>
+<span class="sourceLineNo">030</span><a id="line.30">     * @param after data dopo la quale contare i follows delle sezioni</a>
+<span class="sourceLineNo">031</span><a id="line.31">     * @return lista di entità Section delle sezioni con più follows</a>
+<span class="sourceLineNo">032</span><a id="line.32">     */</a>
+<span class="sourceLineNo">033</span><a id="line.33">    public List&lt;Section&gt; getMostFollowedSections(Instant after){</a>
+<span class="sourceLineNo">034</span><a id="line.34">        return em.createQuery(</a>
+<span class="sourceLineNo">035</span><a id="line.35">                "select s from Section s right join s.follows f where f.followDate &gt;= :after " +</a>
+<span class="sourceLineNo">036</span><a id="line.36">                "group by s " +</a>
+<span class="sourceLineNo">037</span><a id="line.37">                "order by count(f) desc", Section.class)</a>
+<span class="sourceLineNo">038</span><a id="line.38">                .setParameter("after",after).getResultList();</a>
+<span class="sourceLineNo">039</span><a id="line.39">    }</a>
+<span class="sourceLineNo">040</span><a id="line.40">}</a>
 
 
 

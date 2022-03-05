@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2022</copyright>
     <item>
-      <title>File: 120,
+      <title>File: 126,
              Errors: 0,
-             Warnings: 3171,
+             Warnings: 3233,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -46,13 +46,13 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueEmailValidator.java">usecase/user/validator/UniqueEmailValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueEmail.java">domain/validation/UniqueEmail.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  7
                 </td>
                 <td>
                   0
@@ -81,6 +81,48 @@ under the License.
                 </td>
                 <td>
                   42
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.PasswordFormat.java">domain/validation/PasswordFormat.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.error.package-info.java">common/http/error/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.validation.ImageValidator.java">media/validation/ImageValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
                 </td>
                 <td>
                   0
@@ -136,7 +178,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  17
                 </td>
                 <td>
                   0
@@ -150,7 +192,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  17
+                  18
                 </td>
                 <td>
                   0
@@ -158,13 +200,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.section.validator.SectionExists.java">usecase/section/validator/SectionExists.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueEmailValidator.java">domain/validation/UniqueEmailValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.package-info.java">common/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -214,20 +270,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.comment.validator.CommentExistsValidator.java">usecase/comment/validator/CommentExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.post.PostSearchForm.java">usecase/post/PostSearchForm.java</a>
                 </td>
                 <td>
@@ -256,13 +298,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UserExistsByNameValidator.java">usecase/user/validator/UserExistsByNameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.SectionExists.java">domain/validation/SectionExists.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  9
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.EmailFormat.java">domain/validation/EmailFormat.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
                 </td>
                 <td>
                   0
@@ -291,20 +347,6 @@ under the License.
                 </td>
                 <td>
                   18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#usecase.ban.validator.BanExistsValidator.java">usecase/ban/validator/BanExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
                 </td>
                 <td>
                   0
@@ -354,20 +396,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UserExists.java">usecase/user/validator/UserExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.AdminServlet.java">usecase/AdminServlet.java</a>
                 </td>
                 <td>
@@ -396,13 +424,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.post.LoadPostsServlet.java">usecase/post/LoadPostsServlet.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueSectionNameValidator.java">domain/validation/UniqueSectionNameValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  34
+                  11
                 </td>
                 <td>
                   0
@@ -410,13 +438,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.ban.validator.BanExists.java">usecase/ban/validator/BanExists.java</a>
+                  <a href="${project.url}/checkstyle.html#usecase.post.LoadPostsServlet.java">usecase/post/LoadPostsServlet.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  34
                 </td>
                 <td>
                   0
@@ -452,13 +480,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.section.validator.SectionExistsByNameValidator.java">usecase/section/validator/SectionExistsByNameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#media.package-info.java">media/package-info.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  1
                 </td>
                 <td>
                   0
@@ -472,7 +500,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  37
+                  43
                 </td>
                 <td>
                   0
@@ -542,7 +570,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  62
+                  63
                 </td>
                 <td>
                   0
@@ -556,7 +584,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  60
+                  59
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#media.validation.package-info.java">media/validation/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -578,13 +620,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#media.validator.Image.java">media/validator/Image.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.SectionExistsByIdValidator.java">domain/validation/SectionExistsByIdValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  11
                 </td>
                 <td>
                   0
@@ -648,13 +690,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.section.validator.UniqueSectionNameValidator.java">usecase/section/validator/UniqueSectionNameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UsersExistsByIdValidator.java">domain/validation/UsersExistsByIdValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  9
                 </td>
                 <td>
                   0
@@ -710,7 +752,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  2
+                  8
                 </td>
                 <td>
                   0
@@ -724,7 +766,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  63
+                  64
                 </td>
                 <td>
                   0
@@ -738,7 +780,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  172
+                  173
                 </td>
                 <td>
                   0
@@ -780,7 +822,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  20
+                  21
                 </td>
                 <td>
                   0
@@ -808,7 +850,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  37
+                  38
                 </td>
                 <td>
                   0
@@ -816,13 +858,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.EmailFormat.java">usecase/user/validator/EmailFormat.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueUsername.java">domain/validation/UniqueUsername.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  17
+                  7
                 </td>
                 <td>
                   0
@@ -844,13 +886,41 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.post.validator.PostExistsValidator.java">usecase/post/validator/PostExistsValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#media.validation.Image.java">media/validation/Image.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.BanExistsValidator.java">domain/validation/BanExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.package-info.java">domain/validation/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -970,20 +1040,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UsernameFormat.java">usecase/user/validator/UsernameFormat.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.post.NewPostServlet.java">usecase/post/NewPostServlet.java</a>
                 </td>
                 <td>
@@ -998,13 +1054,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.post.validator.PostExists.java">usecase/post/validator/PostExists.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UserExistsByNameValidator.java">domain/validation/UserExistsByNameValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  9
                 </td>
                 <td>
                   0
@@ -1032,7 +1088,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  48
+                  50
                 </td>
                 <td>
                   0
@@ -1068,6 +1124,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueSection.java">domain/validation/UniqueSection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#media.ReadLimitExceededException.java">media/ReadLimitExceededException.java</a>
                 </td>
                 <td>
@@ -1082,27 +1152,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.comment.validator.CommentExists.java">usecase/comment/validator/CommentExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#domain.repository.UserRepository.java">domain/repository/UserRepository.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  7
+                  8
                 </td>
                 <td>
                   0
@@ -1116,7 +1172,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  24
+                  25
                 </td>
                 <td>
                   0
@@ -1144,7 +1200,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  15
+                  16
                 </td>
                 <td>
                   0
@@ -1158,7 +1214,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  34
+                  35
                 </td>
                 <td>
                   0
@@ -1173,20 +1229,6 @@ under the License.
                 </td>
                 <td>
                   18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueUsernameValidator.java">usecase/user/validator/UniqueUsernameValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
                 </td>
                 <td>
                   0
@@ -1214,7 +1256,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  62
+                  63
                 </td>
                 <td>
                   0
@@ -1229,6 +1271,20 @@ under the License.
                 </td>
                 <td>
                   100
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.SectionExistsByNameValidator.java">domain/validation/SectionExistsByNameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
                 </td>
                 <td>
                   0
@@ -1257,20 +1313,6 @@ under the License.
                 </td>
                 <td>
                   103
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueEmail.java">usecase/user/validator/UniqueEmail.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
                 </td>
                 <td>
                   0
@@ -1320,20 +1362,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UniqueUsername.java">usecase/user/validator/UniqueUsername.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.auth.Pbkdf2PasswordHash.java">usecase/auth/Pbkdf2PasswordHash.java</a>
                 </td>
                 <td>
@@ -1341,20 +1369,6 @@ under the License.
                 </td>
                 <td>
                   60
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#usecase.section.validator.SectionExistsByIdValidator.java">usecase/section/validator/SectionExistsByIdValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
                 </td>
                 <td>
                   0
@@ -1382,7 +1396,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  74
+                  75
                 </td>
                 <td>
                   0
@@ -1397,6 +1411,20 @@ under the License.
                 </td>
                 <td>
                   0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.CommentExistsValidator.java">domain/validation/CommentExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
                 </td>
                 <td>
                   0
@@ -1446,6 +1474,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.PostExistsValidator.java">domain/validation/PostExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.section.SectionPage.java">usecase/section/SectionPage.java</a>
                 </td>
                 <td>
@@ -1453,6 +1495,20 @@ under the License.
                 </td>
                 <td>
                   8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.http.package-info.java">common/http/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -1530,13 +1586,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#common.DateUtils.java">common/DateUtils.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UsernameFormat.java">domain/validation/UsernameFormat.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  24
+                  11
                 </td>
                 <td>
                   0
@@ -1544,13 +1600,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#media.validator.ImageValidator.java">media/validator/ImageValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UserExists.java">domain/validation/UserExists.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  16
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#common.DateUtils.java">common/DateUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
                 </td>
                 <td>
                   0
@@ -1586,13 +1656,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.PasswordFormat.java">usecase/user/validator/PasswordFormat.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.PostExists.java">domain/validation/PostExists.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  10
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.BanExists.java">domain/validation/BanExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
                 <td>
                   0
@@ -1621,6 +1705,20 @@ under the License.
                 </td>
                 <td>
                   53
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueUsernameValidator.java">domain/validation/UniqueUsernameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
                 </td>
                 <td>
                   0
@@ -1670,13 +1768,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#usecase.section.validator.UniqueSection.java">usecase/section/validator/UniqueSection.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.entity.Section.java">domain/entity/Section.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  37
                 </td>
                 <td>
                   0
@@ -1684,13 +1782,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.Section.java">domain/entity/Section.java</a>
+                  <a href="${project.url}/checkstyle.html#domain.validation.CommentExists.java">domain/validation/CommentExists.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  36
+                  7
                 </td>
                 <td>
                   0
@@ -1705,20 +1803,6 @@ under the License.
                 </td>
                 <td>
                   15
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#usecase.user.validator.UsersExistsByIdValidator.java">usecase/user/validator/UsersExistsByIdValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
                 </td>
                 <td>
                   0
