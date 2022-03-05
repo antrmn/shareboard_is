@@ -39,9 +39,20 @@ public class Section implements Serializable {
     @MapKeyJoinColumn(name="user_id", updatable = false, insertable = false)
     @LazyCollection(LazyCollectionOption.EXTRA)
     protected Map<User, Follow> follows;
+
+    /**
+     * Ottieni un'istanza di <pre>Follow</pre> tra la sezione in questione e l'utente specificato (o <pre>null</pre> se tale istanza non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link Follow}
+     */
     public Follow getFollow(User user){
         return follows.get(user);
     }
+
+    /**
+     * Ottieni il numero di seguaci
+     * @return Il numero di seguaci alla sezione in questione
+     */
     public int getFollowCount(){
         return follows.size();
     }

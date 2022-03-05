@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 @WebServlet("/admin/editsection")
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
-public class EditSectionServlet extends InterceptableServlet {
+class EditSectionServlet extends InterceptableServlet {
     //Funzionalità disabilitata
 
     @Override

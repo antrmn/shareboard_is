@@ -1,4 +1,4 @@
-package usecase.user.validator;
+package domain.validation;
 
 import domain.repository.UserRepository;
 

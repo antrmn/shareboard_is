@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet("/post")
-public class PostServlet extends InterceptableServlet {
+class PostServlet extends InterceptableServlet {
 
     @Inject private PostService postService;
     @Inject private CommentService service;

@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Entità rappresentante un post
+ */
 @Entity
 @DynamicUpdate
 public class Post implements Serializable {
@@ -60,6 +63,12 @@ public class Post implements Serializable {
     @OneToMany(mappedBy="post")
     @MapKeyJoinColumn(name="user_id", updatable = false, insertable = false)
     protected Map<User, PostVote> votes = new HashMap<>();
+
+    /**
+     * Ottieni il voto di un utente al post in questione (o <pre>null</pre> se il voto non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link PostVote}
+     */
     public PostVote getVote(User user){
         return votes.get(user);
     }

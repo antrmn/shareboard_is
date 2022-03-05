@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
+/**
+ * Entità rappresentate il voto ad un commento
+ */
 @Entity
 public class CommentVote implements Serializable {
 

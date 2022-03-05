@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/s")
-public class SectionServlet extends InterceptableServlet {
+class SectionServlet extends InterceptableServlet {
 
     @Inject private SectionService service;
 

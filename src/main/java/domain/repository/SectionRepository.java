@@ -9,6 +9,9 @@ import java.time.Instant;
 import java.util.List;
 
 
+/**
+ * Classe che incapsula la logica per il recupero di entità di tipo {@link Section}
+ */
 public class SectionRepository implements Serializable {
 
     @PersistenceContext

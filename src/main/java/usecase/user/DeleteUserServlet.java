@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet("/admin/deleteuser")
 @AuthorizationConstraints(ADMINS_ONLY)
-public class DeleteUserServlet extends InterceptableServlet {
+class DeleteUserServlet extends InterceptableServlet {
     @Inject private UserService service;
 
     @Override

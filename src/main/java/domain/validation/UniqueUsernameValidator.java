@@ -1,4 +1,4 @@
-package usecase.user.validator;
+package domain.validation;
 
 import domain.entity.User;
 import domain.repository.GenericRepository;

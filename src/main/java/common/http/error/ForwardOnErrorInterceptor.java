@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
+/**
+ * @see ForwardOnError
+ */
 public class ForwardOnErrorInterceptor extends ServletInterceptor<ForwardOnError> {
 
     private String page;

@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet("/admin/showusers")
 @AuthorizationConstraints(ADMINS_ONLY)
-public class ShowUsersServlet extends InterceptableServlet {
+class ShowUsersServlet extends InterceptableServlet {
 
     @Inject private UserService service;
 

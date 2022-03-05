@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Entità rappresentate il voto ad un commento
+ */
 @Entity
 public class PostVote implements Serializable {
 

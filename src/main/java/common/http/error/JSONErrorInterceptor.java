@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
 
 import static javax.servlet.http.HttpServletResponse.*;
 
+/**
+ * @see JSONError
+ */
 public class JSONErrorInterceptor extends ServletInterceptor<JSONError> {
 
     @Override

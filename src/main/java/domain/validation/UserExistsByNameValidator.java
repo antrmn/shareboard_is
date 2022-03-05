@@ -1,4 +1,4 @@
-package usecase.user.validator;
+package domain.validation;
 
 import domain.entity.User;
 import domain.repository.GenericRepository;
@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UsersExistsByIdValidator implements ConstraintValidator<UserExists, Integer> {
+public class UserExistsByNameValidator implements ConstraintValidator<UserExists, String> {
     @Inject GenericRepository genericRepository;
 
 
@@ -17,8 +17,8 @@ public class UsersExistsByIdValidator implements ConstraintValidator<UserExists,
     }
 
     @Override
-    public boolean isValid(Integer id, ConstraintValidatorContext constraintValidatorContext) {
-        if(id == null) return true;
-        return genericRepository.findById(User.class, id) != null;
+    public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
+        if(name == null) return true;
+        return genericRepository.findByNaturalId(User.class,name) != null;
     }
 }

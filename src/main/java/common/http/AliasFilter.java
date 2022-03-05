@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @WebFilter("*")
-public class AliasFilter extends HttpFilter {
+class AliasFilter extends HttpFilter {
     @Inject CurrentUser currentUser;
 
     @Override

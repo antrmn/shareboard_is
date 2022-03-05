@@ -1,18 +1,20 @@
-package usecase.user.validator;
+package domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
-@Size(min=3, max=255)
+/**
+ * Il nome di sezione deve essere univoco
+ * @see UniqueSectionNameValidator
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = UniqueSectionNameValidator.class)
 @Documented
-public @interface PasswordFormat {
-    String message() default "Formato password non valido";
+public @interface UniqueSection {
+    String message() default "Section already exists";
 
     Class<?>[] groups() default {};
 

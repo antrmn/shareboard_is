@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
 @WebServlet("/editcomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-public class EditCommentServlet extends InterceptableServlet {
+class EditCommentServlet extends InterceptableServlet {
     @Inject private CommentService service;
 
     @Override

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user")
-public class UserServlet extends InterceptableServlet {
+class UserServlet extends InterceptableServlet {
 
     @Inject
     private UserService service;

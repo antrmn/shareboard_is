@@ -3,11 +3,11 @@ package usecase.user;
 import com.sun.istack.NotNull;
 import domain.entity.User;
 import domain.repository.GenericRepository;
+import domain.validation.*;
 import media.MediaRepository;
 import media.ReadLimitExceededException;
 import usecase.auth.*;
 import usecase.auth.Pbkdf2PasswordHash.HashedPassword;
-import usecase.user.validator.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

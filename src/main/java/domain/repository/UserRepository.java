@@ -7,6 +7,9 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 
 
+/**
+ * Classe che incapsula la logica per il recupero di entità di tipo {@link User}
+ */
 public class UserRepository implements Serializable {
 
     @PersistenceContext

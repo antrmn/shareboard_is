@@ -1,4 +1,4 @@
-package usecase.section.validator;
+package domain.validation;
 
 import domain.entity.Section;
 import domain.repository.GenericRepository;
@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class SectionExistsByNameValidator implements ConstraintValidator<SectionExists, String> {
+public class SectionExistsByIdValidator implements ConstraintValidator<SectionExists, Integer> {
     @Inject GenericRepository genericRepository;
 
     @Override
@@ -16,8 +16,8 @@ public class SectionExistsByNameValidator implements ConstraintValidator<Section
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if(value==null) return true;
-        return (genericRepository.findByNaturalId(Section.class,value) != null);
+    public boolean isValid(Integer id, ConstraintValidatorContext context) {
+        if(id==null) return true;
+        return (genericRepository.findById(Section.class, id) != null);
     }
 }

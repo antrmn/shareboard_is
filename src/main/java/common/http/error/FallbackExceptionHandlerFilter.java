@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import static javax.servlet.http.HttpServletResponse.*;
 
 @WebFilter("*")
-public class FallbackExceptionHandlerFilter extends HttpFilter {
+class FallbackExceptionHandlerFilter extends HttpFilter {
     //low priority  todo: fare in modo che tutte le eccezioni non gestite vengano loggate da catalina
 
     @Override

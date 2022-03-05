@@ -4,9 +4,9 @@ import domain.entity.Follow;
 import domain.entity.Section;
 import domain.entity.User;
 import domain.repository.GenericRepository;
+import domain.validation.SectionExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.CurrentUser;
-import usecase.section.validator.SectionExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

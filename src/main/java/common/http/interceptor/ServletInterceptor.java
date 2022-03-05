@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
  * <ul>
  *     <li>Estendere questa classe (Specificando l'annotazione a cui la nuova sottoclasse sarà associata)</li>
  *     <li>Definire il comportamento dell'interceptor sovrascrivendo i metodi {@link ServletInterceptor#handle(HttpServletRequest, HttpServletResponse, HttpServletBiConsumer)}
- *     e {@link this#init(Annotation)}</li>
+ *     e {@link ServletInterceptor#init(Annotation)}</li>
  * </ul>
  *
  * @param <A> Il tipo di annotazione a cui l'interceptor sarà associato

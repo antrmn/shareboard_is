@@ -1,9 +1,13 @@
-package usecase.user.validator;
+package domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+/**
+ * L'email deve essere univoca
+ * @see UniqueEmailValidator
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,20 +1,21 @@
-package usecase.user.validator;
+package domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
-@Pattern(regexp = "^[\\w\\-]+$")
-@Size(min=3, max=30)
+
+/**
+ * L'identificativo deve corrispondere a un ban esistente
+ * @see BanExistsValidator
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = BanExistsValidator.class)
 @Documented
-public @interface UsernameFormat {
-    String message() default "Formato username non valido";
+public @interface BanExists {
+    String message() default "Ban must exist";
 
     Class<?>[] groups() default {};
 
