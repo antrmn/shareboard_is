@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 
 
+/**
+ * Classe che incapsula la logica per il recupero di entità di tipo {@link Comment}
+ */
 public class CommentRepository implements Serializable {
 
     @PersistenceContext

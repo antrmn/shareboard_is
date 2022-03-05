@@ -1,9 +1,14 @@
-package usecase.section.validator;
+package domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+/**
+ * L'identificativo deve corrispondere a una sezione esistente
+ * @see SectionExistsByIdValidator
+ * @see SectionExistsByNameValidator
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)

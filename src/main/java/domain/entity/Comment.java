@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Map;
 
+/**
+ * Entità rappresentante il commento ad un post
+ */
 @Entity
 public class Comment implements Serializable {
 
@@ -23,6 +26,9 @@ public class Comment implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     protected User author;
 
+    /**
+     * <p>Riferimento al commento padre (o <pre>null</pre> se il commento in questione è un commento radice</p>
+     */
     @Setter @Getter
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     protected Comment parentComment;
@@ -39,6 +45,10 @@ public class Comment implements Serializable {
     @Column(name="votes", insertable = false, updatable = false)
     protected Integer votesCount;
 
+    /**
+     * <p>Il percorso materializzato del commento, contenente tutti gli ID (in base 36) dei commenti che, da
+     * sinistra verso destra, costituiscono il percorso per arrivare al commento in questione a partire dalla radice.</p>
+     */
     @Getter
     @Column(insertable = false, updatable = false)
     protected String path;
@@ -46,6 +56,12 @@ public class Comment implements Serializable {
     @OneToMany(mappedBy="comment")
     @MapKeyJoinColumn(name="user_id", updatable = false, insertable = false)
     protected Map<User, CommentVote> votes;
+
+    /**
+     * Ottieni il voto di un utente al commento in questione (o <pre>null</pre> se il voto non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link CommentVote}
+     */
     public CommentVote getVote(User user){
         return votes.get(user);
     }

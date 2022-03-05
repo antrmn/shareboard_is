@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+/**
+ * Entità rappresentate una relazione "segui" tra un utente e una sezione
+ */
 @Entity
 public class Follow implements Serializable {
 

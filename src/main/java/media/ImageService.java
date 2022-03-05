@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
+/**
+ * Classe contenente la logica per il recupero di immagini da unità persistenti
+ */
 @ApplicationScoped
 public class ImageService {
     private MediaRepository mediaRepository;

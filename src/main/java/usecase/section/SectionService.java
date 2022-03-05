@@ -4,13 +4,13 @@ import domain.entity.Section;
 import domain.entity.User;
 import domain.repository.GenericRepository;
 import domain.repository.SectionRepository;
+import domain.validation.SectionExists;
+import domain.validation.UniqueSection;
 import media.MediaRepository;
 import media.ReadLimitExceededException;
-import media.validator.Image;
+import media.validation.Image;
 import usecase.auth.AdminsOnly;
 import usecase.auth.CurrentUser;
-import usecase.section.validator.SectionExists;
-import usecase.section.validator.UniqueSection;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;

@@ -2,10 +2,10 @@ package usecase.vote;
 
 import domain.entity.*;
 import domain.repository.GenericRepository;
+import domain.validation.CommentExists;
+import domain.validation.PostExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.CurrentUser;
-import usecase.comment.validator.CommentExists;
-import usecase.post.validator.PostExists;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

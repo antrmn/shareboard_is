@@ -1,4 +1,4 @@
-package usecase.section.validator;
+package domain.validation;
 
 import domain.entity.Section;
 import domain.repository.GenericRepository;

@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
 @WebServlet("/deletecomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-public class DeleteCommentServlet extends InterceptableServlet {
+class DeleteCommentServlet extends InterceptableServlet {
     @Inject private CommentService service;
 
     @Override

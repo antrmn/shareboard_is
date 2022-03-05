@@ -267,12 +267,28 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
+                    <stylesheetfile>${project.basedir}/maven_site/javadocstyle.css</stylesheetfile>
                     <linksource>true</linksource>
                     <failOnError>false</failOnError>
                     <quiet>true</quiet>
                     <links>
                         <link>https://javaee.github.io/javaee-spec/javadocs/</link>
                     </links>
+                    <excludePackageNames>usecase</excludePackageNames>
+                    <groups>
+                        <group>
+                            <title>Common</title>
+                            <packages>common:common.*</packages>
+                        </group>
+                        <group>
+                            <title>Domain and data access</title>
+                            <packages>domain:domain.*:media:media.*</packages>
+                        </group>
+                        <group>
+                            <title>Business</title>
+                            <packages>usecase:usecase.*</packages>
+                        </group>
+                    </groups>
                 </configuration>
                 <reportSets>
                     <reportSet>

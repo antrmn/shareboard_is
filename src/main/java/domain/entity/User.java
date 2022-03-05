@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Entità rappresentate un utente della community
+ */
 @Entity
 public class User implements Serializable {
 

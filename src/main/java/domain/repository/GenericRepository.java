@@ -11,9 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Interfaccia usata per interagire con {@link javax.persistence.EntityManager}
- * Istanze che implementano questa interfaccia fungono da facciata alle funzionalità di JPA, fornendo i metodi
- * essenziali (CRUD) per una specifica entità di persistenza
+ * Classe che incapsula la logica CRUD di base per tutte le entità persistenti
  * @see javax.persistence.EntityManager
  */
 public class GenericRepository implements Serializable {

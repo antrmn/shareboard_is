@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Classe che incapsula la logica per il recupero di entità di tipo {@link Post}
+ */
 public class PostRepository implements Serializable {
 
     @PersistenceContext

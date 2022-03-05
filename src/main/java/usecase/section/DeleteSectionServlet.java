@@ -15,7 +15,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
 @WebServlet(name = "DeleteSectionServlet", value = "/deleteSection")
 @AuthorizationConstraints(ADMINS_ONLY)
-public class DeleteSectionServlet extends InterceptableServlet {
+class DeleteSectionServlet extends InterceptableServlet {
     @Inject private SectionService service;
 
     @Override

@@ -13,7 +13,7 @@ import java.util.OptionalLong;
  * Classe di utilità che permette di accedere a parametri di un {@link HttpServletRequest} nel tipo desiderato
  */
 public class ParameterConverter {
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
     /**
      * Costruttore unico dell'oggetto.

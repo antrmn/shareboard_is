@@ -1,17 +1,20 @@
-package usecase.ban.validator;
+package domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-
+/**
+ * L'username deve essere univoco
+ * @see UniqueUsernameValidator
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = BanExistsValidator.class)
+@Constraint(validatedBy = UniqueUsernameValidator.class)
 @Documented
-public @interface BanExists {
-    String message() default "Ban must exist";
+public @interface UniqueUsername {
+    String message() default "Username already exists";
 
     Class<?>[] groups() default {};
 

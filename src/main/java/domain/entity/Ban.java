@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * Entità rappresentate il ban di un utente
+ */
 @Entity
 public class Ban implements Serializable {
 

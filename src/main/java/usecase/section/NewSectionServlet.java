@@ -19,7 +19,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 @WebServlet("/admin/newsection")
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
-public class NewSectionServlet extends InterceptableServlet {
+class NewSectionServlet extends InterceptableServlet {
     @Inject private SectionService service;
 
     private static final String NEW_SECTION_PAGE = "/WEB-INF/views/crm/create-section.jsp";

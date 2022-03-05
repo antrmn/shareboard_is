@@ -1,16 +1,20 @@
-package usecase.comment.validator;
+package media.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+/**
+ * Lo stream deve rappresentare un'immagine
+ * @see ImageValidator
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
         ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = CommentExistsValidator.class)
+@Constraint(validatedBy = ImageValidator.class)
 @Documented
-public @interface CommentExists {
-    String message() default "Comment must exist";
+public @interface Image {
+    String message() default "Must be an image";
 
     Class<?>[] groups() default {};
 
