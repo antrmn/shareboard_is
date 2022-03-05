@@ -1,1 +1,1 @@
-common.http.util.interceptor.ServletContainerInitializer
+common.http.interceptor.ServletContainerInitializer
