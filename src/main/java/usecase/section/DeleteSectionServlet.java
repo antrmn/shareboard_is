@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
-@WebServlet(name = "DeleteSectionServlet", value = "/deleteSection")
+@WebServlet("/admin/deleteSection")
 @AuthorizationConstraints(ADMINS_ONLY)
 public class DeleteSectionServlet extends InterceptableServlet {
     @Inject private SectionService service;

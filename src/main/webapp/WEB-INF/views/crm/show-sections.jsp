@@ -35,7 +35,7 @@
             <a href = "${context}/admin/editsection?sectionId=${section.id}">
               <i class="fas fa-edit"></i>
             </a>
-            <a href = "${context}/admin/deletesection?sectionId=${section.id}" onclick="return confirm('Cancellare la sezione?')">
+            <a href = "${context}/admin/deleteSection?sectionId=${section.id}" onclick="return confirm('Cancellare la sezione?')">
               <i class="fas fa-minus-circle"></i>
             </a>
           </td>
