@@ -38,7 +38,7 @@ class NewSectionServlet extends InterceptableServlet {
         Part banner = request.getPart("banner");
 
         BufferedInputStream streamPicture = picture.getSize() > 0 ? new BufferedInputStream(picture.getInputStream()) : null;
-        BufferedInputStream streamBanner = banner.getSize() > 0 ? new BufferedInputStream(picture.getInputStream()) : null;
+        BufferedInputStream streamBanner = banner.getSize() > 0 ? new BufferedInputStream(banner.getInputStream()) : null;
 
         service.newSection(name, description ,streamPicture,streamBanner);
         response.sendRedirect(getServletContext().getContextPath()+"/admin/showsections");
