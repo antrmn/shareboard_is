@@ -46,7 +46,7 @@
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>          Part banner = request.getPart(<span class="jxr_string">"banner"</span>);
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>          BufferedInputStream streamPicture = picture.getSize() &gt; 0 ? <strong class="jxr_keyword">new</strong> BufferedInputStream(picture.getInputStream()) : <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>          BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? <strong class="jxr_keyword">new</strong> BufferedInputStream(picture.getInputStream()) : <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? <strong class="jxr_keyword">new</strong> BufferedInputStream(banner.getInputStream()) : <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>          service.newSection(name, description ,streamPicture,streamBanner);
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>          response.sendRedirect(getServletContext().getContextPath()+<span class="jxr_string">"/admin/showsections"</span>);

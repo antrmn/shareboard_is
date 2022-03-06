@@ -38,7 +38,7 @@ import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 <span class="fc" id="L38">        Part banner = request.getPart(&quot;banner&quot;);</span>
 
 <span class="pc bpc" id="L40" title="1 of 2 branches missed.">        BufferedInputStream streamPicture = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? new BufferedInputStream(banner.getInputStream()) : null;</span>
 
 <span class="fc" id="L43">        service.newSection(name, description ,streamPicture,streamBanner);</span>
 <span class="fc" id="L44">        response.sendRedirect(getServletContext().getContextPath()+&quot;/admin/showsections&quot;);</span>
