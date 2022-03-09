@@ -9,6 +9,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
+/**
+ * Classe dedicata alla sicurezza delle password.
+ */
 public class Pbkdf2PasswordHash implements Serializable {
     public HashedPassword generate(String password, byte[] salt){
         try {

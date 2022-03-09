@@ -12,6 +12,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+/**
+ * Classe che fornisce i servizi relativi ai follow.
+ */
 @ApplicationScoped
 @Transactional
 public class FollowService {

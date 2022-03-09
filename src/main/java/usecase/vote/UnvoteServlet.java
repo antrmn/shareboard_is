@@ -14,6 +14,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Servlet che permette di rimuovere un voto ad un contenuto.
+ */
 @WebServlet("/unvote")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class UnvoteServlet extends InterceptableServlet {

@@ -15,6 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Servlet per la visualizzazione di un post e i relativi commenti.
+ */
 @WebServlet("/post")
 class PostServlet extends InterceptableServlet {
 

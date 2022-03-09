@@ -11,6 +11,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+/**
+ * Classe che fornisce i servizi relativi ai voti.
+ */
 @ApplicationScoped
 @Transactional
 public class VoteService {

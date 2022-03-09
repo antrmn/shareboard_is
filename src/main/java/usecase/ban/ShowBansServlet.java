@@ -14,6 +14,9 @@ import java.util.List;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet accessibile agli amminstratori per la visualizzazione dei ban.
+ */
 @WebServlet("/admin/showbans")
 @AuthorizationConstraints(ADMINS_ONLY)
 class ShowBansServlet extends InterceptableServlet {

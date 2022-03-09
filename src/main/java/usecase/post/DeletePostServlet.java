@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di eliminare un post.
+ */
 @WebServlet(name = "DeletePostServlet", value = "/DeletePostServlet")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class DeletePostServlet extends InterceptableServlet {

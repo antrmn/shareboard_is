@@ -18,7 +18,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
-
+/**
+ * Servlet che permette la modifica di un account utente da parte di un amministratore.
+ */
 @WebServlet("/edituser")
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)

@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * Classe DTO relativa alla visualizzazione del profilo utente.
+ */
 @Data @Builder
 public class UserProfile {
     private Integer id;

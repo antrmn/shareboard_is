@@ -6,6 +6,9 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+/**
+ * Classe interceptor per negare un'operazione ad un utente bannato.
+ */
 @Interceptor
 @DenyBannedUsers
 @Priority(Interceptor.Priority.APPLICATION+2)

@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette l'eliminazione dei commenti.
+ */
 @WebServlet("/deletecomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class DeleteCommentServlet extends InterceptableServlet {

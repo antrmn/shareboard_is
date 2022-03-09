@@ -12,6 +12,9 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * Classe che fornisce i servizi relativi all'autenticazione.
+ */
 @SessionScoped
 @Transactional
 public class AuthenticationService implements Serializable {

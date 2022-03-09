@@ -16,6 +16,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe che fornisce i servizi relativi ai ban.
+ */
 @ApplicationScoped
 @Transactional
 public class BanService {

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Classe DTO relativa alla modifica di un post.
+ */
 @AllArgsConstructor
 @Builder
 @Getter

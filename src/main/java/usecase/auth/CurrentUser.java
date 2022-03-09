@@ -5,6 +5,9 @@ import lombok.*;
 import javax.enterprise.inject.Alternative;
 import java.time.Instant;
 
+/**
+ * Classe DTO relativa all'utente.
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * Classe DTO relativa ai commenti.
+ */
 @Data @Builder
 @AllArgsConstructor
 public class CommentDTO {

@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Classe che fornisce i servizi relativi alle sezioni.
+ */
 @ApplicationScoped
 @Transactional
 public class SectionService {

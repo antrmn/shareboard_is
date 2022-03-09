@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che permette ad un amministratore di eliminare una sezione.
+ */
 @WebServlet("/admin/deleteSection")
 @AuthorizationConstraints(ADMINS_ONLY)
 class DeleteSectionServlet extends InterceptableServlet {

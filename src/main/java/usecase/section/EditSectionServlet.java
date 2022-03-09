@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
-
+/**
+ * Servlet che permette ad un amministratore di modificare una sezione.
+ */
 @WebServlet("/admin/editsection")
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)

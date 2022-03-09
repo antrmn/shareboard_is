@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette la modifica dei commenti.
+ */
 @WebServlet("/editcomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class EditCommentServlet extends InterceptableServlet {

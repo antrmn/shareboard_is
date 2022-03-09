@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe per permette di seguire una sezione.
+ */
 @WebServlet("/usecase/follow")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class FollowServlet extends InterceptableServlet {

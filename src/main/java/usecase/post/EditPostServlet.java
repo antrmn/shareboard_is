@@ -12,6 +12,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di modificare un post.
+ */
 @WebServlet("/editpost")
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)

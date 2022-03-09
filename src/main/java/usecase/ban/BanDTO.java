@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * Classe DTO relativa al ban.
+ */
 @Builder @Data @AllArgsConstructor
 public class BanDTO {
     private Integer banId;

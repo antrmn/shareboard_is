@@ -12,6 +12,9 @@ import media.validation.Image;
 import javax.validation.constraints.Size;
 import java.io.BufferedInputStream;
 
+/**
+ * Classe DTO relativa alla modifica del profilo utente.
+ */
 @Builder @Getter @Data @AllArgsConstructor
 public class UserEditPage {
 

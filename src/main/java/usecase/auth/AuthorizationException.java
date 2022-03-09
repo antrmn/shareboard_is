@@ -2,6 +2,9 @@ package usecase.auth;
 
 import javax.ejb.ApplicationException;
 
+/**
+ * Eccezione relativa all'autenticazione
+ */
 @ApplicationException(rollback = true)
 public class AuthorizationException extends RuntimeException{
     public AuthorizationException() {

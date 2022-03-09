@@ -14,6 +14,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Servlet che permette di assegnare un voto ad un contenuto.
+ */
 @WebServlet("/vote")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class VoteServlet extends InterceptableServlet {

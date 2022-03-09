@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet accessibile soltanto agli amministratori per la rimozione dei ban.
+ */
 @WebServlet("/admin/deleteban")
 @AuthorizationConstraints(ADMINS_ONLY)
 class DeleteBanServlet extends InterceptableServlet {

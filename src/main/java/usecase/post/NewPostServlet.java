@@ -18,6 +18,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di aggiungere un post.
+ */
 @WebServlet("/newpost")
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)

@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet che permette di visualizzare il profilo utente.
+ */
 @WebServlet("/user")
 class UserServlet extends InterceptableServlet {
 

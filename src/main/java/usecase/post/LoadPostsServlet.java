@@ -18,6 +18,9 @@ import java.util.function.Function;
 
 import static usecase.post.PostSearchForm.SortCriteria.*;
 
+/**
+ * Classe che permette di visualizzare i post.
+ */
 @WebServlet("/loadposts")
 class LoadPostsServlet extends InterceptableServlet {
     @Inject private PostService postService;

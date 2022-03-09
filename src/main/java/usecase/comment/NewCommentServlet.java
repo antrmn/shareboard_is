@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette la creazione di un nuovo commento.
+ */
 @WebServlet("/newcomment")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class NewCommentServlet extends InterceptableServlet {

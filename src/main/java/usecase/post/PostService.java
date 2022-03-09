@@ -31,7 +31,9 @@ import static domain.entity.Post.Type.IMG;
 import static domain.entity.Post.Type.TEXT;
 import static usecase.post.PostSearchForm.SortCriteria.NEWEST;
 
-
+/**
+ * Classe che fornisce i servizi relativi ai post.
+ */
 @ApplicationScoped
 @Transactional
 public class PostService {

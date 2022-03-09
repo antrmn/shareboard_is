@@ -2,6 +2,9 @@ package usecase.auth;
 
 import javax.ejb.ApplicationException;
 
+/**
+ * Eccezione indicante la necessità di autenticarsi come admin per procedere.
+ */
 @ApplicationException(rollback = true)
 public class AuthenticationRequiredException extends RuntimeException {
     public AuthenticationRequiredException() {

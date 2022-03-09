@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet relativa alla ricerca di un post.
+ */
 @WebServlet("/search")
 class SearchPostServlet extends InterceptableServlet {
 

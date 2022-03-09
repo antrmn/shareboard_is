@@ -14,6 +14,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Classe che permette di invertire il ruolo di admin di un utente.
+ */
 @WebServlet("/admin/toggleAdmin")
 @AuthorizationConstraints(ADMINS_ONLY)
 class ToggleAdminServlet extends InterceptableServlet {

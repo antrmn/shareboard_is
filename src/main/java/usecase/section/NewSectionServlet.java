@@ -16,6 +16,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che permette ad un amministratore di creare una nuova sezione.
+ */
 @WebServlet("/admin/newsection")
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)

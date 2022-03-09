@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet che permette la visualizzazione di una sezione.
+ */
 @WebServlet("/s")
 class SectionServlet extends InterceptableServlet {
 

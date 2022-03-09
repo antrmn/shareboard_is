@@ -11,6 +11,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che mostra agli amministratori le sezioni esistenti.
+ */
 @WebServlet("/admin/showsections")
 @AuthorizationConstraints(ADMINS_ONLY)
 class ShowSectionServlet extends InterceptableServlet {

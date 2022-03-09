@@ -16,6 +16,9 @@ import java.time.ZoneOffset;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet accessibile soltanto agli amministratori per l'aggiunta dei ban.
+ */
 @WebServlet("/admin/addban")
 @AuthorizationConstraints(ADMINS_ONLY)
 class AddBanServlet extends InterceptableServlet {

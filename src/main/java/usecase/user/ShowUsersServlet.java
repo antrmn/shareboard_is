@@ -13,6 +13,9 @@ import java.util.List;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che mostra agli amministratori gli utenti registrati.
+ */
 @WebServlet("/admin/showusers")
 @AuthorizationConstraints(ADMINS_ONLY)
 class ShowUsersServlet extends InterceptableServlet {

@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che permette l'eliminazione di un account utente da parte di un amministratore.
+ */
 @WebServlet("/admin/deleteuser")
 @AuthorizationConstraints(ADMINS_ONLY)
 class DeleteUserServlet extends InterceptableServlet {

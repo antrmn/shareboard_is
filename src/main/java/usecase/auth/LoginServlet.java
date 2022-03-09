@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Servlet dedicata alle operazioni di login.
+ */
 @WebServlet("/login")
 class LoginServlet extends InterceptableServlet {
     @Inject AuthenticationService authenticationService;

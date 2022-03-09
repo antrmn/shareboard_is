@@ -14,6 +14,9 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di eliminare il follow ad una sezione.
+ */
 @WebServlet("/unfollow")
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 class UnfollowServlet extends InterceptableServlet {

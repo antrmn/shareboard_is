@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Classe che fornisce i servizi relativi agli utenti.
+ */
 @ApplicationScoped
 @Transactional
 public class UserService {
@@ -38,6 +41,11 @@ public class UserService {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Converte User in UserProfile.
+     * @param user utente da convertire
+     * @return UserProfile con i dati di user
+     */
     private UserProfile map(User user){
         return UserProfile.builder()
                 .id(user.getId())
@@ -89,7 +97,7 @@ public class UserService {
     }
 
     /**
-     * Ritorna un lista di tutte le gli utenti
+     * Ritorna un lista di UserProfile relativa agli utenti registrati
      * @return lista di entita UserIdentityDTO
      */
     public List<UserProfile> showUsers(){

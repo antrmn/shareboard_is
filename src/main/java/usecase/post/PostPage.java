@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * Classe DTO relativa al post.
+ */
 @Data @Builder
 public class PostPage {
     private int id;

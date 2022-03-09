@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**
+ * Servlet relativa alla registrazione di un nuovo utente.
+ */
 @WebServlet("/register")
 class RegisterServlet extends InterceptableServlet {
     @Inject private UserService userService;
