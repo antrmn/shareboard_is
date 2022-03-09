@@ -22,26 +22,29 @@
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  @WebServlet(<span class="jxr_string">"/admin/showbans"</span>)
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  @AuthorizationConstraints(ADMINS_ONLY)
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">class</strong> <a name="ShowBansServlet" href="../../usecase/ban/ShowBansServlet.html#ShowBansServlet">ShowBansServlet</a> <strong class="jxr_keyword">extends</strong> <a name="InterceptableServlet" href="../../common/http/interceptor/InterceptableServlet.html#InterceptableServlet">InterceptableServlet</a> {
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>      @Inject <strong class="jxr_keyword">private</strong> <a name="BanService" href="../../usecase/ban/BanService.html#BanService">BanService</a> service;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>      @Override
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doGet(HttpServletRequest request, HttpServletResponse response) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>          <a name="ParameterConverter" href="../../common/http/ParameterConverter.html#ParameterConverter">ParameterConverter</a> converter = <strong class="jxr_keyword">new</strong> <a name="ParameterConverter" href="../../common/http/ParameterConverter.html#ParameterConverter">ParameterConverter</a>(request);
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>          <strong class="jxr_keyword">int</strong> userId = converter.getIntParameter(<span class="jxr_string">"userId"</span>).orElse(0);
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>          List&lt;BanDTO&gt; bans = service.retrieveUserBan(userId);
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>          request.setAttribute(<span class="jxr_string">"bans"</span>, bans);
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>          request.setAttribute(<span class="jxr_string">"userId"</span>, userId);
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>          request.getRequestDispatcher(<span class="jxr_string">"/WEB-INF/views/crm/show-bans.jsp"</span>).forward(request, response);
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>      }
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>      @Override
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doPost(HttpServletRequest request, HttpServletResponse response) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>          doGet(request,response);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>      }
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  }
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * Servlet accessibile agli amminstratori per la visualizzazione dei ban.</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  @WebServlet(<span class="jxr_string">"/admin/showbans"</span>)
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  @AuthorizationConstraints(ADMINS_ONLY)
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">class</strong> <a name="ShowBansServlet" href="../../usecase/ban/ShowBansServlet.html#ShowBansServlet">ShowBansServlet</a> <strong class="jxr_keyword">extends</strong> <a name="InterceptableServlet" href="../../common/http/interceptor/InterceptableServlet.html#InterceptableServlet">InterceptableServlet</a> {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      @Inject <strong class="jxr_keyword">private</strong> <a name="BanService" href="../../usecase/ban/BanService.html#BanService">BanService</a> service;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      @Override
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doGet(HttpServletRequest request, HttpServletResponse response) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          <a name="ParameterConverter" href="../../common/http/ParameterConverter.html#ParameterConverter">ParameterConverter</a> converter = <strong class="jxr_keyword">new</strong> <a name="ParameterConverter" href="../../common/http/ParameterConverter.html#ParameterConverter">ParameterConverter</a>(request);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">int</strong> userId = converter.getIntParameter(<span class="jxr_string">"userId"</span>).orElse(0);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          List&lt;BanDTO&gt; bans = service.retrieveUserBan(userId);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          request.setAttribute(<span class="jxr_string">"bans"</span>, bans);
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          request.setAttribute(<span class="jxr_string">"userId"</span>, userId);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          request.getRequestDispatcher(<span class="jxr_string">"/WEB-INF/views/crm/show-bans.jsp"</span>).forward(request, response);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      @Override
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doPost(HttpServletRequest request, HttpServletResponse response) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          doGet(request,response);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      }
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

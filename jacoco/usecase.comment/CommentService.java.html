@@ -25,7 +25,9 @@ import java.util.Map;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-
+/**
+ * Classe che fornisce i servizi relativi ai commenti.
+ */
 @ApplicationScoped
 @Transactional
 public class CommentService {
@@ -35,15 +37,15 @@ public class CommentService {
 
     private static final int MAX_COMMENT_DEPTH = 4;
 
-<span class="nc" id="L38">    protected CommentService(){}</span>
+<span class="nc" id="L40">    protected CommentService(){}</span>
 
     @Inject
     protected CommentService(GenericRepository genericRepository, CommentRepository commentRepository,
-<span class="fc" id="L42">                                            CurrentUser currentUser){</span>
-<span class="fc" id="L43">        this.genericRepository = genericRepository;</span>
-<span class="fc" id="L44">        this.commentRepo = commentRepository;</span>
-<span class="fc" id="L45">        this.currentUser = currentUser;</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L44">                                            CurrentUser currentUser){</span>
+<span class="fc" id="L45">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L46">        this.commentRepo = commentRepository;</span>
+<span class="fc" id="L47">        this.currentUser = currentUser;</span>
+<span class="fc" id="L48">    }</span>
 
     /**
      * Converte Comment in CommentDTO.
@@ -51,24 +53,24 @@ public class CommentService {
      * @return commentDTO con i dati di comment
      */
     private CommentDTO map (Comment comment){
-<span class="fc" id="L54">        CommentVote commentVote = null;</span>
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
-<span class="nc" id="L56">            User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="nc" id="L57">            commentVote = comment.getVote(user);</span>
+<span class="fc" id="L56">        CommentVote commentVote = null;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if(currentUser.isLoggedIn()){</span>
+<span class="nc" id="L58">            User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="nc" id="L59">            commentVote = comment.getVote(user);</span>
         }
 
-<span class="fc" id="L60">        return CommentDTO.builder()</span>
-<span class="fc" id="L61">                .id(comment.getId())</span>
-<span class="fc" id="L62">                .authorUsername(comment.getAuthor().getUsername())</span>
-<span class="fc" id="L63">                .authorId(comment.getAuthor().getId())</span>
-<span class="fc" id="L64">                .creationDate(comment.getCreationDate())</span>
-<span class="fc" id="L65">                .postId(comment.getPost().getId())</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                .vote(commentVote == null ? 0 : commentVote.getVote())</span>
-<span class="fc" id="L67">                .content(comment.getContent())</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">                .votes(comment.getVotesCount() == null ? 0 : comment.getVotesCount())</span>
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                .creationDate(comment.getCreationDate()  == null ? Instant.now() : comment.getCreationDate())</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                .parentCommentId(comment.getParentComment() == null ? 0 : comment.getParentComment().getId())</span>
-<span class="fc" id="L71">                .build();</span>
+<span class="fc" id="L62">        return CommentDTO.builder()</span>
+<span class="fc" id="L63">                .id(comment.getId())</span>
+<span class="fc" id="L64">                .authorUsername(comment.getAuthor().getUsername())</span>
+<span class="fc" id="L65">                .authorId(comment.getAuthor().getId())</span>
+<span class="fc" id="L66">                .creationDate(comment.getCreationDate())</span>
+<span class="fc" id="L67">                .postId(comment.getPost().getId())</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">                .vote(commentVote == null ? 0 : commentVote.getVote())</span>
+<span class="fc" id="L69">                .content(comment.getContent())</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                .votes(comment.getVotesCount() == null ? 0 : comment.getVotesCount())</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">                .creationDate(comment.getCreationDate()  == null ? Instant.now() : comment.getCreationDate())</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">                .parentCommentId(comment.getParentComment() == null ? 0 : comment.getParentComment().getId())</span>
+<span class="fc" id="L73">                .build();</span>
     }
 
     /**
@@ -77,8 +79,8 @@ public class CommentService {
      * @return mappa con i commenti del post
      */
     public Map&lt;Integer,List&lt;CommentDTO&gt;&gt; getPostComments(@PostExists int postId){
-<span class="nc" id="L80">        List&lt;Comment&gt; comments = commentRepo.getByPost(genericRepository.findById(Post.class, postId), MAX_COMMENT_DEPTH);</span>
-<span class="nc" id="L81">        return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));</span>
+<span class="nc" id="L82">        List&lt;Comment&gt; comments = commentRepo.getByPost(genericRepository.findById(Post.class, postId), MAX_COMMENT_DEPTH);</span>
+<span class="nc" id="L83">        return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));</span>
     }
 
     /**
@@ -87,8 +89,8 @@ public class CommentService {
      * @return mappa con le risposte al commento
      */
     public Map&lt;Integer, List&lt;CommentDTO&gt;&gt; getReplies(@CommentExists int commentId){
-<span class="nc" id="L90">        List&lt;Comment&gt; comments = commentRepo.getReplies(genericRepository.findById(Comment.class, commentId), MAX_COMMENT_DEPTH);</span>
-<span class="nc" id="L91">        return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));</span>
+<span class="nc" id="L92">        List&lt;Comment&gt; comments = commentRepo.getReplies(genericRepository.findById(Comment.class, commentId), MAX_COMMENT_DEPTH);</span>
+<span class="nc" id="L93">        return comments.stream().map(this::map).collect(groupingBy(CommentDTO::getParentCommentId, toList()));</span>
     }
 
     /**
@@ -97,7 +99,7 @@ public class CommentService {
      * @return commento avente l'id specificato
      */
     public CommentDTO getComment(@CommentExists int id){
-<span class="fc" id="L100">        return map(genericRepository.findById(Comment.class, id));</span>
+<span class="fc" id="L102">        return map(genericRepository.findById(Comment.class, id));</span>
     }
 
 
@@ -107,11 +109,11 @@ public class CommentService {
      */
     @AuthenticationRequired
     public void delete(@CommentExists int id){
-<span class="fc" id="L110">        Comment comment = genericRepository.findById(Comment.class, id);</span>
-<span class="fc bfc" id="L111" title="All 4 branches covered.">        if(currentUser.getId() != comment.getAuthor().getId() &amp;&amp; !currentUser.isAdmin())</span>
-<span class="fc" id="L112">            throw new AuthorizationException();</span>
-<span class="fc" id="L113">        genericRepository.remove(genericRepository.findById(Comment.class, id));</span>
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L112">        Comment comment = genericRepository.findById(Comment.class, id);</span>
+<span class="fc bfc" id="L113" title="All 4 branches covered.">        if(currentUser.getId() != comment.getAuthor().getId() &amp;&amp; !currentUser.isAdmin())</span>
+<span class="fc" id="L114">            throw new AuthorizationException();</span>
+<span class="fc" id="L115">        genericRepository.remove(genericRepository.findById(Comment.class, id));</span>
+<span class="fc" id="L116">    }</span>
 
     /**
      * Modifica un commento dato il suo id
@@ -120,11 +122,11 @@ public class CommentService {
      */
     @AuthenticationRequired
     public void editComment(@CommentExists int id, @NotBlank @Size(max=65535) String text){
-<span class="fc" id="L123">        Comment comment = genericRepository.findById(Comment.class, id);</span>
-<span class="fc bfc" id="L124" title="All 4 branches covered.">        if(currentUser.getId() != comment.getAuthor().getId() &amp;&amp; !currentUser.isAdmin())</span>
-<span class="fc" id="L125">            throw new AuthorizationException();</span>
-<span class="fc" id="L126">        comment.setContent(text);</span>
-<span class="fc" id="L127">    }</span>
+<span class="fc" id="L125">        Comment comment = genericRepository.findById(Comment.class, id);</span>
+<span class="fc bfc" id="L126" title="All 4 branches covered.">        if(currentUser.getId() != comment.getAuthor().getId() &amp;&amp; !currentUser.isAdmin())</span>
+<span class="fc" id="L127">            throw new AuthorizationException();</span>
+<span class="fc" id="L128">        comment.setContent(text);</span>
+<span class="fc" id="L129">    }</span>
 
     /**
      * Crea un nuovo commento e ne restituisce l'id
@@ -136,13 +138,13 @@ public class CommentService {
     @DenyBannedUsers
     public int newComment(@NotBlank @Size(max=65535) String text,
                           @PostExists int postId){
-<span class="fc" id="L139">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L141">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
 
-<span class="fc" id="L141">        Comment comment = new Comment();</span>
-<span class="fc" id="L142">        comment.setAuthor(user);</span>
-<span class="fc" id="L143">        comment.setContent(text);</span>
-<span class="fc" id="L144">        comment.setPost(genericRepository.findById(Post.class, postId));</span>
-<span class="fc" id="L145">        return genericRepository.insert(comment).getId();</span>
+<span class="fc" id="L143">        Comment comment = new Comment();</span>
+<span class="fc" id="L144">        comment.setAuthor(user);</span>
+<span class="fc" id="L145">        comment.setContent(text);</span>
+<span class="fc" id="L146">        comment.setPost(genericRepository.findById(Post.class, postId));</span>
+<span class="fc" id="L147">        return genericRepository.insert(comment).getId();</span>
     }
 
     /**
@@ -154,15 +156,15 @@ public class CommentService {
     @AuthenticationRequired
     public int newCommentReply(@NotBlank @Size(max=65535) String text,
                                @CommentExists int parentCommentId){
-<span class="fc" id="L157">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="fc" id="L158">        Comment parent = genericRepository.findById(Comment.class, parentCommentId);</span>
+<span class="fc" id="L159">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L160">        Comment parent = genericRepository.findById(Comment.class, parentCommentId);</span>
 
-<span class="fc" id="L160">        Comment comment = new Comment();</span>
-<span class="fc" id="L161">        comment.setAuthor(user);</span>
-<span class="fc" id="L162">        comment.setContent(text);</span>
-<span class="fc" id="L163">        comment.setPost(parent.getPost());</span>
-<span class="fc" id="L164">        comment.setParentComment(parent);</span>
-<span class="fc" id="L165">        return genericRepository.insert(comment).getId();</span>
+<span class="fc" id="L162">        Comment comment = new Comment();</span>
+<span class="fc" id="L163">        comment.setAuthor(user);</span>
+<span class="fc" id="L164">        comment.setContent(text);</span>
+<span class="fc" id="L165">        comment.setPost(parent.getPost());</span>
+<span class="fc" id="L166">        comment.setParentComment(parent);</span>
+<span class="fc" id="L167">        return genericRepository.insert(comment).getId();</span>
     }
 
 }

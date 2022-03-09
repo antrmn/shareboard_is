@@ -14,24 +14,27 @@ import java.util.List;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet accessibile agli amminstratori per la visualizzazione dei ban.
+ */
 @WebServlet(&quot;/admin/showbans&quot;)
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="fc" id="L19">class ShowBansServlet extends InterceptableServlet {</span>
+<span class="fc" id="L22">class ShowBansServlet extends InterceptableServlet {</span>
     @Inject private BanService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L24">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L25">        int userId = converter.getIntParameter(&quot;userId&quot;).orElse(0);</span>
-<span class="fc" id="L26">        List&lt;BanDTO&gt; bans = service.retrieveUserBan(userId);</span>
-<span class="fc" id="L27">        request.setAttribute(&quot;bans&quot;, bans);</span>
-<span class="fc" id="L28">        request.setAttribute(&quot;userId&quot;, userId);</span>
-<span class="fc" id="L29">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/show-bans.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L27">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L28">        int userId = converter.getIntParameter(&quot;userId&quot;).orElse(0);</span>
+<span class="fc" id="L29">        List&lt;BanDTO&gt; bans = service.retrieveUserBan(userId);</span>
+<span class="fc" id="L30">        request.setAttribute(&quot;bans&quot;, bans);</span>
+<span class="fc" id="L31">        request.setAttribute(&quot;userId&quot;, userId);</span>
+<span class="fc" id="L32">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/show-bans.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L33">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L34">        doGet(request,response);</span>
-<span class="fc" id="L35">    }</span>
+<span class="fc" id="L37">        doGet(request,response);</span>
+<span class="fc" id="L38">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

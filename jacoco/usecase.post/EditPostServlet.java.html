@@ -12,16 +12,19 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di modificare un post.
+ */
 @WebServlet(&quot;/editpost&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="nc" id="L18">class EditPostServlet extends InterceptableServlet {</span>
+<span class="nc" id="L21">class EditPostServlet extends InterceptableServlet {</span>
     //Funzionalità disabilitata
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="nc" id="L23">        resp.sendError(HttpServletResponse.SC_FORBIDDEN, &quot;Funzionalità disabilitata temporaneamente&quot;);</span>
-<span class="nc" id="L24">    }</span>
+<span class="nc" id="L26">        resp.sendError(HttpServletResponse.SC_FORBIDDEN, &quot;Funzionalità disabilitata temporaneamente&quot;);</span>
+<span class="nc" id="L27">    }</span>
 
 
     /*@Inject private PostService service;

@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2022</copyright>
     <item>
-      <title>File: 128,
+      <title>File: 136,
              Errors: 0,
-             Warnings: 3235,
+             Warnings: 3250,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -284,6 +284,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#usecase.section.package-info.java">usecase/section/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.comment.CommentDTO.java">usecase/comment/CommentDTO.java</a>
                 </td>
                 <td>
@@ -452,6 +466,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#usecase.post.package-info.java">usecase/post/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#common.http.CheckCurrentUserFilter.java">common/http/CheckCurrentUserFilter.java</a>
                 </td>
                 <td>
@@ -494,6 +522,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#usecase.comment.package-info.java">usecase/comment/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#domain.entity.Comment.java">domain/entity/Comment.java</a>
                 </td>
                 <td>
@@ -501,6 +543,20 @@ under the License.
                 </td>
                 <td>
                   43
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.ban.package-info.java">usecase/ban/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -557,6 +613,20 @@ under the License.
                 </td>
                 <td>
                   3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.vote.package-info.java">usecase/vote/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -1032,7 +1102,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  15
+                  16
                 </td>
                 <td>
                   0
@@ -1074,7 +1144,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  43
+                  44
                 </td>
                 <td>
                   0
@@ -1152,6 +1222,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#usecase.follow.package-info.java">usecase/follow/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#domain.repository.UserRepository.java">domain/repository/UserRepository.java</a>
                 </td>
                 <td>
@@ -1159,6 +1243,20 @@ under the License.
                 </td>
                 <td>
                   8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.auth.package-info.java">usecase/auth/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -1354,7 +1452,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  13
+                  16
                 </td>
                 <td>
                   0
@@ -1522,7 +1620,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  13
+                  14
                 </td>
                 <td>
                   0
@@ -1578,7 +1676,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  13
                 </td>
                 <td>
                   0
@@ -1817,6 +1915,20 @@ under the License.
                 </td>
                 <td>
                   7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#usecase.user.package-info.java">usecase/user/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0

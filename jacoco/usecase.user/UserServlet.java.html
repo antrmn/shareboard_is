@@ -9,18 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet che permette di visualizzare il profilo utente.
+ */
 @WebServlet(&quot;/user&quot;)
-<span class="fc" id="L13">class UserServlet extends InterceptableServlet {</span>
+<span class="fc" id="L16">class UserServlet extends InterceptableServlet {</span>
 
     @Inject
     private UserService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L20">        String username = request.getParameter(&quot;name&quot;);</span>
-<span class="fc" id="L21">        UserProfile user = service.getUser(username);</span>
-<span class="fc" id="L22">        request.setAttribute(&quot;user&quot;, user);</span>
-<span class="fc" id="L23">        request.getRequestDispatcher(&quot;/WEB-INF/views/user-profile.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L23">        String username = request.getParameter(&quot;name&quot;);</span>
+<span class="fc" id="L24">        UserProfile user = service.getUser(username);</span>
+<span class="fc" id="L25">        request.setAttribute(&quot;user&quot;, user);</span>
+<span class="fc" id="L26">        request.getRequestDispatcher(&quot;/WEB-INF/views/user-profile.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L27">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

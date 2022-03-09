@@ -15,46 +15,49 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Servlet per la visualizzazione di un post e i relativi commenti.
+ */
 @WebServlet(&quot;/post&quot;)
-<span class="fc" id="L19">class PostServlet extends InterceptableServlet {</span>
+<span class="fc" id="L22">class PostServlet extends InterceptableServlet {</span>
 
     @Inject private PostService postService;
     @Inject private CommentService service;
 
     @Override
     public void init() throws ServletException {
-<span class="nc" id="L26">        getServletContext().setAttribute(&quot;maxCommentDepth&quot;, 3);</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L29">        getServletContext().setAttribute(&quot;maxCommentDepth&quot;, 3);</span>
+<span class="nc" id="L30">    }</span>
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc" id="L31">        ParameterConverter converter = new ParameterConverter(req);</span>
-<span class="fc" id="L32">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0); //viene ignorato se commentId != 0</span>
-<span class="fc" id="L33">        int commentId = converter.getIntParameter(&quot;comment&quot;).orElse(0);</span>
+<span class="fc" id="L34">        ParameterConverter converter = new ParameterConverter(req);</span>
+<span class="fc" id="L35">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0); //viene ignorato se commentId != 0</span>
+<span class="fc" id="L36">        int commentId = converter.getIntParameter(&quot;comment&quot;).orElse(0);</span>
 
         PostPage post;
         Map&lt;Integer, List&lt;CommentDTO&gt;&gt; comments;
         int initialIndex;
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if (commentId == 0) {</span>
-<span class="fc" id="L39">            post = postService.getPost(postId);</span>
-<span class="fc" id="L40">            comments = service.getPostComments(postId);</span>
-<span class="fc" id="L41">            initialIndex = 0; //si parte dai root comments</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (commentId == 0) {</span>
+<span class="fc" id="L42">            post = postService.getPost(postId);</span>
+<span class="fc" id="L43">            comments = service.getPostComments(postId);</span>
+<span class="fc" id="L44">            initialIndex = 0; //si parte dai root comments</span>
         } else{
-<span class="nc" id="L43">            comments = service.getReplies(commentId);</span>
-<span class="nc" id="L44">            initialIndex = Collections.min(comments.keySet()); //il commento di partenza è quello all'indice più basso</span>
-<span class="nc" id="L45">            postId = comments.get(initialIndex).get(0).getPostId(); //prendi un commento qualsiasi, ricava il postId</span>
-<span class="nc" id="L46">            post = postService.getPost(postId);</span>
+<span class="nc" id="L46">            comments = service.getReplies(commentId);</span>
+<span class="nc" id="L47">            initialIndex = Collections.min(comments.keySet()); //il commento di partenza è quello all'indice più basso</span>
+<span class="nc" id="L48">            postId = comments.get(initialIndex).get(0).getPostId(); //prendi un commento qualsiasi, ricava il postId</span>
+<span class="nc" id="L49">            post = postService.getPost(postId);</span>
         }
 
-<span class="fc" id="L49">        req.setAttribute(&quot;post&quot;, post);</span>
-<span class="fc" id="L50">        req.setAttribute(&quot;comments&quot;, comments);</span>
-<span class="fc" id="L51">        req.setAttribute(&quot;initialIndex&quot;, initialIndex);</span>
-<span class="fc" id="L52">        req.getRequestDispatcher(&quot;/WEB-INF/views/section/post.jsp&quot;).forward(req, resp);</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L52">        req.setAttribute(&quot;post&quot;, post);</span>
+<span class="fc" id="L53">        req.setAttribute(&quot;comments&quot;, comments);</span>
+<span class="fc" id="L54">        req.setAttribute(&quot;initialIndex&quot;, initialIndex);</span>
+<span class="fc" id="L55">        req.getRequestDispatcher(&quot;/WEB-INF/views/section/post.jsp&quot;).forward(req, resp);</span>
+<span class="fc" id="L56">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc" id="L57">        doGet(req, resp);</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L60">        doGet(req, resp);</span>
+<span class="fc" id="L61">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

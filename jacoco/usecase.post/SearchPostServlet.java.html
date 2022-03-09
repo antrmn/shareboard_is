@@ -8,18 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet relativa alla ricerca di un post.
+ */
 @WebServlet(&quot;/search&quot;)
-<span class="fc" id="L12">class SearchPostServlet extends InterceptableServlet {</span>
+<span class="fc" id="L15">class SearchPostServlet extends InterceptableServlet {</span>
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //la ricerca dei post è delegata a LoadPostsServlet. Il caricamento è fatto via AJAX.
-<span class="fc" id="L17">        req.getRequestDispatcher(&quot;/WEB-INF/views/search.jsp&quot;).forward(req,resp);</span>
-<span class="fc" id="L18">    }</span>
+<span class="fc" id="L20">        req.getRequestDispatcher(&quot;/WEB-INF/views/search.jsp&quot;).forward(req,resp);</span>
+<span class="fc" id="L21">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc" id="L22">        doGet(req, resp);</span>
-<span class="fc" id="L23">    }</span>
+<span class="fc" id="L25">        doGet(req, resp);</span>
+<span class="fc" id="L26">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -12,19 +12,22 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+/**
+ * Classe che fornisce i servizi relativi ai follow.
+ */
 @ApplicationScoped
 @Transactional
 public class FollowService {
     private GenericRepository genericRepository;
     private CurrentUser currentUser;
 
-<span class="nc" id="L21">    protected FollowService(){}</span>
+<span class="nc" id="L24">    protected FollowService(){}</span>
 
     @Inject
-<span class="fc" id="L24">    protected FollowService(GenericRepository genericRepository, CurrentUser currentUser){</span>
-<span class="fc" id="L25">        this.genericRepository = genericRepository;</span>
-<span class="fc" id="L26">        this.currentUser = currentUser;</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L27">    protected FollowService(GenericRepository genericRepository, CurrentUser currentUser){</span>
+<span class="fc" id="L28">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L29">        this.currentUser = currentUser;</span>
+<span class="fc" id="L30">    }</span>
 
     /**
      * Permette di seguire una sezione
@@ -32,10 +35,10 @@ public class FollowService {
      */
     @AuthenticationRequired
     public void follow(@SectionExists int sectionId){
-<span class="fc" id="L35">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="fc" id="L36">        Section section = genericRepository.findById(Section.class,sectionId);</span>
-<span class="fc" id="L37">        genericRepository.insert(new Follow(user,section));</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L38">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L39">        Section section = genericRepository.findById(Section.class,sectionId);</span>
+<span class="fc" id="L40">        genericRepository.insert(new Follow(user,section));</span>
+<span class="fc" id="L41">    }</span>
 
     /**
      * Permette di togliere il follow ad una sezione
@@ -43,13 +46,13 @@ public class FollowService {
      */
     @AuthenticationRequired
     public void unFollow(@SectionExists int sectionId){
-<span class="fc" id="L46">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
-<span class="fc" id="L47">        Section section = genericRepository.findById(Section.class,sectionId);</span>
-<span class="fc" id="L48">        Follow follow = section.getFollow(user);</span>
+<span class="fc" id="L49">        User user = genericRepository.findById(User.class, currentUser.getId());</span>
+<span class="fc" id="L50">        Section section = genericRepository.findById(Section.class,sectionId);</span>
+<span class="fc" id="L51">        Follow follow = section.getFollow(user);</span>
 
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if(follow != null)</span>
-<span class="fc" id="L51">            genericRepository.remove(follow);</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if(follow != null)</span>
+<span class="fc" id="L54">            genericRepository.remove(follow);</span>
+<span class="fc" id="L55">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -19,65 +19,67 @@
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  @WebServlet(<span class="jxr_string">"/admin/editsection"</span>)
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  @MultipartConfig
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  @AuthorizationConstraints(ADMINS_ONLY)
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">class</strong> <a name="EditSectionServlet" href="../../usecase/section/EditSectionServlet.html#EditSectionServlet">EditSectionServlet</a> <strong class="jxr_keyword">extends</strong> <a name="InterceptableServlet" href="../../common/http/interceptor/InterceptableServlet.html#InterceptableServlet">InterceptableServlet</a> {
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>      <em class="jxr_comment">//Funzionalità disabilitata</em>
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>      @Override
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doGet(HttpServletRequest req, HttpServletResponse resp) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>          resp.sendError(HttpServletResponse.SC_FORBIDDEN,<span class="jxr_string">"Funzionalità disabilitata temporaneamente"</span>);
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>      }
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * Servlet che permette ad un amministratore di modificare una sezione.</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  @WebServlet(<span class="jxr_string">"/admin/editsection"</span>)
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  @MultipartConfig
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  @AuthorizationConstraints(ADMINS_ONLY)
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">class</strong> <a name="EditSectionServlet" href="../../usecase/section/EditSectionServlet.html#EditSectionServlet">EditSectionServlet</a> <strong class="jxr_keyword">extends</strong> <a name="InterceptableServlet" href="../../common/http/interceptor/InterceptableServlet.html#InterceptableServlet">InterceptableServlet</a> {
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>      <em class="jxr_comment">//Funzionalità disabilitata</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      @Override
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> doGet(HttpServletRequest req, HttpServletResponse resp) <strong class="jxr_keyword">throws</strong> ServletException, IOException {
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          resp.sendError(HttpServletResponse.SC_FORBIDDEN,<span class="jxr_string">"Funzionalità disabilitata temporaneamente"</span>);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      }
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <em class="jxr_comment">/*@Inject private SectionService service;</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_comment">    private static final String EDIT_SECTION_PAGE = "/WEB-INF/views/crm/edit-section.jsp";</em>
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_comment">    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_comment">    @Override</em>
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_comment">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</em>
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_comment">        ParameterConverter converter = new ParameterConverter(request);</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_comment">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</em>
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_comment">        SectionPage section = service.showSection(sectionId);</em>
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_comment">        request.setAttribute("section", section);</em>
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_comment">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</em>
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_comment">    }</em>
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_comment">    @Override</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_comment">    @ForwardOnError(EDIT_SECTION_PAGE)</em>
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_comment">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_comment">        ParameterConverter converter = new ParameterConverter(request);</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_comment">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</em>
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_comment">        String description = request.getParameter("description");</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_comment">        Part picture = request.getPart("picture");</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_comment">        Part banner = request.getPart("banner");</em>
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_comment">        BufferedInputStream buffPicture = null;</em>
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_comment">        BufferedInputStream buffBanner = null;</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_comment">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_comment">            if (picture.getSize()&gt;0)</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_comment">                buffPicture = new BufferedInputStream(picture.getInputStream());</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_comment">        }else{</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_comment">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_comment">        }</em>
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_comment">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</em>
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_comment">            if (banner.getSize()&gt;0)</em>
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_comment">                buffBanner = new BufferedInputStream(banner.getInputStream());</em>
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_comment">        }else{</em>
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_comment">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</em>
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_comment">        }</em>
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_comment">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</em>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_comment">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</em>
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_comment">        response.sendRedirect(request.getContextPath()+"/admin/showsections");</em>
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_comment">    }</em>
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_comment">    */</em>
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  }
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <em class="jxr_comment">/*@Inject private SectionService service;</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_comment">    private static final String EDIT_SECTION_PAGE = "/WEB-INF/views/crm/edit-section.jsp";</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_comment">    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_comment">    @Override</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_comment">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_comment">        ParameterConverter converter = new ParameterConverter(request);</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_comment">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_comment">        SectionPage section = service.showSection(sectionId);</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_comment">        request.setAttribute("section", section);</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_comment">        request.getRequestDispatcher(EDIT_SECTION_PAGE).forward(request, response);</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_comment">    }</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_comment">    @Override</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_comment">    @ForwardOnError(EDIT_SECTION_PAGE)</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_comment">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_comment">        ParameterConverter converter = new ParameterConverter(request);</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_comment">        int sectionId = converter.getIntParameter("sectionId").orElse(0);</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_comment">        String description = request.getParameter("description");</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_comment">        Part picture = request.getPart("picture");</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_comment">        Part banner = request.getPart("banner");</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_comment">        BufferedInputStream buffPicture = null;</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_comment">        BufferedInputStream buffBanner = null;</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_comment">        if(picture != null &amp;&amp; picture.getSize() &lt; MAX_FILE_SIZE) {</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_comment">            if (picture.getSize()&gt;0)</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_comment">                buffPicture = new BufferedInputStream(picture.getInputStream());</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_comment">        }else{</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_comment">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_comment">        }</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_comment">        if(banner != null &amp;&amp; banner.getSize() &lt; MAX_FILE_SIZE) {</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_comment">            if (banner.getSize()&gt;0)</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_comment">                buffBanner = new BufferedInputStream(banner.getInputStream());</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_comment">        }else{</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_comment">            throw new IllegalArgumentException("Il file non deve superare i 5MB");</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_comment">        }</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_comment">        SectionPage sectionPage = new SectionPage(sectionId,null,description,picture.getName(),banner.getName(),0,false); //false?</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_comment">        service.editSection(sectionPage,sectionId,buffPicture,buffBanner);</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_comment">        response.sendRedirect(request.getContextPath()+"/admin/showsections");</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_comment">    }</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_comment">    */</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2022. All rights reserved.</div>

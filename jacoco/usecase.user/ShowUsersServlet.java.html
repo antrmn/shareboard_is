@@ -13,17 +13,20 @@ import java.util.List;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che mostra agli amministratori gli utenti registrati.
+ */
 @WebServlet(&quot;/admin/showusers&quot;)
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="fc" id="L18">class ShowUsersServlet extends InterceptableServlet {</span>
+<span class="fc" id="L21">class ShowUsersServlet extends InterceptableServlet {</span>
 
     @Inject private UserService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L24">        List&lt;UserProfile&gt; usersDto = service.showUsers();</span>
-<span class="fc" id="L25">        request.setAttribute(&quot;users&quot;, usersDto);</span>
-<span class="fc" id="L26">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/show-users.jsp&quot;).forward(request,response);</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L27">        List&lt;UserProfile&gt; usersDto = service.showUsers();</span>
+<span class="fc" id="L28">        request.setAttribute(&quot;users&quot;, usersDto);</span>
+<span class="fc" id="L29">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/show-users.jsp&quot;).forward(request,response);</span>
+<span class="fc" id="L30">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

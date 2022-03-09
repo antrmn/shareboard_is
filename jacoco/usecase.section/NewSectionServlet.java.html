@@ -16,32 +16,35 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.ADMINS_ONLY;
 
+/**
+ * Servlet che permette ad un amministratore di creare una nuova sezione.
+ */
 @WebServlet(&quot;/admin/newsection&quot;)
 @MultipartConfig
 @AuthorizationConstraints(ADMINS_ONLY)
-<span class="fc" id="L22">class NewSectionServlet extends InterceptableServlet {</span>
+<span class="fc" id="L25">class NewSectionServlet extends InterceptableServlet {</span>
     @Inject private SectionService service;
 
     private static final String NEW_SECTION_PAGE = &quot;/WEB-INF/views/crm/create-section.jsp&quot;;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L29">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/create-section.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L32">        request.getRequestDispatcher(&quot;/WEB-INF/views/crm/create-section.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L33">    }</span>
 
     @Override
     @ForwardOnError(NEW_SECTION_PAGE)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L35">        String name = request.getParameter(&quot;name&quot;);</span>
-<span class="fc" id="L36">        String description = request.getParameter(&quot;description&quot;);</span>
-<span class="fc" id="L37">        Part picture = request.getPart(&quot;picture&quot;);</span>
-<span class="fc" id="L38">        Part banner = request.getPart(&quot;banner&quot;);</span>
+<span class="fc" id="L38">        String name = request.getParameter(&quot;name&quot;);</span>
+<span class="fc" id="L39">        String description = request.getParameter(&quot;description&quot;);</span>
+<span class="fc" id="L40">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L41">        Part banner = request.getPart(&quot;banner&quot;);</span>
 
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        BufferedInputStream streamPicture = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? new BufferedInputStream(banner.getInputStream()) : null;</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        BufferedInputStream streamPicture = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        BufferedInputStream streamBanner = banner.getSize() &gt; 0 ? new BufferedInputStream(banner.getInputStream()) : null;</span>
 
-<span class="fc" id="L43">        service.newSection(name, description ,streamPicture,streamBanner);</span>
-<span class="fc" id="L44">        response.sendRedirect(getServletContext().getContextPath()+&quot;/admin/showsections&quot;);</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L46">        service.newSection(name, description ,streamPicture,streamBanner);</span>
+<span class="fc" id="L47">        response.sendRedirect(getServletContext().getContextPath()+&quot;/admin/showsections&quot;);</span>
+<span class="fc" id="L48">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

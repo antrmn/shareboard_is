@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet dedicata alle operazioni di logout.
+ */
 @WebServlet(&quot;/logout&quot;)
-<span class="fc" id="L12">class LogoutServlet extends InterceptableServlet {</span>
+<span class="fc" id="L15">class LogoutServlet extends InterceptableServlet {</span>
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc" id="L16">        req.getSession(true).invalidate();</span>
-<span class="fc" id="L17">        resp.sendRedirect(req.getContextPath());</span>
-<span class="fc" id="L18">    }</span>
+<span class="fc" id="L19">        req.getSession(true).invalidate();</span>
+<span class="fc" id="L20">        resp.sendRedirect(req.getContextPath());</span>
+<span class="fc" id="L21">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

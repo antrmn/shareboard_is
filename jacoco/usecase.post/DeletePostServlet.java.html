@@ -13,23 +13,26 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di eliminare un post.
+ */
 @WebServlet(name = &quot;DeletePostServlet&quot;, value = &quot;/DeletePostServlet&quot;)
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L18">class DeletePostServlet extends InterceptableServlet {</span>
+<span class="fc" id="L21">class DeletePostServlet extends InterceptableServlet {</span>
     @Inject private PostService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L23">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L24">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
-<span class="fc" id="L25">        String sectionName = service.getPost(postId).getSectionName();</span>
-<span class="fc" id="L26">        service.delete(postId);</span>
-<span class="fc" id="L27">        response.sendRedirect(getServletContext().getContextPath() + &quot;/s/&quot; + sectionName);</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L26">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L27">        int postId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
+<span class="fc" id="L28">        String sectionName = service.getPost(postId).getSectionName();</span>
+<span class="fc" id="L29">        service.delete(postId);</span>
+<span class="fc" id="L30">        response.sendRedirect(getServletContext().getContextPath() + &quot;/s/&quot; + sectionName);</span>
+<span class="fc" id="L31">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L32">        doGet(request,response);</span>
-<span class="fc" id="L33">    }</span>
+<span class="fc" id="L35">        doGet(request,response);</span>
+<span class="fc" id="L36">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

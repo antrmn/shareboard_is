@@ -18,10 +18,13 @@ import java.io.IOException;
 
 import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION;
 
+/**
+ * Classe che permette di aggiungere un post.
+ */
 @WebServlet(&quot;/newpost&quot;)
 @MultipartConfig
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
-<span class="fc" id="L24">class NewPostServlet extends InterceptableServlet {</span>
+<span class="fc" id="L27">class NewPostServlet extends InterceptableServlet {</span>
     @Inject private PostService service;
     @Inject private SectionService sectionService;
 
@@ -29,29 +32,29 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L32">        request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);</span>
-<span class="fc" id="L33">    }</span>
+<span class="fc" id="L35">        request.getRequestDispatcher(NEW_POST_PAGE).forward(request, response);</span>
+<span class="fc" id="L36">    }</span>
 
     @Override
     @ForwardOnError(&quot;/WEB-INF/views/section/create-post.jsp&quot;)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L38">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L39">        int sectionId = converter.getIntParameter(&quot;section&quot;).orElse(0);</span>
-<span class="fc" id="L40">        String sectionName = sectionService.showSection(sectionId).getName();</span>
+<span class="fc" id="L41">        ParameterConverter converter = new ParameterConverter(request);</span>
+<span class="fc" id="L42">        int sectionId = converter.getIntParameter(&quot;section&quot;).orElse(0);</span>
+<span class="fc" id="L43">        String sectionName = sectionService.showSection(sectionId).getName();</span>
 
-<span class="fc" id="L42">        String title = request.getParameter(&quot;title&quot;);</span>
-<span class="fc" id="L43">        String type = request.getParameter(&quot;type&quot;);</span>
-<span class="fc" id="L44">        String content = request.getParameter(&quot;content&quot;);</span>
-<span class="fc" id="L45">        Part picture = request.getPart(&quot;picture&quot;);</span>
+<span class="fc" id="L45">        String title = request.getParameter(&quot;title&quot;);</span>
+<span class="fc" id="L46">        String type = request.getParameter(&quot;type&quot;);</span>
+<span class="fc" id="L47">        String content = request.getParameter(&quot;content&quot;);</span>
+<span class="fc" id="L48">        Part picture = request.getPart(&quot;picture&quot;);</span>
 
         int newPostId;
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        if(type.equalsIgnoreCase(&quot;text&quot;)){</span>
-<span class="fc" id="L49">            newPostId = service.newPost(title,content,sectionName);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if(type.equalsIgnoreCase(&quot;text&quot;)){</span>
+<span class="fc" id="L52">            newPostId = service.newPost(title,content,sectionName);</span>
         }else{
-<span class="fc bfc" id="L51" title="All 2 branches covered.">            BufferedInputStream stream = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
-<span class="fc" id="L52">            newPostId = service.newPost(title,stream, sectionName);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            BufferedInputStream stream = picture.getSize() &gt; 0 ? new BufferedInputStream(picture.getInputStream()) : null;</span>
+<span class="fc" id="L55">            newPostId = service.newPost(title,stream, sectionName);</span>
         }
-<span class="fc" id="L54">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + newPostId);</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L57">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + newPostId);</span>
+<span class="fc" id="L58">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

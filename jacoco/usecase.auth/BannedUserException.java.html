@@ -3,19 +3,22 @@
 import javax.ejb.ApplicationException;
 import java.time.Instant;
 
+/**
+ * Eccezione relativa al ban.
+ */
 @ApplicationException(rollback = true)
 public class BannedUserException extends RuntimeException{
     private Instant duration;
 
     public Instant getDuration() {
-<span class="fc" id="L11">        return duration;</span>
+<span class="fc" id="L14">        return duration;</span>
     }
 
-<span class="fc" id="L14">    public BannedUserException() {</span>
-<span class="fc" id="L15">    }</span>
+<span class="fc" id="L17">    public BannedUserException() {</span>
+<span class="fc" id="L18">    }</span>
 
-<span class="fc" id="L17">    public BannedUserException(Instant duration){</span>
+<span class="fc" id="L20">    public BannedUserException(Instant duration){</span>
 
-<span class="fc" id="L19">    }</span>
+<span class="fc" id="L22">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

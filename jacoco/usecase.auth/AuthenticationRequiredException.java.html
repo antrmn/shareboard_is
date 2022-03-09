@@ -2,21 +2,24 @@
 
 import javax.ejb.ApplicationException;
 
+/**
+ * Eccezione indicante la necessità di autenticarsi come admin per procedere.
+ */
 @ApplicationException(rollback = true)
 public class AuthenticationRequiredException extends RuntimeException {
-<span class="fc" id="L7">    public AuthenticationRequiredException() {</span>
-<span class="fc" id="L8">    }</span>
+<span class="fc" id="L10">    public AuthenticationRequiredException() {</span>
+<span class="fc" id="L11">    }</span>
 
     public AuthenticationRequiredException(String message) {
-<span class="fc" id="L11">        super(message);</span>
-<span class="fc" id="L12">    }</span>
+<span class="fc" id="L14">        super(message);</span>
+<span class="fc" id="L15">    }</span>
 
     public AuthenticationRequiredException(String message, Throwable cause) {
-<span class="nc" id="L15">        super(message, cause);</span>
-<span class="nc" id="L16">    }</span>
+<span class="nc" id="L18">        super(message, cause);</span>
+<span class="nc" id="L19">    }</span>
 
     public AuthenticationRequiredException(Throwable cause) {
-<span class="nc" id="L19">        super(cause);</span>
-<span class="nc" id="L20">    }</span>
+<span class="nc" id="L22">        super(cause);</span>
+<span class="nc" id="L23">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

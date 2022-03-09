@@ -10,35 +10,38 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Servlet dedicata alle operazioni di login.
+ */
 @WebServlet(&quot;/login&quot;)
-<span class="fc" id="L14">class LoginServlet extends InterceptableServlet {</span>
+<span class="fc" id="L17">class LoginServlet extends InterceptableServlet {</span>
     @Inject AuthenticationService authenticationService;
     @Inject CurrentUser currentUser;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        if(currentUser.isLoggedIn())</span>
-<span class="fc" id="L21">            resp.sendRedirect(req.getContextPath());</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if(currentUser.isLoggedIn())</span>
+<span class="fc" id="L24">            resp.sendRedirect(req.getContextPath());</span>
         else
-<span class="fc" id="L23">            req.getRequestDispatcher(&quot;/WEB-INF/views/login.jsp&quot;).forward(req, resp);</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L26">            req.getRequestDispatcher(&quot;/WEB-INF/views/login.jsp&quot;).forward(req, resp);</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-<span class="fc bfc" id="L28" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
-<span class="fc" id="L29">            resp.sendRedirect(req.getContextPath());</span>
-<span class="fc" id="L30">            return;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
+<span class="fc" id="L32">            resp.sendRedirect(req.getContextPath());</span>
+<span class="fc" id="L33">            return;</span>
         }
 
-<span class="fc" id="L33">        String username = Optional.ofNullable(req.getParameter(&quot;username&quot;)).orElse(&quot;&quot;);</span>
-<span class="fc" id="L34">        String password = Optional.ofNullable(req.getParameter(&quot;pass&quot;)).orElse(&quot;&quot;);</span>
+<span class="fc" id="L36">        String username = Optional.ofNullable(req.getParameter(&quot;username&quot;)).orElse(&quot;&quot;);</span>
+<span class="fc" id="L37">        String password = Optional.ofNullable(req.getParameter(&quot;pass&quot;)).orElse(&quot;&quot;);</span>
 
-<span class="fc" id="L36">        boolean loginSuccessful = authenticationService.authenticate(username, password);</span>
+<span class="fc" id="L39">        boolean loginSuccessful = authenticationService.authenticate(username, password);</span>
 
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        if(loginSuccessful)</span>
-<span class="fc" id="L39">            resp.sendRedirect(req.getContextPath());</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if(loginSuccessful)</span>
+<span class="fc" id="L42">            resp.sendRedirect(req.getContextPath());</span>
         else
-<span class="fc" id="L41">            req.getRequestDispatcher(&quot;/WEB-INF/views/login.jsp?error&quot;).forward(req, resp);</span>
-<span class="fc" id="L42">    }</span>
+<span class="fc" id="L44">            req.getRequestDispatcher(&quot;/WEB-INF/views/login.jsp?error&quot;).forward(req, resp);</span>
+<span class="fc" id="L45">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

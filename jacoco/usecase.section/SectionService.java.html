@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Classe che fornisce i servizi relativi alle sezioni.
+ */
 @ApplicationScoped
 @Transactional
 public class SectionService {
@@ -37,16 +40,16 @@ public class SectionService {
     private MediaRepository bcRepo;
     private CurrentUser currentUser;
 
-<span class="nc" id="L40">    protected SectionService(){}</span>
+<span class="nc" id="L43">    protected SectionService(){}</span>
 
     @Inject
     protected SectionService(GenericRepository genericRepository, SectionRepository sectionRepository,
-<span class="fc" id="L44">                             MediaRepository bcRepo, CurrentUser currentUser){</span>
-<span class="fc" id="L45">        this.genericRepository = genericRepository;</span>
-<span class="fc" id="L46">        this.sectionRepo = sectionRepository;</span>
-<span class="fc" id="L47">        this.bcRepo = bcRepo;</span>
-<span class="fc" id="L48">        this.currentUser = currentUser;</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L47">                             MediaRepository bcRepo, CurrentUser currentUser){</span>
+<span class="fc" id="L48">        this.genericRepository = genericRepository;</span>
+<span class="fc" id="L49">        this.sectionRepo = sectionRepository;</span>
+<span class="fc" id="L50">        this.bcRepo = bcRepo;</span>
+<span class="fc" id="L51">        this.currentUser = currentUser;</span>
+<span class="fc" id="L52">    }</span>
 
     /**
      * Converte section in SectionPage.
@@ -54,17 +57,17 @@ public class SectionService {
      * @return SectionPage con i dati di section
      */
     private SectionPage map(Section section){
-<span class="fc" id="L57">        User user = null;</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
-<span class="fc" id="L59">            user = genericRepository.findById(User.class,currentUser.getId());</span>
+<span class="fc" id="L60">        User user = null;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if(currentUser.isLoggedIn()){</span>
+<span class="fc" id="L62">            user = genericRepository.findById(User.class,currentUser.getId());</span>
         }
-<span class="fc" id="L61">        return SectionPage.builder().id(section.getId())</span>
-<span class="fc" id="L62">                .name(section.getName())</span>
-<span class="fc" id="L63">                .picture(section.getPicture())</span>
-<span class="fc" id="L64">                .description(section.getDescription())</span>
-<span class="fc" id="L65">                .banner(section.getBanner())</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">                .nFollowers(section.getFollowCount())</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">                .isFollowed(user != null &amp;&amp; section.getFollow(user) != null).build();</span>
+<span class="fc" id="L64">        return SectionPage.builder().id(section.getId())</span>
+<span class="fc" id="L65">                .name(section.getName())</span>
+<span class="fc" id="L66">                .picture(section.getPicture())</span>
+<span class="fc" id="L67">                .description(section.getDescription())</span>
+<span class="fc" id="L68">                .banner(section.getBanner())</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                .nFollowers(section.getFollowCount())</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                .isFollowed(user != null &amp;&amp; section.getFollow(user) != null).build();</span>
     }
 
     /**
@@ -73,8 +76,8 @@ public class SectionService {
      */
     @AdminsOnly
     public void delete(@SectionExists int id){
-<span class="fc" id="L76">        genericRepository.remove(genericRepository.findById(Section.class, id));</span>
-<span class="fc" id="L77">    }</span>
+<span class="fc" id="L79">        genericRepository.remove(genericRepository.findById(Section.class, id));</span>
+<span class="fc" id="L80">    }</span>
 
     /**
      * Crea una nuova sezione e ne restituisce l'id
@@ -89,20 +92,20 @@ public class SectionService {
                           @Size(max=255) String description,
                           @Image BufferedInputStream picture,
                           @Image BufferedInputStream banner) {
-<span class="fc" id="L92">        Section s = new Section();</span>
-<span class="fc" id="L93">        s.setName(name);</span>
-<span class="fc" id="L94">        s.setDescription(description);</span>
+<span class="fc" id="L95">        Section s = new Section();</span>
+<span class="fc" id="L96">        s.setName(name);</span>
+<span class="fc" id="L97">        s.setDescription(description);</span>
         try {
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (picture != null)</span>
-<span class="nc" id="L97">                s.setPicture(bcRepo.insert(picture));</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            if (banner != null)</span>
-<span class="nc" id="L99">                s.setBanner(bcRepo.insert(banner));</span>
-<span class="nc" id="L100">        } catch (ReadLimitExceededException e) {</span>
-<span class="nc" id="L101">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
-<span class="nc" id="L102">        } catch (IOException e) {</span>
-<span class="nc" id="L103">            throw new RuntimeException(e);</span>
-<span class="fc" id="L104">        }</span>
-<span class="fc" id="L105">        return genericRepository.insert(s).getId();</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            if (picture != null)</span>
+<span class="nc" id="L100">                s.setPicture(bcRepo.insert(picture));</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">            if (banner != null)</span>
+<span class="nc" id="L102">                s.setBanner(bcRepo.insert(banner));</span>
+<span class="nc" id="L103">        } catch (ReadLimitExceededException e) {</span>
+<span class="nc" id="L104">            throw new IllegalArgumentException(&quot;Il file non deve superare i 5MB&quot;);</span>
+<span class="nc" id="L105">        } catch (IOException e) {</span>
+<span class="nc" id="L106">            throw new RuntimeException(e);</span>
+<span class="fc" id="L107">        }</span>
+<span class="fc" id="L108">        return genericRepository.insert(s).getId();</span>
     }
 
     /**
@@ -110,7 +113,7 @@ public class SectionService {
      * @return lista di sezioni
      */
     public List&lt;SectionPage&gt; showSections(){
-<span class="fc" id="L113">        return genericRepository.findAll(Section.class).stream().map(this::map).collect(Collectors.toList());</span>
+<span class="fc" id="L116">        return genericRepository.findAll(Section.class).stream().map(this::map).collect(Collectors.toList());</span>
     }
 
     /**
@@ -121,8 +124,8 @@ public class SectionService {
     @RequestScoped
     @Produces
     public Map&lt;Integer,SectionPage&gt; getSectionsMap(){
-<span class="fc" id="L124">        return genericRepository.findAll(Section.class).stream().map(this::map)</span>
-<span class="fc" id="L125">                .collect(Collectors.toMap(SectionPage::getId, section -&gt; section));</span>
+<span class="fc" id="L127">        return genericRepository.findAll(Section.class).stream().map(this::map)</span>
+<span class="fc" id="L128">                .collect(Collectors.toMap(SectionPage::getId, section -&gt; section));</span>
     }
 
     /**
@@ -131,8 +134,8 @@ public class SectionService {
      * @return entita SectionPage che contiene i dati della sezione
      */
     public SectionPage showSection(@SectionExists int id){
-<span class="fc" id="L134">       Section s =  genericRepository.findById(Section.class, id);</span>
-<span class="fc" id="L135">       return map(s);</span>
+<span class="fc" id="L137">       Section s =  genericRepository.findById(Section.class, id);</span>
+<span class="fc" id="L138">       return map(s);</span>
     }
 
     /**
@@ -141,8 +144,8 @@ public class SectionService {
      * @return entita SectionPage che contiene i dati della sezione
      */
     public SectionPage getSection(@NotNull @SectionExists String sectionName){
-<span class="fc" id="L144">        Section s = genericRepository.findByNaturalId(Section.class,sectionName);</span>
-<span class="fc" id="L145">        return map(s);</span>
+<span class="fc" id="L147">        Section s = genericRepository.findByNaturalId(Section.class,sectionName);</span>
+<span class="fc" id="L148">        return map(s);</span>
     }
 
     /**
@@ -153,7 +156,7 @@ public class SectionService {
     @RequestScoped
     @Named(&quot;topSections&quot;)
     public List&lt;SectionPage&gt; getTopSections(){
-<span class="fc" id="L156">        return sectionRepo.getMostFollowedSections().stream().map(this::map).collect(Collectors.toList());</span>
+<span class="fc" id="L159">        return sectionRepo.getMostFollowedSections().stream().map(this::map).collect(Collectors.toList());</span>
     }
 
     /**
@@ -164,8 +167,8 @@ public class SectionService {
     @RequestScoped
     @Named(&quot;trendingSections&quot;)
     public List&lt;SectionPage&gt; getTrendingSections(){
-<span class="fc" id="L167">        return sectionRepo.getMostFollowedSections(Instant.now().minus(7, ChronoUnit.DAYS))</span>
-<span class="fc" id="L168">                .stream().map(this::map).collect(Collectors.toList());</span>
+<span class="fc" id="L170">        return sectionRepo.getMostFollowedSections(Instant.now().minus(7, ChronoUnit.DAYS))</span>
+<span class="fc" id="L171">                .stream().map(this::map).collect(Collectors.toList());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

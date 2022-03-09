@@ -9,22 +9,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet che permette la visualizzazione di una sezione.
+ */
 @WebServlet(&quot;/s&quot;)
-<span class="fc" id="L13">class SectionServlet extends InterceptableServlet {</span>
+<span class="fc" id="L16">class SectionServlet extends InterceptableServlet {</span>
 
     @Inject private SectionService service;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L19">        String sectionName = request.getParameter(&quot;section&quot;);</span>
-<span class="fc" id="L20">        SectionPage section = service.getSection(sectionName);</span>
-<span class="fc" id="L21">        request.setAttribute(&quot;section&quot;, section);</span>
-<span class="fc" id="L22">        request.getRequestDispatcher(&quot;/WEB-INF/views/section/section.jsp&quot;).forward(request, response);</span>
-<span class="fc" id="L23">    }</span>
+<span class="fc" id="L22">        String sectionName = request.getParameter(&quot;section&quot;);</span>
+<span class="fc" id="L23">        SectionPage section = service.getSection(sectionName);</span>
+<span class="fc" id="L24">        request.setAttribute(&quot;section&quot;, section);</span>
+<span class="fc" id="L25">        request.getRequestDispatcher(&quot;/WEB-INF/views/section/section.jsp&quot;).forward(request, response);</span>
+<span class="fc" id="L26">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="fc" id="L27">        doGet(request,response);</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L30">        doGet(request,response);</span>
+<span class="fc" id="L31">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

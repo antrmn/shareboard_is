@@ -6,18 +6,27 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+/**
+ * Classe interceptor per verificare lo stato di admin di un utente loggato.
+ */
 @Interceptor
 @AdminsOnly
 @Priority(Interceptor.Priority.APPLICATION+3)
-<span class="fc" id="L12">public class AdminsOnlyInterceptor {</span>
+<span class="fc" id="L15">public class AdminsOnlyInterceptor {</span>
     @Inject private CurrentUser currentUser;
 
+    /**
+     * Controlla se l'utente loggato è un admin.
+     * @param invocationContext
+     * @return Oggetto che autorizza a procedere con le operazioni.
+     * @throws AuthorizationException
+     */
     @AroundInvoke
     public Object checkAdmin(InvocationContext invocationContext) throws Exception{
-<span class="fc bfc" id="L17" title="All 4 branches covered.">        if(!currentUser.isLoggedIn() || !currentUser.isAdmin()){</span>
-<span class="fc" id="L18">            throw new AuthorizationException();</span>
+<span class="fc bfc" id="L26" title="All 4 branches covered.">        if(!currentUser.isLoggedIn() || !currentUser.isAdmin()){</span>
+<span class="fc" id="L27">            throw new AuthorizationException();</span>
         }
-<span class="fc" id="L20">        return invocationContext.proceed();</span>
+<span class="fc" id="L29">        return invocationContext.proceed();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
