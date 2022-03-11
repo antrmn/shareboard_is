@@ -1,10 +1,10 @@
 package usecase.auth;
 
-import domain.entity.Post;
-import domain.entity.Section;
-import domain.entity.User;
-import domain.repository.*;
 import media.MediaRepository;
+import model.entity.Post;
+import model.entity.Section;
+import model.entity.User;
+import model.repository.*;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Assertions;

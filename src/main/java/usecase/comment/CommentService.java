@@ -1,13 +1,13 @@
 package usecase.comment;
 
-import domain.entity.Comment;
-import domain.entity.CommentVote;
-import domain.entity.Post;
-import domain.entity.User;
-import domain.repository.CommentRepository;
-import domain.repository.GenericRepository;
-import domain.validation.CommentExists;
-import domain.validation.PostExists;
+import model.entity.Comment;
+import model.entity.CommentVote;
+import model.entity.Post;
+import model.entity.User;
+import model.repository.CommentRepository;
+import model.repository.GenericRepository;
+import model.validation.CommentExists;
+import model.validation.PostExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.AuthorizationException;
 import usecase.auth.CurrentUser;

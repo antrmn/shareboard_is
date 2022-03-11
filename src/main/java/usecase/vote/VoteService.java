@@ -1,9 +1,9 @@
 package usecase.vote;
 
-import domain.entity.*;
-import domain.repository.GenericRepository;
-import domain.validation.CommentExists;
-import domain.validation.PostExists;
+import model.entity.*;
+import model.repository.GenericRepository;
+import model.validation.CommentExists;
+import model.validation.PostExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.CurrentUser;
 

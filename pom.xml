@@ -235,7 +235,7 @@
                         </reports>
                         <configuration>
                             <excludes>
-                                <exclude>**/domain/FlywayMigrator*</exclude>
+                                <exclude>**/model/FlywayMigrator*</exclude>
                             </excludes>
                             <dataFile>${project.build.directory}/jacoco-merge.exec</dataFile>
                         </configuration>
@@ -281,8 +281,8 @@
                             <packages>common:common.*</packages>
                         </group>
                         <group>
-                            <title>Domain and data access</title>
-                            <packages>domain:domain.*:media:media.*</packages>
+                            <title>Model and data access</title>
+                            <packages>model:model.*:media:media.*</packages>
                         </group>
                         <group>
                             <title>Business</title>

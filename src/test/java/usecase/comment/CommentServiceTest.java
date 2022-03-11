@@ -1,11 +1,11 @@
 package usecase.comment;
 
-import domain.entity.Comment;
-import domain.entity.Post;
-import domain.entity.User;
-import domain.repository.CommentRepository;
-import domain.repository.GenericRepository;
 import media.MediaRepository;
+import model.entity.Comment;
+import model.entity.Post;
+import model.entity.User;
+import model.repository.CommentRepository;
+import model.repository.GenericRepository;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;

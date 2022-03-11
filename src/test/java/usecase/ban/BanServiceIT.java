@@ -1,8 +1,8 @@
 package usecase.ban;
 
-import domain.entity.User;
-import domain.repository.*;
 import media.MediaRepository;
+import model.entity.User;
+import model.repository.*;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.BeforeAll;

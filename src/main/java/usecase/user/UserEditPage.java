@@ -1,13 +1,13 @@
 package usecase.user;
 
-import domain.validation.EmailFormat;
-import domain.validation.PasswordFormat;
-import domain.validation.UniqueEmail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import media.validation.Image;
+import model.validation.EmailFormat;
+import model.validation.PasswordFormat;
+import model.validation.UniqueEmail;
 
 import javax.validation.constraints.Size;
 import java.io.BufferedInputStream;

@@ -1,7 +1,7 @@
 package usecase.auth;
 
-import domain.entity.User;
-import domain.repository.GenericRepository;
+import model.entity.User;
+import model.repository.GenericRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;

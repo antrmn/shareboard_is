@@ -1,10 +1,10 @@
 package usecase.user;
 
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.repository.PersistenceIT;
-import domain.repository.UserRepository;
 import media.MediaRepository;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.repository.PersistenceIT;
+import model.repository.UserRepository;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.BeforeAll;

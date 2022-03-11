@@ -1,14 +1,14 @@
 package usecase.section;
 
-import domain.entity.Section;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.repository.SectionRepository;
-import domain.validation.SectionExists;
-import domain.validation.UniqueSection;
 import media.MediaRepository;
 import media.ReadLimitExceededException;
 import media.validation.Image;
+import model.entity.Section;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.repository.SectionRepository;
+import model.validation.SectionExists;
+import model.validation.UniqueSection;
 import usecase.auth.AdminsOnly;
 import usecase.auth.CurrentUser;
 

@@ -1,10 +1,10 @@
 package usecase.ban;
 
-import domain.entity.Ban;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.validation.BanExists;
-import domain.validation.UserExists;
+import model.entity.Ban;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.validation.BanExists;
+import model.validation.UserExists;
 import usecase.auth.AdminsOnly;
 
 import javax.enterprise.context.ApplicationScoped;

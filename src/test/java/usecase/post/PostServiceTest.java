@@ -1,13 +1,13 @@
 package usecase.post;
 
-import domain.entity.Post;
-import domain.entity.Section;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.repository.PostRepository;
-import domain.repository.SectionRepository;
-import domain.repository.UserRepository;
 import media.MediaRepository;
+import model.entity.Post;
+import model.entity.Section;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.repository.PostRepository;
+import model.repository.SectionRepository;
+import model.repository.UserRepository;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;
