@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.net.URLConnection;
 
 @WebServlet("/image/*")
-class ImageServlet extends InterceptableServlet {
+public class ImageServlet extends InterceptableServlet {
     @Inject ImageService imageService;
 
     @Override
