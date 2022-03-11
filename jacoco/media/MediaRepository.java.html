@@ -6,25 +6,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+/**
+ * Classe che incapsula la logica per il ritrovo di media (immagini) dal filesystem
+ */
 public class MediaRepository implements Serializable{
 
-<span class="fc" id="L11">    private Path uploadRoot = Path.of(System.getProperty(&quot;openejb.home&quot;), &quot;uploads&quot;);</span>
-<span class="fc" id="L12">    private final long sizeLimit = 5*1024*1024; //todo: parametrizza nel metodo insert</span>
+<span class="fc" id="L14">    private Path uploadRoot = Path.of(System.getProperty(&quot;openejb.home&quot;), &quot;uploads&quot;);</span>
+<span class="fc" id="L15">    private final long sizeLimit = 5*1024*1024; //todo: parametrizza nel metodo insert</span>
 
     /**
      *  Costruttore vuoto
      * @return nuova istanza di MediaRepository
      */
-<span class="fc" id="L18">    public MediaRepository(){}</span>
+<span class="fc" id="L21">    public MediaRepository(){}</span>
 
     /**
      *  Costruttore con parametro per settare uploadRoot
      * @param uploadRoot oggetto Path per settare uploadRoot
      * @return nuova istanza di MediaRepository
      */
-<span class="fc" id="L25">    public MediaRepository(Path uploadRoot){</span>
-<span class="fc" id="L26">        this.uploadRoot = uploadRoot;</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L28">    public MediaRepository(Path uploadRoot){</span>
+<span class="fc" id="L29">        this.uploadRoot = uploadRoot;</span>
+<span class="fc" id="L30">    }</span>
 
     /**
      *  Salva un file nel filesystem e ne restituisce il nome
@@ -35,10 +38,10 @@ public class MediaRepository implements Serializable{
      * @return nuova istanza di MediaRepository
      */
     public String insert(InputStream stream, String filename) throws IOException {
-<span class="fc" id="L38">        Files.createDirectories(uploadRoot);</span>
-<span class="fc" id="L39">        File file = new File(uploadRoot.toFile(), filename);</span>
-<span class="fc" id="L40">        Files.copy(new LimitedInputStream(stream,sizeLimit), file.toPath());</span>
-<span class="fc" id="L41">        return filename;</span>
+<span class="fc" id="L41">        Files.createDirectories(uploadRoot);</span>
+<span class="fc" id="L42">        File file = new File(uploadRoot.toFile(), filename);</span>
+<span class="fc" id="L43">        Files.copy(new LimitedInputStream(stream,sizeLimit), file.toPath());</span>
+<span class="fc" id="L44">        return filename;</span>
     }
 
     /**
@@ -48,7 +51,7 @@ public class MediaRepository implements Serializable{
      * @return nuova istanza di MediaRepository
      */
     public String insert(InputStream stream) throws IOException {
-<span class="fc" id="L51">        return insert(stream, UUID.randomUUID().toString());</span>
+<span class="fc" id="L54">        return insert(stream, UUID.randomUUID().toString());</span>
     }
 
     /**
@@ -57,9 +60,9 @@ public class MediaRepository implements Serializable{
      * @throws IOException
      */
     public void remove(String filename) throws IOException {
-<span class="fc" id="L60">        boolean successful = Files.deleteIfExists(uploadRoot.resolve(filename));</span>
+<span class="fc" id="L63">        boolean successful = Files.deleteIfExists(uploadRoot.resolve(filename));</span>
         // if (!successful) { ???? }
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L65">    }</span>
 
     /**
      *  Restituisce un file dal filesystem dato un nome se esiste altrimenti restituisce null
@@ -67,13 +70,13 @@ public class MediaRepository implements Serializable{
      * @return stream di dati del file o null
      */
     public InputStream get(String filename){
-<span class="fc" id="L70">        File file = new File(uploadRoot.toFile(), filename);</span>
-<span class="pc bpc" id="L71" title="1 of 4 branches missed.">        if (!file.exists() || !file.isFile())</span>
-<span class="fc" id="L72">            return null;</span>
+<span class="fc" id="L73">        File file = new File(uploadRoot.toFile(), filename);</span>
+<span class="pc bpc" id="L74" title="1 of 4 branches missed.">        if (!file.exists() || !file.isFile())</span>
+<span class="fc" id="L75">            return null;</span>
         try {
-<span class="fc" id="L74">            return new FileInputStream(file);</span>
-<span class="nc" id="L75">        } catch (FileNotFoundException e) {</span>
-<span class="nc" id="L76">            return null;</span>
+<span class="fc" id="L77">            return new FileInputStream(file);</span>
+<span class="nc" id="L78">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L79">            return null;</span>
         }
     }
 

@@ -20,7 +20,7 @@
 -group
 'Common' 'common:common.*'
 -group
-'Domain and data access' 'domain:domain.*:media:media.*'
+'Model and data access' 'model:model.*:media:media.*'
 -group
 'Business' 'usecase:usecase.*'
 -link

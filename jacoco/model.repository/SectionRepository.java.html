@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SectionRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">model.repository</a> &gt; <span class="el_source">SectionRepository.java</span></div><h1>SectionRepository.java</h1><pre class="source lang-java linenums">package model.repository;
+
+import model.entity.Section;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.List;
+
+
+/**
+ * Classe che incapsula la logica per il recupero di entità di tipo {@link Section}
+ */
+<span class="fc" id="L15">public class SectionRepository implements Serializable {</span>
+
+    @PersistenceContext
+    protected EntityManager em;
+
+    /**
+     * Restituisce una lista con i dati delle sezioni con più follows
+     * @return lista di entità Section delle sezioni con più follows
+     */
+    public List&lt;Section&gt; getMostFollowedSections(){
+<span class="fc" id="L25">        return em.createQuery(&quot;from Section s order by follows.size desc&quot;, Section.class).getResultList();</span>
+    }
+
+    /**
+     * Restituisce una lista con i dati delle sezioni con più follows in un dato arco di tempo
+     * @param after data dopo la quale contare i follows delle sezioni
+     * @return lista di entità Section delle sezioni con più follows
+     */
+    public List&lt;Section&gt; getMostFollowedSections(Instant after){
+<span class="fc" id="L34">        return em.createQuery(</span>
+                &quot;select s from Section s right join s.follows f where f.followDate &gt;= :after &quot; +
+                &quot;group by s &quot; +
+                &quot;order by count(f) desc&quot;, Section.class)
+<span class="fc" id="L38">                .setParameter(&quot;after&quot;,after).getResultList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

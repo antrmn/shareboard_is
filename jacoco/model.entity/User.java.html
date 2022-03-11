@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">model.entity</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package model.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Entità rappresentate un utente della community
+ */
+@Entity
+public class User implements Serializable {
+
+    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Integer id;
+
+    @Getter @Setter
+    @NaturalId(mutable = false) @Column(length = 30, unique = true, nullable = false)
+    protected String username;
+
+    @Getter @Setter
+    @Column(length = 16, nullable = false)
+    protected byte[] password;
+
+    @Getter @Setter
+    @Column(length = 16, nullable = false)
+    protected byte[] salt;
+
+    @Getter @Setter
+    @Column(length = 255, unique = true, nullable = false)
+    protected String email;
+
+    @Getter @Setter
+    @Column(length = 255)
+    protected String description;
+
+    @Getter @Setter
+    @Column(length = 4096)
+    protected String picture;
+
+    @Getter
+    @Column(insertable = false, updatable = false, nullable = false)
+    protected Instant creationDate;
+
+    @Getter @Setter
+    @Column(nullable = false)
+    protected Boolean admin;
+
+<span class="fc" id="L56">    @OneToMany(mappedBy = &quot;user&quot;)</span>
+    @OrderBy(&quot;endTime desc&quot;)
+    protected List&lt;Ban&gt; bans = new ArrayList&lt;&gt;();
+    public List&lt;Ban&gt; getBans(){
+<span class="fc" id="L60">        return Collections.unmodifiableList(bans);</span>
+    }
+
+<span class="fc" id="L63">    public User(){}</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (!(o instanceof User)) return false;</span>
+<span class="fc" id="L69">        User user = (User) o;</span>
+<span class="fc" id="L70">        return id.equals(user.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L75">        return getClass().hashCode();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

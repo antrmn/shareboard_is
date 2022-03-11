@@ -2,11 +2,11 @@ common
 common.http
 common.http.error
 common.http.interceptor
-domain.entity
-domain.repository
-domain.validation
 media
 media.validation
+model.entity
+model.repository
+model.validation
 usecase.auth
 usecase.ban
 usecase.comment

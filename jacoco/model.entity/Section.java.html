@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Section.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">model.entity</a> &gt; <span class="el_source">Section.java</span></div><h1>Section.java</h1><pre class="source lang-java linenums">package model.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Map;
+
+@Entity
+public class Section implements Serializable {
+
+    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Integer id;
+
+    @Getter @Setter
+    @Column(length = 255)
+    protected String description;
+
+
+    @Getter @Setter
+    @Column(length = 50, nullable = false, unique = true)
+    @NaturalId(mutable = true)
+    protected String name;
+
+    @Getter @Setter
+    @Column(length = 4096)
+    protected String picture;
+
+    @Getter @Setter
+    @Column(length = 4096)
+    protected String banner;
+
+    @OneToMany(mappedBy=&quot;section&quot;)
+    @MapKeyJoinColumn(name=&quot;user_id&quot;, updatable = false, insertable = false)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    protected Map&lt;User, Follow&gt; follows;
+
+    /**
+     * Ottieni un'istanza di &lt;pre&gt;Follow&lt;/pre&gt; tra la sezione in questione e l'utente specificato (o &lt;pre&gt;null&lt;/pre&gt; se tale istanza non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link Follow}
+     */
+    public Follow getFollow(User user){
+<span class="fc" id="L49">        return follows.get(user);</span>
+    }
+
+    /**
+     * Ottieni il numero di seguaci
+     * @return Il numero di seguaci alla sezione in questione
+     */
+    public int getFollowCount(){
+<span class="fc" id="L57">        return follows.size();</span>
+    }
+
+<span class="fc" id="L60">    public Section(){}</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (!(o instanceof Section)) return false;</span>
+<span class="fc" id="L66">        Section section = (Section) o;</span>
+<span class="fc" id="L67">        return id.equals(section.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L72">        return getClass().hashCode();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

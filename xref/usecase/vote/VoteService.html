@@ -8,10 +8,10 @@
 <div id="overview"><a href="../../../apidocs/usecase/vote/VoteService.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> usecase.vote;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> domain.entity.*;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> domain.repository.GenericRepository;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> domain.validation.CommentExists;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> domain.validation.PostExists;
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> model.entity.*;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> model.repository.GenericRepository;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> model.validation.CommentExists;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> model.validation.PostExists;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> usecase.auth.AuthenticationRequired;
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> usecase.auth.CurrentUser;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   
@@ -25,13 +25,13 @@
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  @ApplicationScoped
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  @Transactional
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="VoteService" href="../../usecase/vote/VoteService.html#VoteService">VoteService</a> {
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>      <strong class="jxr_keyword">private</strong> <a name="GenericRepository" href="../../domain/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>      <strong class="jxr_keyword">private</strong> <a name="GenericRepository" href="../../model/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>      <strong class="jxr_keyword">private</strong> <a name="CurrentUser" href="../../usecase/auth/CurrentUser.html#CurrentUser">CurrentUser</a> currentUser;
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>      <strong class="jxr_keyword">protected</strong> <a name="VoteService" href="../../usecase/vote/VoteService.html#VoteService">VoteService</a>(){}
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>      @Inject
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">protected</strong> <a name="VoteService" href="../../usecase/vote/VoteService.html#VoteService">VoteService</a>(<a name="GenericRepository" href="../../domain/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository, <a name="CurrentUser" href="../../usecase/auth/CurrentUser.html#CurrentUser">CurrentUser</a> currentUser){
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">protected</strong> <a name="VoteService" href="../../usecase/vote/VoteService.html#VoteService">VoteService</a>(<a name="GenericRepository" href="../../model/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository, <a name="CurrentUser" href="../../usecase/auth/CurrentUser.html#CurrentUser">CurrentUser</a> currentUser){
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>          <strong class="jxr_keyword">this</strong>.genericRepository = genericRepository;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">this</strong>.currentUser = currentUser;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>      }
@@ -78,9 +78,9 @@
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>      @AuthenticationRequired
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> unvoteComment(@CommentExists <strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>          <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id);
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>          <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>          <a name="CommentVote" href="../../domain/entity/CommentVote.html#CommentVote">CommentVote</a> commentVote = comment.getVote(user);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          <a name="CommentVote" href="../../model/entity/CommentVote.html#CommentVote">CommentVote</a> commentVote = comment.getVote(user);
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>          <strong class="jxr_keyword">if</strong>(commentVote != <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>              genericRepository.remove(commentVote);
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>      }
@@ -91,10 +91,10 @@
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>      @AuthenticationRequired
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> unvotePost(@PostExists <strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>          <a name="Post" href="../../domain/entity/Post.html#Post">Post</a> post = genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id);
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>          <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          <a name="Post" href="../../model/entity/Post.html#Post">Post</a> post = genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>          <a name="PostVote" href="../../domain/entity/PostVote.html#PostVote">PostVote</a> vote = post.getVote(user);
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>          <a name="PostVote" href="../../model/entity/PostVote.html#PostVote">PostVote</a> vote = post.getVote(user);
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">if</strong>(vote != <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>              genericRepository.remove(vote);
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>      }
@@ -105,10 +105,10 @@
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_javadoccomment">     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo</em>
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> votePost(<strong class="jxr_keyword">int</strong> id, <strong class="jxr_keyword">short</strong> vote){
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>         <a name="Post" href="../../domain/entity/Post.html#Post">Post</a> post = genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id);
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         <a name="Post" href="../../model/entity/Post.html#Post">Post</a> post = genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>,id);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
 <a class="jxr_linenumber" name="L102" href="#L102">102</a> 
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>         <a name="PostVote" href="../../domain/entity/PostVote.html#PostVote">PostVote</a> postVote = <strong class="jxr_keyword">new</strong> <a name="PostVote" href="../../domain/entity/PostVote.html#PostVote">PostVote</a>(user,post,vote);
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>         <a name="PostVote" href="../../model/entity/PostVote.html#PostVote">PostVote</a> postVote = <strong class="jxr_keyword">new</strong> <a name="PostVote" href="../../model/entity/PostVote.html#PostVote">PostVote</a>(user,post,vote);
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>         genericRepository.merge(postVote);
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>     }
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> 
@@ -118,10 +118,10 @@
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">     * @param vote tipo di voto: 1 indica voto positivo, -1 voto negativo</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> voteComment(<strong class="jxr_keyword">int</strong> id, <strong class="jxr_keyword">short</strong> vote) {
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>,id);
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>         <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>,id);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>         <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>         <a name="CommentVote" href="../../domain/entity/CommentVote.html#CommentVote">CommentVote</a> commentVote = <strong class="jxr_keyword">new</strong> <a name="CommentVote" href="../../domain/entity/CommentVote.html#CommentVote">CommentVote</a>(user,comment, vote);
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>         <a name="CommentVote" href="../../model/entity/CommentVote.html#CommentVote">CommentVote</a> commentVote = <strong class="jxr_keyword">new</strong> <a name="CommentVote" href="../../model/entity/CommentVote.html#CommentVote">CommentVote</a>(user,comment, vote);
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>         genericRepository.merge(commentVote);
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>     }
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> }

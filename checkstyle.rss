@@ -27,7 +27,7 @@ under the License.
     <item>
       <title>File: 136,
              Errors: 0,
-             Warnings: 3250,
+             Warnings: 3303,
              Infos: 0
       </title>
             <link>${project.url}/checkstyle.html</link>
@@ -44,20 +44,6 @@ under the License.
             </tr>
           </thead>
           <tbody>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueEmail.java">domain/validation/UniqueEmail.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#usecase.post.PostServlet.java">usecase/post/PostServlet.java</a>
@@ -80,7 +66,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  42
+                  48
                 </td>
                 <td>
                   0
@@ -88,13 +74,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.PasswordFormat.java">domain/validation/PasswordFormat.java</a>
+                  <a href="${project.url}/checkstyle.html#model.repository.SectionRepository.java">model/repository/SectionRepository.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.entity.Section.java">model/entity/Section.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  37
                 </td>
                 <td>
                   0
@@ -144,6 +144,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.repository.UserRepository.java">model/repository/UserRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#media.ImageServlet.java">media/ImageServlet.java</a>
                 </td>
                 <td>
@@ -151,6 +165,34 @@ under the License.
                 </td>
                 <td>
                   29
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.entity.Ban.java">model/entity/Ban.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.entity.CommentVote.java">model/entity/CommentVote.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  63
                 </td>
                 <td>
                   0
@@ -186,27 +228,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.repository.SectionRepository.java">domain/repository/SectionRepository.java</a>
+                  <a href="${project.url}/checkstyle.html#model.entity.Comment.java">model/entity/Comment.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueEmailValidator.java">domain/validation/UniqueEmailValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
+                  43
                 </td>
                 <td>
                   0
@@ -234,7 +262,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  26
+                  27
                 </td>
                 <td>
                   0
@@ -312,7 +340,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.SectionExists.java">domain/validation/SectionExists.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.BanExists.java">model/validation/BanExists.java</a>
                 </td>
                 <td>
                   0
@@ -326,27 +354,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.EmailFormat.java">domain/validation/EmailFormat.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.auth.AuthenticationRequired.java">usecase/auth/AuthenticationRequired.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  7
                 </td>
                 <td>
                   0
@@ -382,6 +396,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.UniqueEmail.java">model/validation/UniqueEmail.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.auth.AuthorizationConstraintsInterceptor.java">usecase/auth/AuthorizationConstraintsInterceptor.java</a>
                 </td>
                 <td>
@@ -396,6 +424,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.SectionExists.java">model/validation/SectionExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.follow.FollowService.java">usecase/follow/FollowService.java</a>
                 </td>
                 <td>
@@ -403,6 +445,20 @@ under the License.
                 </td>
                 <td>
                   28
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.entity.Post.java">model/entity/Post.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  50
                 </td>
                 <td>
                   0
@@ -431,20 +487,6 @@ under the License.
                 </td>
                 <td>
                   0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueSectionNameValidator.java">domain/validation/UniqueSectionNameValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
                 </td>
                 <td>
                   0
@@ -494,6 +536,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.BanExistsValidator.java">model/validation/BanExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.section.SectionServlet.java">usecase/section/SectionServlet.java</a>
                 </td>
                 <td>
@@ -501,6 +557,20 @@ under the License.
                 </td>
                 <td>
                   14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.entity.Follow.java">model/entity/Follow.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  64
                 </td>
                 <td>
                   0
@@ -536,13 +606,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.Comment.java">domain/entity/Comment.java</a>
+                  <a href="${project.url}/checkstyle.html#model.entity.PostVote.java">model/entity/PostVote.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  43
+                  63
                 </td>
                 <td>
                   0
@@ -612,7 +682,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  4
                 </td>
                 <td>
                   0
@@ -634,34 +704,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.PostVote.java">domain/entity/PostVote.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  63
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.repository.GenericRepository.java">domain/repository/GenericRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  59
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#media.validation.package-info.java">media/validation/package-info.java</a>
                 </td>
                 <td>
@@ -676,13 +718,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#media.MediaRepository.java">media/MediaRepository.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.PasswordFormat.java">model/validation/PasswordFormat.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  50
+                  11
                 </td>
                 <td>
                   0
@@ -690,13 +732,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.SectionExistsByIdValidator.java">domain/validation/SectionExistsByIdValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#media.MediaRepository.java">media/MediaRepository.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  51
                 </td>
                 <td>
                   0
@@ -760,13 +802,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UsersExistsByIdValidator.java">domain/validation/UsersExistsByIdValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.UniqueSectionNameValidator.java">model/validation/UniqueSectionNameValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  9
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.CommentExists.java">model/validation/CommentExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
                 <td>
                   0
@@ -830,41 +886,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.Follow.java">domain/entity/Follow.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  64
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.repository.PostRepository.java">domain/repository/PostRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  173
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.auth.AdminsOnly.java">usecase/auth/AdminsOnly.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  7
                 </td>
                 <td>
                   0
@@ -886,13 +914,55 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.Ban.java">domain/entity/Ban.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.CommentExistsValidator.java">model/validation/CommentExistsValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  21
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.package-info.java">model/validation/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.UniqueEmailValidator.java">model/validation/UniqueEmailValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.UniqueUsername.java">model/validation/UniqueUsername.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
                 <td>
                   0
@@ -928,20 +998,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueUsername.java">domain/validation/UniqueUsername.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.vote.UnvoteServlet.java">usecase/vote/UnvoteServlet.java</a>
                 </td>
                 <td>
@@ -963,34 +1019,6 @@ under the License.
                 </td>
                 <td>
                   7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.BanExistsValidator.java">domain/validation/BanExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.package-info.java">domain/validation/package-info.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
                 </td>
                 <td>
                   0
@@ -1033,6 +1061,20 @@ under the License.
                 </td>
                 <td>
                   22
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.repository.CommentRepository.java">model/repository/CommentRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
                 </td>
                 <td>
                   0
@@ -1110,6 +1152,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.UsernameFormat.java">model/validation/UsernameFormat.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.post.NewPostServlet.java">usecase/post/NewPostServlet.java</a>
                 </td>
                 <td>
@@ -1124,13 +1180,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UserExistsByNameValidator.java">domain/validation/UserExistsByNameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.UniqueSection.java">model/validation/UniqueSection.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  9
+                  7
                 </td>
                 <td>
                   0
@@ -1145,20 +1201,6 @@ under the License.
                 </td>
                 <td>
                   44
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.Post.java">domain/entity/Post.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  50
                 </td>
                 <td>
                   0
@@ -1194,13 +1236,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueSection.java">domain/validation/UniqueSection.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.UsersExistsByIdValidator.java">model/validation/UsersExistsByIdValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  7
+                  12
                 </td>
                 <td>
                   0
@@ -1214,7 +1256,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   0
@@ -1229,20 +1271,6 @@ under the License.
                 </td>
                 <td>
                   1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.repository.UserRepository.java">domain/repository/UserRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
                 </td>
                 <td>
                   0
@@ -1292,34 +1320,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.repository.CommentRepository.java">domain/repository/CommentRepository.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  16
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.User.java">domain/entity/User.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  35
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.follow.FollowServlet.java">usecase/follow/FollowServlet.java</a>
                 </td>
                 <td>
@@ -1327,6 +1327,20 @@ under the License.
                 </td>
                 <td>
                   18
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.PostExists.java">model/validation/PostExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
                 <td>
                   0
@@ -1348,13 +1362,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.CommentVote.java">domain/entity/CommentVote.java</a>
+                  <a href="${project.url}/checkstyle.html#model.entity.User.java">model/entity/User.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  63
+                  35
                 </td>
                 <td>
                   0
@@ -1376,13 +1390,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.SectionExistsByNameValidator.java">domain/validation/SectionExistsByNameValidator.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.EmailFormat.java">model/validation/EmailFormat.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  18
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.SectionExistsByIdValidator.java">model/validation/SectionExistsByIdValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
                 </td>
                 <td>
                   0
@@ -1396,7 +1424,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  7
                 </td>
                 <td>
                   0
@@ -1418,6 +1446,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.UniqueUsernameValidator.java">model/validation/UniqueUsernameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#common.http.ParameterConverter.java">common/http/ParameterConverter.java</a>
                 </td>
                 <td>
@@ -1425,6 +1467,34 @@ under the License.
                 </td>
                 <td>
                   76
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.PostExistsValidator.java">model/validation/PostExistsValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.repository.PostRepository.java">model/repository/PostRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  177
                 </td>
                 <td>
                   0
@@ -1446,6 +1516,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.SectionExistsByNameValidator.java">model/validation/SectionExistsByNameValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.auth.AuthenticationRequiredInterceptor.java">usecase/auth/AuthenticationRequiredInterceptor.java</a>
                 </td>
                 <td>
@@ -1453,6 +1537,20 @@ under the License.
                 </td>
                 <td>
                   16
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.entity.package-info.java">model/entity/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -1502,6 +1600,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.validation.UserExists.java">model/validation/UserExists.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#ValidationMessages.properties">ValidationMessages.properties</a>
                 </td>
                 <td>
@@ -1516,20 +1628,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.CommentExistsValidator.java">domain/validation/CommentExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.post.SearchPostServlet.java">usecase/post/SearchPostServlet.java</a>
                 </td>
                 <td>
@@ -1537,6 +1635,20 @@ under the License.
                 </td>
                 <td>
                   9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#model.repository.GenericRepository.java">model/repository/GenericRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  59
                 </td>
                 <td>
                   0
@@ -1565,20 +1677,6 @@ under the License.
                 </td>
                 <td>
                   9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.PostExistsValidator.java">domain/validation/PostExistsValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
                 </td>
                 <td>
                   0
@@ -1621,20 +1719,6 @@ under the License.
                 </td>
                 <td>
                   14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.package-info.java">domain/entity/package-info.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
                 </td>
                 <td>
                   0
@@ -1698,27 +1782,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UsernameFormat.java">domain/validation/UsernameFormat.java</a>
+                  <a href="${project.url}/checkstyle.html#model.validation.UserExistsByNameValidator.java">model/validation/UserExistsByNameValidator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UserExists.java">domain/validation/UserExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
+                  12
                 </td>
                 <td>
                   0
@@ -1768,34 +1838,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.PostExists.java">domain/validation/PostExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.BanExists.java">domain/validation/BanExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#common.http.AliasFilter.java">common/http/AliasFilter.java</a>
                 </td>
                 <td>
@@ -1824,20 +1866,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.UniqueUsernameValidator.java">domain/validation/UniqueUsernameValidator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#usecase.section.DeleteSectionServlet.java">usecase/section/DeleteSectionServlet.java</a>
                 </td>
                 <td>
@@ -1845,20 +1873,6 @@ under the License.
                 </td>
                 <td>
                   19
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.repository.package-info.java">domain/repository/package-info.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
                 </td>
                 <td>
                   0
@@ -1880,6 +1894,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#model.repository.package-info.java">model/repository/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#usecase.HomeServlet.java">usecase/HomeServlet.java</a>
                 </td>
                 <td>
@@ -1887,34 +1915,6 @@ under the License.
                 </td>
                 <td>
                   9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.entity.Section.java">domain/entity/Section.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  37
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#domain.validation.CommentExists.java">domain/validation/CommentExists.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
                 </td>
                 <td>
                   0

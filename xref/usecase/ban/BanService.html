@@ -8,11 +8,11 @@
 <div id="overview"><a href="../../../apidocs/usecase/ban/BanService.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> usecase.ban;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> domain.entity.Ban;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> domain.entity.User;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> domain.repository.GenericRepository;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> domain.validation.BanExists;
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> domain.validation.UserExists;
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> model.entity.Ban;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> model.entity.User;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> model.repository.GenericRepository;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> model.validation.BanExists;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> model.validation.UserExists;
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> usecase.auth.AdminsOnly;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> javax.enterprise.context.ApplicationScoped;
@@ -30,12 +30,12 @@
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  @ApplicationScoped
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  @Transactional
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="BanService" href="../../usecase/ban/BanService.html#BanService">BanService</a> {
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">private</strong> <a name="GenericRepository" href="../../domain/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">private</strong> <a name="GenericRepository" href="../../model/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">protected</strong> <a name="BanService" href="../../usecase/ban/BanService.html#BanService">BanService</a>(){}
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>      @Inject
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">protected</strong> <a name="BanService" href="../../usecase/ban/BanService.html#BanService">BanService</a>(<a name="GenericRepository" href="../../domain/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository){
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">protected</strong> <a name="BanService" href="../../usecase/ban/BanService.html#BanService">BanService</a>(<a name="GenericRepository" href="../../model/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository){
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>          <strong class="jxr_keyword">this</strong>.genericRepository = genericRepository;
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>      }
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  
@@ -48,9 +48,9 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>      @AdminsOnly
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> addBan(@NotNull @Future Instant date, @UserExists <strong class="jxr_keyword">int</strong> userId) {
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <a name="Ban" href="../../domain/entity/Ban.html#Ban">Ban</a> ban = <strong class="jxr_keyword">new</strong> <a name="Ban" href="../../domain/entity/Ban.html#Ban">Ban</a>();
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <a name="Ban" href="../../model/entity/Ban.html#Ban">Ban</a> ban = <strong class="jxr_keyword">new</strong> <a name="Ban" href="../../model/entity/Ban.html#Ban">Ban</a>();
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>          ban.setEndTime(date);
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <a name="User" href="../../domain/entity/User.html#User">User</a> user = <strong class="jxr_keyword">new</strong> <a name="User" href="../../domain/entity/User.html#User">User</a>();
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <a name="User" href="../../model/entity/User.html#User">User</a> user = <strong class="jxr_keyword">new</strong> <a name="User" href="../../model/entity/User.html#User">User</a>();
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>          user.setId(userId);
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>          ban.setUser(user);
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>          <strong class="jxr_keyword">return</strong> genericRepository.insert(ban).getId();
@@ -72,11 +72,11 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>      @AdminsOnly
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">public</strong> List&lt;BanDTO&gt; retrieveUserBan(@UserExists <strong class="jxr_keyword">int</strong> userId){
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, userId);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, userId);
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>          List&lt;BanDTO&gt; bans = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          List&lt;Ban&gt; temp = user.getBans();
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>          <strong class="jxr_keyword">for</strong>(<a name="Ban" href="../../domain/entity/Ban.html#Ban">Ban</a> b : temp){
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          <strong class="jxr_keyword">for</strong>(<a name="Ban" href="../../model/entity/Ban.html#Ban">Ban</a> b : temp){
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>              <a name="BanDTO" href="../../usecase/ban/BanDTO.html#BanDTO">BanDTO</a> ban = <strong class="jxr_keyword">new</strong> <a name="BanDTO" href="../../usecase/ban/BanDTO.html#BanDTO">BanDTO</a>(b.getId(), b.getEndTime(), b.getUser().getId());
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>              bans.add(ban);
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>          }

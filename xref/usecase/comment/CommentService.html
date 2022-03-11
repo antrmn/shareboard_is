@@ -8,14 +8,14 @@
 <div id="overview"><a href="../../../apidocs/usecase/comment/CommentService.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> usecase.comment;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> domain.entity.Comment;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> domain.entity.CommentVote;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> domain.entity.Post;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> domain.entity.User;
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> domain.repository.CommentRepository;
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> domain.repository.GenericRepository;
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> domain.validation.CommentExists;
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> domain.validation.PostExists;
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> model.entity.Comment;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> model.entity.CommentVote;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> model.entity.Post;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> model.entity.User;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> model.repository.CommentRepository;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> model.repository.GenericRepository;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> model.validation.CommentExists;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> model.validation.PostExists;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> usecase.auth.AuthenticationRequired;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> usecase.auth.AuthorizationException;
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> usecase.auth.CurrentUser;
@@ -39,8 +39,8 @@
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  @ApplicationScoped
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  @Transactional
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="CommentService" href="../../usecase/comment/CommentService.html#CommentService">CommentService</a> {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">private</strong> <a name="GenericRepository" href="../../domain/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository;
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">private</strong> <a name="CommentRepository" href="../../domain/repository/CommentRepository.html#CommentRepository">CommentRepository</a> commentRepo;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">private</strong> <a name="GenericRepository" href="../../model/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">private</strong> <a name="CommentRepository" href="../../model/repository/CommentRepository.html#CommentRepository">CommentRepository</a> commentRepo;
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>      <strong class="jxr_keyword">private</strong> <a name="CurrentUser" href="../../usecase/auth/CurrentUser.html#CurrentUser">CurrentUser</a> currentUser;
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> MAX_COMMENT_DEPTH = 4;
@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">protected</strong> <a name="CommentService" href="../../usecase/comment/CommentService.html#CommentService">CommentService</a>(){}
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>      @Inject
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">protected</strong> <a name="CommentService" href="../../usecase/comment/CommentService.html#CommentService">CommentService</a>(<a name="GenericRepository" href="../../domain/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository, <a name="CommentRepository" href="../../domain/repository/CommentRepository.html#CommentRepository">CommentRepository</a> commentRepository,
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">protected</strong> <a name="CommentService" href="../../usecase/comment/CommentService.html#CommentService">CommentService</a>(<a name="GenericRepository" href="../../model/repository/GenericRepository.html#GenericRepository">GenericRepository</a> genericRepository, <a name="CommentRepository" href="../../model/repository/CommentRepository.html#CommentRepository">CommentRepository</a> commentRepository,
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>                                              <a name="CurrentUser" href="../../usecase/auth/CurrentUser.html#CurrentUser">CurrentUser</a> currentUser){
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">this</strong>.genericRepository = genericRepository;
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">this</strong>.commentRepo = commentRepository;
@@ -60,10 +60,10 @@
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">     * @param comment commento da convertire</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     * @return commentDTO con i dati di comment</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">private</strong> <a name="CommentDTO" href="../../usecase/comment/CommentDTO.html#CommentDTO">CommentDTO</a> map (<a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment){
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <a name="CommentVote" href="../../domain/entity/CommentVote.html#CommentVote">CommentVote</a> commentVote = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">private</strong> <a name="CommentDTO" href="../../usecase/comment/CommentDTO.html#CommentDTO">CommentDTO</a> map (<a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment){
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <a name="CommentVote" href="../../model/entity/CommentVote.html#CommentVote">CommentVote</a> commentVote = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">if</strong>(currentUser.isLoggedIn()){
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>              <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>              <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>              commentVote = comment.getVote(user);
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>          }
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  
@@ -117,7 +117,7 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>     @AuthenticationRequired
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> delete(@CommentExists <strong class="jxr_keyword">int</strong> id){
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>         <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id);
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>         <strong class="jxr_keyword">if</strong>(currentUser.getId() != comment.getAuthor().getId() &amp;&amp; !currentUser.isAdmin())
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="AuthorizationException" href="../../usecase/auth/AuthorizationException.html#AuthorizationException">AuthorizationException</a>();
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>         genericRepository.remove(genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id));
@@ -130,7 +130,7 @@
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L123" href="#L123">123</a>     @AuthenticationRequired
 <a class="jxr_linenumber" name="L124" href="#L124">124</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> editComment(@CommentExists <strong class="jxr_keyword">int</strong> id, @NotBlank @Size(max=65535) String text){
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>         <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id);
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>         <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, id);
 <a class="jxr_linenumber" name="L126" href="#L126">126</a>         <strong class="jxr_keyword">if</strong>(currentUser.getId() != comment.getAuthor().getId() &amp;&amp; !currentUser.isAdmin())
 <a class="jxr_linenumber" name="L127" href="#L127">127</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="AuthorizationException" href="../../usecase/auth/AuthorizationException.html#AuthorizationException">AuthorizationException</a>();
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>         comment.setContent(text);
@@ -146,9 +146,9 @@
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>     @DenyBannedUsers
 <a class="jxr_linenumber" name="L139" href="#L139">139</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> newComment(@NotBlank @Size(max=65535) String text,
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>                           @PostExists <strong class="jxr_keyword">int</strong> postId){
-<a class="jxr_linenumber" name="L141" href="#L141">141</a>         <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>         <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> 
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment = <strong class="jxr_keyword">new</strong> <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a>();
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment = <strong class="jxr_keyword">new</strong> <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a>();
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>         comment.setAuthor(user);
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>         comment.setContent(text);
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>         comment.setPost(genericRepository.findById(Post.<strong class="jxr_keyword">class</strong>, postId));
@@ -164,10 +164,10 @@
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>     @AuthenticationRequired
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> newCommentReply(@NotBlank @Size(max=65535) String text,
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>                                @CommentExists <strong class="jxr_keyword">int</strong> parentCommentId){
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>         <a name="User" href="../../domain/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>         <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> parent = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, parentCommentId);
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>         <a name="User" href="../../model/entity/User.html#User">User</a> user = genericRepository.findById(User.<strong class="jxr_keyword">class</strong>, currentUser.getId());
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> parent = genericRepository.findById(Comment.<strong class="jxr_keyword">class</strong>, parentCommentId);
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a> comment = <strong class="jxr_keyword">new</strong> <a name="Comment" href="../../domain/entity/Comment.html#Comment">Comment</a>();
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a> comment = <strong class="jxr_keyword">new</strong> <a name="Comment" href="../../model/entity/Comment.html#Comment">Comment</a>();
 <a class="jxr_linenumber" name="L163" href="#L163">163</a>         comment.setAuthor(user);
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>         comment.setContent(text);
 <a class="jxr_linenumber" name="L165" href="#L165">165</a>         comment.setPost(parent.getPost());

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Post.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">shareboard_is</a> &gt; <a href="index.source.html" class="el_package">model.entity</a> &gt; <span class="el_source">Post.java</span></div><h1>Post.java</h1><pre class="source lang-java linenums">package model.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Entità rappresentante un post
+ */
+@Entity
+@DynamicUpdate
+public class Post implements Serializable {
+<span class="fc" id="L22">    public enum Type {TEXT, IMG}</span>
+
+    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Integer id;
+
+    @Setter @Getter
+    @Column(length = 255, nullable = false)
+    protected String title;
+
+    @Getter @Setter
+    @Column(columnDefinition = &quot;TEXT&quot;, nullable = false)
+    protected String content;
+
+    @Setter @Getter
+    @Column(nullable = false) @Enumerated(EnumType.STRING)
+    protected Type type;
+
+    @Getter
+    @Column(nullable = false, updatable = false, insertable = false)
+    protected Instant creationDate; //generato da sql
+
+    @Getter
+    @Column(name = &quot;votes&quot;, nullable = false, insertable = false, updatable = false)
+    protected Integer votesCount;
+
+    @OneToMany(mappedBy=&quot;post&quot;)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    protected List&lt;Comment&gt; comments;
+    public int getCommentCount(){
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        return comments == null ? 0 : comments.size();</span>
+    }
+
+    @Getter @Setter
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    protected Section section;
+
+    @Getter @Setter
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    protected User author;
+
+<span class="fc" id="L63">    @OneToMany(mappedBy=&quot;post&quot;)</span>
+    @MapKeyJoinColumn(name=&quot;user_id&quot;, updatable = false, insertable = false)
+    protected Map&lt;User, PostVote&gt; votes = new HashMap&lt;&gt;();
+
+    /**
+     * Ottieni il voto di un utente al post in questione (o &lt;pre&gt;null&lt;/pre&gt; se il voto non è presente)
+     * @param user Riferimento all'utente
+     * @return Un oggetto {@link PostVote}
+     */
+    public PostVote getVote(User user){
+<span class="fc" id="L73">        return votes.get(user);</span>
+    }
+
+<span class="fc" id="L76">    public Post(){}</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (!(o instanceof Post)) return false;</span>
+<span class="fc" id="L82">        Post post = (Post) o;</span>
+<span class="fc bfc" id="L83" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(post.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L88">        return getClass().hashCode();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

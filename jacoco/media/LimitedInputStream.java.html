@@ -4,37 +4,41 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * &lt;p&gt;Stream che permette la lettura di byte fino a un limite arbitrario.&lt;/p&gt;
+ * &lt;p&gt;Se il limite fissato viene superato, un ulteriore tentativo di lettura provoca il lancio di una {@link ReadLimitExceededException}&lt;/p&gt;
+ */
 public class LimitedInputStream extends FilterInputStream {
     private final long byteLimit;
-<span class="fc" id="L9">    private long byteRead = 0;</span>
+<span class="fc" id="L13">    private long byteRead = 0;</span>
 
 
     public LimitedInputStream(InputStream in, long byteLimit){
-<span class="fc" id="L13">        super(in);</span>
-<span class="fc" id="L14">        this.byteLimit = byteLimit;</span>
-<span class="fc" id="L15">    }</span>
+<span class="fc" id="L17">        super(in);</span>
+<span class="fc" id="L18">        this.byteLimit = byteLimit;</span>
+<span class="fc" id="L19">    }</span>
 
     @Override
     public int read() throws IOException {
-<span class="fc" id="L19">        int bite = super.read();</span>
-<span class="fc" id="L20">        this.byteRead++;</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">        if(this.byteRead &gt; byteLimit)</span>
-<span class="fc" id="L22">            throw new ReadLimitExceededException();</span>
-<span class="fc" id="L23">        return bite;</span>
+<span class="fc" id="L23">        int bite = super.read();</span>
+<span class="fc" id="L24">        this.byteRead++;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(this.byteRead &gt; byteLimit)</span>
+<span class="fc" id="L26">            throw new ReadLimitExceededException();</span>
+<span class="fc" id="L27">        return bite;</span>
     }
 
     @Override
     public int read(byte[] b) throws IOException {
-<span class="fc" id="L28">        return super.read(b);</span>
+<span class="fc" id="L32">        return super.read(b);</span>
     }
 
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
-<span class="fc" id="L33">        int byteRead = super.read(b,off,len);</span>
-<span class="fc" id="L34">        this.byteRead += byteRead;</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(this.byteRead &gt; byteLimit)</span>
-<span class="fc" id="L36">            throw new ReadLimitExceededException();</span>
-<span class="fc" id="L37">        return byteRead;</span>
+<span class="fc" id="L37">        int byteRead = super.read(b,off,len);</span>
+<span class="fc" id="L38">        this.byteRead += byteRead;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if(this.byteRead &gt; byteLimit)</span>
+<span class="fc" id="L40">            throw new ReadLimitExceededException();</span>
+<span class="fc" id="L41">        return byteRead;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

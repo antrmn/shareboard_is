@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../javadocstyle.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">package model.repository;</a>
+<span class="sourceLineNo">002</span><a id="line.2"></a>
+<span class="sourceLineNo">003</span><a id="line.3">import org.hibernate.Session;</a>
+<span class="sourceLineNo">004</span><a id="line.4">import org.hibernate.SimpleNaturalIdLoadAccess;</a>
+<span class="sourceLineNo">005</span><a id="line.5"></a>
+<span class="sourceLineNo">006</span><a id="line.6">import javax.persistence.EntityManager;</a>
+<span class="sourceLineNo">007</span><a id="line.7">import javax.persistence.LockModeType;</a>
+<span class="sourceLineNo">008</span><a id="line.8">import javax.persistence.PersistenceContext;</a>
+<span class="sourceLineNo">009</span><a id="line.9">import javax.persistence.criteria.CriteriaQuery;</a>
+<span class="sourceLineNo">010</span><a id="line.10">import java.io.Serializable;</a>
+<span class="sourceLineNo">011</span><a id="line.11">import java.util.List;</a>
+<span class="sourceLineNo">012</span><a id="line.12"></a>
+<span class="sourceLineNo">013</span><a id="line.13">/**</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * Classe che incapsula la logica CRUD di base per tutte le entità persistenti</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * @see javax.persistence.EntityManager</a>
+<span class="sourceLineNo">016</span><a id="line.16"> */</a>
+<span class="sourceLineNo">017</span><a id="line.17">public class GenericRepository implements Serializable {</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">    @PersistenceContext</a>
+<span class="sourceLineNo">020</span><a id="line.20">    protected EntityManager em;</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">    /**</a>
+<span class="sourceLineNo">023</span><a id="line.23">     *  Trova per chiave primaria</a>
+<span class="sourceLineNo">024</span><a id="line.24">     * @return L'entità trovata o null se l'entità non esiste</a>
+<span class="sourceLineNo">025</span><a id="line.25">     * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare</a>
+<span class="sourceLineNo">026</span><a id="line.26">     * @see javax.persistence.EntityManager#find(Class, Object)</a>
+<span class="sourceLineNo">027</span><a id="line.27">     */</a>
+<span class="sourceLineNo">028</span><a id="line.28">    public &lt;T&gt; T findById(Class&lt;T&gt; entityClass, Object primaryKey, boolean loadLazily) {</a>
+<span class="sourceLineNo">029</span><a id="line.29">        return loadLazily ? em.getReference(entityClass, primaryKey) :</a>
+<span class="sourceLineNo">030</span><a id="line.30">                            em.find(entityClass, primaryKey, LockModeType.NONE);</a>
+<span class="sourceLineNo">031</span><a id="line.31">    }</a>
+<span class="sourceLineNo">032</span><a id="line.32"></a>
+<span class="sourceLineNo">033</span><a id="line.33">    /**</a>
+<span class="sourceLineNo">034</span><a id="line.34">     * Trova per chiave primaria, restituendo un'entità caricata pigramente (lazy-loaded). L'entità restituita viene</a>
+<span class="sourceLineNo">035</span><a id="line.35">     * caricata al primo accesso effettuato. Se l'istanza non esiste, viene lanciato {@link javax.persistence.EntityNotFoundException}</a>
+<span class="sourceLineNo">036</span><a id="line.36">     * quando l'istanza viene acceduta per la prima volta.</a>
+<span class="sourceLineNo">037</span><a id="line.37">     * @return L'entità caricata pigramente</a>
+<span class="sourceLineNo">038</span><a id="line.38">     * @throws IllegalArgumentException se la chiave primaria fornita è null o non valida per l'entità da cercare</a>
+<span class="sourceLineNo">039</span><a id="line.39">     * @throws javax.persistence.EntityNotFoundException se l'entità non può essere acceduta</a>
+<span class="sourceLineNo">040</span><a id="line.40">     * @see javax.persistence.EntityManager#getReference(Class, Object)</a>
+<span class="sourceLineNo">041</span><a id="line.41">     */</a>
+<span class="sourceLineNo">042</span><a id="line.42">    public &lt;T&gt; T findById(Class&lt;T&gt; entityClass, Object primaryKey){</a>
+<span class="sourceLineNo">043</span><a id="line.43">        return findById(entityClass,primaryKey,false);</a>
+<span class="sourceLineNo">044</span><a id="line.44">    }</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">    public &lt;T&gt; T findByNaturalId(Class&lt;T&gt; entityClass, Object naturalKey) {</a>
+<span class="sourceLineNo">047</span><a id="line.47">        return findByNaturalId(entityClass,naturalKey,false);</a>
+<span class="sourceLineNo">048</span><a id="line.48">    }</a>
+<span class="sourceLineNo">049</span><a id="line.49"></a>
+<span class="sourceLineNo">050</span><a id="line.50">    public &lt;T&gt; T findByNaturalId(Class&lt;T&gt; entityClass, Object naturalKey, boolean getReference) {</a>
+<span class="sourceLineNo">051</span><a id="line.51">        SimpleNaturalIdLoadAccess&lt;T&gt; entity = em.unwrap(Session.class).bySimpleNaturalId(entityClass);</a>
+<span class="sourceLineNo">052</span><a id="line.52">        return getReference ? entity.getReference(naturalKey) : entity.load(naturalKey);</a>
+<span class="sourceLineNo">053</span><a id="line.53">    }</a>
+<span class="sourceLineNo">054</span><a id="line.54"></a>
+<span class="sourceLineNo">055</span><a id="line.55">    /**</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * Restituisce una lista tipata contenente tutte le istanze di una determinata entità di persistenza</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * @return La lista dei risultati</a>
+<span class="sourceLineNo">058</span><a id="line.58">     * @throws javax.persistence.QueryTimeoutException In caso di timeout raggiunto</a>
+<span class="sourceLineNo">059</span><a id="line.59">     * @throws javax.persistence.PersistenceException</a>
+<span class="sourceLineNo">060</span><a id="line.60">     */</a>
+<span class="sourceLineNo">061</span><a id="line.61">    public &lt;T&gt; List&lt;T&gt; findAll(Class&lt;T&gt; entityClass) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">        CriteriaQuery&lt;T&gt; c = em.getCriteriaBuilder().createQuery(entityClass);</a>
+<span class="sourceLineNo">063</span><a id="line.63">        c.select(c.from(entityClass));</a>
+<span class="sourceLineNo">064</span><a id="line.64">        return em.createQuery(c).getResultList();</a>
+<span class="sourceLineNo">065</span><a id="line.65">    }</a>
+<span class="sourceLineNo">066</span><a id="line.66"></a>
+<span class="sourceLineNo">067</span><a id="line.67">    /**</a>
+<span class="sourceLineNo">068</span><a id="line.68">     * Restituisce il numero indicante la quantità di istanze di una determinata entità di persistenza</a>
+<span class="sourceLineNo">069</span><a id="line.69">     * @return La quantità di istanze</a>
+<span class="sourceLineNo">070</span><a id="line.70">     * @throws javax.persistence.QueryTimeoutException In caso di timeout raggiunto</a>
+<span class="sourceLineNo">071</span><a id="line.71">     * @throws javax.persistence.PersistenceException</a>
+<span class="sourceLineNo">072</span><a id="line.72">     */</a>
+<span class="sourceLineNo">073</span><a id="line.73">    public &lt;T&gt; Long getCount(Class&lt;T&gt; entityClass) {</a>
+<span class="sourceLineNo">074</span><a id="line.74">        CriteriaQuery&lt;Long&gt; c =</a>
+<span class="sourceLineNo">075</span><a id="line.75">                em.getCriteriaBuilder().createQuery(Long.class);</a>
+<span class="sourceLineNo">076</span><a id="line.76">        c.select(em.getCriteriaBuilder().count(c.from(entityClass)));</a>
+<span class="sourceLineNo">077</span><a id="line.77">        return em.createQuery(c).getSingleResult();</a>
+<span class="sourceLineNo">078</span><a id="line.78">    }</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">    /**</a>
+<span class="sourceLineNo">081</span><a id="line.81">     * Crea un'istanza persistente e gestita (managed entity)</a>
+<span class="sourceLineNo">082</span><a id="line.82">     * @param entity L'istanza di entità</a>
+<span class="sourceLineNo">083</span><a id="line.83">     * @return L'istanza passata come parametro</a>
+<span class="sourceLineNo">084</span><a id="line.84">     * @throws javax.persistence.EntityExistsException se l'entità esiste già</a>
+<span class="sourceLineNo">085</span><a id="line.85">     * @see javax.persistence.EntityManager#persist(Object)</a>
+<span class="sourceLineNo">086</span><a id="line.86">     */</a>
+<span class="sourceLineNo">087</span><a id="line.87">    public &lt;T&gt; T insert(T entity) {</a>
+<span class="sourceLineNo">088</span><a id="line.88">        em.persist(entity);</a>
+<span class="sourceLineNo">089</span><a id="line.89">        em.flush();</a>
+<span class="sourceLineNo">090</span><a id="line.90">        return entity;</a>
+<span class="sourceLineNo">091</span><a id="line.91">    }</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">    /**</a>
+<span class="sourceLineNo">094</span><a id="line.94">     * Unisce lo stato di una data entità allo stato nel contesto di persistenza</a>
+<span class="sourceLineNo">095</span><a id="line.95">     * @param entity</a>
+<span class="sourceLineNo">096</span><a id="line.96">     * @return Una copia &lt;i&gt;managed&lt;/i&gt; dell'entità passata come parametro</a>
+<span class="sourceLineNo">097</span><a id="line.97">     * @see javax.persistence.EntityManager#merge(Object)</a>
+<span class="sourceLineNo">098</span><a id="line.98">     */</a>
+<span class="sourceLineNo">099</span><a id="line.99">    public &lt;T&gt; T merge(T entity) {</a>
+<span class="sourceLineNo">100</span><a id="line.100">        return em.merge(entity);</a>
+<span class="sourceLineNo">101</span><a id="line.101">    }</a>
+<span class="sourceLineNo">102</span><a id="line.102"></a>
+<span class="sourceLineNo">103</span><a id="line.103">    /**</a>
+<span class="sourceLineNo">104</span><a id="line.104">     * Rimuove l'istanza dal contesto di persistenza</a>
+<span class="sourceLineNo">105</span><a id="line.105">     * @param entity L'entità managed da rimuovere</a>
+<span class="sourceLineNo">106</span><a id="line.106">     * @throws IllegalArgumentException se l'entità passata non è managed</a>
+<span class="sourceLineNo">107</span><a id="line.107">     */</a>
+<span class="sourceLineNo">108</span><a id="line.108">    public &lt;T&gt; void remove(T entity) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">        em.remove(entity);</a>
+<span class="sourceLineNo">110</span><a id="line.110">    }</a>
+<span class="sourceLineNo">111</span><a id="line.111">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

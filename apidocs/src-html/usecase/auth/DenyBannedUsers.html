@@ -10,20 +10,22 @@
 <pre><span class="sourceLineNo">001</span><a id="line.1">package usecase.auth;</a>
 <span class="sourceLineNo">002</span><a id="line.2"></a>
 <span class="sourceLineNo">003</span><a id="line.3">import javax.interceptor.InterceptorBinding;</a>
-<span class="sourceLineNo">004</span><a id="line.4">import java.lang.annotation.Inherited;</a>
-<span class="sourceLineNo">005</span><a id="line.5">import java.lang.annotation.Retention;</a>
-<span class="sourceLineNo">006</span><a id="line.6">import java.lang.annotation.Target;</a>
-<span class="sourceLineNo">007</span><a id="line.7"></a>
-<span class="sourceLineNo">008</span><a id="line.8">import static java.lang.annotation.ElementType.METHOD;</a>
-<span class="sourceLineNo">009</span><a id="line.9">import static java.lang.annotation.ElementType.TYPE;</a>
-<span class="sourceLineNo">010</span><a id="line.10">import static java.lang.annotation.RetentionPolicy.RUNTIME;</a>
-<span class="sourceLineNo">011</span><a id="line.11"></a>
-<span class="sourceLineNo">012</span><a id="line.12">@Inherited</a>
-<span class="sourceLineNo">013</span><a id="line.13">@InterceptorBinding</a>
-<span class="sourceLineNo">014</span><a id="line.14">@Retention(RUNTIME)</a>
-<span class="sourceLineNo">015</span><a id="line.15">@Target({METHOD, TYPE})</a>
-<span class="sourceLineNo">016</span><a id="line.16">public @interface DenyBannedUsers {</a>
-<span class="sourceLineNo">017</span><a id="line.17">}</a>
+<span class="sourceLineNo">004</span><a id="line.4">import java.lang.annotation.Documented;</a>
+<span class="sourceLineNo">005</span><a id="line.5">import java.lang.annotation.Inherited;</a>
+<span class="sourceLineNo">006</span><a id="line.6">import java.lang.annotation.Retention;</a>
+<span class="sourceLineNo">007</span><a id="line.7">import java.lang.annotation.Target;</a>
+<span class="sourceLineNo">008</span><a id="line.8"></a>
+<span class="sourceLineNo">009</span><a id="line.9">import static java.lang.annotation.ElementType.METHOD;</a>
+<span class="sourceLineNo">010</span><a id="line.10">import static java.lang.annotation.ElementType.TYPE;</a>
+<span class="sourceLineNo">011</span><a id="line.11">import static java.lang.annotation.RetentionPolicy.RUNTIME;</a>
+<span class="sourceLineNo">012</span><a id="line.12"></a>
+<span class="sourceLineNo">013</span><a id="line.13">@Inherited</a>
+<span class="sourceLineNo">014</span><a id="line.14">@InterceptorBinding</a>
+<span class="sourceLineNo">015</span><a id="line.15">@Retention(RUNTIME)</a>
+<span class="sourceLineNo">016</span><a id="line.16">@Target({METHOD, TYPE})</a>
+<span class="sourceLineNo">017</span><a id="line.17">@Documented</a>
+<span class="sourceLineNo">018</span><a id="line.18">public @interface DenyBannedUsers {</a>
+<span class="sourceLineNo">019</span><a id="line.19">}</a>
 
 
 
