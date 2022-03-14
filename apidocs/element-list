@@ -8,7 +8,6 @@ model.entity
 model.repository
 model.validation
 usecase.auth
-usecase.ban
 usecase.comment
 usecase.follow
 usecase.post
