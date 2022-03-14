@@ -1,4 +1,4 @@
-package usecase.ban;
+package usecase.user;
 
 import common.http.ParameterConverter;
 import common.http.interceptor.InterceptableServlet;

@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
  * e l'istanziazione di questi ultimi.
  *
  */
-public final class ServletInterceptorFactory {
+public final class  ServletInterceptorFactory {
     private ServletInterceptorFactory(){}
 
     private static final

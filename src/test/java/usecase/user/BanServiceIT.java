@@ -1,4 +1,4 @@
-package usecase.ban;
+package usecase.user;
 
 import media.MediaRepository;
 import model.entity.User;

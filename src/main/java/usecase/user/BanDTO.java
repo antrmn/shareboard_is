@@ -1,4 +1,4 @@
-package usecase.ban;
+package usecase.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

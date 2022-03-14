@@ -1,4 +1,4 @@
-package usecase.ban;
+package usecase.user;
 
 
 import org.apache.openejb.testing.Classes;
