@@ -54,7 +54,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: target/shareboard.war
-        asset_name: shareboard
+        asset_name: shareboard.war
         tag: ${{ github.ref }}
         overwrite: true
         body: "Shareboard war artifact"
