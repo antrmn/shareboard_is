@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+/**
+ * Classe che incapsula la logica per il ritrovo di media (immagini) dal filesystem
+ */
 public class MediaRepository implements Serializable{
 
     private Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");

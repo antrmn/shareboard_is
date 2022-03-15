@@ -1,10 +1,10 @@
 package usecase.follow;
 
-import domain.entity.Follow;
-import domain.entity.Section;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.validation.SectionExists;
+import model.entity.Follow;
+import model.entity.Section;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.validation.SectionExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.CurrentUser;
 

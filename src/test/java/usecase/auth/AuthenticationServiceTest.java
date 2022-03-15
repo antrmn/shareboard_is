@@ -1,9 +1,9 @@
 package usecase.auth;
 
-import domain.entity.Ban;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.repository.UserRepository;
+import model.entity.Ban;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.repository.UserRepository;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.Test;

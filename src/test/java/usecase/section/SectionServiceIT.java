@@ -1,10 +1,10 @@
 package usecase.section;
 
-import domain.entity.Section;
-import domain.repository.GenericRepository;
-import domain.repository.PersistenceIT;
-import domain.repository.SectionRepository;
 import media.MediaRepository;
+import model.entity.Section;
+import model.repository.GenericRepository;
+import model.repository.PersistenceIT;
+import model.repository.SectionRepository;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.api.BeforeAll;

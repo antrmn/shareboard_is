@@ -1,10 +1,10 @@
 package usecase.post;
 
-import domain.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import model.entity.Post;
 
 /**
  * Classe DTO relativa alla modifica di un post.

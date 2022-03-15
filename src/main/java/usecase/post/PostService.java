@@ -1,15 +1,15 @@
 package usecase.post;
 
-import domain.entity.Post;
-import domain.entity.Section;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.repository.PostRepository;
-import domain.validation.PostExists;
-import domain.validation.SectionExists;
 import media.MediaRepository;
 import media.ReadLimitExceededException;
 import media.validation.Image;
+import model.entity.Post;
+import model.entity.Section;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.repository.PostRepository;
+import model.validation.PostExists;
+import model.validation.SectionExists;
 import usecase.auth.AuthenticationRequired;
 import usecase.auth.AuthorizationException;
 import usecase.auth.CurrentUser;
@@ -27,8 +27,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static domain.entity.Post.Type.IMG;
-import static domain.entity.Post.Type.TEXT;
+import static model.entity.Post.Type.IMG;
+import static model.entity.Post.Type.TEXT;
 import static usecase.post.PostSearchForm.SortCriteria.NEWEST;
 
 /**

@@ -48,3 +48,13 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: target/site
+    - name: Upload war to Releases
+      uses: svenstaro/upload-release-action@v2
+      if: steps.buildsite.outcome == 'success'
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/shareboard.war
+        asset_name: shareboard.war
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "Shareboard war artifact"

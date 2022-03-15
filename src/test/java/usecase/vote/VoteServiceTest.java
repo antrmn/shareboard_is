@@ -1,7 +1,7 @@
 package usecase.vote;
 
-import domain.entity.*;
-import domain.repository.GenericRepository;
+import model.entity.*;
+import model.repository.GenericRepository;
 import org.apache.bval.cdi.BValInterceptor;
 import org.apache.openejb.testing.Classes;
 import org.junit.jupiter.params.ParameterizedTest;

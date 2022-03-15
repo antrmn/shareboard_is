@@ -1,11 +1,11 @@
 package usecase.user;
 
 import com.sun.istack.NotNull;
-import domain.entity.User;
-import domain.repository.GenericRepository;
-import domain.validation.*;
 import media.MediaRepository;
 import media.ReadLimitExceededException;
+import model.entity.User;
+import model.repository.GenericRepository;
+import model.validation.*;
 import usecase.auth.*;
 import usecase.auth.Pbkdf2PasswordHash.HashedPassword;
 
