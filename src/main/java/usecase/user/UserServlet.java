@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/user")
 class UserServlet extends InterceptableServlet {
 
-    @Inject
+    @Inject 
     private UserService service;
 
     @Override
