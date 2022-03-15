@@ -50,9 +50,10 @@ jobs:
         publish_dir: target/site
     - name: Upload war to Releases
       uses: svenstaro/upload-release-action@v2
+      if: steps.buildsite.outcome == 'success'
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/*.war
+        file: target/shareboard.war
         asset_name: shareboard
         tag: ${{ github.ref }}
         overwrite: true
