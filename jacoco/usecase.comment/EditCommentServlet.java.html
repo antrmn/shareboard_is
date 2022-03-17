@@ -35,7 +35,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 
 <span class="fc" id="L36">        int parentPostId = service.getComment(commentId).getPostId();</span>
 
-<span class="fc" id="L38">        response.sendRedirect( getServletContext().getContextPath() + &quot;/usecase/post/&quot; + parentPostId);</span>
+<span class="fc" id="L38">        response.sendRedirect( getServletContext().getContextPath() + &quot;/post/&quot; + parentPostId);</span>
 <span class="fc" id="L39">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

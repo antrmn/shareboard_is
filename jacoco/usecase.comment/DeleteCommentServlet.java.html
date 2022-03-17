@@ -27,7 +27,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 <span class="fc" id="L27">        int commentId = converter.getIntParameter(&quot;id&quot;).orElse(0);</span>
 <span class="fc" id="L28">        int postId = service.getComment(commentId).getPostId();</span>
 <span class="fc" id="L29">        service.delete(commentId);</span>
-<span class="fc" id="L30">        response.sendRedirect(getServletContext().getContextPath() + &quot;/usecase/post/&quot; + postId);</span>
+<span class="fc" id="L30">        response.sendRedirect(getServletContext().getContextPath() + &quot;/post/&quot; + postId);</span>
 <span class="fc" id="L31">    }</span>
 
     @Override

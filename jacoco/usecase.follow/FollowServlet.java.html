@@ -16,7 +16,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
 /**
  * Classe per permette di seguire una sezione.
  */
-@WebServlet(&quot;/usecase/follow&quot;)
+@WebServlet(&quot;/follow&quot;)
 @AuthorizationConstraints(REQUIRE_AUTHENTICATION)
 <span class="fc" id="L21">class FollowServlet extends InterceptableServlet {</span>
     @Inject private FollowService service;
@@ -24,7 +24,7 @@ import static usecase.auth.AuthorizationConstraints.Types.REQUIRE_AUTHENTICATION
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 <span class="fc" id="L26">        ParameterConverter converter = new ParameterConverter(request);</span>
-<span class="fc" id="L27">        int sectionId = converter.getIntParameter(&quot;usecase/section&quot;).orElse(0);</span>
+<span class="fc" id="L27">        int sectionId = converter.getIntParameter(&quot;section&quot;).orElse(0);</span>
 <span class="fc" id="L28">        service.follow(sectionId);</span>
 <span class="fc" id="L29">    }</span>
 
