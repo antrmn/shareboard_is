@@ -35,6 +35,6 @@ class EditCommentServlet extends InterceptableServlet {
 
         int parentPostId = service.getComment(commentId).getPostId();
 
-        response.sendRedirect( getServletContext().getContextPath() + "/usecase/post/" + parentPostId);
+        response.sendRedirect( getServletContext().getContextPath() + "/post/" + parentPostId);
     }
 }

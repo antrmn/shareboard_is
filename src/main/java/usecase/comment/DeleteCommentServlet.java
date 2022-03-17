@@ -27,7 +27,7 @@ class DeleteCommentServlet extends InterceptableServlet {
         int commentId = converter.getIntParameter("id").orElse(0);
         int postId = service.getComment(commentId).getPostId();
         service.delete(commentId);
-        response.sendRedirect(getServletContext().getContextPath() + "/usecase/post/" + postId);
+        response.sendRedirect(getServletContext().getContextPath() + "/post/" + postId);
     }
 
     @Override
