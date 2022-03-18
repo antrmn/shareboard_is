@@ -63,7 +63,6 @@ public abstract class PersistenceIT {
 
     private void startDb() throws ManagedProcessException {
         DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
-        config.addArg("lower_case_table_names=1");
         config.setPort(0); // random port
         db = DB.newEmbeddedDB(config.build());
         db.start();
