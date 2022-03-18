@@ -3,6 +3,7 @@
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.flywaydb.core.api.output.MigrateResult;
+import usecase.auth.Pbkdf2PasswordHash;
 
 import javax.annotation.Resource;
 import javax.ejb.TransactionManagement;
@@ -17,58 +18,83 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 @TransactionManagement(TransactionManagementType.BEAN)
-<span class="nc" id="L24">class FlywayMigrator {</span>
+<span class="nc" id="L29">class FlywayMigrator {</span>
 
-<span class="nc" id="L26">    private Path uploadRoot = Path.of(System.getProperty(&quot;openejb.home&quot;), &quot;uploads&quot;);</span>
+<span class="nc" id="L31">    private Path uploadRoot = Path.of(System.getProperty(&quot;openejb.home&quot;), &quot;uploads&quot;);</span>
 
     @Resource(name = &quot;jdbc/shareboardDB&quot;)
     private DataSource dataSource;
 
-    public void postConstruct(@Observes @Initialized(ApplicationScoped.class) Object o) throws IOException {
-<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (dataSource == null) {</span>
-<span class="nc" id="L33">            throw new RuntimeException(&quot;Cannot migrate, no datasource configured!&quot;);</span>
+    public void postConstruct(@Observes @Initialized(ApplicationScoped.class) Object o) throws IOException, SQLException {
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (dataSource == null) {</span>
+<span class="nc" id="L38">            throw new RuntimeException(&quot;Cannot migrate, no datasource configured!&quot;);</span>
         }
-<span class="nc" id="L35">        FluentConfiguration config = Flyway.configure()</span>
-<span class="nc" id="L36">                .dataSource(dataSource)</span>
-<span class="nc" id="L37">                .validateOnMigrate(false)</span>
-<span class="nc" id="L38">                .locations(&quot;classpath:db/migration&quot;);</span>
-<span class="nc" id="L39">        Flyway flyway = new Flyway(config);</span>
-<span class="nc" id="L40">        MigrateResult migrate = flyway.migrate();</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if(!migrate.migrations.isEmpty()){</span>
-<span class="nc" id="L42">            Files.createDirectories(uploadRoot);</span>
+<span class="nc" id="L40">        FluentConfiguration config = Flyway.configure()</span>
+<span class="nc" id="L41">                .dataSource(dataSource)</span>
+<span class="nc" id="L42">                .validateOnMigrate(false)</span>
+<span class="nc" id="L43">                .locations(&quot;classpath:db/migration&quot;);</span>
+<span class="nc" id="L44">        Flyway flyway = new Flyway(config);</span>
+<span class="nc" id="L45">        MigrateResult migrate = flyway.migrate();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if(!migrate.migrations.isEmpty()){</span>
+            /*add pictures*/
+<span class="nc" id="L48">            Files.createDirectories(uploadRoot);</span>
 
-<span class="nc" id="L44">            InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(&quot;sample/pictures.zip&quot;);</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">            if(resourceAsStream == null){</span>
-<span class="nc" id="L46">                throw new RuntimeException(&quot;pictures.zip not found&quot;);</span>
+<span class="nc" id="L50">            InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(&quot;sample/pictures.zip&quot;);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if(resourceAsStream == null){</span>
+<span class="nc" id="L52">                throw new RuntimeException(&quot;pictures.zip not found&quot;);</span>
             }
 
-<span class="nc" id="L49">            try(ZipInputStream zipStream = new ZipInputStream(resourceAsStream)){</span>
-<span class="nc" id="L50">                ZipEntry entry = zipStream.getNextEntry();</span>
-<span class="nc" id="L51">                byte[] buffer = new byte[1024];</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">                while (entry != null) {</span>
-<span class="nc" id="L53">                    File newFile = new File(uploadRoot.toFile(), entry.getName());</span>
+<span class="nc" id="L55">            try(ZipInputStream zipStream = new ZipInputStream(resourceAsStream)){</span>
+<span class="nc" id="L56">                ZipEntry entry = zipStream.getNextEntry();</span>
+<span class="nc" id="L57">                byte[] buffer = new byte[1024];</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                while (entry != null) {</span>
+<span class="nc" id="L59">                    File newFile = new File(uploadRoot.toFile(), entry.getName());</span>
                     // fix for Windows-created archives
-<span class="nc" id="L55">                    File parent = newFile.getParentFile();</span>
-<span class="nc bnc" id="L56" title="All 4 branches missed.">                    if (!parent.isDirectory() &amp;&amp; !parent.mkdirs()) {</span>
-<span class="nc" id="L57">                        throw new IOException(&quot;Failed to create directory &quot; + parent);</span>
+<span class="nc" id="L61">                    File parent = newFile.getParentFile();</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">                    if (!parent.isDirectory() &amp;&amp; !parent.mkdirs()) {</span>
+<span class="nc" id="L63">                        throw new IOException(&quot;Failed to create directory &quot; + parent);</span>
                     }
 
                     // write file content
-<span class="nc" id="L61">                    try(FileOutputStream fos = new FileOutputStream(newFile)){</span>
+<span class="nc" id="L67">                    try(FileOutputStream fos = new FileOutputStream(newFile)){</span>
                         int len;
-<span class="nc bnc" id="L63" title="All 2 branches missed.">                        while ((len = zipStream.read(buffer)) &gt; 0) {</span>
-<span class="nc" id="L64">                            fos.write(buffer, 0, len);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                        while ((len = zipStream.read(buffer)) &gt; 0) {</span>
+<span class="nc" id="L70">                            fos.write(buffer, 0, len);</span>
                         }
-<span class="nc" id="L66">                        entry = zipStream.getNextEntry();</span>
+<span class="nc" id="L72">                        entry = zipStream.getNextEntry();</span>
                     }
-<span class="nc" id="L68">                }</span>
+<span class="nc" id="L74">                }</span>
             }
 
+            /*set passwords (sql script scrambles the binary fields, TODO fix)*/
+<span class="nc" id="L78">            try(Connection con = dataSource.getConnection()){</span>
+<span class="nc" id="L79">                Map&lt;String, String&gt; credentials = Map.of(</span>
+                        &quot;test&quot;,&quot;test&quot;,
+                        &quot;test2&quot;,&quot;test2&quot;,
+                        &quot;Nibiru&quot;,&quot;informatica&quot;,
+                        &quot;admin&quot;,&quot;admin&quot;);
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                for (Map.Entry&lt;String, String&gt; entry : credentials.entrySet()) {</span>
+<span class="nc" id="L85">                    String name = entry.getKey();</span>
+<span class="nc" id="L86">                    String pass = entry.getValue();</span>
+<span class="nc" id="L87">                    try (PreparedStatement ps = con.prepareStatement(&quot;UPDATE user SET password=?, salt=? WHERE username = ?&quot;)) {</span>
+<span class="nc" id="L88">                        Pbkdf2PasswordHash.HashedPassword hashAndSalt = new Pbkdf2PasswordHash().generate(pass);</span>
+<span class="nc" id="L89">                        ps.setBytes(1,hashAndSalt.getPassword());</span>
+<span class="nc" id="L90">                        ps.setBytes(2, hashAndSalt.getSalt());</span>
+<span class="nc" id="L91">                        ps.setString(3,name);</span>
+<span class="nc" id="L92">                        ps.executeUpdate();</span>
+                    }
+<span class="nc" id="L94">                }</span>
+
+            }
         }
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L98">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
