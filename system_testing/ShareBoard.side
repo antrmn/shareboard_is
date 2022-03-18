@@ -2766,7 +2766,7 @@
         ["xpath=//li", "xpath:position"],
         ["xpath=//li[contains(.,'deve essere una data futura')]", "xpath:innerText"]
       ],
-      "value": "deve essere una data futura"
+      "value": "must be a future date"
     }]
   }, {
     "id": "0fc58e0e-b116-4140-aae7-f097e70f37b9",
