@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tomee>
-    <Resource id="jdbc/shareboardDB" type="javax.sql.DataSource">
+    <Resource id="shareboardDB" type="javax.sql.DataSource">
         defaultAutoCommit = true
         defaultReadOnly = false
         ignoreDefaultValues = false

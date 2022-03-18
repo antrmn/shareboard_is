@@ -30,7 +30,7 @@ class FlywayMigrator {
 
     private Path uploadRoot = Path.of(System.getProperty("openejb.home"), "uploads");
 
-    @Resource(name = "jdbc/shareboardDB")
+    @Resource(name = "shareboardDB")
     private DataSource dataSource;
 
     public void postConstruct(@Observes @Initialized(ApplicationScoped.class) Object o) throws IOException, SQLException {
