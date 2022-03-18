@@ -41,6 +41,8 @@ public abstract class PersistenceIT {
         void run();
     }
 
+
+    
     @PersistenceContext
     private EntityManager entityManager;
 
