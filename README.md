@@ -27,7 +27,7 @@ mvn package -Dmaven.skip.test=true
 ```
 
 
-The resulting ``shareboard.war`` file is in ``./out/``
+The resulting ``shareboard.war`` file is in ``./target/``
 
 
 ## Run
