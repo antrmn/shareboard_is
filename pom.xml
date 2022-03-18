@@ -200,9 +200,6 @@
                                         <include>jacoco.exec</include>
                                         <include>jacoco-it.exec</include>
                                     </includes>
-                                    <excludes>
-                                        <exclude>**/common/FlywayMigrator*</exclude>
-                                    </excludes>
                                 </fileSet>
                             </fileSets>
                             <destFile>${project.build.directory}/jacoco-merge.exec</destFile>
@@ -238,7 +235,7 @@
                         </reports>
                         <configuration>
                             <excludes>
-                                <exclude>**/model/FlywayMigrator*</exclude>
+                                <exclude>**/common/FlywayMigrator*</exclude>
                             </excludes>
                             <dataFile>${project.build.directory}/jacoco-merge.exec</dataFile>
                         </configuration>
