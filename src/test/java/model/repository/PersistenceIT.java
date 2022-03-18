@@ -66,6 +66,7 @@ public abstract class PersistenceIT {
         config.setPort(0); // random port
         db = DB.newEmbeddedDB(config.build());
         db.start();
+        
         db.createDB("testdb", "root", "root");
         db.source("schemaonly.sql", "root", "root", "testdb");
     }
