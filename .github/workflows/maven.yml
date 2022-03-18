@@ -12,9 +12,7 @@ on:
 jobs:
   build:
     name: Build and test
-    # choosing windows due to integration tests consistency
-    # (db table names are case insensitive in windows)
-    runs-on: windows-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
