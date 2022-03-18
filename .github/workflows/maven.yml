@@ -35,16 +35,26 @@ jobs:
       with:
         name: War artifact
         path: target/*.war
-    - name: Upload war to Releases
-      uses: svenstaro/upload-release-action@v2
+    - name: Upload war pre-release
+      uses: "marvinpinto/action-automatic-releases@latest"
       if: steps.package.outcome == 'success'
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/shareboard.war
-        asset_name: shareboard.war
-        tag: "v1.0.0-stable"
-        overwrite: true
-        body: "Shareboard war artifact"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Latest Build"
+        files: |
+          LICENSE
+          target/*.war
+    - name: Upload war release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      if: startsWith(github.ref, 'refs/tags/v')
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: false
+        files: |
+          LICENSE
+          target/*.war
     - name: Integration tests
       run: mvn --batch-mode --update-snapshots verify
     - name: Build Maven site
