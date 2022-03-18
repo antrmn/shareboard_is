@@ -78,7 +78,7 @@ class FlywayMigrator {
             try(Connection con = dataSource.getConnection()){
                 Map<String, String> credentials = Map.of(
                         "test","test",
-                        "test2","test2",
+                        "test2","test",
                         "Nibiru","informatica",
                         "admin","admin");
                 for (Map.Entry<String, String> entry : credentials.entrySet()) {
