@@ -6,7 +6,7 @@
 * [Releases](https://github.com/ra-c/shareboard_is/releases)
 
 
-## What is needed
+## What's needed
 
 * TomEE 8.0.9
 * JDK 11
@@ -33,10 +33,11 @@ The resulting ``shareboard.war`` file is in ``./out/``
 ## Run
 
 * Move ``shareboard.war`` in ``<<tomee-home>>/webapps/``  
-* Edit (or create if not exists) ``<<tomee-home>>/conf/system.properties`` to set DB connection parameters:  
-
-    shareboardDB.jdbcUrl = jdbc:mysql://<host>:<port>/<schemaName>?createDatabaseIfNotExist=true
-    shareboardDB.password = <db user password>
-    shareboardDB.userName = <db user name>
+* Edit (create if not exists) ``<<tomee-home>>/conf/system.properties`` to set DB connection parameters:  
+```
+shareboardDB.jdbcUrl = jdbc:mysql://<host>:<port>/<schemaName>?createDatabaseIfNotExist=true
+shareboardDB.password = <db user password>
+shareboardDB.userName = <db user name>
+```
 * Run TomEE
   + If it's a first run, the web app fills the db schema with the appropriate tables and sample data
