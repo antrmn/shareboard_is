@@ -39,7 +39,7 @@ jobs:
         path: target/*.war
     - name: Upload war to Releases
       uses: svenstaro/upload-release-action@v2
-      if: steps.buildsite.outcome == 'success'
+      if: steps.package.outcome == 'success'
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: target/shareboard.war
