@@ -48,7 +48,7 @@ jobs:
           target/*.war
     - name: Upload war release
       uses: "marvinpinto/action-automatic-releases@latest"
-      if: startsWith(github.ref, 'refs/tags/v')
+      if: startsWith(github.event.ref, 'refs/tags/v')
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: false
