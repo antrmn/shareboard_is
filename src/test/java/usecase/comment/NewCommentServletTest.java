@@ -2,6 +2,7 @@ package usecase.comment;
 
 
 import org.apache.openejb.testing.Classes;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.*;
 @Classes(cdi = true,
         value={NewCommentServlet.class},
         cdiStereotypes = CdiMock.class)
-
+@Disabled
 public class NewCommentServletTest extends ServletTest {
 
     @Mock private CommentService service;
