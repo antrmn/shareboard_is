@@ -44,7 +44,7 @@
         </div>
         <form class = "comment-form reply-form" method = "POST" action= "${pageContext.request.contextPath}/newcomment" hidden>
             <input type = "hidden" name = "parent" value = ${comment.id}>
-            <input type = "hidden" name = "id" value = ${comment.postId}>
+            <input type = "hidden" name = "id" value = ${0}>
             <textarea class = 'dark-textarea' name = "text" rows="5" placeholder="Scrivi una risposta..." pattern="^.{1,255}$"></textarea>
             <br>
             <button class = roundButton onclick="validateTextAreaBySibling(this, 'lunghezza massima: 1000, lunghezza minima: 1')">Rispondi</button>

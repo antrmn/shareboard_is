@@ -38,6 +38,8 @@ class NewCommentServlet extends InterceptableServlet {
         }else{
             service.newCommentReply(text,parentId);
         }
-        response.sendRedirect(request.getContextPath() + "/post/" + postId +"#comment-container");
+
+        int redirectPost = postId <= 0 ? service.getComment(parentId).getPostId() : postId;
+        response.sendRedirect(request.getContextPath() + "/post/" + redirectPost +"#comment-container");
     }
 }
