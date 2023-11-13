@@ -1,9 +1,9 @@
 # Shareboard 
 
-* [Dependencies](https://ra-c.github.io/shareboard_is/dependencies.html)
-* [Generated reports](https://ra-c.github.io/shareboard_is/project-reports.html)
+* [Dependencies](https://antrmn.github.io/shareboard_is/dependencies.html)
+* [Generated reports](https://antrmn.github.io/shareboard_is/project-reports.html)
   + Javadoc, Jacoco, Surefire, Failsafe
-* [Releases](https://github.com/ra-c/shareboard_is/releases)
+* [Releases](https://github.com/antrmn/shareboard_is/releases)
 
 
 ## What's needed

@@ -17,7 +17,7 @@
         </fluidoSkin>
         <fluidoSkin>
             <gitHub>
-                <projectId>ra-c/shareboard_is</projectId>
+                <projectId>antrmn/shareboard_is</projectId>
                 <ribbonOrientation>right</ribbonOrientation>
                 <ribbonColor>red</ribbonColor>
             </gitHub>
